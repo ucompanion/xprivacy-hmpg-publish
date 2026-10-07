@@ -4,76 +4,76 @@ import GuideLayout from '../layouts/GuideLayout';
 
 const HISTORY_DATA: Record<string, { date: string; tag: string; content: string }[]> = {
   '사용자 메인 (Header/Layout/Footer)': [
-    { date: '2026.10.06', tag: '[완료]', content: '페이지 최초 작업' },
+    { date: '2026.10.06', tag: '[진행중]', content: '페이지 최초 작업' },
   ],
   '제품소개': [
-    { date: '2026.10.06', tag: '[완료]', content: '페이지 최초 작업' },
+    { date: '2026.10.06', tag: '[진행중]', content: '페이지 최초 작업' },
   ],
   '핵심가치': [
-    { date: '2026.10.06', tag: '[완료]', content: '페이지 최초 작업' },
+    { date: '2026.10.06', tag: '[진행중]', content: '페이지 최초 작업' },
   ],
   '왜 xPrivacy인가': [
-    { date: '2026.10.06', tag: '[완료]', content: '페이지 최초 작업' },
+    { date: '2026.10.06', tag: '[진행중]', content: '페이지 최초 작업' },
   ],
   '요금제': [
-    { date: '2026.10.06', tag: '[완료]', content: '페이지 최초 작업' },
+    { date: '2026.10.06', tag: '[진행중]', content: '페이지 최초 작업' },
   ],
   '인증 및 특허': [
-    { date: '2026.10.06', tag: '[완료]', content: '페이지 최초 작업' },
+    { date: '2026.10.06', tag: '[진행중]', content: '페이지 최초 작업' },
   ],
   'AI Detection': [
-    { date: '2026.10.06', tag: '[완료]', content: '페이지 최초 작업' },
+    { date: '2026.10.06', tag: '[진행중]', content: '페이지 최초 작업' },
   ],
   'Security': [
-    { date: '2026.10.07', tag: '[완료]', content: '페이지 최초 작업' },
+    { date: '2026.10.07', tag: '[진행중]', content: '페이지 최초 작업' },
   ],
   'Processing Engine': [
-    { date: '2026.10.07', tag: '[완료]', content: '페이지 최초 작업' },
+    { date: '2026.10.07', tag: '[진행중]', content: '페이지 최초 작업' },
   ],
   'Privacy Engine': [
-    { date: '2026.10.07', tag: '[완료]', content: '페이지 최초 작업' },
+    { date: '2026.10.07', tag: '[진행중]', content: '페이지 최초 작업' },
   ],
   'Virtual Face AI': [
-    { date: '2026.10.07', tag: '[완료]', content: '페이지 최초 작업' },
+    { date: '2026.10.07', tag: '[진행중]', content: '페이지 최초 작업' },
   ],
   'Smart Workflow': [
-    { date: '2026.10.07', tag: '[완료]', content: '페이지 최초 작업' },
+    { date: '2026.10.07', tag: '[진행중]', content: '페이지 최초 작업' },
   ],
   '이미지 비식별': [
-    { date: '2026.10.07', tag: '[완료]', content: '페이지 최초 작업' },
+    { date: '2026.10.07', tag: '[진행중]', content: '페이지 최초 작업' },
   ],
   '영상 비식별': [
-    { date: '2026.10.07', tag: '[완료]', content: '페이지 최초 작업' },
+    { date: '2026.10.07', tag: '[진행중]', content: '페이지 최초 작업' },
   ],
   'Batch Processing': [
-    { date: '2026.10.07', tag: '[완료]', content: '페이지 최초 작업' },
+    { date: '2026.10.07', tag: '[진행중]', content: '페이지 최초 작업' },
   ],
   'AI 자동편집': [
-    { date: '2026.10.07', tag: '[완료]', content: '페이지 최초 작업' },
+    { date: '2026.10.07', tag: '[진행중]', content: '페이지 최초 작업' },
   ],
   'REST API': [
-    { date: '2026.10.07', tag: '[완료]', content: '페이지 최초 작업' },
+    { date: '2026.10.07', tag: '[진행중]', content: '페이지 최초 작업' },
   ],
   '로그인': [
-    { date: '2026.10.07', tag: '[완료]', content: '로그인 케이스 3종 퍼블리싱 (기본, 에러, 잠김)' },
+    { date: '2026.10.07', tag: '[진행중]', content: '로그인 케이스 3종 퍼블리싱 (기본, 에러, 잠김)' },
   ],
   '회원가입': [
-    { date: '2026.10.07', tag: '[완료]', content: '회원가입 케이스 2종 퍼블리싱 (기본, 에러)' },
+    { date: '2026.10.07', tag: '[진행중]', content: '회원가입 케이스 2종 퍼블리싱 (기본, 에러)' },
   ],
   '패스워드 찾기': [
-    { date: '2026.10.07', tag: '[완료]', content: '패스워드 찾기 케이스 2종 퍼블리싱 (기본, 발송완료)' },
+    { date: '2026.10.07', tag: '[진행중]', content: '패스워드 찾기 케이스 2종 퍼블리싱 (기본, 발송완료)' },
   ],
   '비밀번호 재설정': [
-    { date: '2026.10.07', tag: '[완료]', content: '비밀번호 재설정 케이스 3종 퍼블리싱 (기본, 변경완료, 링크만료)' },
+    { date: '2026.10.07', tag: '[진행중]', content: '비밀번호 재설정 케이스 3종 퍼블리싱 (기본, 변경완료, 링크만료)' },
   ],
   '약관동의': [
-    { date: '2026.10.07', tag: '[완료]', content: '회원가입 1단계 약관동의 퍼블리싱' },
+    { date: '2026.10.07', tag: '[진행중]', content: '회원가입 1단계 약관동의 퍼블리싱' },
   ],
   '가입완료': [
-    { date: '2026.10.07', tag: '[완료]', content: '회원가입 3단계 가입완료 화면 퍼블리싱' },
+    { date: '2026.10.07', tag: '[진행중]', content: '회원가입 3단계 가입완료 화면 퍼블리싱' },
   ],
   'Demo': [
-    { date: '2026.10.07', tag: '[완료]', content: '데모 전용 레이아웃(DemoLayout) 신설 및 파일 드롭존·처리 옵션 사이드바 퍼블리싱' },
+    { date: '2026.10.07', tag: '[진행중]', content: '데모 전용 레이아웃(DemoLayout) 신설 및 파일 드롭존·처리 옵션 사이드바 퍼블리싱' },
   ],
 };
 
@@ -390,7 +390,7 @@ export default function PubIndex() {
                   <td>사용자 메인 (Header/Layout/Footer)</td>
                   <td><a href="/pub/main" target="_blank" rel="noreferrer">/pub/main</a></td>
                   <td>조찬기</td>
-                  <td><span className="status done">완료</span></td>
+                  <td><span className="status ing">진행중</span></td>
                   <td>2026.10.06</td>
                   <td>
                     <button type="button" className="btn-history" onClick={() => openHistoryPopup('사용자 메인 (Header/Layout/Footer)')}>수정내역</button>
@@ -404,7 +404,7 @@ export default function PubIndex() {
                   <td>제품소개</td>
                   <td><a href="/pub/product/intro" target="_blank" rel="noreferrer">/pub/product/intro</a></td>
                   <td>조찬기</td>
-                  <td><span className="status done">완료</span></td>
+                  <td><span className="status ing">진행중</span></td>
                   <td>2026.10.06</td>
                   <td>
                     <button type="button" className="btn-history" onClick={() => openHistoryPopup('제품소개')}>수정내역</button>
@@ -415,7 +415,7 @@ export default function PubIndex() {
                   <td>핵심가치</td>
                   <td><a href="/pub/product/core-values" target="_blank" rel="noreferrer">/pub/product/core-values</a></td>
                   <td>조찬기</td>
-                  <td><span className="status done">완료</span></td>
+                  <td><span className="status ing">진행중</span></td>
                   <td>2026.10.06</td>
                   <td>
                     <button type="button" className="btn-history" onClick={() => openHistoryPopup('핵심가치')}>수정내역</button>
@@ -426,7 +426,7 @@ export default function PubIndex() {
                   <td>왜 xPrivacy인가</td>
                   <td><a href="/pub/product/why" target="_blank" rel="noreferrer">/pub/product/why</a></td>
                   <td>조찬기</td>
-                  <td><span className="status done">완료</span></td>
+                  <td><span className="status ing">진행중</span></td>
                   <td>2026.10.06</td>
                   <td>
                     <button type="button" className="btn-history" onClick={() => openHistoryPopup('왜 xPrivacy인가')}>수정내역</button>
@@ -438,7 +438,7 @@ export default function PubIndex() {
                   <td>요금제</td>
                   <td><a href="/pub/product/pricing" target="_blank" rel="noreferrer">/pub/product/pricing</a></td>
                   <td>조찬기</td>
-                  <td><span className="status done">완료</span></td>
+                  <td><span className="status ing">진행중</span></td>
                   <td>2026.10.06</td>
                   <td>
                     <button type="button" className="btn-history" onClick={() => openHistoryPopup('요금제')}>수정내역</button>
@@ -449,7 +449,7 @@ export default function PubIndex() {
                   <td>인증 및 특허</td>
                   <td><a href="/pub/product/certification" target="_blank" rel="noreferrer">/pub/product/certification</a></td>
                   <td>조찬기</td>
-                  <td><span className="status done">완료</span></td>
+                  <td><span className="status ing">진행중</span></td>
                   <td>2026.10.06</td>
                   <td>
                     <button type="button" className="btn-history" onClick={() => openHistoryPopup('인증 및 특허')}>수정내역</button>
@@ -463,7 +463,7 @@ export default function PubIndex() {
                   <td>AI Detection</td>
                   <td><a href="/pub/technology/ai-detection" target="_blank" rel="noreferrer">/pub/technology/ai-detection</a></td>
                   <td>조찬기</td>
-                  <td><span className="status done">완료</span></td>
+                  <td><span className="status ing">진행중</span></td>
                   <td>2026.10.06</td>
                   <td>
                     <button type="button" className="btn-history" onClick={() => openHistoryPopup('AI Detection')}>수정내역</button>
@@ -474,7 +474,7 @@ export default function PubIndex() {
                   <td>Security</td>
                   <td><a href="/pub/technology/security" target="_blank" rel="noreferrer">/pub/technology/security</a></td>
                   <td>조찬기</td>
-                  <td><span className="status done">완료</span></td>
+                  <td><span className="status ing">진행중</span></td>
                   <td>2026.10.07</td>
                   <td>
                     <button type="button" className="btn-history" onClick={() => openHistoryPopup('Security')}>수정내역</button>
@@ -485,7 +485,7 @@ export default function PubIndex() {
                   <td>Processing Engine</td>
                   <td><a href="/pub/technology/processing-engine" target="_blank" rel="noreferrer">/pub/technology/processing-engine</a></td>
                   <td>조찬기</td>
-                  <td><span className="status done">완료</span></td>
+                  <td><span className="status ing">진행중</span></td>
                   <td>2026.10.07</td>
                   <td>
                     <button type="button" className="btn-history" onClick={() => openHistoryPopup('Processing Engine')}>수정내역</button>
@@ -496,7 +496,7 @@ export default function PubIndex() {
                   <td>Privacy Engine</td>
                   <td><a href="/pub/technology/privacy-engine" target="_blank" rel="noreferrer">/pub/technology/privacy-engine</a></td>
                   <td>조찬기</td>
-                  <td><span className="status done">완료</span></td>
+                  <td><span className="status ing">진행중</span></td>
                   <td>2026.10.07</td>
                   <td>
                     <button type="button" className="btn-history" onClick={() => openHistoryPopup('Privacy Engine')}>수정내역</button>
@@ -507,7 +507,7 @@ export default function PubIndex() {
                   <td>Virtual Face AI</td>
                   <td><a href="/pub/technology/virtual-face-ai" target="_blank" rel="noreferrer">/pub/technology/virtual-face-ai</a></td>
                   <td>조찬기</td>
-                  <td><span className="status done">완료</span></td>
+                  <td><span className="status ing">진행중</span></td>
                   <td>2026.10.07</td>
                   <td>
                     <button type="button" className="btn-history" onClick={() => openHistoryPopup('Virtual Face AI')}>수정내역</button>
@@ -518,7 +518,7 @@ export default function PubIndex() {
                   <td>Smart Workflow</td>
                   <td><a href="/pub/technology/smart-workflow" target="_blank" rel="noreferrer">/pub/technology/smart-workflow</a></td>
                   <td>조찬기</td>
-                  <td><span className="status done">완료</span></td>
+                  <td><span className="status ing">진행중</span></td>
                   <td>2026.10.07</td>
                   <td>
                     <button type="button" className="btn-history" onClick={() => openHistoryPopup('Smart Workflow')}>수정내역</button>
@@ -533,7 +533,7 @@ export default function PubIndex() {
                   <td>이미지 비식별</td>
                   <td><a href="/pub/features/image-deid" target="_blank" rel="noreferrer">/pub/features/image-deid</a></td>
                   <td>조찬기</td>
-                  <td><span className="status done">완료</span></td>
+                  <td><span className="status ing">진행중</span></td>
                   <td>2026.10.07</td>
                   <td>
                     <button type="button" className="btn-history" onClick={() => openHistoryPopup('이미지 비식별')}>수정내역</button>
@@ -544,7 +544,7 @@ export default function PubIndex() {
                   <td>영상 비식별</td>
                   <td><a href="/pub/features/video-deid" target="_blank" rel="noreferrer">/pub/features/video-deid</a></td>
                   <td>조찬기</td>
-                  <td><span className="status done">완료</span></td>
+                  <td><span className="status ing">진행중</span></td>
                   <td>2026.10.07</td>
                   <td>
                     <button type="button" className="btn-history" onClick={() => openHistoryPopup('영상 비식별')}>수정내역</button>
@@ -555,7 +555,7 @@ export default function PubIndex() {
                   <td>Batch Processing</td>
                   <td><a href="/pub/features/batch-processing" target="_blank" rel="noreferrer">/pub/features/batch-processing</a></td>
                   <td>조찬기</td>
-                  <td><span className="status done">완료</span></td>
+                  <td><span className="status ing">진행중</span></td>
                   <td>2026.10.07</td>
                   <td>
                     <button type="button" className="btn-history" onClick={() => openHistoryPopup('Batch Processing')}>수정내역</button>
@@ -566,7 +566,7 @@ export default function PubIndex() {
                   <td>AI 자동편집</td>
                   <td><a href="/pub/features/ai-auto-editing" target="_blank" rel="noreferrer">/pub/features/ai-auto-editing</a></td>
                   <td>조찬기</td>
-                  <td><span className="status done">완료</span></td>
+                  <td><span className="status ing">진행중</span></td>
                   <td>2026.10.07</td>
                   <td>
                     <button type="button" className="btn-history" onClick={() => openHistoryPopup('AI 자동편집')}>수정내역</button>
@@ -577,7 +577,7 @@ export default function PubIndex() {
                   <td>REST API</td>
                   <td><a href="/pub/features/rest-api" target="_blank" rel="noreferrer">/pub/features/rest-api</a></td>
                   <td>조찬기</td>
-                  <td><span className="status done">완료</span></td>
+                  <td><span className="status ing">진행중</span></td>
                   <td>2026.10.07</td>
                   <td>
                     <button type="button" className="btn-history" onClick={() => openHistoryPopup('REST API')}>수정내역</button>
@@ -684,7 +684,7 @@ export default function PubIndex() {
                   <td>Demo</td>
                   <td><a href="/pub/demo/demo" target="_blank" rel="noreferrer">/pub/demo/demo</a></td>
                   <td>조찬기</td>
-                  <td><span className="status done">완료</span></td>
+                  <td><span className="status ing">진행중</span></td>
                   <td>2026.10.07</td>
                   <td>
                     <button type="button" className="btn-history" onClick={() => openHistoryPopup('Demo')}>수정내역</button>
@@ -792,7 +792,7 @@ export default function PubIndex() {
                     </div>
                   </td>
                   <td>조찬기</td>
-                  <td><span className="status done">완료</span></td>
+                  <td><span className="status ing">진행중</span></td>
                   <td>2026.10.07</td>
                   <td>
                     <button 
@@ -817,7 +817,7 @@ export default function PubIndex() {
                     </div>
                   </td>
                   <td>조찬기</td>
-                  <td><span className="status done">완료</span></td>
+                  <td><span className="status ing">진행중</span></td>
                   <td>2026.10.07</td>
                   <td>
                     <button 
@@ -842,7 +842,7 @@ export default function PubIndex() {
                     </div>
                   </td>
                   <td>조찬기</td>
-                  <td><span className="status done">완료</span></td>
+                  <td><span className="status ing">진행중</span></td>
                   <td>2026.10.07</td>
                   <td>
                     <button 
@@ -868,7 +868,7 @@ export default function PubIndex() {
                     </div>
                   </td>
                   <td>조찬기</td>
-                  <td><span className="status done">완료</span></td>
+                  <td><span className="status ing">진행중</span></td>
                   <td>2026.10.07</td>
                   <td>
                     <button 
@@ -885,7 +885,7 @@ export default function PubIndex() {
                   <td>약관동의</td>
                   <td><a href="/pub/login/terms" target="_blank" rel="noreferrer">/pub/login/terms</a></td>
                   <td>조찬기</td>
-                  <td><span className="status done">완료</span></td>
+                  <td><span className="status ing">진행중</span></td>
                   <td>2026.10.07</td>
                   <td>
                     <button 
@@ -902,7 +902,7 @@ export default function PubIndex() {
                   <td>가입완료</td>
                   <td><a href="/pub/login/signup-complete" target="_blank" rel="noreferrer">/pub/login/signup-complete</a></td>
                   <td>조찬기</td>
-                  <td><span className="status done">완료</span></td>
+                  <td><span className="status ing">진행중</span></td>
                   <td>2026.10.07</td>
                   <td>
                     <button 
