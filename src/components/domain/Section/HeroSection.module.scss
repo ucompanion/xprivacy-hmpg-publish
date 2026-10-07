@@ -1,0 +1,37 @@
+@import '../../../assets/scss/variables';
+@import '../../../assets/scss/mixins';
+
+.heroSection {
+  padding: 120rem 0 160rem 0;
+  background-color: var(--color-gray-900);
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(to right, rgba(17, 24, 39, 0.9) 0%, rgba(17, 24, 39, 0.4) 100%);
+    z-index: 0;
+  }
+
+  :global(.container) {
+    position: relative;
+    z-index: 1;
+  }
+
+  // 히어로 섹션 전용 타이포그래피 오버라이드
+  :global(.header) {
+    :global(.title) {
+      @include text-display-hero;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .heroSection {
+    padding: 80rem 0 120rem 0;
+  }
+}

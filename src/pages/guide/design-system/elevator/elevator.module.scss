@@ -1,0 +1,126 @@
+.elevator_container {
+  display: flex;
+  gap: 24rem;
+  flex-wrap: nowrap;
+  padding: 32rem;
+  background-color: var(--color-gray-50);
+  border-radius: 12rem;
+  overflow-x: auto;
+}
+
+.elevator_item {
+  width: 140rem;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16rem;
+}
+
+.elevator_box {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 12rem;
+  background-color: var(--color-gray-50);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 16rem;
+
+  .box_name {
+    font-size: 18rem;
+    color: var(--color-gray-900);
+    font-weight: 500;
+    margin: 0 0 12rem 0;
+  }
+
+  .box_examples {
+    font-size: 13rem;
+    color: var(--color-gray-500);
+    margin: 0;
+    text-align: center;
+  }
+}
+
+.elevator_info {
+  text-align: center;
+
+  .level_title {
+    font-weight: 700;
+    margin: 0 0 8rem 0;
+    font-size: 16rem;
+    color: var(--color-gray-900);
+  }
+
+  .var_name {
+    font-size: 13rem;
+    color: var(--color-gray-500);
+    margin: 0;
+    font-family: var(--font-family-mono);
+  }
+}
+
+.zindex_rules {
+  margin-bottom: 24rem;
+  h4 {
+    font-size: 16rem;
+    font-weight: 600;
+    color: var(--color-gray-900);
+    margin: 0 0 12rem 0;
+  }
+  ul {
+    margin: 0;
+    padding-left: 20rem;
+    li {
+      font-size: 14rem;
+      color: var(--color-gray-500);
+      line-height: 1.6;
+      margin-bottom: 4rem;
+      strong {
+        color: var(--color-gray-900);
+      }
+    }
+  }
+}
+
+.zindex_table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--color-gray-50);
+  border-radius: 8rem;
+  overflow: hidden;
+  border: 1rem solid var(--color-gray-200);
+
+  th, td {
+    padding: 16rem;
+    text-align: left;
+    border-bottom: 1rem solid var(--color-gray-200);
+    font-size: 14rem;
+    color: var(--color-gray-900);
+  }
+
+  th {
+    background-color: var(--color-gray-50);
+    font-weight: 600;
+    color: var(--color-gray-900);
+  }
+
+  tr:last-child td {
+    border-bottom: none;
+  }
+
+  td strong {
+    font-weight: 600;
+    color: var(--color-gray-900);
+  }
+
+  code {
+    background-color: var(--color-gray-200);
+    padding: 4rem 8rem;
+    border-radius: 4rem;
+    font-family: var(--font-family-mono);
+    font-size: 13rem;
+    color: var(--color-gray-800);
+  }
+}

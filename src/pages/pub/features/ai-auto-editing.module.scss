@@ -1,0 +1,758 @@
+@import '../../../assets/scss/variables';
+
+.pageWrap {
+  width: 100%;
+}
+
+/* --------------------------------------------------------------------------
+   1. Hero Section (White Background, Centered Layout)
+-------------------------------------------------------------------------- */
+.heroSection {
+  padding-top: 100rem;
+  padding-bottom: 90rem;
+  background-color: var(--color-white);
+
+  :global(.header) {
+    align-items: center;
+    text-align: center;
+    margin-bottom: 32rem;
+
+    :global(.eyebrow) {
+      font-size: 13rem;
+      font-weight: 700;
+      color: #3b5bff;
+      letter-spacing: 0.12em;
+      margin-bottom: 16rem;
+      font-family: var(--font-family-mono);
+      text-transform: uppercase;
+    }
+
+    :global(.title) {
+      font-size: 44rem;
+      font-weight: 800;
+      color: #0b0c0e;
+      line-height: 1.28;
+      letter-spacing: -0.02em;
+      margin-bottom: 20rem;
+      word-break: keep-all;
+    }
+
+    :global(.description) {
+      font-size: 17rem;
+      color: #4b5563;
+      line-height: 1.65;
+      max-width: 720rem;
+      margin: 0 auto;
+      word-break: keep-all;
+    }
+  }
+
+  .heroAction {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 56rem;
+
+    .btnTrial {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14rem 36rem;
+      font-size: 16rem;
+      font-weight: 600;
+      color: #ffffff;
+      background-color: #3b5bff;
+      border-radius: 8rem;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      box-shadow: 0 4rem 14rem rgba(59, 91, 255, 0.28);
+
+      &:hover {
+        background-color: #2b46df;
+        transform: translateY(-1rem);
+        box-shadow: 0 6rem 20rem rgba(59, 91, 255, 0.35);
+      }
+    }
+  }
+
+  /* Timeline Mockup Box */
+  .timelineMockup {
+    max-width: 960rem;
+    margin: 0 auto;
+    background-color: #111315;
+    border-radius: 12rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    overflow: hidden;
+    box-shadow: 0 20rem 50rem rgba(0, 0, 0, 0.25);
+    padding: 24rem 24rem 18rem;
+    display: flex;
+    flex-direction: column;
+    gap: 18rem;
+
+    .mockupHeader {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .headerTitle {
+        font-size: 12rem;
+        font-weight: 700;
+        font-family: var(--font-family-mono);
+        color: #e2e8f0;
+        letter-spacing: 0.08em;
+      }
+
+      .disclaimerBadge {
+        font-size: 11rem;
+        color: #71717a;
+        background-color: rgba(255, 255, 255, 0.05);
+        padding: 3rem 8rem;
+        border-radius: 4rem;
+      }
+    }
+
+    .timelineScrollWrapper {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    .timelineContainer {
+      min-width: 680rem;
+      display: flex;
+      flex-direction: column;
+      gap: 12rem;
+
+      .rulerRow {
+        display: flex;
+        padding-left: 140rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        padding-bottom: 8rem;
+
+        .timeTick {
+          flex: 1;
+          font-size: 10rem;
+          font-family: var(--font-family-mono);
+          color: #71717a;
+          text-align: left;
+        }
+      }
+
+      .trackRow {
+        display: flex;
+        align-items: center;
+        background-color: #16181b;
+        border-radius: 6rem;
+        height: 48rem;
+        padding: 0 12rem;
+        position: relative;
+
+        .rowLabel {
+          width: 130rem;
+          display: flex;
+          align-items: center;
+          gap: 8rem;
+          font-size: 13rem;
+          font-weight: 600;
+          color: #e2e8f0;
+
+          .badgeEffect {
+            font-size: 10rem;
+            padding: 1rem 6rem;
+            border-radius: 3rem;
+            font-family: var(--font-family-mono);
+
+            &.mosaic {
+              background-color: rgba(56, 189, 248, 0.15);
+              color: #38bdf8;
+              border: 1px solid rgba(56, 189, 248, 0.3);
+            }
+
+            &.blur {
+              background-color: rgba(99, 102, 241, 0.15);
+              color: #818cf8;
+              border: 1px solid rgba(99, 102, 241, 0.3);
+            }
+          }
+        }
+
+        .trackBarArea {
+          flex: 1;
+          height: 100%;
+          position: relative;
+          display: flex;
+          align-items: center;
+
+          .spanBar {
+            position: absolute;
+            height: 28rem;
+            background: rgba(56, 189, 248, 0.12);
+            border: 1px solid #38bdf8;
+            border-radius: 4rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 8rem;
+            color: #ffffff;
+            font-size: 10rem;
+            font-family: var(--font-family-mono);
+
+            .keyframeDiamond {
+              color: #38bdf8;
+              font-size: 9rem;
+            }
+
+            .spanPoint {
+              font-size: 9rem;
+              color: #e0f2fe;
+            }
+          }
+        }
+      }
+    }
+
+    .timelineFooter {
+      padding-top: 10rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      display: flex;
+      align-items: center;
+      gap: 16rem;
+      font-size: 11rem;
+      font-family: var(--font-family-mono);
+      color: #71717a;
+
+      .legendItem {
+        display: flex;
+        align-items: center;
+        gap: 6rem;
+
+        .diamond {
+          color: #38bdf8;
+        }
+
+        .barSample {
+          width: 14rem;
+          height: 4rem;
+          background-color: #38bdf8;
+          border-radius: 2rem;
+        }
+      }
+    }
+  }
+}
+
+/* --------------------------------------------------------------------------
+   2. Common Feature Sections (Section 1 ~ 2)
+-------------------------------------------------------------------------- */
+.featureSection {
+  padding-top: 100rem;
+  padding-bottom: 100rem;
+
+  :global(.header) {
+    :global(.eyebrow) {
+      font-size: 13rem;
+      font-weight: 700;
+      color: #3b5bff;
+      letter-spacing: 0.12em;
+      margin-bottom: 14rem;
+      font-family: var(--font-family-mono);
+      text-transform: uppercase;
+    }
+
+    :global(.title) {
+      font-size: 38rem;
+      font-weight: 800;
+      color: #0b0c0e;
+      line-height: 1.32;
+      letter-spacing: -0.02em;
+      margin-bottom: 20rem;
+      word-break: keep-all;
+    }
+
+    :global(.description) {
+      font-size: 16rem;
+      color: #4b5563;
+      line-height: 1.65;
+      word-break: keep-all;
+    }
+  }
+
+  .featureList {
+    display: flex;
+    flex-direction: column;
+    gap: 28rem;
+    margin-top: 40rem;
+
+    .featureItem {
+      display: flex;
+      flex-direction: column;
+      gap: 6rem;
+      position: relative;
+      padding-bottom: 24rem;
+      border-bottom: 1px solid var(--color-gray-200);
+
+      &:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+      }
+
+      .num {
+        font-size: 13rem;
+        font-weight: 700;
+        color: #3b5bff;
+        font-family: var(--font-family-mono);
+        line-height: 1;
+        margin-bottom: 2rem;
+      }
+
+      .title {
+        font-size: 18rem;
+        font-weight: 700;
+        color: #0b0c0e;
+        margin: 0;
+        line-height: 1.4;
+      }
+
+      .desc {
+        font-size: 14rem;
+        color: #64748b;
+        line-height: 1.65;
+        margin: 0;
+        word-break: keep-all;
+      }
+    }
+  }
+
+  /* ------------------------------------------------------------------------
+     Common Mockup Card Styles
+  ------------------------------------------------------------------------ */
+  .mockupCard {
+    width: 100%;
+    max-width: 580rem;
+    background-color: #111315;
+    border-radius: 14rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    overflow: hidden;
+    box-shadow: 0 16rem 40rem rgba(0, 0, 0, 0.22);
+    padding: 24rem 20rem 18rem;
+    display: flex;
+    flex-direction: column;
+    gap: 20rem;
+
+    .mockupHeader {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .headerTitle {
+        font-size: 12rem;
+        font-weight: 700;
+        font-family: var(--font-family-mono);
+        color: #e2e8f0;
+        letter-spacing: 0.08em;
+      }
+
+      .disclaimerBadge {
+        font-size: 11rem;
+        color: #71717a;
+        background-color: rgba(255, 255, 255, 0.05);
+        padding: 3rem 8rem;
+        border-radius: 4rem;
+      }
+    }
+
+    .mockupFooter {
+      padding-top: 14rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      display: flex;
+      align-items: center;
+      gap: 16rem;
+      font-size: 11rem;
+      font-family: var(--font-family-mono);
+      color: #71717a;
+    }
+  }
+
+  /* ------------------------------------------------------------------------
+     Specific Mockup 1: TRACKING PREVIEW
+  ------------------------------------------------------------------------ */
+  .trackingCanvas {
+    height: 260rem;
+    background-color: #0c0d0f;
+    border-radius: 8rem;
+    position: relative;
+    overflow: hidden;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 20rem 20rem;
+    padding: 16rem;
+
+    /* Trail boxes */
+    .trailBox1 {
+      position: absolute;
+      top: 50rem;
+      left: 60rem;
+      width: 44rem;
+      height: 110rem;
+      border: 1px dashed rgba(255, 255, 255, 0.15);
+      border-radius: 4rem;
+    }
+
+    .trailBox2 {
+      position: absolute;
+      top: 50rem;
+      left: 120rem;
+      width: 44rem;
+      height: 110rem;
+      border: 1px dashed rgba(255, 255, 255, 0.22);
+      border-radius: 4rem;
+    }
+
+    .trailBox3 {
+      position: absolute;
+      top: 50rem;
+      left: 180rem;
+      width: 44rem;
+      height: 110rem;
+      border: 1px dashed rgba(255, 255, 255, 0.3);
+      border-radius: 4rem;
+    }
+
+    /* Active Track Box: Person 01 */
+    .activeTrackPerson1 {
+      position: absolute;
+      top: 50rem;
+      left: 244rem;
+      width: 46rem;
+      height: 110rem;
+      border: 2px solid #38bdf8;
+      border-radius: 4rem;
+      box-shadow: 0 0 14rem rgba(56, 189, 248, 0.4);
+
+      .trackTag {
+        position: absolute;
+        top: -18rem;
+        left: -2px;
+        background-color: #38bdf8;
+        color: #0b0c0e;
+        font-size: 9rem;
+        font-weight: 700;
+        font-family: var(--font-family-mono);
+        padding: 1rem 5rem;
+        border-radius: 2rem 2rem 0 0;
+        white-space: nowrap;
+      }
+    }
+
+    /* Active Track Box: Person 02 */
+    .activeTrackPerson2 {
+      position: absolute;
+      top: 70rem;
+      left: 310rem;
+      width: 40rem;
+      height: 90rem;
+      border: 2px solid #38bdf8;
+      border-radius: 4rem;
+      box-shadow: 0 0 14rem rgba(56, 189, 248, 0.4);
+
+      .trackTag {
+        position: absolute;
+        top: -18rem;
+        left: -2px;
+        background-color: #38bdf8;
+        color: #0b0c0e;
+        font-size: 9rem;
+        font-weight: 700;
+        font-family: var(--font-family-mono);
+        padding: 1rem 5rem;
+        border-radius: 2rem 2rem 0 0;
+        white-space: nowrap;
+      }
+    }
+
+    /* Active Track Box: Plate 01 */
+    .activeTrackPlate {
+      position: absolute;
+      bottom: 30rem;
+      right: 50rem;
+      width: 58rem;
+      height: 22rem;
+      border: 2px solid #38bdf8;
+      border-radius: 3rem;
+      box-shadow: 0 0 10rem rgba(56, 189, 248, 0.4);
+
+      .trackTag {
+        position: absolute;
+        top: -18rem;
+        left: -2px;
+        background-color: #38bdf8;
+        color: #0b0c0e;
+        font-size: 9rem;
+        font-weight: 700;
+        font-family: var(--font-family-mono);
+        padding: 1rem 5rem;
+        border-radius: 2rem 2rem 0 0;
+        white-space: nowrap;
+      }
+    }
+
+    .trailInfo {
+      position: absolute;
+      bottom: 12rem;
+      left: 16rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      font-size: 10rem;
+      font-family: var(--font-family-mono);
+      color: #94a3b8;
+    }
+  }
+
+  /* ------------------------------------------------------------------------
+     Specific Mockup 2: EFFECT MAPPING
+  ------------------------------------------------------------------------ */
+  .mappingBody {
+    display: flex;
+    flex-direction: column;
+    gap: 12rem;
+
+    .mappingRow {
+      background-color: #16181b;
+      border-radius: 8rem;
+      padding: 14rem 16rem;
+      display: flex;
+      align-items: center;
+      gap: 16rem;
+
+      .thumbBox {
+        width: 44rem;
+        height: 44rem;
+        border-radius: 6rem;
+        background-color: #0284c7;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4rem 12rem rgba(2, 132, 199, 0.35);
+
+        &.thumbMedium {
+          width: 38rem;
+          height: 38rem;
+        }
+
+        &.thumbSmall {
+          width: 32rem;
+          height: 32rem;
+        }
+      }
+
+      .infoTrackArea {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 6rem;
+
+        .metaLine {
+          display: flex;
+          align-items: center;
+          gap: 8rem;
+
+          .name {
+            font-size: 13rem;
+            font-weight: 700;
+            color: #e2e8f0;
+          }
+
+          .effectTag {
+            font-size: 10rem;
+            font-family: var(--font-family-mono);
+            padding: 1rem 6rem;
+            border-radius: 3rem;
+
+            &.mosaic {
+              background-color: rgba(56, 189, 248, 0.15);
+              color: #38bdf8;
+              border: 1px solid rgba(56, 189, 248, 0.3);
+            }
+
+            &.blur {
+              background-color: rgba(99, 102, 241, 0.15);
+              color: #818cf8;
+              border: 1px solid rgba(99, 102, 241, 0.3);
+            }
+          }
+
+          .desc {
+            font-size: 11rem;
+            color: #94a3b8;
+          }
+        }
+
+        .barTrack {
+          height: 5rem;
+          background-color: rgba(255, 255, 255, 0.06);
+          border-radius: 3rem;
+          position: relative;
+          overflow: hidden;
+
+          .filledSpan {
+            position: absolute;
+            height: 100%;
+            background-color: #38bdf8;
+            border-radius: 3rem;
+            box-shadow: 0 0 6rem #38bdf8;
+          }
+        }
+      }
+
+      .timeInOut {
+        text-align: right;
+        font-size: 10rem;
+        font-family: var(--font-family-mono);
+        color: #71717a;
+        white-space: nowrap;
+        line-height: 1.4;
+
+        span {
+          display: block;
+          color: #d1d5db;
+        }
+      }
+    }
+  }
+}
+
+/* --------------------------------------------------------------------------
+   3. Responsive Breakpoints
+-------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .heroSection {
+    padding-top: 70rem;
+    padding-bottom: 60rem;
+
+    :global(.header) {
+      :global(.title) {
+        font-size: 34rem;
+      }
+
+      :global(.description) {
+        font-size: 15rem;
+      }
+    }
+  }
+
+  .featureSection {
+    padding-top: 60rem;
+    padding-bottom: 60rem;
+
+    :global(.container) {
+      display: flex;
+      flex-direction: column;
+
+      :global(.content) {
+        order: 1;
+        width: 100%;
+        margin-bottom: 36rem;
+      }
+
+      :global(.sectionHeader) {
+        order: 2;
+        width: 100%;
+      }
+    }
+
+    .mockupCard {
+      max-width: 100%;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .heroSection {
+    padding-top: 50rem;
+    padding-bottom: 50rem;
+
+    :global(.header) {
+      :global(.title) {
+        font-size: 26rem;
+        line-height: 1.34;
+        margin-bottom: 14rem;
+      }
+
+      :global(.description) {
+        font-size: 14rem;
+        line-height: 1.6;
+      }
+    }
+
+    .heroAction {
+      margin-bottom: 36rem;
+
+      .btnTrial {
+        width: 100%;
+        padding: 14rem 20rem;
+        font-size: 15rem;
+      }
+    }
+
+    .timelineMockup {
+      padding: 16rem 14rem;
+      border-radius: 10rem;
+
+      .timelineContainer {
+        min-width: 540rem;
+      }
+    }
+  }
+
+  .featureSection {
+    padding-top: 48rem;
+    padding-bottom: 48rem;
+
+    :global(.header) {
+      :global(.title) {
+        font-size: 24rem;
+        line-height: 1.34;
+        margin-bottom: 14rem;
+      }
+
+      :global(.description) {
+        font-size: 14rem;
+        line-height: 1.6;
+      }
+    }
+
+    .featureList {
+      margin-top: 24rem;
+      gap: 16rem;
+
+      .featureItem {
+        padding-bottom: 16rem;
+
+        .title {
+          font-size: 16rem;
+        }
+
+        .desc {
+          font-size: 13rem;
+        }
+      }
+    }
+
+    .mockupCard {
+      padding: 16rem 14rem;
+      border-radius: 10rem;
+
+      .mappingBody {
+        .mappingRow {
+          padding: 12rem;
+          gap: 12rem;
+
+          .infoTrackArea {
+            .metaLine {
+              flex-wrap: wrap;
+            }
+          }
+        }
+      }
+    }
+  }
+}

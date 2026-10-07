@@ -1,0 +1,220 @@
+@import '../../../assets/scss/mixins';
+
+.section {
+  width: 100%;
+  position: relative;
+  padding: 120rem 0;
+
+  &.bg_white {
+    background-color: var(--color-white);
+  }
+
+  &.bg_gray {
+    background-color: var(--color-gray-100); /* #f1f3f4 */
+  }
+
+  &.bg_transparent {
+    background-color: transparent;
+  }
+}
+
+.container {
+  width: 100%;
+  position: relative;
+
+  &.contained {
+    max-width: 1200rem;
+    margin: 0 auto;
+    padding: 0 24rem;
+  }
+}
+
+/* ---------------------------------
+ * Header Styles
+ * --------------------------------- */
+.header {
+  display: flex;
+  flex-direction: column;
+
+  .eyebrow {
+    @include text-label-eyebrow;
+    margin-bottom: 16rem;
+    display: block;
+    letter-spacing: 0.05em;
+  }
+
+  .title {
+    @include text-heading-section;
+    margin-bottom: 16rem;
+    word-break: keep-all;
+    line-height: 1.3;
+  }
+
+  .description {
+    @include text-body-lead;
+    word-break: keep-all;
+    line-height: 1.6;
+  }
+
+  .extra {
+    margin-top: 24rem;
+  }
+}
+
+/* ---------------------------------
+ * Theme Options (Light / Dark)
+ * --------------------------------- */
+.theme_light {
+  &.header,
+  .header {
+    .eyebrow {
+      color: #888888;
+    }
+    .title {
+      color: #111111;
+    }
+    .description {
+      color: #666666;
+    }
+  }
+}
+
+.theme_dark {
+  &.header,
+  .header {
+    .eyebrow {
+      color: #94a3b8;
+    }
+    .title {
+      color: #ffffff;
+    }
+    .description {
+      color: #94a3b8;
+    }
+  }
+}
+
+/* ---------------------------------
+ * Alignment Options
+ * --------------------------------- */
+.align_left {
+  text-align: left;
+
+  .header {
+    align-items: flex-start;
+    text-align: left;
+  }
+}
+
+.align_center {
+  text-align: center;
+
+  .header {
+    align-items: center;
+    text-align: center;
+
+    .description {
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+}
+
+/* ---------------------------------
+ * Layout Options
+ * --------------------------------- */
+
+/* 1. Vertical Layout (상하 기본구조: Header Top, Content Bottom) */
+.layout_vertical {
+  display: flex;
+  flex-direction: column;
+
+  .sectionHeader {
+    margin-bottom: 48rem;
+  }
+
+  .content {
+    width: 100%;
+  }
+}
+
+/* 2. Horizontal Layout (좌우 구조: Header Left, Content Right) */
+.layout_horizontal {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 60rem;
+
+  .sectionHeader {
+    flex: 1;
+    max-width: 480rem;
+  }
+
+  .content {
+    flex: 1.1;
+    max-width: 600rem;
+  }
+}
+
+/* 3. Horizontal Reverse Layout (우좌 구조: Content Left, Header Right) */
+.layout_horizontal-reverse {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: space-between;
+  gap: 60rem;
+
+  .sectionHeader {
+    flex: 1;
+    max-width: 480rem;
+  }
+
+  .content {
+    flex: 1.1;
+    max-width: 600rem;
+  }
+}
+
+/* ---------------------------------
+ * Responsive Breakpoints
+ * --------------------------------- */
+@media (max-width: 1024px) {
+  .section {
+    padding: 100rem 0;
+  }
+
+  .layout_horizontal,
+  .layout_horizontal-reverse {
+    flex-direction: column;
+    gap: 40rem;
+
+    .sectionHeader {
+      max-width: 100%;
+      width: 100%;
+    }
+
+    .content {
+      max-width: 100%;
+      width: 100%;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 80rem 0;
+  }
+
+  .container {
+    &.contained {
+      padding: 0 20rem;
+    }
+  }
+
+  .layout_vertical {
+    .sectionHeader {
+      margin-bottom: 32rem;
+    }
+  }
+}

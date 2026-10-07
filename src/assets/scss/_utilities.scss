@@ -1,0 +1,131 @@
+/* ---------------------------------
+ * Width Utilities (Fixed - px)
+ * --------------------------------- */
+
+// 10 ~ 100 (Step 10)
+@for $i from 1 through 10 {
+  $val: $i * 10;
+
+  .w-#{$val} {
+    width: #{$val}px;
+  }
+}
+
+// 120 ~ 200 (Step 20)
+@for $i from 1 through 4 {
+  $val: 100 + ($i * 20);
+
+  .w-#{$val} {
+    width: #{$val}px;
+  }
+}
+
+// 240 ~ 480 (Step 40)
+@for $i from 1 through 7 {
+  $val: 200 + ($i * 40);
+
+  .w-#{$val} {
+    width: #{$val}px;
+  }
+}
+
+.w-500 {
+  width: 500rem;
+}
+
+// 600 ~ 1000 (Step 100)
+@for $i from 2 through 10 {
+  $val: $i * 100;
+
+  .w-#{$val} {
+    width: #{$val}rem;
+  }
+}
+
+/* ---------------------------------
+ * Width Utilities (Percentage - %)
+ * --------------------------------- */
+
+@for $i from 1 through 10 {
+  $val: $i * 10;
+
+  .w-#{$val}p {
+    width: $val * 1%;
+  }
+}
+
+.w-auto {
+  width: auto;
+}
+
+.w-full {
+  width: 100%;
+}
+
+/* ---------------------------------
+ * Layout Utilities (Grid & Flex)
+ * --------------------------------- */
+
+.grid {
+  display: grid;
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+/* ---------------------------------
+ * Align Utilities
+ * Text & Box Alignment
+ * --------------------------------- */
+
+.align-t {
+  align-items: flex-start;
+  vertical-align: top;
+}
+
+.align-b {
+  align-items: flex-end;
+  vertical-align: bottom;
+}
+
+.align-l {
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.align-r {
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.align-m {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+/* ---------------------------------
+ * Responsive Display Utilities
+ * --------------------------------- */
+.pc-only {
+  display: inline-block;
+}
+.mobile-only {
+  display: none !important;
+}
+
+@media (max-width: 768px) {
+  .pc-only {
+    display: none !important;
+  }
+  .mobile-only {
+    display: inline-block !important;
+  }
+}

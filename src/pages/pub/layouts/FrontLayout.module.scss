@@ -1,0 +1,12 @@
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100svh;
+  background-color: var(--color-gray-50);
+}
+
+.main {
+  flex: 1;
+  /* Header 높이만큼 상단 여백 확보 */
+  padding-top: 60rem;
+}

@@ -1,0 +1,43 @@
+.guide_section {
+  margin-bottom: 40rem;
+
+  .section_title {
+    font-size: 20rem;
+    font-weight: 700;
+    color: var(--guide-text-main);
+    border-bottom: 1rem solid var(--guide-border); // 1픽셀로 간소화된 라인
+    padding-bottom: 12rem;
+    margin-bottom: 20rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
+    transition: color 0.15s ease;
+
+    &:hover {
+      color: var(--guide-primary);
+    }
+
+    .toggle_btn {
+      font-size: 13rem;
+      color: var(--guide-text-muted);
+      font-weight: 500;
+    }
+  }
+
+  .section_body {
+    animation: fadeIn 0.25s ease-out;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

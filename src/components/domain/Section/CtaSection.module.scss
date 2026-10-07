@@ -1,0 +1,78 @@
+@import '../../../assets/scss/variables';
+@import '../../../assets/scss/mixins';
+
+.ctaSection {
+  padding: 80rem 0;
+
+  // CTA 전용 타이포그래피 및 테마 오버라이드
+  // :global(.header)를 대체하는 구조 선택자: > div (container) > div:first-child (header)
+  > div > div:first-child {
+    span:first-child, /* eyebrow */
+    h2,              /* title */
+    p {              /* description */
+      color: var(--color-white) !important;
+    }
+    
+    h2 {
+      @include text-cta-heading;
+    }
+  }
+
+  // --- Sub CTA (기본, Image 5, ProductCta 등) ---
+  &.variant_sub {
+    > div { /* container */
+      background-color: var(--color-primary-500);
+      border-radius: 16rem;
+      padding: 80rem 40rem;
+    }
+  }
+
+  // --- Main CTA (Image 7) ---
+  &.variant_main {
+    padding: 120rem 0;
+
+    > div { /* container */
+      padding: 0;
+      
+      > div:first-child { /* header */
+        background-color: rgba(59, 91, 255, 0.9);
+        border-radius: 16rem;
+        padding: 60rem 40rem;
+        max-width: 580rem; 
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .ctaSection {
+    padding: 0 !important;
+
+    > div { /* container */
+      border-radius: 0 !important;
+      padding: 60rem 20rem !important;
+      max-width: 100% !important;
+
+      > div:first-child { /* header */
+        border-radius: 0 !important;
+        padding: 0 !important;
+        max-width: 100% !important;
+      }
+    }
+
+    // 모바일 좌측 정렬 풀 블리드
+    &.variant_main,
+    &.variant_sub {
+      > div, 
+      > div > div:first-child {
+        text-align: left !important;
+        align-items: flex-start !important;
+        
+        p { /* description */
+          margin-left: 0 !important;
+          margin-right: auto !important;
+        }
+      }
+    }
+  }
+}

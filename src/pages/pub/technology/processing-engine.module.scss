@@ -1,0 +1,626 @@
+@import '../../../assets/scss/variables';
+
+.pageWrap {
+  width: 100%;
+}
+
+/* --------------------------------------------------------------------------
+   Hero Section
+-------------------------------------------------------------------------- */
+.techHero {
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  overflow: hidden;
+
+  :global(.header) {
+    :global(.eyebrow) {
+      font-size: 13rem;
+      font-weight: 700;
+      color: #38bdf8;
+      letter-spacing: 0.1em;
+      margin-bottom: 14rem;
+      font-family: var(--font-family-mono);
+    }
+
+    :global(.title) {
+      font-size: 40rem;
+      font-weight: 700;
+      color: var(--color-white);
+      margin-bottom: 20rem;
+      line-height: 1.35;
+      word-break: keep-all;
+    }
+
+    :global(.description) {
+      font-size: 16rem;
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.85);
+      word-break: keep-all;
+    }
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Section 1: HIGH-EFFICIENCY PROCESSING ENGINE (bg="white")
+-------------------------------------------------------------------------- */
+.engineSpeedSection {
+  padding-top: 100rem;
+  padding-bottom: 100rem;
+
+  :global(.header) {
+    margin-bottom: 56rem;
+
+    :global(.eyebrow) {
+      font-size: 13rem;
+      font-weight: 700;
+      color: var(--color-primary);
+      letter-spacing: 0.1em;
+      margin-bottom: 12rem;
+    }
+
+    :global(.title) {
+      font-size: 36rem;
+      font-weight: 700;
+      color: var(--color-gray-900);
+      line-height: 1.35;
+      margin-bottom: 20rem;
+      word-break: keep-all;
+    }
+
+    :global(.description) {
+      font-size: 16rem;
+      color: var(--color-gray-600);
+      line-height: 1.65;
+      word-break: keep-all;
+    }
+  }
+
+  /* 2-Column Cards Grid */
+  .engineCardsGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28rem;
+    width: 100%;
+  }
+
+  .engineCard {
+    background-color: var(--color-white);
+    border: 1px solid var(--color-gray-200);
+    border-radius: 20rem;
+    padding: 36rem 32rem;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4rem 20rem rgba(0, 0, 0, 0.04);
+    transition: all 0.25s ease;
+
+    &:hover {
+      border-color: var(--color-primary-300);
+      box-shadow: 0 8rem 28rem rgba(0, 0, 0, 0.08);
+      transform: translateY(-2rem);
+    }
+
+    .cardEyebrow {
+      font-size: 12rem;
+      font-weight: 700;
+      color: var(--color-primary);
+      letter-spacing: 0.08em;
+      font-family: var(--font-family-mono);
+      margin-bottom: 10rem;
+      text-transform: uppercase;
+    }
+
+    .cardTitle {
+      font-size: 24rem;
+      font-weight: 700;
+      color: var(--color-gray-900);
+      margin: 0 0 14rem 0;
+      line-height: 1.3;
+    }
+
+    .cardDesc {
+      font-size: 14rem;
+      color: var(--color-gray-600);
+      line-height: 1.6;
+      margin: 0 0 28rem 0;
+      word-break: keep-all;
+    }
+
+    .stepList {
+      display: flex;
+      flex-direction: column;
+      gap: 10rem;
+      margin-bottom: 24rem;
+      flex: 1;
+
+      .stepItem {
+        display: flex;
+        align-items: center;
+        gap: 14rem;
+        background-color: #f8fafc;
+        border: 1px solid #f1f5f9;
+        border-radius: 10rem;
+        padding: 13rem 18rem;
+        transition: all 0.2s ease;
+
+        &:hover {
+          background-color: #f1f5f9;
+          border-color: #e2e8f0;
+        }
+
+        .stepNum {
+          font-size: 13rem;
+          font-weight: 700;
+          color: var(--color-primary);
+          font-family: var(--font-family-mono);
+          flex-shrink: 0;
+        }
+
+        .stepText {
+          font-size: 14rem;
+          font-weight: 600;
+          color: var(--color-gray-800);
+          line-height: 1.4;
+          word-break: keep-all;
+        }
+      }
+    }
+
+    .cardFootnote {
+      font-size: 12rem;
+      color: var(--color-gray-500);
+      margin: 0;
+      line-height: 1.5;
+    }
+  }
+
+  /* Video Speed Compare Visual Banner */
+  .speedCompareBanner {
+    position: relative;
+    width: 100%;
+    margin-top: 60rem;
+    border-radius: 20rem;
+    overflow: hidden;
+    box-shadow: 0 12rem 36rem rgba(0, 0, 0, 0.08);
+
+    .imageSplitWrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      width: 100%;
+      height: 320rem;
+
+      .splitImgLeft, .splitImgRight {
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+        position: relative;
+      }
+
+      .splitImgLeft {
+        background-image: url('https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=800&q=80');
+
+        .playOverlayIcon {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 52rem;
+          height: 52rem;
+          border-radius: 50%;
+          background: rgba(0, 0, 0, 0.6);
+          backdrop-filter: blur(4px);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: #fff;
+          cursor: pointer;
+          transition: all 0.2s ease;
+
+          svg {
+            width: 20rem;
+            height: 20rem;
+            margin-left: 2rem;
+          }
+
+          &:hover {
+            background: var(--color-primary);
+            transform: translate(-50%, -50%) scale(1.08);
+          }
+        }
+      }
+
+      .splitImgRight {
+        background-image: url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80');
+      }
+    }
+
+    /* Central Highlight Arrow/Badge */
+    .compareBadge {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%);
+      color: #ffffff;
+      padding: 16rem 32rem;
+      border-radius: 12rem;
+      box-shadow: 0 12rem 32rem rgba(30, 64, 175, 0.45);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4rem;
+      z-index: 5;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+
+      .badgeMain {
+        font-size: 18rem;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        white-space: nowrap;
+      }
+
+      .badgeSub {
+        font-size: 13rem;
+        font-weight: 500;
+        color: rgba(255, 255, 255, 0.85);
+        white-space: nowrap;
+      }
+    }
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Section 3: RESTRICTION & ATTENUATION (bg="white")
+-------------------------------------------------------------------------- */
+.benchmarkSection {
+  padding-top: 100rem;
+  padding-bottom: 100rem;
+
+  :global(.header) {
+    :global(.eyebrow) {
+      font-size: 13rem;
+      font-weight: 700;
+      color: var(--color-primary);
+      letter-spacing: 0.1em;
+      margin-bottom: 12rem;
+    }
+
+    :global(.title) {
+      font-size: 36rem;
+      font-weight: 700;
+      color: var(--color-gray-900);
+      line-height: 1.35;
+      margin-bottom: 20rem;
+      word-break: keep-all;
+    }
+
+    :global(.description) {
+      font-size: 16rem;
+      color: var(--color-gray-600);
+      line-height: 1.65;
+      word-break: keep-all;
+    }
+  }
+
+  .tableCard {
+    width: 100%;
+    background-color: var(--color-white);
+    border: 1px solid var(--color-gray-200);
+    border-radius: 16rem;
+    padding: 24rem 28rem;
+    box-shadow: 0 4rem 20rem rgba(0, 0, 0, 0.04);
+
+    .tableResponsive {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    .benchmarkTable {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13rem;
+
+      th, td {
+        padding: 12rem 14rem;
+        text-align: left;
+        line-height: 1.4;
+      }
+
+      thead {
+        tr {
+          border-bottom: 1px solid var(--color-gray-300);
+
+          th {
+            font-size: 13rem;
+            font-weight: 700;
+            color: var(--color-gray-800);
+            background-color: transparent;
+            white-space: nowrap;
+
+            &:nth-child(2), &:nth-child(3), &:nth-child(4) {
+              text-align: right;
+            }
+          }
+        }
+      }
+
+      tbody {
+        tr {
+          border-bottom: 1px solid var(--color-gray-100);
+
+          &:hover {
+            background-color: #f8fafc;
+          }
+
+          &.groupHeaderRow {
+            background-color: #f8fafc;
+            border-bottom: 1px solid var(--color-gray-200);
+
+            td {
+              font-weight: 700;
+              color: var(--color-gray-900);
+              font-size: 13rem;
+              padding-top: 14rem;
+              padding-bottom: 14rem;
+            }
+          }
+
+          td {
+            color: var(--color-gray-700);
+
+            &:nth-child(2), &:nth-child(3), &:nth-child(4) {
+              text-align: right;
+              font-family: var(--font-family-mono);
+            }
+
+            &.speedHighlight {
+              font-weight: 700;
+              color: var(--color-primary);
+            }
+          }
+        }
+      }
+    }
+
+    .tableFootnote {
+      font-size: 12rem;
+      color: var(--color-gray-500);
+      margin: 18rem 0 0 0;
+      line-height: 1.5;
+    }
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Section 4: 도입효과 (bg="gray")
+-------------------------------------------------------------------------- */
+.effectsSection {
+  padding-top: 100rem;
+  padding-bottom: 120rem;
+
+  :global(.header) {
+    margin-bottom: 48rem;
+
+    :global(.title) {
+      font-size: 36rem;
+      font-weight: 700;
+      color: var(--color-gray-900);
+      line-height: 1.3;
+    }
+  }
+
+  .effectsGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24rem;
+    width: 100%;
+
+    .effectItem {
+      background-color: var(--color-white);
+      border: 1px solid var(--color-gray-200);
+      border-radius: 16rem;
+      padding: 32rem 24rem;
+      display: flex;
+      flex-direction: column;
+      gap: 16rem;
+      box-shadow: 0 4rem 16rem rgba(0, 0, 0, 0.03);
+      transition: all 0.2s ease;
+
+      &:hover {
+        border-color: var(--color-primary-300);
+        box-shadow: 0 8rem 24rem rgba(0, 0, 0, 0.06);
+        transform: translateY(-2rem);
+      }
+
+      .num {
+        font-size: 14rem;
+        font-weight: 700;
+        color: var(--color-primary);
+        font-family: var(--font-family-mono);
+        line-height: 1;
+      }
+
+      h4 {
+        font-size: 18rem;
+        font-weight: 700;
+        color: var(--color-gray-900);
+        line-height: 1.45;
+        margin: 0;
+        word-break: keep-all;
+      }
+    }
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Responsive Breakpoints
+-------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .engineSpeedSection {
+    padding-top: 60rem;
+    padding-bottom: 60rem;
+
+    .engineCardsGrid {
+      grid-template-columns: 1fr;
+      gap: 20rem;
+    }
+
+    .speedCompareBanner {
+      margin-top: 40rem;
+
+      .imageSplitWrap {
+        height: 260rem;
+      }
+    }
+  }
+
+  .benchmarkSection {
+    padding-top: 60rem;
+    padding-bottom: 60rem;
+  }
+
+  .effectsSection {
+    padding-top: 60rem;
+    padding-bottom: 80rem;
+
+    .effectsGrid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16rem;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .techHero {
+    :global(.header) {
+      :global(.title) {
+        font-size: 28rem;
+        line-height: 1.35;
+        margin-bottom: 14rem;
+      }
+
+      :global(.description) {
+        font-size: 14rem;
+        line-height: 1.55;
+      }
+    }
+  }
+
+  .engineSpeedSection {
+    padding-top: 48rem;
+    padding-bottom: 48rem;
+
+    :global(.header) {
+      margin-bottom: 32rem;
+
+      :global(.title) {
+        font-size: 26rem;
+        line-height: 1.35;
+        margin-bottom: 14rem;
+      }
+
+      :global(.description) {
+        font-size: 14rem;
+      }
+    }
+
+    .engineCard {
+      padding: 24rem 20rem;
+      border-radius: 16rem;
+
+      .cardTitle {
+        font-size: 20rem;
+      }
+
+      .stepList {
+        .stepItem {
+          padding: 11rem 14rem;
+          gap: 10rem;
+
+          .stepText {
+            font-size: 13rem;
+          }
+        }
+      }
+    }
+
+    .speedCompareBanner {
+      margin-top: 32rem;
+
+      .imageSplitWrap {
+        height: 180rem;
+      }
+
+      .compareBadge {
+        padding: 12rem 20rem;
+
+        .badgeMain {
+          font-size: 15rem;
+        }
+
+        .badgeSub {
+          font-size: 11rem;
+        }
+      }
+    }
+  }
+
+  .benchmarkSection {
+    padding-top: 48rem;
+    padding-bottom: 48rem;
+
+    :global(.header) {
+      :global(.title) {
+        font-size: 26rem;
+        line-height: 1.35;
+        margin-bottom: 14rem;
+      }
+
+      :global(.description) {
+        font-size: 14rem;
+      }
+    }
+
+    .tableCard {
+      padding: 18rem 14rem;
+      border-radius: 12rem;
+
+      .benchmarkTable {
+        font-size: 12rem;
+
+        th, td {
+          padding: 10rem 8rem;
+        }
+      }
+    }
+  }
+
+  .effectsSection {
+    padding-top: 48rem;
+    padding-bottom: 60rem;
+
+    :global(.header) {
+      margin-bottom: 28rem;
+
+      :global(.title) {
+        font-size: 26rem;
+      }
+    }
+
+    .effectsGrid {
+      grid-template-columns: 1fr;
+      gap: 12rem;
+
+      .effectItem {
+        padding: 24rem 20rem;
+        border-radius: 12rem;
+
+        h4 {
+          font-size: 16rem;
+        }
+      }
+    }
+  }
+}

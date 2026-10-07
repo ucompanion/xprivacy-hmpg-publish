@@ -1,0 +1,47 @@
+.login-box {
+  border: 1rem solid #ccc;
+  padding: 20rem;
+  max-width: 400rem;
+  margin: 50rem auto;
+
+  h2 {
+    margin-bottom: 10rem;
+  }
+
+  p {
+    color: #666;
+  }
+
+  .form-group {
+    margin-top: 20rem;
+
+    label {
+      display: block;
+      margin-bottom: 8rem;
+      font-weight: 500;
+    }
+
+    input {
+      width: 100%;
+      padding: 8rem;
+      margin-bottom: 16rem;
+      border: 1rem solid #ccc;
+      border-radius: 4rem;
+    }
+
+    .btn-login {
+      width: 100%;
+      padding: 10rem;
+      background: #0f4c81;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      border-radius: 4rem;
+      font-weight: bold;
+
+      &:hover {
+        background: #0a3a64;
+      }
+    }
+  }
+}

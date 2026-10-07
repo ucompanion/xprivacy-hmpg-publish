@@ -1,0 +1,32 @@
+@use '../../../assets/scss/variables' as *;
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  height: 100svh;
+  overflow: hidden;
+  background-color: #f1f3f7;
+
+  @media (max-width: 991px) {
+    height: auto;
+    min-height: 100svh;
+    overflow-y: auto;
+  }
+}
+
+.main {
+  flex: 1;
+  /* Header 높이 60rem 확보 */
+  margin-top: 60rem;
+  height: calc(100svh - 60rem);
+  display: flex;
+  overflow: hidden;
+
+  @media (max-width: 991px) {
+    margin-top: 60rem;
+    height: auto;
+    min-height: calc(100svh - 60rem);
+    flex-direction: column;
+    overflow: visible;
+  }
+}

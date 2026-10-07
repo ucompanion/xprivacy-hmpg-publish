@@ -1,0 +1,357 @@
+@import '../../../assets/scss/variables';
+
+.pageWrap {
+  width: 100%;
+}
+
+/* --------------------------------------------------------------------------
+   Common Section Header Tuning for Feature Detail Page
+-------------------------------------------------------------------------- */
+.featureSection {
+  padding-top: 100rem;
+  padding-bottom: 100rem;
+  border-bottom: 1px solid var(--color-gray-100);
+
+  &:last-of-type {
+    border-bottom: none;
+  }
+
+  :global(.header) {
+    :global(.eyebrow) {
+      font-size: 13rem;
+      font-weight: 700;
+      color: var(--color-primary);
+      letter-spacing: 0.1em;
+      margin-bottom: 14rem;
+      font-family: var(--font-family-mono);
+      text-transform: uppercase;
+    }
+
+    :global(.title) {
+      font-size: 38rem;
+      font-weight: 700;
+      color: var(--color-gray-900);
+      line-height: 1.35;
+      margin-bottom: 20rem;
+      word-break: keep-all;
+    }
+
+    :global(.description) {
+      font-size: 16rem;
+      color: var(--color-gray-600);
+      line-height: 1.65;
+      word-break: keep-all;
+    }
+  }
+
+  /* Left Column Features List */
+  .featureList {
+    display: flex;
+    flex-direction: column;
+    gap: 28rem;
+    margin-top: 40rem;
+
+    .featureItem {
+      display: flex;
+      flex-direction: column;
+      gap: 6rem;
+      position: relative;
+      padding-bottom: 20rem;
+      border-bottom: 1px solid var(--color-gray-100);
+
+      &:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+      }
+
+      .num {
+        font-size: 13rem;
+        font-weight: 700;
+        color: var(--color-primary);
+        font-family: var(--font-family-mono);
+        line-height: 1;
+        margin-bottom: 2rem;
+      }
+
+      .title {
+        font-size: 18rem;
+        font-weight: 700;
+        color: var(--color-gray-900);
+        margin: 0;
+        line-height: 1.4;
+      }
+
+      .desc {
+        font-size: 14rem;
+        color: var(--color-gray-600);
+        line-height: 1.6;
+        margin: 0;
+        word-break: keep-all;
+      }
+    }
+  }
+
+  /* Right Column Visual Box 1: De-Identified Result */
+  .deidVisualBox {
+    width: 100%;
+    aspect-ratio: 4 / 3.4;
+    background-color: var(--color-gray-200);
+    background-image: url('https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=1200&q=80');
+    background-size: cover;
+    background-position: center;
+    border-radius: 16rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10rem 30rem rgba(0, 0, 0, 0.08);
+
+    /* Person 1 Blur Filter (Left pedestrian) */
+    .blurPersonLeft {
+      position: absolute;
+      top: 36%;
+      left: 17%;
+      width: 54rem;
+      height: 148rem;
+      border-radius: 6rem;
+      backdrop-filter: blur(14px) brightness(0.92);
+      background-color: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 0 10rem rgba(0, 0, 0, 0.15);
+    }
+
+    /* Person 2 Blur Filter (Center pedestrian) */
+    .blurPersonCenter {
+      position: absolute;
+      top: 38%;
+      left: 45%;
+      width: 48rem;
+      height: 130rem;
+      border-radius: 6rem;
+      backdrop-filter: blur(14px) brightness(0.92);
+      background-color: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 0 10rem rgba(0, 0, 0, 0.15);
+    }
+
+    /* Car License Plate Blur (Right SUV plate) */
+    .blurPlate {
+      position: absolute;
+      top: 51%;
+      left: 71%;
+      width: 64rem;
+      height: 24rem;
+      border-radius: 3rem;
+      backdrop-filter: blur(12px) brightness(0.9);
+      background-color: rgba(255, 255, 255, 0.1);
+      box-shadow: 0 0 8rem rgba(0, 0, 0, 0.15);
+    }
+  }
+
+  /* Right Column Visual Box 2: AI Precision Detection Preview */
+  .detectionVisualBox {
+    width: 100%;
+    aspect-ratio: 4 / 3.4;
+    background-color: var(--color-gray-200);
+    background-image: url('https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=1200&q=80');
+    background-size: cover;
+    background-position: center;
+    border-radius: 16rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10rem 30rem rgba(0, 0, 0, 0.08);
+
+    /* Person 1 Bounding Box (Left pedestrian) */
+    .detectPersonLeft {
+      position: absolute;
+      top: 36%;
+      left: 17%;
+      width: 54rem;
+      height: 148rem;
+      border: 2px solid #38bdf8;
+      box-shadow: 0 0 10rem rgba(56, 189, 248, 0.5);
+      border-radius: 4rem;
+
+      .boxTag {
+        position: absolute;
+        top: -20rem;
+        left: -2px;
+        background: #38bdf8;
+        color: #0b0c0e;
+        font-size: 10rem;
+        font-weight: 700;
+        padding: 1rem 5rem;
+        border-radius: 2rem 2rem 0 0;
+        font-family: var(--font-family-mono);
+        white-space: nowrap;
+      }
+    }
+
+    /* Person 2 Bounding Box (Center pedestrian) */
+    .detectPersonCenter {
+      position: absolute;
+      top: 38%;
+      left: 45%;
+      width: 48rem;
+      height: 130rem;
+      border: 2px solid #38bdf8;
+      box-shadow: 0 0 10rem rgba(56, 189, 248, 0.5);
+      border-radius: 4rem;
+
+      .boxTag {
+        position: absolute;
+        top: -20rem;
+        left: -2px;
+        background: #38bdf8;
+        color: #0b0c0e;
+        font-size: 10rem;
+        font-weight: 700;
+        padding: 1rem 5rem;
+        border-radius: 2rem 2rem 0 0;
+        font-family: var(--font-family-mono);
+        white-space: nowrap;
+      }
+    }
+
+    /* Car License Plate Bounding Box */
+    .detectPlate {
+      position: absolute;
+      top: 51%;
+      left: 71%;
+      width: 64rem;
+      height: 24rem;
+      border: 2px solid #38bdf8;
+      box-shadow: 0 0 10rem rgba(56, 189, 248, 0.5);
+      border-radius: 3rem;
+
+      .boxTag {
+        position: absolute;
+        top: -20rem;
+        left: -2px;
+        background: #38bdf8;
+        color: #0b0c0e;
+        font-size: 10rem;
+        font-weight: 700;
+        padding: 1rem 5rem;
+        border-radius: 2rem 2rem 0 0;
+        font-family: var(--font-family-mono);
+        white-space: nowrap;
+      }
+    }
+
+    /* Bottom Status Banner */
+    .bottomPreviewBanner {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(11, 12, 14, 0.85);
+      backdrop-filter: blur(6px);
+      padding: 10rem 16rem;
+      display: flex;
+      align-items: center;
+      gap: 10rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+
+      .dot {
+        width: 8rem;
+        height: 8rem;
+        border-radius: 50%;
+        background-color: #38bdf8;
+        box-shadow: 0 0 8rem #38bdf8;
+        animation: pulseDot 1.5s ease-in-out infinite alternate;
+      }
+
+      .bannerText {
+        font-size: 12rem;
+        font-weight: 700;
+        color: #ffffff;
+        font-family: var(--font-family-mono);
+        letter-spacing: 0.05em;
+      }
+    }
+  }
+}
+
+@keyframes pulseDot {
+  0% {
+    opacity: 0.6;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Responsive Breakpoints
+-------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .featureSection {
+    padding-top: 60rem;
+    padding-bottom: 60rem;
+
+    .featureList {
+      margin-top: 28rem;
+      gap: 20rem;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .featureSection {
+    padding-top: 48rem;
+    padding-bottom: 48rem;
+
+    :global(.header) {
+      :global(.title) {
+        font-size: 26rem;
+        line-height: 1.35;
+        margin-bottom: 14rem;
+      }
+
+      :global(.description) {
+        font-size: 14rem;
+      }
+    }
+
+    .featureList {
+      margin-top: 24rem;
+      gap: 16rem;
+
+      .featureItem {
+        padding-bottom: 16rem;
+
+        .title {
+          font-size: 16rem;
+        }
+
+        .desc {
+          font-size: 13rem;
+        }
+      }
+    }
+
+    .deidVisualBox,
+    .detectionVisualBox {
+      border-radius: 12rem;
+      aspect-ratio: 16 / 11;
+      margin-top: 24rem;
+
+      .blurPersonLeft,
+      .detectPersonLeft {
+        width: 40rem;
+        height: 110rem;
+      }
+
+      .blurPersonCenter,
+      .detectPersonCenter {
+        width: 36rem;
+        height: 95rem;
+      }
+
+      .blurPlate,
+      .detectPlate {
+        width: 48rem;
+        height: 18rem;
+      }
+    }
+  }
+}

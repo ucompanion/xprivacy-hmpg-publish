@@ -1,0 +1,594 @@
+@import '../../../assets/scss/variables';
+
+.pageWrap {
+  width: 100%;
+}
+
+/* --------------------------------------------------------------------------
+   1. Hero Section (Light Background + Centered Layout)
+-------------------------------------------------------------------------- */
+.heroSection {
+  padding-top: 100rem;
+  padding-bottom: 90rem;
+  background-color: var(--color-white);
+
+  :global(.header) {
+    align-items: center;
+    text-align: center;
+    margin-bottom: 32rem;
+
+    :global(.eyebrow) {
+      font-size: 13rem;
+      font-weight: 700;
+      color: #3b5bff;
+      letter-spacing: 0.12em;
+      margin-bottom: 16rem;
+      font-family: var(--font-family-mono);
+      text-transform: uppercase;
+    }
+
+    :global(.title) {
+      font-size: 44rem;
+      font-weight: 800;
+      color: #0b0c0e;
+      line-height: 1.28;
+      letter-spacing: -0.02em;
+      margin-bottom: 20rem;
+      word-break: keep-all;
+    }
+
+    :global(.description) {
+      font-size: 17rem;
+      color: #4b5563;
+      line-height: 1.65;
+      max-width: 680rem;
+      margin: 0 auto;
+      word-break: keep-all;
+    }
+  }
+
+  .heroAction {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 56rem;
+
+    .btnTrial {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14rem 36rem;
+      font-size: 16rem;
+      font-weight: 600;
+      color: #ffffff;
+      background-color: #3b5bff;
+      border-radius: 8rem;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      box-shadow: 0 4rem 14rem rgba(59, 91, 255, 0.28);
+
+      &:hover {
+        background-color: #2b46df;
+        transform: translateY(-1rem);
+        box-shadow: 0 6rem 20rem rgba(59, 91, 255, 0.35);
+      }
+    }
+  }
+
+  /* Dark UI Mockup Box */
+  .workspaceMockup {
+    max-width: 880rem;
+    margin: 0 auto;
+    background-color: #111315;
+    border-radius: 12rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    overflow: hidden;
+    box-shadow: 0 20rem 50rem rgba(0, 0, 0, 0.25);
+
+    .mockupHeader {
+      height: 44rem;
+      background-color: #16181b;
+      padding: 0 20rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+
+      .headerLeft {
+        display: flex;
+        align-items: center;
+        gap: 8rem;
+        font-size: 13rem;
+        font-weight: 600;
+        color: #e2e8f0;
+
+        .statusDot {
+          width: 7rem;
+          height: 7rem;
+          border-radius: 50%;
+          background-color: #10b981;
+          box-shadow: 0 0 8rem #10b981;
+        }
+      }
+
+      .headerRight {
+        font-size: 11rem;
+        font-family: var(--font-family-mono);
+        color: #71717a;
+        letter-spacing: 0.08em;
+      }
+    }
+
+    .mockupBody {
+      display: flex;
+      min-height: 380rem;
+
+      .videoArea {
+        flex: 1.8;
+        background-color: #0c0d0f;
+        position: relative;
+        padding: 20rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        background-size: 24rem 24rem;
+
+        .videoTag {
+          font-size: 11rem;
+          font-family: var(--font-family-mono);
+          color: #71717a;
+          letter-spacing: 0.06em;
+          text-transform: uppercase;
+        }
+
+        .centerVisualGuide {
+          align-self: center;
+          width: 70%;
+          height: 180rem;
+          border: 1px dashed rgba(59, 91, 255, 0.35);
+          border-radius: 8rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: rgba(59, 91, 255, 0.03);
+          position: relative;
+
+          .trackingBox {
+            position: absolute;
+            width: 70rem;
+            height: 90rem;
+            border: 2px solid #38bdf8;
+            border-radius: 4rem;
+            top: 25%;
+            left: 20%;
+            box-shadow: 0 0 12rem rgba(56, 189, 248, 0.35);
+
+            .trackLabel {
+              position: absolute;
+              top: -18rem;
+              left: -2px;
+              background-color: #38bdf8;
+              color: #0b0c0e;
+              font-size: 9rem;
+              font-weight: 700;
+              font-family: var(--font-family-mono);
+              padding: 1rem 4rem;
+              border-radius: 2rem 2rem 0 0;
+            }
+          }
+
+          .trackingBox2 {
+            position: absolute;
+            width: 60rem;
+            height: 80rem;
+            border: 2px solid #38bdf8;
+            border-radius: 4rem;
+            top: 30%;
+            right: 25%;
+            box-shadow: 0 0 12rem rgba(56, 189, 248, 0.35);
+
+            .trackLabel {
+              position: absolute;
+              top: -18rem;
+              left: -2px;
+              background-color: #38bdf8;
+              color: #0b0c0e;
+              font-size: 9rem;
+              font-weight: 700;
+              font-family: var(--font-family-mono);
+              padding: 1rem 4rem;
+              border-radius: 2rem 2rem 0 0;
+            }
+          }
+
+          .trackCenterText {
+            font-size: 12rem;
+            font-family: var(--font-family-mono);
+            color: rgba(255, 255, 255, 0.3);
+            letter-spacing: 0.1em;
+          }
+        }
+
+        .videoFooterBadge {
+          font-size: 11rem;
+          color: #71717a;
+          background-color: rgba(255, 255, 255, 0.05);
+          padding: 4rem 10rem;
+          border-radius: 4rem;
+          width: fit-content;
+        }
+      }
+
+      .controlSidebar {
+        width: 250rem;
+        background-color: #141619;
+        border-left: 1px solid rgba(255, 255, 255, 0.06);
+        padding: 24rem 20rem;
+        display: flex;
+        flex-direction: column;
+        gap: 24rem;
+
+        .groupBlock {
+          display: flex;
+          flex-direction: column;
+          gap: 12rem;
+
+          .groupTitle {
+            font-size: 10rem;
+            font-family: var(--font-family-mono);
+            font-weight: 700;
+            color: #71717a;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+          }
+
+          .targetRow {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 13rem;
+            color: #d1d5db;
+
+            .onBadge {
+              font-size: 11rem;
+              font-weight: 700;
+              font-family: var(--font-family-mono);
+              color: #38bdf8;
+            }
+          }
+
+          .radioRow {
+            display: flex;
+            align-items: center;
+            gap: 10rem;
+            font-size: 13rem;
+            color: #9ca3af;
+            cursor: pointer;
+
+            &.active {
+              color: #ffffff;
+              font-weight: 600;
+            }
+
+            .radioDot {
+              width: 14rem;
+              height: 14rem;
+              border-radius: 50%;
+              border: 1.5px solid #4b5563;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+
+              &.checked {
+                border-color: #3b5bff;
+                background-color: #3b5bff;
+
+                &::after {
+                  content: '';
+                  width: 5rem;
+                  height: 5rem;
+                  border-radius: 50%;
+                  background-color: #ffffff;
+                }
+              }
+            }
+          }
+
+          .reviewRow {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 13rem;
+            color: #9ca3af;
+
+            .count {
+              font-family: var(--font-family-mono);
+              font-weight: 700;
+              color: #e5e7eb;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+/* --------------------------------------------------------------------------
+   2. Alternating Feature Sections (Section 1 ~ 5)
+-------------------------------------------------------------------------- */
+.featureSection {
+  padding-top: 100rem;
+  padding-bottom: 100rem;
+
+  :global(.header) {
+    :global(.eyebrow) {
+      font-size: 13rem;
+      font-weight: 700;
+      color: #3b5bff;
+      letter-spacing: 0.12em;
+      margin-bottom: 14rem;
+      font-family: var(--font-family-mono);
+      text-transform: uppercase;
+    }
+
+    :global(.title) {
+      font-size: 38rem;
+      font-weight: 800;
+      color: #0b0c0e;
+      line-height: 1.32;
+      letter-spacing: -0.02em;
+      margin-bottom: 20rem;
+      word-break: keep-all;
+    }
+
+    :global(.description) {
+      font-size: 16rem;
+      color: #4b5563;
+      line-height: 1.65;
+      word-break: keep-all;
+    }
+  }
+
+  /* List of 3 key sub-features */
+  .featureList {
+    display: flex;
+    flex-direction: column;
+    gap: 28rem;
+    margin-top: 40rem;
+
+    .featureItem {
+      display: flex;
+      flex-direction: column;
+      gap: 6rem;
+      position: relative;
+      padding-bottom: 24rem;
+      border-bottom: 1px solid var(--color-gray-200);
+
+      &:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+      }
+
+      .num {
+        font-size: 13rem;
+        font-weight: 700;
+        color: #3b5bff;
+        font-family: var(--font-family-mono);
+        line-height: 1;
+        margin-bottom: 2rem;
+      }
+
+      .title {
+        font-size: 18rem;
+        font-weight: 700;
+        color: #0b0c0e;
+        margin: 0;
+        line-height: 1.4;
+      }
+
+      .desc {
+        font-size: 14rem;
+        color: #64748b;
+        line-height: 1.65;
+        margin: 0;
+        word-break: keep-all;
+      }
+    }
+  }
+
+  /* Visual Container Box */
+  .visualCard {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    max-width: 520rem;
+    border-radius: 20rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    &:hover {
+      transform: translateY(-2rem);
+    }
+
+    /* Style for White Visual Box (used on Gray Section 1, 3, 5) */
+    &.visualWhite {
+      background-color: #ffffff;
+      border: 1.5px dashed #d5d9df;
+      box-shadow: 0 10rem 30rem rgba(0, 0, 0, 0.04);
+    }
+
+    /* Style for Gray Visual Box (used on White Section 2, 4) */
+    &.visualGray {
+      background-color: #f1f3f4;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 10rem 30rem rgba(0, 0, 0, 0.03);
+    }
+
+    .visualWatermark {
+      font-size: 13rem;
+      font-weight: 700;
+      color: #94a3b8;
+      font-family: var(--font-family-mono);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-align: center;
+    }
+  }
+}
+
+/* --------------------------------------------------------------------------
+   3. Responsive Breakpoints
+-------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .heroSection {
+    padding-top: 70rem;
+    padding-bottom: 60rem;
+
+    :global(.header) {
+      :global(.title) {
+        font-size: 34rem;
+      }
+
+      :global(.description) {
+        font-size: 15rem;
+      }
+    }
+
+    .workspaceMockup {
+      .mockupBody {
+        flex-direction: column;
+
+        .videoArea {
+          min-height: 240rem;
+        }
+
+        .controlSidebar {
+          width: 100%;
+          border-left: none;
+          border-top: 1px solid rgba(255, 255, 255, 0.06);
+          padding: 20rem;
+        }
+      }
+    }
+  }
+
+  .featureSection {
+    padding-top: 60rem;
+    padding-bottom: 60rem;
+
+    /* CRITICAL MOBILE SPEC: Visual Box must be on TOP in ALL sections on Mobile! */
+    :global(.container) {
+      display: flex;
+      flex-direction: column;
+
+      :global(.content) {
+        order: 1;
+        width: 100%;
+        margin-bottom: 36rem;
+      }
+
+      :global(.sectionHeader) {
+        order: 2;
+        width: 100%;
+      }
+    }
+
+    .visualCard {
+      max-width: 100%;
+      aspect-ratio: 16 / 12;
+      border-radius: 16rem;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .heroSection {
+    padding-top: 50rem;
+    padding-bottom: 50rem;
+
+    :global(.header) {
+      :global(.title) {
+        font-size: 26rem;
+        line-height: 1.34;
+        margin-bottom: 14rem;
+      }
+
+      :global(.description) {
+        font-size: 14rem;
+        line-height: 1.6;
+      }
+    }
+
+    .heroAction {
+      margin-bottom: 36rem;
+
+      .btnTrial {
+        width: 100%;
+        padding: 14rem 20rem;
+        font-size: 15rem;
+      }
+    }
+
+    .workspaceMockup {
+      border-radius: 10rem;
+
+      .mockupHeader {
+        padding: 0 14rem;
+      }
+
+      .mockupBody {
+        .videoArea {
+          padding: 14rem;
+
+          .centerVisualGuide {
+            width: 90%;
+            height: 140rem;
+          }
+        }
+      }
+    }
+  }
+
+  .featureSection {
+    padding-top: 48rem;
+    padding-bottom: 48rem;
+
+    :global(.header) {
+      :global(.title) {
+        font-size: 24rem;
+        line-height: 1.34;
+        margin-bottom: 14rem;
+      }
+
+      :global(.description) {
+        font-size: 14rem;
+        line-height: 1.6;
+      }
+    }
+
+    .featureList {
+      margin-top: 24rem;
+      gap: 16rem;
+
+      .featureItem {
+        padding-bottom: 16rem;
+
+        .title {
+          font-size: 16rem;
+        }
+
+        .desc {
+          font-size: 13rem;
+        }
+      }
+    }
+
+    .visualCard {
+      aspect-ratio: 16 / 12;
+      border-radius: 12rem;
+    }
+  }
+}

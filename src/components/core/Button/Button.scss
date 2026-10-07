@@ -1,0 +1,111 @@
+.core-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1rem solid transparent;
+  transition: all 0.2s;
+
+  &.size-sm {
+    padding: 6rem 12rem;
+    font-size: 12rem;
+  }
+  &.size-md {
+    padding: 8rem 16rem;
+    font-size: 14rem;
+  }
+  &.size-lg {
+    padding: 12rem 24rem;
+    font-size: 16rem;
+  }
+
+  /* COLOR THEMES */
+  /* primary */
+  &.color-primary {
+    &.variant-solid {
+      background-color: var(--color-primary-500);
+      color: #fff;
+      &:hover { background-color: var(--color-primary-600); }
+    }
+    &.variant-outline {
+      background-color: transparent;
+      color: var(--color-primary-500);
+      border-color: var(--color-primary-500);
+      &:hover { background-color: var(--color-primary-50); }
+    }
+  }
+
+  /* secondary */
+  &.color-secondary {
+    &.variant-solid {
+      background-color: var(--color-secondary-500);
+      color: #fff;
+      &:hover { background-color: var(--color-secondary-600); }
+    }
+    &.variant-outline {
+      background-color: transparent;
+      color: var(--color-secondary-500);
+      border-color: var(--color-secondary-500);
+      &:hover { background-color: var(--color-secondary-50); }
+    }
+  }
+
+  /* danger */
+  &.color-danger {
+    &.variant-solid {
+      background-color: var(--color-danger-500);
+      color: #fff;
+      &:hover { background-color: var(--color-danger-600); }
+    }
+    &.variant-outline {
+      background-color: transparent;
+      color: var(--color-danger-500);
+      border-color: var(--color-danger-500);
+      &:hover { background-color: var(--color-danger-50); }
+    }
+  }
+
+  /* success */
+  &.color-success {
+    &.variant-solid {
+      background-color: var(--color-success-500);
+      color: #fff;
+      &:hover { background-color: var(--color-success-600); }
+    }
+    &.variant-outline {
+      background-color: transparent;
+      color: var(--color-success-500);
+      border-color: var(--color-success-500);
+      &:hover { background-color: var(--color-success-50); }
+    }
+  }
+
+  /* neutral */
+  &.color-neutral {
+    &.variant-solid {
+      background-color: var(--color-gray-200);
+      color: var(--color-gray-800);
+      &:hover { background-color: var(--color-gray-300); }
+    }
+    &.variant-outline {
+      background-color: transparent;
+      color: var(--color-gray-800);
+      border-color: var(--color-gray-300);
+      &:hover { background-color: var(--color-gray-100); }
+    }
+  }
+
+  /* GHOST VARIANT (Color independent, usually uses text color) */
+  &.variant-ghost {
+    background-color: transparent;
+    color: var(--color-gray-800);
+    &:hover { background-color: var(--color-gray-100); }
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}

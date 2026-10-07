@@ -1,0 +1,111 @@
+.faq {
+  padding: 100rem 0;
+  background-color: #ffffff;
+}
+
+.container {
+  width: 100%;
+  max-width: 1240rem;
+  margin: 0 auto;
+  padding: 0 100rem;
+}
+
+.title {
+  font-size: 38rem;
+  font-weight: 700;
+  line-height: 1.4;
+  margin-bottom: 60rem;
+  letter-spacing: -0.5rem;
+  color: #111827;
+  text-align: center;
+}
+
+.accordion_wrapper {
+  width: 100%;
+  
+  :global {
+    .core-accordion {
+      border: none;
+      border-radius: 0;
+      
+      .accordion-item {
+        border-bottom: 1rem solid #f3f4f6;
+        
+        &:first-child {
+          border-top: 1rem solid #f3f4f6;
+        }
+
+        .accordion-header {
+          padding: 32rem 40rem;
+          background-color: transparent;
+          font-size: 18rem;
+          font-weight: 500;
+          color: #111827;
+          border: none;
+
+          &:hover {
+            background-color: transparent;
+            color: var(--color-primary-600);
+          }
+
+          &.open {
+            background-color: #f8f9fa;
+          }
+
+          .icon {
+            display: none; /* Hide default arrow */
+          }
+        }
+
+        .accordion-content {
+          padding: 0 40rem 32rem 40rem;
+          background-color: #f8f9fa;
+          border-top: none;
+          color: #888888;
+          font-size: 15rem;
+          line-height: 1.6;
+          
+          p {
+            margin-bottom: 8rem;
+            &:last-child {
+              margin-bottom: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+/* ==========================================================================
+   Mobile Responsive (1024px 이하)
+   ========================================================================== */
+@media (max-width: 1024px) {
+  .container {
+    padding: 0 24rem;
+  }
+
+  .faq {
+    padding: 60rem 0;
+  }
+
+  .title {
+    font-size: 28rem;
+    margin-bottom: 40rem;
+  }
+  
+  .accordion_wrapper {
+    :global {
+      .core-accordion .accordion-item {
+        .accordion-header {
+          padding: 24rem 16rem;
+          font-size: 16rem;
+        }
+        .accordion-content {
+          padding: 0 16rem 24rem 16rem;
+          font-size: 14rem;
+        }
+      }
+    }
+  }
+}

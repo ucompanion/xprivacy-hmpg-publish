@@ -1,0 +1,819 @@
+@import '../../../assets/scss/variables';
+
+.pageWrap {
+  width: 100%;
+}
+
+/* --------------------------------------------------------------------------
+   Hero Section
+-------------------------------------------------------------------------- */
+.heroSectionWhy {
+  :global(.header) {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 60rem;
+    margin-bottom: 56rem;
+
+    :global(.title) {
+      flex: 1;
+      font-size: 38rem;
+      font-weight: 700;
+      line-height: 1.3;
+      color: var(--color-white);
+      margin-bottom: 0;
+      word-break: keep-all;
+    }
+
+    :global(.description) {
+      flex: 1;
+      max-width: 480rem;
+      font-size: 15rem;
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.85);
+      margin-bottom: 0;
+      word-break: keep-all;
+    }
+  }
+}
+
+.heroFeatureList {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: 24rem;
+  width: 100%;
+
+  .itemCard {
+    flex: 1;
+    background-color: var(--color-white);
+    border-radius: 16rem;
+    padding: 28rem 24rem;
+    display: flex;
+    flex-direction: column;
+    gap: 12rem;
+    text-align: left;
+    box-shadow: 0 10rem 30rem rgba(0, 0, 0, 0.08);
+
+    .num {
+      display: inline-block;
+      font-size: 18rem;
+      font-weight: 700;
+      color: var(--color-primary);
+      font-family: var(--font-family-mono);
+      line-height: 1;
+    }
+
+    h4 {
+      font-size: 18rem;
+      font-weight: 700;
+      color: var(--color-gray-900);
+      margin: 0;
+    }
+
+    p {
+      font-size: 14rem;
+      color: var(--color-gray-600);
+      line-height: 1.5;
+      margin: 0;
+      word-break: keep-all;
+    }
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Content Sections
+-------------------------------------------------------------------------- */
+.sectionAlt {
+  background-color: var(--color-gray-50);
+}
+
+/* 1. 정밀 AI 탐지 */
+.featureBlockList {
+  display: flex;
+  flex-direction: column;
+  gap: 20rem;
+  margin-top: 32rem;
+  padding-top: 32rem;
+  border-top: 1px solid var(--color-gray-200);
+
+  .fBlock {
+    padding-bottom: 20rem;
+    border-bottom: 1px solid var(--color-gray-100);
+
+    &:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .title {
+      font-size: 16rem;
+      font-weight: 700;
+      color: var(--color-gray-900);
+      font-family: var(--font-family-mono);
+      margin: 0 0 6rem 0;
+    }
+
+    p {
+      font-size: 14rem;
+      color: var(--color-gray-600);
+      margin: 0;
+      line-height: 1.5;
+      word-break: keep-all;
+    }
+  }
+}
+
+.trackingVisual {
+  width: 100%;
+  height: 580rem;
+  background-color: var(--color-gray-200);
+  background-image: url('https://images.unsplash.com/photo-1449844908441-8829872d2607?auto=format&fit=crop&w=1200&q=80');
+  background-size: cover;
+  background-position: center;
+  border-radius: 16rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 8rem 30rem rgba(0, 0, 0, 0.08);
+
+  .pedestrianBox {
+    position: absolute;
+    top: 32%;
+    left: 23%;
+    width: 52rem;
+    height: 148rem;
+    border: 2px solid #38bdf8;
+    box-shadow: 0 0 12rem rgba(56, 189, 248, 0.5);
+    border-radius: 4rem;
+    overflow: visible;
+
+    .boxTag {
+      position: absolute;
+      top: -19rem;
+      left: -2px;
+      background: #38bdf8;
+      color: #0b0c0e;
+      font-size: 10rem;
+      font-weight: 700;
+      padding: 1rem 5rem;
+      border-radius: 2rem 2rem 0 0;
+      font-family: var(--font-family-mono);
+      white-space: nowrap;
+      z-index: 10;
+      line-height: 1.4;
+    }
+
+    .pedestrianInner {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      border-radius: 2rem;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .pedestrianFaceBox {
+      width: 100%;
+      height: 42rem;
+      position: relative;
+      border-bottom: 1px dashed rgba(56, 189, 248, 0.6);
+      overflow: hidden;
+    }
+
+    .pedestrianBodyBox {
+      width: 100%;
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+    }
+  }
+
+  .carPlateBox {
+    position: absolute;
+    top: 48%;
+    left: 45%;
+    width: 70rem;
+    height: 28rem;
+    border: 2px solid #38bdf8;
+    box-shadow: 0 0 12rem rgba(56, 189, 248, 0.5);
+    border-radius: 3rem;
+    overflow: visible;
+
+    .boxTag {
+      position: absolute;
+      top: -19rem;
+      left: -2px;
+      background: #38bdf8;
+      color: #0b0c0e;
+      font-size: 10rem;
+      font-weight: 700;
+      padding: 1rem 5rem;
+      border-radius: 2rem 2rem 0 0;
+      font-family: var(--font-family-mono);
+      white-space: nowrap;
+      z-index: 10;
+      line-height: 1.4;
+    }
+
+    .plateInner {
+      width: 100%;
+      height: 100%;
+      border-radius: 1rem;
+      overflow: hidden;
+      position: relative;
+    }
+  }
+
+  /* Filter Layer Dynamic Styles */
+  .filterLayer {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    transition: all 0.25s ease;
+
+    &.mosaic {
+      backdrop-filter: blur(4px);
+      background-image: 
+        repeating-linear-gradient(0deg, rgba(15, 23, 42, 0.55) 0px, rgba(15, 23, 42, 0.55) 1px, transparent 1px, transparent 6px),
+        repeating-linear-gradient(90deg, rgba(15, 23, 42, 0.55) 0px, rgba(15, 23, 42, 0.55) 1px, transparent 1px, transparent 6px),
+        linear-gradient(135deg, rgba(148, 163, 184, 0.35) 0%, rgba(51, 65, 85, 0.5) 100%);
+      background-size: 6px 6px, 6px 6px, 100% 100%;
+    }
+
+    &.masking {
+      background-color: #0b0c0e;
+      box-shadow: inset 0 0 8rem rgba(0, 0, 0, 0.95);
+    }
+
+    &.blur {
+      backdrop-filter: blur(14px) brightness(0.9);
+      background-color: rgba(255, 255, 255, 0.08);
+    }
+
+    &.virtualFace {
+      backdrop-filter: blur(6px);
+      background: radial-gradient(circle at center, rgba(56, 189, 248, 0.25) 0%, rgba(11, 12, 14, 0.9) 100%);
+      border: 1px solid #38bdf8;
+      box-shadow: inset 0 0 10rem rgba(56, 189, 248, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .virtualFaceGraphic {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+      }
+
+      .virtualFaceIcon {
+        width: 22rem;
+        height: 22rem;
+        color: #38bdf8;
+        filter: drop-shadow(0 0 6rem rgba(56, 189, 248, 0.9));
+        animation: pulseFace 2s ease-in-out infinite alternate;
+      }
+    }
+  }
+
+  /* Floating Mock UI - Dark Panel */
+  .floatingPanel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 230rem;
+    background-color: #0b0c0e;
+    color: #fff;
+    padding: 24rem 18rem;
+    display: flex;
+    flex-direction: column;
+    gap: 16rem;
+    overflow-y: auto;
+    border-left: 1px solid rgba(255, 255, 255, 0.08);
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+
+    &::-webkit-scrollbar {
+      width: 3px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 2px;
+    }
+
+    .panelTitle {
+      font-size: 15rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin: 0;
+      letter-spacing: -0.01em;
+    }
+
+    .optGroup {
+      h5 {
+        font-size: 13rem;
+        font-weight: 700;
+        color: #ffffff;
+        margin: 0 0 10rem 0;
+      }
+
+      .radioGroup {
+        display: flex;
+        flex-direction: column;
+        gap: 8rem;
+
+        .radioItem {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 6rem 8rem;
+          border-radius: 6rem;
+          cursor: pointer;
+          user-select: none;
+          transition: background-color 0.15s ease;
+          position: relative;
+
+          &:hover {
+            background-color: rgba(255, 255, 255, 0.06);
+          }
+
+          .radioText {
+            font-size: 13rem;
+            color: #cbd5e1;
+            transition: color 0.15s ease, font-weight 0.15s ease;
+          }
+
+          .radioInput {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+            pointer-events: none;
+
+            &:focus-visible ~ .radioCircle {
+              outline: 2px solid #38bdf8;
+              outline-offset: 2px;
+            }
+          }
+
+          .radioCircle {
+            width: 15rem;
+            height: 15rem;
+            border-radius: 50%;
+            border: 1.5px solid #64748b;
+            background-color: transparent;
+            display: inline-block;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            flex-shrink: 0;
+          }
+
+          &.active {
+            .radioText {
+              color: #38bdf8;
+              font-weight: 600;
+            }
+
+            .radioCircle {
+              background-color: #38bdf8;
+              border-color: #38bdf8;
+              box-shadow: 0 0 8rem rgba(56, 189, 248, 0.5);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@keyframes pulseFace {
+  0% {
+    transform: scale(0.92);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1.08);
+    opacity: 1;
+  }
+}
+
+/* 2. 작은·원거리 얼굴 & 4. 처리 속도 공통 Split Wrapper */
+.splitContentWrap {
+  display: flex;
+  gap: 32rem;
+  align-items: stretch;
+  width: 100%;
+
+  .tableCard {
+    flex: 1;
+    background: var(--color-white);
+    border-radius: 16rem;
+    padding: 32rem 24rem;
+    box-shadow: 0 4rem 20rem rgba(0, 0, 0, 0.04);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: 1px solid var(--color-gray-100);
+  }
+
+  .distanceVisualRight {
+    flex: 1;
+    aspect-ratio: 16 / 11;
+    background-color: var(--color-gray-200);
+    background-image: url('https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&w=1200&q=80');
+    background-size: cover;
+    background-position: center;
+    border-radius: 16rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4rem 20rem rgba(0, 0, 0, 0.04);
+
+    .faceDetectBox1 {
+      position: absolute;
+      top: 38%;
+      left: 16%;
+      width: 44rem;
+      height: 50rem;
+      border: 2px solid #38bdf8;
+      box-shadow: 0 0 8rem rgba(56, 189, 248, 0.5);
+      border-radius: 4rem;
+    }
+    .faceDetectBox2 {
+      position: absolute;
+      top: 45%;
+      left: 36%;
+      width: 42rem;
+      height: 48rem;
+      border: 2px solid #38bdf8;
+      box-shadow: 0 0 8rem rgba(56, 189, 248, 0.5);
+      border-radius: 4rem;
+    }
+    .faceDetectBox3 {
+      position: absolute;
+      top: 37%;
+      left: 54%;
+      width: 44rem;
+      height: 50rem;
+      border: 2px solid #38bdf8;
+      box-shadow: 0 0 8rem rgba(56, 189, 248, 0.5);
+      border-radius: 4rem;
+    }
+    .faceDetectBox4 {
+      position: absolute;
+      top: 43%;
+      left: 74%;
+      width: 42rem;
+      height: 48rem;
+      border: 2px solid #38bdf8;
+      box-shadow: 0 0 8rem rgba(56, 189, 248, 0.5);
+      border-radius: 4rem;
+    }
+  }
+
+  .chartCard {
+    flex: 1;
+    background: var(--color-white);
+    border-radius: 16rem;
+    padding: 32rem 28rem;
+    box-shadow: 0 4rem 20rem rgba(0, 0, 0, 0.04);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    border: 1px solid var(--color-gray-100);
+
+    .chartArea {
+      width: 100%;
+      height: 200rem;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-around;
+      gap: 16rem;
+      border-bottom: 1px solid var(--color-gray-200);
+      padding-bottom: 12rem;
+
+      .barItem {
+        flex: 1;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 8rem;
+
+        .barValue {
+          font-size: 13rem;
+          font-weight: 700;
+          color: var(--color-primary);
+          font-family: var(--font-family-mono);
+        }
+
+        .bar {
+          width: 100%;
+          max-width: 56rem;
+          background: linear-gradient(180deg, #3b82f6 0%, #2563eb 100%);
+          border-radius: 6rem 6rem 0 0;
+        }
+
+        .barLabel {
+          font-size: 12rem;
+          font-weight: 600;
+          color: var(--color-gray-600);
+          font-family: var(--font-family-mono);
+          text-align: center;
+          white-space: nowrap;
+        }
+      }
+    }
+  }
+}
+
+/* Metric Table */
+.metricTableSmall {
+  width: 100%;
+  border-collapse: collapse;
+
+  th, td {
+    padding: 16rem 12rem;
+    text-align: center;
+    border-bottom: 1px solid var(--color-gray-100);
+    font-size: 14rem;
+  }
+
+  th {
+    font-weight: 600;
+    color: var(--color-gray-500);
+    background: transparent;
+  }
+
+  td {
+    font-weight: 600;
+    color: var(--color-gray-800);
+
+    &:first-child {
+      text-align: left;
+      font-family: var(--font-family-mono);
+    }
+  }
+
+  tr:last-child td {
+    border-bottom: none;
+  }
+
+  .chkIcon {
+    display: inline-block;
+    width: 20rem;
+    height: 20rem;
+    background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 13l4 4L19 7" stroke="%233b82f6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>');
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+
+  .dashIcon {
+    display: inline-block;
+    width: 14rem;
+    height: 14rem;
+    background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 12h14" stroke="%23cbd5e1" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>');
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+}
+
+/* Speed Table */
+.speedTable {
+  width: 100%;
+  border-collapse: collapse;
+
+  th, td {
+    padding: 16rem 12rem;
+    border-bottom: 1px solid var(--color-gray-100);
+    font-size: 14rem;
+  }
+
+  th {
+    font-weight: 600;
+    color: var(--color-gray-500);
+    text-align: left;
+    &:last-child {
+      text-align: right;
+    }
+  }
+
+  td {
+    font-weight: 600;
+    color: var(--color-gray-900);
+
+    &:first-child {
+      font-family: var(--font-family-mono);
+    }
+    &:nth-child(2) {
+      color: var(--color-primary);
+    }
+    &:last-child {
+      text-align: right;
+    }
+  }
+
+  tr:last-child td {
+    border-bottom: none;
+  }
+}
+
+.speedNote {
+  margin-top: 24rem;
+  font-size: 13rem;
+  color: var(--color-gray-400);
+  line-height: 1.5;
+  text-align: center;
+}
+
+/* 3. 가상 얼굴 */
+.virtualFaceVisualDevice {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .deviceFrame {
+    background-color: #0b0c0e;
+    border-radius: 16rem;
+    padding: 28rem 20rem;
+    display: flex;
+    align-items: center;
+    gap: 16rem;
+    width: 100%;
+    box-shadow: 0 20rem 40rem rgba(0, 0, 0, 0.15);
+
+    .faceWrap {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12rem;
+
+      .faceLabel {
+        font-size: 13rem;
+        font-weight: 600;
+        color: #fff;
+        text-align: left;
+      }
+
+      .faceBefore, .faceAfter {
+        width: 100%;
+        aspect-ratio: 3 / 4;
+        background-color: var(--color-gray-800);
+        background-image: url('https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=600&q=80');
+        background-size: cover;
+        background-position: center;
+        border-radius: 8rem;
+      }
+
+      .faceAfter {
+        filter: hue-rotate(35deg) contrast(1.05) brightness(1.02);
+      }
+    }
+
+    .faceArrow {
+      color: #64748b;
+      font-size: 16rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Responsive Breakpoints
+-------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .heroSectionWhy {
+    :global(.header) {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16rem;
+      margin-bottom: 40rem;
+
+      :global(.title) {
+        font-size: 32rem;
+      }
+      :global(.description) {
+        max-width: 100%;
+        font-size: 14rem;
+      }
+    }
+  }
+
+  .heroFeatureList {
+    flex-direction: column;
+    gap: 16rem;
+  }
+
+  .splitContentWrap {
+    flex-direction: column;
+    gap: 24rem;
+
+    .tableCard, .distanceVisualRight, .chartCard {
+      width: 100%;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .heroSectionWhy {
+    :global(.header) {
+      :global(.title) {
+        font-size: 26rem;
+        line-height: 1.35;
+      }
+    }
+  }
+
+  .trackingVisual {
+    height: 440rem;
+
+    .pedestrianBox {
+      top: 32%;
+      left: 10%;
+      width: 40rem;
+      height: 110rem;
+      .boxTag {
+        font-size: 8rem;
+        top: -16rem;
+      }
+      .pedestrianFaceBox {
+        height: 32rem;
+      }
+    }
+
+    .carPlateBox {
+      top: 50%;
+      left: 32%;
+      width: 50rem;
+      height: 20rem;
+      .boxTag {
+        font-size: 8rem;
+        top: -16rem;
+      }
+    }
+
+    .floatingPanel {
+      width: 175rem;
+      padding: 16rem 12rem;
+      gap: 12rem;
+
+      .panelTitle {
+        font-size: 13rem;
+      }
+
+      .optGroup {
+        h5 {
+          font-size: 11rem;
+          margin-bottom: 6rem;
+        }
+
+        .radioGroup {
+          gap: 4rem;
+
+          .radioItem {
+            padding: 4rem 6rem;
+
+            .radioText {
+              font-size: 11rem;
+            }
+
+            .radioCircle {
+              width: 12rem;
+              height: 12rem;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .virtualFaceVisualDevice {
+    .deviceFrame {
+      flex-direction: row;
+      padding: 16rem 12rem;
+      gap: 10rem;
+
+      .faceWrap {
+        .faceLabel {
+          font-size: 11rem;
+        }
+      }
+
+      .faceArrow {
+        font-size: 12rem;
+        transform: none;
+      }
+    }
+  }
+
+  .speedNote {
+    text-align: left;
+  }
+}

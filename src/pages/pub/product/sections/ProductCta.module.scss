@@ -1,0 +1,85 @@
+@import '../../../../assets/scss/variables';
+
+.productCtaWrap {
+  background-image: url('/images/pub/product/crowd_bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  
+  > div { /* container */
+    background-color: rgba(79, 102, 255, 0.9) !important;
+  }
+
+  /* 텍스트 크기 오버라이드 */
+  > div > div:first-child { /* header */
+    span:first-child { /* eyebrow */
+      font-size: 14rem !important;
+      letter-spacing: 0.2em !important;
+    }
+    h2 { /* title */
+      font-size: 44rem !important;
+      margin-bottom: 24rem !important;
+    }
+    p { /* description */
+      font-size: 18rem !important;
+    }
+  }
+
+  .ctaBtnGroup {
+    display: flex;
+    gap: 16rem;
+    justify-content: center;
+    margin-top: 16rem; /* headerExtra 내부에 배치되므로 마진 조정 */
+    
+    .btnSolid {
+      background-color: var(--color-white) !important;
+      color: var(--color-primary) !important;
+      border: none !important;
+      font-weight: 700;
+      padding: 0 40rem;
+      border-radius: 6rem;
+      font-size: 16rem;
+      height: 56rem;
+      
+      &:hover {
+        background-color: var(--color-gray-100) !important;
+      }
+    }
+    
+    .btnOutline {
+      border: 1px solid var(--color-white) !important;
+      color: var(--color-white) !important;
+      background: transparent !important;
+      font-weight: 700;
+      padding: 0 40rem;
+      border-radius: 6rem;
+      font-size: 16rem;
+      height: 56rem;
+      
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.1) !important;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .productCtaWrap {
+    > div { /* container */
+      border-radius: 0 !important; /* 모바일 풀 블리드 */
+    }
+    > div > div:first-child { /* header */
+      h2 {
+        font-size: 28rem !important;
+      }
+    }
+    .ctaBtnGroup {
+      flex-direction: column;
+      width: 100%;
+      .btnSolid, .btnOutline {
+        width: 100%;
+        padding: 0 20rem;
+      }
+    }
+  }
+}

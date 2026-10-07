@@ -1,0 +1,170 @@
+.process {
+  padding: 120rem 0;
+  background-color: #ffffff;
+}
+
+.container {
+  width: 100%;
+  max-width: 1240rem;
+  margin: 0 auto;
+  padding: 0 100rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 80rem;
+}
+
+.text_content {
+  flex: 1;
+}
+
+.title {
+  font-size: 38rem;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 16rem;
+  letter-spacing: -0.5rem;
+  color: #111827;
+}
+
+.subtitle {
+  font-size: 16rem;
+  color: #6b7280;
+  line-height: 1.6;
+  margin-bottom: 40rem;
+}
+
+.feature_list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20rem;
+}
+
+.feature_item {
+  display: flex;
+  align-items: center;
+  gap: 12rem;
+}
+
+.feature_icon {
+  color: var(--color-primary-500);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.feature_text {
+  font-size: 16rem;
+  color: #4b5563;
+  font-weight: 500;
+}
+
+.timeline_wrapper {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.timeline_card {
+  width: 100%;
+  max-width: 500rem;
+  background-color: #fafafa;
+  border: 1rem solid #f3f4f6;
+  border-radius: 12rem;
+  padding: 40rem;
+  box-shadow: 0 4rem 20rem rgba(0, 0, 0, 0.02);
+  position: relative;
+}
+
+.timeline_line {
+  position: absolute;
+  top: 60rem;
+  bottom: 60rem;
+  left: 64rem; /* 40rem padding + 24rem half of icon */
+  width: 2rem;
+  background-color: #d1d5db;
+  z-index: 1;
+}
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 40rem;
+  position: relative;
+  z-index: 2;
+}
+
+.timeline_item {
+  display: flex;
+  gap: 24rem;
+  align-items: center;
+}
+
+.icon_wrapper {
+  flex-shrink: 0;
+}
+
+.icon {
+  width: 48rem;
+  height: 48rem;
+  border-radius: 50%;
+  background-color: var(--color-primary-500);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2rem 8rem rgba(37, 99, 235, 0.3);
+}
+
+.content {
+  flex: 1;
+}
+
+.item_title {
+  font-size: 18rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 6rem;
+}
+
+.item_desc {
+  font-size: 14rem;
+  color: #6b7280;
+  line-height: 1.4;
+}
+
+/* ==========================================================================
+   Mobile Responsive (1024px 이하)
+   ========================================================================== */
+@media (max-width: 1024px) {
+  .container {
+    padding: 0 24rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 60rem;
+  }
+
+  .process {
+    padding: 80rem 0;
+  }
+
+  .title {
+    font-size: 32rem;
+  }
+
+  .timeline_wrapper {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .timeline_card {
+    padding: 24rem;
+  }
+
+  .timeline_line {
+    left: 48rem; /* 24rem padding + 24rem half of icon */
+  }
+}

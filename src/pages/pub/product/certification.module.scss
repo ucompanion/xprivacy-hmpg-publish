@@ -1,0 +1,251 @@
+@import '../../../assets/scss/variables';
+
+.pageWrap {
+  width: 100%;
+}
+
+/* --------------------------------------------------------------------------
+   Hero Section
+-------------------------------------------------------------------------- */
+.certHero {
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  overflow: hidden;
+
+  :global(.header) {
+    :global(.title) {
+      font-size: 38rem;
+      font-weight: 700;
+      color: var(--color-white);
+      margin-bottom: 16rem;
+    }
+
+    :global(.description) {
+      font-size: 16rem;
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.85);
+      word-break: keep-all;
+    }
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Content Section
+-------------------------------------------------------------------------- */
+.contentSection {
+  padding: 80rem 0 120rem 0;
+  background-color: var(--color-white);
+
+  .container {
+    max-width: 1200rem;
+    margin: 0 auto;
+    padding: 0 24rem;
+    display: flex;
+    flex-direction: column;
+    gap: 56rem;
+  }
+}
+
+/* 1. Certificates Gallery Card */
+.certGalleryCard {
+  background-color: #f3f5f8;
+  border-radius: 20rem;
+  padding: 48rem 40rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4rem 20rem rgba(0, 0, 0, 0.02);
+
+  .galleryInner {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 16rem;
+    width: 100%;
+
+    .galleryRowTop {
+      display: flex;
+      gap: 16rem;
+      flex: 4;
+    }
+
+    .galleryRowBottom {
+      display: flex;
+      gap: 16rem;
+      flex: 3;
+    }
+  }
+
+  .certItem {
+    flex: 1;
+    aspect-ratio: 1 / 1.414;
+    background-color: var(--color-white);
+    box-shadow: 0 4rem 14rem rgba(0, 0, 0, 0.08);
+    border-radius: 4rem;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+      transform: translateY(-4rem);
+      box-shadow: 0 8rem 20rem rgba(0, 0, 0, 0.12);
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+  }
+}
+
+/* 2. Patents Grid */
+.patentGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24rem;
+
+  .patentCard {
+    background-color: var(--color-white);
+    border: 1px solid var(--color-gray-200);
+    border-radius: 16rem;
+    padding: 32rem 28rem;
+    display: flex;
+    flex-direction: column;
+    gap: 14rem;
+    transition: all 0.2s ease;
+
+    &:hover {
+      border-color: var(--color-primary-300);
+      box-shadow: 0 8rem 24rem rgba(0, 0, 0, 0.06);
+      transform: translateY(-2rem);
+    }
+
+    .num {
+      font-size: 14rem;
+      font-weight: 700;
+      color: var(--color-primary);
+      font-family: var(--font-family-mono);
+      line-height: 1;
+    }
+
+    h4 {
+      font-size: 16rem;
+      font-weight: 700;
+      color: var(--color-gray-900);
+      line-height: 1.5;
+      margin: 0;
+      word-break: keep-all;
+    }
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Mobile Responsive
+-------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .patentGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .certGalleryCard {
+    padding: 32rem 24rem;
+
+    .galleryInner {
+      gap: 10rem;
+
+      .galleryRowTop,
+      .galleryRowBottom {
+        gap: 10rem;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .certHero {
+    :global(.header) {
+      :global(.title) {
+        font-size: 28rem;
+        margin-bottom: 12rem;
+      }
+
+      :global(.description) {
+        font-size: 14rem;
+        line-height: 1.55;
+      }
+    }
+  }
+
+  .contentSection {
+    padding: 40rem 0 60rem 0;
+
+    .container {
+      padding: 0 16rem;
+      gap: 36rem;
+    }
+  }
+
+  /* 모바일 갤러리 2단 분할 (상단 4개, 하단 3개) */
+  .certGalleryCard {
+    padding: 20rem 14rem;
+    border-radius: 16rem;
+
+    .galleryInner {
+      flex-direction: column;
+      gap: 10rem;
+      align-items: center;
+
+      .galleryRowTop {
+        width: 100%;
+        gap: 8rem;
+      }
+
+      .galleryRowBottom {
+        width: 100%;
+        gap: 8rem;
+      }
+    }
+
+    .certItem {
+      border-radius: 3rem;
+      box-shadow: 0 2rem 8rem rgba(0, 0, 0, 0.08);
+    }
+  }
+
+  /* 모바일 특허 리스트 (구분선 스타일) */
+  .patentGrid {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+
+    .patentCard {
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      padding: 20rem 0;
+      border-bottom: 1px solid var(--color-gray-100);
+      gap: 8rem;
+
+      &:hover {
+        transform: none;
+        box-shadow: none;
+        border-color: var(--color-gray-100);
+      }
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      .num {
+        font-size: 13rem;
+      }
+
+      h4 {
+        font-size: 15rem;
+        line-height: 1.45;
+      }
+    }
+  }
+}

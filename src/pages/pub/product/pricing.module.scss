@@ -1,0 +1,229 @@
+@import '../../../assets/scss/variables';
+@import '../../../assets/scss/mixins';
+
+/* --------------------------------------------------------------------------
+   Hero Section
+-------------------------------------------------------------------------- */
+
+/* --------------------------------------------------------------------------
+   Pricing Section
+-------------------------------------------------------------------------- */
+.pricingSection {
+  padding: 80rem 0 120rem 0;
+  background-color: var(--color-white);
+}
+
+.billingToggle {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 60rem;
+  margin-top: -120rem; // 위로 살짝 올려서 히어로와 겹치게 할 수 있음 (시안상 겹치진 않는듯 하여 0으로 둠)
+  margin-top: 0;
+
+  .toggleTrack {
+    display: inline-flex;
+    background-color: var(--color-white);
+    border: 1px solid var(--color-gray-200);
+    border-radius: 40rem;
+    padding: 6rem;
+    
+    button {
+      padding: 12rem 32rem;
+      border-radius: 40rem;
+      font-size: 16rem;
+      font-weight: 700;
+      color: var(--color-gray-500);
+      transition: all 0.2s ease-in-out;
+      background: none;
+      border: none;
+      cursor: pointer;
+      
+      &.active {
+        background-color: var(--color-primary-500);
+        color: var(--color-white);
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+      }
+
+      &:hover:not(.active) {
+        color: var(--color-gray-900);
+      }
+    }
+  }
+}
+
+.pricingGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24rem;
+  text-align: left;
+  
+  .planCard {
+    background-color: var(--color-white);
+    border: 1px solid var(--color-gray-200);
+    border-radius: 16rem;
+    padding: 40rem 32rem;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.02);
+    position: relative;
+    transition: all 0.3s;
+    
+    &.highlight {
+      border: 2px solid var(--color-primary-500);
+      box-shadow: 0 12px 32px rgba(37, 99, 235, 0.1);
+    }
+
+    &:hover {
+      transform: translateY(-4rem);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+    }
+
+    .planHeader {
+      margin-bottom: 32rem;
+      
+      h3 {
+        font-size: 20rem;
+        font-weight: 700;
+        color: var(--color-gray-900);
+        margin-bottom: 8rem;
+      }
+      p {
+        font-size: 14rem;
+        color: var(--color-gray-500);
+      }
+    }
+
+    .planPrice {
+      margin-bottom: 32rem;
+      
+      h2 {
+        font-size: 32rem;
+        font-weight: 800;
+        color: var(--color-gray-900);
+        margin-bottom: 8rem;
+      }
+      p {
+        font-size: 14rem;
+        color: var(--color-gray-500);
+      }
+    }
+
+    .planFeatures {
+      margin-bottom: 40rem;
+      flex-grow: 1;
+      
+      ul {
+        display: flex;
+        flex-direction: column;
+        gap: 16rem;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        
+        li {
+          display: flex;
+          align-items: flex-start;
+          gap: 12rem;
+          font-size: 15rem;
+          color: var(--color-gray-700);
+          line-height: 1.5;
+          
+          .check {
+            color: var(--color-primary-500);
+            font-weight: 700;
+            margin-top: 2rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+.outlineBtn {
+  width: 100%;
+  border-color: var(--color-gray-300) !important;
+  color: var(--color-gray-800) !important;
+  
+  &:hover {
+    background-color: var(--color-gray-50) !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Inquiry Section
+-------------------------------------------------------------------------- */
+.inquirySection {
+  padding: 120rem 0;
+  background-color: var(--color-gray-50);
+}
+
+.inquiryList {
+  display: flex;
+  flex-direction: column;
+  gap: 16rem;
+  
+  .inquiryCard {
+    background-color: var(--color-white);
+    border-radius: 12rem;
+    padding: 32rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 24rem;
+    transition: all 0.2s;
+    cursor: pointer;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.02);
+
+    &:hover {
+      transform: translateY(-2rem);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+      
+      .arrow {
+        transform: translateX(4rem);
+        color: var(--color-primary-500);
+      }
+    }
+    
+    .num {
+      font-size: 16rem;
+      font-weight: 700;
+      color: var(--color-primary-400);
+    }
+    
+    .text {
+      flex-grow: 1;
+      
+      h4 {
+        font-size: 18rem;
+        font-weight: 700;
+        color: var(--color-gray-900);
+        margin-bottom: 8rem;
+      }
+      p {
+        font-size: 14rem;
+        color: var(--color-gray-500);
+        line-height: 1.5;
+      }
+    }
+    
+    .arrow {
+      color: var(--color-gray-400);
+      font-size: 20rem;
+      transition: all 0.2s;
+    }
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Mobile Responsive
+-------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .pricingGrid {
+    grid-template-columns: 1fr;
+    max-width: 480rem;
+    margin: 0 auto;
+  }
+
+  .inquirySection {
+    padding: 80rem 0;
+  }
+}

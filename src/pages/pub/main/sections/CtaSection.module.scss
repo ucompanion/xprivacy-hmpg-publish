@@ -1,0 +1,28 @@
+.cta {
+  // DomainCtaSection의 최상단 <section>에 붙을 클래스입니다.
+  position: relative;
+  background-image: url('https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&q=80&w=1920');
+  background-size: cover;
+  background-position: center;
+}
+
+.btn_cta {
+  width: 200rem;
+  background-color: transparent !important;
+  color: #ffffff !important;
+  border: 1rem solid #ffffff !important;
+  font-weight: 700 !important;
+  margin-top: 16rem;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .btn_cta {
+    width: 100%;
+    max-width: 320rem;
+    margin-top: 24rem;
+  }
+}

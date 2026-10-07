@@ -1,0 +1,105 @@
+/* ---------------------------------
+ * Typography Mixins
+ * --------------------------------- */
+
+/* Display */
+@mixin text-display-hero {
+  font-size: var(--text-size-display-hero);
+  font-weight: var(--font-weight-bold);
+  line-height: 1.2;
+}
+
+/* Heading */
+@mixin text-heading-section {
+  font-size: var(--text-size-heading-section);
+  font-weight: var(--font-weight-bold);
+  line-height: 1.2;
+}
+@mixin text-heading-card {
+  font-size: var(--text-size-heading-card);
+  font-weight: var(--font-weight-bold);
+  line-height: 1.4;
+}
+@mixin text-heading-item {
+  font-size: var(--text-size-heading-item);
+  font-weight: var(--font-weight-bold);
+  line-height: 1.4;
+}
+@mixin text-heading-item-small {
+  font-size: var(--text-size-heading-item-small);
+  font-weight: var(--font-weight-bold);
+  line-height: 1.4;
+}
+
+/* CTA */
+@mixin text-cta-heading {
+  font-size: var(--text-size-cta-heading);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.2;
+}
+
+/* Label */
+@mixin text-label-eyebrow {
+  font-size: var(--text-size-label-eyebrow);
+  font-weight: var(--font-weight-extrabold);
+  line-height: 1.5;
+}
+@mixin text-label-number {
+  font-size: var(--text-size-label-number);
+  font-weight: var(--font-weight-regular);
+  line-height: 1.5;
+}
+
+/* Body */
+@mixin text-body-lead {
+  font-size: var(--text-size-body-lead);
+  font-weight: var(--font-weight-regular);
+  line-height: 1.75;
+}
+@mixin text-body-small {
+  font-size: var(--text-size-body-small);
+  font-weight: var(--font-weight-regular);
+  line-height: 1.75;
+}
+@mixin text-body-caption {
+  font-size: var(--text-size-body-caption);
+  font-weight: var(--font-weight-regular);
+  line-height: 1.5;
+}
+
+/* ---------------------------------
+ * Layout Mixins
+ * --------------------------------- */
+
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---------------------------------
+ * Component Mixins
+ * --------------------------------- */
+
+@mixin visually-hidden {
+  position: absolute;
+  width: 1rem;
+  height: 1rem;
+  padding: 0;
+  margin: -1rem;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

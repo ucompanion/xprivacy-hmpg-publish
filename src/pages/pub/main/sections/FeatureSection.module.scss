@@ -1,0 +1,120 @@
+.feature {
+  padding: 100rem 0;
+  background-color: #ffffff;
+}
+
+.container {
+  width: 100%;
+  max-width: 1240rem;
+  margin: 0 auto;
+  padding: 0 100rem;
+}
+
+.header {
+  margin-bottom: 60rem;
+}
+
+.title {
+  font-size: 36rem;
+  font-weight: 700;
+  line-height: 1.4;
+  margin-bottom: 16rem;
+  letter-spacing: -0.5rem;
+  color: #111827;
+}
+
+.subtitle {
+  font-size: 16rem;
+  color: #666666;
+  line-height: 1.6;
+}
+
+.content_grid {
+  display: flex;
+  gap: 60rem;
+  align-items: center;
+}
+
+.feature_list {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 32rem;
+}
+
+.feature_item {
+  display: flex;
+  gap: 16rem;
+}
+
+.bullet_square {
+  width: 8rem;
+  height: 8rem;
+  background-color: var(--color-primary-500);
+  margin-top: 6rem;
+  flex-shrink: 0;
+}
+
+.feat_text {
+  flex: 1;
+}
+
+.feat_title {
+  font-size: 18rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 8rem;
+}
+
+.feat_desc {
+  font-size: 15rem;
+  color: #6b7280;
+  line-height: 1.6;
+}
+
+.image_box {
+  flex: 1.2;
+}
+
+.dashboard_placeholder {
+  width: 100%;
+  padding-bottom: 65%; /* aspect ratio */
+  background-color: #f3f4f6;
+  background-image: url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=1200');
+  background-size: cover;
+  background-position: center;
+  border-radius: 12rem;
+  box-shadow: 0 20rem 25rem -5rem rgba(0, 0, 0, 0.1), 0 10rem 10rem -5rem rgba(0, 0, 0, 0.04);
+}
+
+/* ==========================================================================
+   Mobile Responsive (1024px 이하)
+   ========================================================================== */
+@media (max-width: 1024px) {
+  .container {
+    padding: 0 24rem;
+  }
+
+  .feature {
+    padding: 60rem 0;
+  }
+
+  .title {
+    font-size: 28rem;
+  }
+
+  .content_grid {
+    flex-direction: column;
+    gap: 40rem;
+  }
+
+  .feature_list {
+    width: 100%;
+    order: 2; /* Put list below image on mobile */
+  }
+
+  .image_box {
+    width: 100%;
+    order: 1;
+  }
+}

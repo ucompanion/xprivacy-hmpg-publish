@@ -1,0 +1,172 @@
+.pricing {
+  padding: 100rem 0;
+  background-color: #ffffff;
+}
+
+.container {
+  width: 100%;
+  max-width: 1240rem;
+  margin: 0 auto;
+  padding: 0 100rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 60rem;
+}
+
+.title {
+  font-size: 36rem;
+  font-weight: 700;
+  line-height: 1.4;
+  margin-bottom: 16rem;
+  letter-spacing: -0.5rem;
+  color: #111827;
+}
+
+.subtitle {
+  font-size: 16rem;
+  color: #666666;
+  line-height: 1.6;
+}
+
+.cards {
+  display: flex;
+  gap: 32rem;
+  width: 100%;
+  max-width: 900rem;
+}
+
+.card {
+  flex: 1;
+  border: 1rem solid #e5e7eb;
+  border-radius: 16rem;
+  padding: 32rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  background-color: #ffffff;
+
+  &:hover {
+    box-shadow: 0 10rem 15rem -3rem rgba(0, 0, 0, 0.05);
+  }
+
+  &.active {
+    border-color: var(--color-primary-500);
+    box-shadow: 0 0 0 4rem rgba(37, 99, 235, 0.1);
+    background-color: #f8fafc;
+  }
+}
+
+.card_header {
+  display: flex;
+  align-items: center;
+  gap: 16rem;
+  margin-bottom: 32rem;
+}
+
+.icon_wrapper_cloud {
+  width: 48rem;
+  height: 48rem;
+  border-radius: 50%;
+  background-color: var(--color-primary-500);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon_wrapper_onpremise {
+  width: 48rem;
+  height: 48rem;
+  border-radius: 50%;
+  background-color: #f3f4f6;
+  color: #6b7280;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card_title_area {
+  flex: 1;
+}
+
+.card_title {
+  font-size: 20rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 4rem;
+}
+
+.card_desc {
+  font-size: 14rem;
+  color: #6b7280;
+}
+
+.radio_circle {
+  width: 24rem;
+  height: 24rem;
+  border-radius: 50%;
+  border: 2rem solid #d1d5db;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.active .radio_circle {
+  border-color: var(--color-primary-500);
+}
+
+.radio_inner {
+  width: 12rem;
+  height: 12rem;
+  border-radius: 50%;
+  background-color: var(--color-primary-500);
+}
+
+.feature_list {
+  display: flex;
+  flex-direction: column;
+  gap: 16rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12rem;
+    font-size: 15rem;
+    color: #4b5563;
+    line-height: 1.5;
+
+    svg {
+      flex-shrink: 0;
+      margin-top: 2rem;
+    }
+  }
+}
+
+/* ==========================================================================
+   Mobile Responsive (1024px 이하)
+   ========================================================================== */
+@media (max-width: 1024px) {
+  .container {
+    padding: 0 24rem;
+  }
+
+  .pricing {
+    padding: 60rem 0;
+  }
+
+  .title {
+    font-size: 28rem;
+  }
+
+  .cards {
+    flex-direction: column;
+  }
+}
