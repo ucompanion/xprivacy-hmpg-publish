@@ -1,6 +1,5 @@
 import React from 'react';
 import { Section, type SectionProps } from '../../core/Section/Section';
-import { Button } from '../../core/Button/Button';
 import styles from './CtaSection.module.scss';
 
 export interface CtaSectionProps extends SectionProps {

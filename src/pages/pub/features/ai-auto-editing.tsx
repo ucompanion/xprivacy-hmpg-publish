@@ -1,4 +1,3 @@
-import React from 'react';
 import FrontLayout from '../layouts/FrontLayout';
 import { BasicSection } from '../../../components/domain/Section';
 import { ProductCta } from '../product/sections/ProductCta';

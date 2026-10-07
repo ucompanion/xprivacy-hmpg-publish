@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import FrontLayout from '../layouts/FrontLayout';
 import { Section } from '../../../components/core/Section/Section';
 import { HeroSection } from '../../../components/domain/Section';

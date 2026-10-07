@@ -1,4 +1,3 @@
-import React from 'react';
 import FrontLayout from '../layouts/FrontLayout';
 import { HeroSection } from '../../../components/domain/Section';
 import { ProductCta } from './sections/ProductCta';

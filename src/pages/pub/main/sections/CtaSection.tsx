@@ -1,4 +1,3 @@
-import React from 'react';
 import { CtaSection } from '../../../../components/domain/Section';
 import { Button } from '../../../../components/core/Button/Button';
 import styles from './CtaSection.module.scss';

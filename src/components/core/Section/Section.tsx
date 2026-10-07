@@ -23,7 +23,7 @@ export interface SectionHeaderProps {
   className?: string;
 }
 
-export interface SectionProps extends React.HTMLAttributes<HTMLElement> {
+export interface SectionProps extends Omit<React.HTMLAttributes<HTMLElement>, 'title'> {
   /** 상단 라벨 (선택) */
   eyebrow?: React.ReactNode;
   /** 메인 섹션 제목 (h2) */

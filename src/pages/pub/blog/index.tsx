@@ -1,4 +1,4 @@
-import FrontLayout from '../../layouts/FrontLayout';
+import FrontLayout from '../layouts/FrontLayout';
 
 export default function PubBlog() {
   return (
