@@ -347,14 +347,14 @@ export default function PubIndex() {
 
             <div className="status-summary">
               <div className="progress-bar">
-                <div className="progress-fill" style={{ width: '52%' }}></div>
+                <div className="progress-fill" style={{ width: '0%' }}></div>
               </div>
               <div className="status-counts">
                 <span>전체 <strong>46</strong></span>
                 <span>대기 <strong>22</strong></span>
-                <span>진행중 <strong className="text-ing">0</strong></span>
-                <span>완료 <strong className="text-done">24</strong></span>
-                <span>진행률 <strong className="text-primary">52%</strong></span>
+                <span>진행중 <strong className="text-ing">24</strong></span>
+                <span>완료 <strong className="text-done">0</strong></span>
+                <span>진행률 <strong className="text-primary">0%</strong></span>
               </div>
             </div>
           </header>

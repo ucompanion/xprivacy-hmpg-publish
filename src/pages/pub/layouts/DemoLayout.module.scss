@@ -16,16 +16,16 @@
 
 .main {
   flex: 1;
-  /* Header 높이 60rem 확보 */
-  margin-top: 60rem;
-  height: calc(100svh - 60rem);
+  /* DemoHeader 높이 68rem 확보 */
+  margin-top: 68rem;
+  height: calc(100svh - 68rem);
   display: flex;
   overflow: hidden;
 
   @media (max-width: 991px) {
-    margin-top: 60rem;
+    margin-top: 68rem;
     height: auto;
-    min-height: calc(100svh - 60rem);
+    min-height: calc(100svh - 68rem);
     flex-direction: column;
     overflow: visible;
   }
