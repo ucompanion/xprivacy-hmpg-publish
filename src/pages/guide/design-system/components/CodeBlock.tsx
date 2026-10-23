@@ -11,9 +11,14 @@ export const CodeBlock: FC<CodeBlockProps> = ({ code }) => {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(code);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    // 복사에 성공했을 때만 완료 표시 (권한 거부 등 실패는 무시)
+    navigator.clipboard
+      .writeText(code)
+      .then(() => {
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      })
+      .catch(() => undefined);
   };
 
   return (

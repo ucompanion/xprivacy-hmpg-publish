@@ -33,7 +33,7 @@ export const AlertModal: React.FC<AlertModalProps> = ({
               {cancelText}
             </Button>
           )}
-          <Button variant="solid" color="primary" onClick={onConfirm || props.onClose}>
+          <Button variant="solid" color="primary" onClick={onConfirm ?? props.onClose}>
             {confirmText}
           </Button>
         </>

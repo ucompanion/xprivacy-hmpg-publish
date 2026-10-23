@@ -1,10 +1,18 @@
+import type React from 'react';
 import styles from '../template.module.scss';
 import uStyles from './utilities.module.scss';
 import { GuideSection } from '../components/GuideSection';
 import DesignSystemLayout from '../../layouts/DesignSystemLayout';
 
+interface UtilityBlockProps {
+  title: React.ReactNode;
+  classNameText: string;
+  description?: React.ReactNode;
+  children: React.ReactNode;
+}
+
 // 가이드 블록 렌더링용 공통 내부 컴포넌트
-const UtilityBlock = ({ title, classNameText, children, description }: any) => (
+const UtilityBlock = ({ title, classNameText, children, description }: UtilityBlockProps) => (
   <div className={uStyles.utility_block}>
     <h4 className={uStyles.block_header}>
       {title} <span className={uStyles.code_tag}>.{classNameText}</span>

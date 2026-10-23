@@ -1,0 +1,333 @@
+@use "@/assets/scss/variables" as *;
+@use "@/assets/scss/mixins" as *;
+
+.brochurePage {
+  width: 100%;
+  position: relative;
+  background-color: var(--color-white);
+}
+
+/* ---------------------------------
+ * 1. Hero Section (Custom additions)
+ * --------------------------------- */
+.heroCustomWrap {
+  padding-top: 40rem;
+  padding-bottom: 20rem;
+
+  .heroBadges {
+    display: flex;
+    align-items: center;
+    gap: 8rem;
+    margin-bottom: 14rem;
+    flex-wrap: wrap;
+  }
+
+  .badgeDraft {
+    display: inline-flex;
+    align-items: center;
+    height: 24rem;
+    padding: 0 10rem;
+    background-color: var(--color-primary-light, #eff6ff);
+    color: var(--color-primary);
+    @include text-note;
+    font-weight: var(--font-weight-bold);
+    border-radius: 9999rem;
+    letter-spacing: 0.02em;
+  }
+
+  .badgeDraftAlt {
+    display: inline-flex;
+    align-items: center;
+    height: 24rem;
+    padding: 0 10rem;
+    background-color: var(--color-gray-100);
+    color: var(--color-text-secondary);
+    @include text-note;
+    font-weight: 600;
+    border-radius: 9999rem;
+  }
+
+  .heroEyebrow {
+    @include text-eyebrow;
+    font-weight: var(--font-weight-bold);
+    color: var(--color-primary);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 8rem;
+  }
+}
+
+
+/* 미매핑 피그마 값 (초안 v1 텍스트 스타일 · 프로젝트 v2 토큰 없음 → 시안 값 사용)
+ * - Heading/Card 28 Bold · Body/Small 14 (자간 -0.08) · Caption 12 (자간 0.96)
+ * - 표지 자리·추가 자료 슬롯 점선 #BDC1C6 */
+$font-size-card: 28rem;
+$font-size-small: 14rem;
+$slot-border: #bdc1c6;
+
+@mixin text-small {
+  font-family: var(--font-family-base);
+  font-size: $font-size-small;
+  line-height: 1.75;
+  letter-spacing: -0.08rem;
+}
+
+/* ---------------------------------
+ * 2. 자료 목록 (Figma PC 1031:209 · 초안)
+ * 카드 → 20 → 추가 자료 슬롯
+ * --------------------------------- */
+.materialList {
+  display: flex;
+  flex-direction: column;
+  gap: 20rem;
+}
+
+/* 자료 카드: 테두리 · radius 12 · padding 32 · 표지 240 → 40 → 정보 */
+.materialCard {
+  display: flex;
+  align-items: stretch;
+  gap: 40rem;
+  padding: 32rem;
+  border: 1rem solid var(--color-border-default);
+  border-radius: 12rem;
+  background-color: var(--color-surface-white);
+}
+
+.coverSlot {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 240rem;
+  padding: 24rem;
+  border: 1rem dashed $slot-border;
+  border-radius: 12rem;
+  background-color: var(--color-surface-gray);
+}
+
+.coverText {
+  @include text-small;
+  margin: 0;
+  color: var(--color-text-gray-2);
+  text-align: center;
+}
+
+/* 정보: 제목 → 16 → 설명 → 16 → 메타(위아래 선) → 16 → 버튼 줄 */
+.materialInfo {
+  display: flex;
+  flex: 1 0 0;
+  flex-direction: column;
+  gap: 16rem;
+  min-width: 0;
+}
+
+.materialTitle {
+  margin: 0;
+  color: var(--color-text-black);
+  font-family: var(--font-family-base);
+  font-size: $font-size-card;
+  font-weight: var(--font-weight-bold);
+  line-height: normal;
+}
+
+.materialDesc {
+  @include text-small;
+  margin: 0;
+  color: var(--color-text-gray-2);
+}
+
+/* 메타 5칸: padding 16 0 · 칸 사이 24 · 라벨 Caption → 4 → 값 Small */
+.metaList {
+  display: flex;
+  gap: 24rem;
+  margin: 0;
+  padding: 16rem 0;
+  border-top: 1rem solid var(--color-border-default);
+  border-bottom: 1rem solid var(--color-border-default);
+}
+
+.metaItem {
+  display: flex;
+  flex: 1 0 0;
+  flex-direction: column;
+  gap: 4rem;
+  min-width: 0;
+}
+
+.metaLabel,
+.actionNote {
+  @include text-note;
+  color: var(--color-text-gray-2);
+  line-height: normal;
+  letter-spacing: 0.96rem;
+}
+
+.metaValue {
+  @include text-small;
+  margin: 0;
+  color: var(--color-text-black);
+}
+
+/* 버튼 줄: 비활성 Outline 200 × 60 (투명도 50%) → 16 → 안내 Caption */
+.materialAction {
+  display: flex;
+  align-items: center;
+  gap: 16rem;
+}
+
+.pendingButton.pendingButton,
+.nextButton.nextButton {
+  --btn-height: 60rem;
+
+  flex-shrink: 0;
+  width: 200rem;
+  font-weight: var(--font-weight-semibold, 600);
+}
+
+.pendingButton.pendingButton {
+  border-width: 2rem;
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.actionNote {
+  flex: 1 0 0;
+  margin: 0;
+}
+
+/* 추가 자료 슬롯: 점선 · radius 12 · padding 24 · 제목 16 Bold → 8 → 설명 Small */
+.materialSlot {
+  display: flex;
+  flex-direction: column;
+  gap: 8rem;
+  padding: 24rem;
+  border: 1rem dashed $slot-border;
+  border-radius: 12rem;
+  background-color: var(--color-surface-white);
+}
+
+.slotTitle {
+  @include text-body;
+  margin: 0;
+  color: var(--color-text-black);
+  font-weight: var(--font-weight-bold);
+  line-height: normal;
+}
+
+.slotDesc {
+  @include text-small;
+  margin: 0;
+  color: var(--color-text-gray-2);
+}
+
+/* ---------------------------------
+ * 3. 제공 방식 (Figma PC 1031:249 · 초안)
+ * 카드 2개 (사이 20) · padding 32 · 키(A/B) 28 primary → 12 → 제목 28 → 12 → 설명 Small
+ * --------------------------------- */
+.optionList {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.optionCard {
+  display: flex;
+  flex-direction: column;
+  gap: 12rem;
+  padding: 32rem;
+  border: 1rem solid var(--color-border-default);
+  border-radius: 12rem;
+  background-color: var(--color-surface-white);
+}
+
+.optionKey,
+.optionTitle {
+  margin: 0;
+  font-family: var(--font-family-base);
+  font-size: $font-size-card;
+  font-weight: var(--font-weight-bold);
+  line-height: normal;
+}
+
+.optionKey {
+  color: var(--color-text-accent);
+}
+
+.optionTitle {
+  color: var(--color-text-black);
+}
+
+.optionDesc {
+  @include text-small;
+  margin: 0;
+  color: var(--color-text-gray-2);
+}
+
+/* ---------------------------------
+ * 4. 다음 행동 (Figma PC 1031:265 · 초안)
+ * 테두리 박스 · padding 40 · 글 → 40 → Primary 버튼 200 × 60
+ * --------------------------------- */
+.nextBox {
+  display: flex;
+  align-items: center;
+  gap: 40rem;
+  padding: 40rem;
+  border: 1rem solid var(--color-border-default);
+  border-radius: 12rem;
+}
+
+.nextText {
+  display: flex;
+  flex: 1 0 0;
+  flex-direction: column;
+  gap: 8rem;
+  min-width: 0;
+}
+
+.nextTitle {
+  @include text-subheading;
+  margin: 0;
+  color: var(--color-text-black);
+  line-height: normal;
+}
+
+.nextDesc {
+  @include text-small;
+  margin: 0;
+  color: var(--color-text-gray-2);
+}
+
+/* ---------------------------------
+ * Responsive (모바일 시안 보류 · 세로 배치만 처리)
+ * --------------------------------- */
+@media (max-width: 1024px) {
+  .materialCard,
+  .materialAction,
+  .nextBox {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .coverSlot {
+    width: 100%;
+  }
+
+  .metaList {
+    flex-wrap: wrap;
+  }
+
+  .optionList {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .heroCustomWrap {
+    padding-top: 24rem;
+    padding-bottom: 12rem;
+  }
+}

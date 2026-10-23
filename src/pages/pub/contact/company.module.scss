@@ -1,0 +1,221 @@
+@use "@/assets/scss/variables" as *;
+@use "@/assets/scss/mixins" as *;
+
+.companyPage {
+  width: 100%;
+  position: relative;
+  background-color: var(--color-white);
+}
+
+/* ---------------------------------
+ * 1. Hero Section Badges & Eyebrow
+ * --------------------------------- */
+.heroBadges {
+  display: flex;
+  align-items: center;
+  gap: 8rem;
+  margin-bottom: 14rem;
+  flex-wrap: wrap;
+}
+
+.badgeDraft {
+  display: inline-flex;
+  align-items: center;
+  height: 24rem;
+  padding: 0 10rem;
+  background-color: var(--color-primary-light, #eff6ff);
+  color: var(--color-primary);
+  @include text-note;
+  font-weight: 600;
+  border-radius: 4rem;
+  border: 1px solid #bfdbfe;
+  letter-spacing: -0.01em;
+}
+
+.heroEyebrow {
+  @include text-eyebrow;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 8rem;
+}
+
+
+/* 미매핑 피그마 값 (초안 v1 텍스트 스타일 · 프로젝트 v2 토큰 없음 → 시안 값 사용)
+ * - Heading/Card 28 Bold · Body/Small 14 (자간 -0.08) · Caption 12 (자간 0.96)
+ * - 회사 소개 자리 점선 #BDC1C6 */
+$font-size-card: 28rem;
+$font-size-small: 14rem;
+$slot-border: #bdc1c6;
+
+@mixin text-small {
+  font-family: var(--font-family-base);
+  font-size: $font-size-small;
+  line-height: 1.75;
+  letter-spacing: -0.08rem;
+}
+
+/* ---------------------------------
+ * 2. 운영 주체·연락·주소 (Figma PC 1034:582)
+ * 카드 3개 (사이 20) · 테두리 · padding 32 · 번호 28 primary → 12 → 제목 28 → 12 → 설명 Small
+ * → 60 → 버튼 줄 (Primary 200 × 60 → 16 → 안내 Caption)
+ * --------------------------------- */
+.operatorBody {
+  display: flex;
+  flex-direction: column;
+  gap: 60rem;
+}
+
+.infoCards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.infoCard {
+  display: flex;
+  flex-direction: column;
+  gap: 12rem;
+  padding: 32rem;
+  border: 1rem solid var(--color-border-default);
+  border-radius: 12rem;
+  background-color: var(--color-surface-white);
+}
+
+.infoNum,
+.infoTitle {
+  margin: 0;
+  font-family: var(--font-family-base);
+  font-size: $font-size-card;
+  font-weight: var(--font-weight-bold);
+  line-height: normal;
+}
+
+.infoNum {
+  color: var(--color-text-accent);
+}
+
+.infoTitle {
+  color: var(--color-text-black);
+}
+
+.infoDesc,
+.slotDesc,
+.teaserDesc {
+  @include text-small;
+  margin: 0;
+  color: var(--color-text-gray-2);
+}
+
+.actionRow {
+  display: flex;
+  align-items: center;
+  gap: 16rem;
+}
+
+.actionButton.actionButton,
+.teaserButton.teaserButton {
+  --btn-height: 60rem;
+
+  flex-shrink: 0;
+  width: 200rem;
+  font-weight: var(--font-weight-semibold, 600);
+}
+
+.teaserButton.teaserButton {
+  border-width: 2rem;
+}
+
+.actionNote {
+  @include text-note;
+  flex: 1 0 0;
+  margin: 0;
+  color: var(--color-text-gray-2);
+  line-height: normal;
+  letter-spacing: 0.96rem;
+}
+
+/* ---------------------------------
+ * 3. 회사 소개·연혁·사업영역 (Figma PC 1034:607)
+ * 점선 자리 · radius 12 · padding 24 · 제목 16 Bold → 8 → 설명 Small
+ * --------------------------------- */
+.profileSlot {
+  display: flex;
+  flex-direction: column;
+  gap: 8rem;
+  padding: 24rem;
+  border: 1rem dashed $slot-border;
+  border-radius: 12rem;
+  background-color: var(--color-surface-white);
+}
+
+.slotTitle {
+  @include text-body;
+  margin: 0;
+  color: var(--color-text-black);
+  font-weight: var(--font-weight-bold);
+  line-height: normal;
+}
+
+/* ---------------------------------
+ * 4. 인증 및 특허 티저 (Figma PC 1034:615)
+ * 흰 박스 · 테두리 · padding 40 · 글 → 40 → Outline 버튼 200 × 60
+ * --------------------------------- */
+.teaserBox {
+  display: flex;
+  align-items: center;
+  gap: 40rem;
+  padding: 40rem;
+  border: 1rem solid var(--color-border-default);
+  border-radius: 12rem;
+  background-color: var(--color-surface-white);
+}
+
+.teaserText {
+  display: flex;
+  flex: 1 0 0;
+  flex-direction: column;
+  gap: 8rem;
+  min-width: 0;
+}
+
+.teaserTitle {
+  @include text-subheading;
+  margin: 0;
+  color: var(--color-text-black);
+  line-height: normal;
+}
+
+/* ---------------------------------
+ * Responsive (모바일 시안 보류 · 세로 배치만 처리)
+ * --------------------------------- */
+@media (max-width: 1024px) {
+  .infoCards {
+    grid-template-columns: 1fr;
+  }
+
+  .actionRow,
+  .teaserBox {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+@media (max-width: 768px) {
+  .heroBadges {
+    gap: 6rem;
+    margin-bottom: 12rem;
+  }
+
+  .badgeDraft {
+    @include text-note;
+    font-size: 11rem;
+    height: 22rem;
+    padding: 0 8rem;
+  }
+}

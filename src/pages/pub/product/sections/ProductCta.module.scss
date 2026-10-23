@@ -1,84 +1,154 @@
-@import '../../../../assets/scss/variables';
+@use "@/assets/scss/variables" as *;
+@use "@/assets/scss/mixins" as *;
 
-.productCtaWrap {
-  background-image: url('/images/pub/product/crowd_bg.jpg');
+.ctaSection {
+  position: relative;
+  width: 100%;
+  padding: 160rem 20rem;
+  background-color: var(--color-surface-white, #ffffff);
+  background-image: url('/images/common/ctaSection.jpg');
   background-size: cover;
   background-position: center;
-  background-attachment: fixed;
-  
-  > div { /* container */
-    background-color: rgba(79, 102, 255, 0.9) !important;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  box-sizing: border-box;
+
+  .ctaContainer {
+    max-width: 582rem;
+    margin: 0 auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
-  /* 텍스트 크기 오버라이드 */
-  > div > div:first-child { /* header */
-    span:first-child { /* eyebrow */
-      font-size: 14rem !important;
-      letter-spacing: 0.2em !important;
-    }
-    h2 { /* title */
-      font-size: 44rem !important;
-      margin-bottom: 24rem !important;
-    }
-    p { /* description */
-      font-size: 18rem !important;
-    }
+  .ctaEyebrow {
+    display: inline-block;
+    font-family: var(--font-family-base);
+    font-size: 16rem;
+    font-weight: 700;
+    color: #6f72af;
+    line-height: 1.75;
+    letter-spacing: 0;
+    margin-bottom: 16rem;
+  }
+
+  .ctaTitle {
+    font-family: var(--font-family-base);
+    font-size: 50rem;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -1.5px;
+    color: var(--color-text-black, #000000);
+    margin: 0;
+    word-break: keep-all;
+  }
+
+  .ctaDesc {
+    font-family: var(--font-family-base);
+    font-size: 16rem;
+    font-weight: 400;
+    line-height: 1.75;
+    letter-spacing: 0;
+    color: var(--color-text-gray-1, #3c4043);
+    margin: 20rem 0 0 0;
+    max-width: 582rem;
+    word-break: keep-all;
   }
 
   .ctaBtnGroup {
     display: flex;
-    gap: 16rem;
+    gap: 12rem;
     justify-content: center;
-    margin-top: 16rem; /* headerExtra 내부에 배치되므로 마진 조정 */
-    
-    .btnSolid {
-      background-color: var(--color-white) !important;
-      color: var(--color-primary) !important;
-      border: none !important;
-      font-weight: 700;
-      padding: 0 40rem;
-      border-radius: 6rem;
-      font-size: 16rem;
+    width: 100%;
+    margin-top: 40rem;
+
+    .btnPrimary {
+      width: 200rem;
+      min-width: 200rem;
       height: 56rem;
-      
+      border-radius: 6rem;
+      font-family: var(--font-family-base);
+      font-size: 20rem;
+      font-weight: 700;
+      line-height: 1.4;
+      background-color: var(--color-primary, #3b5bff) !important;
+      color: #ffffff !important;
+      border: none !important;
+      box-shadow: var(--shadow-button-primary, 0 4rem 6rem rgba(20, 43, 69, 0.1)) !important;
+
       &:hover {
-        background-color: var(--color-gray-100) !important;
+        background-color: #2b4be6 !important;
       }
     }
-    
-    .btnOutline {
-      border: 1px solid var(--color-white) !important;
-      color: var(--color-white) !important;
-      background: transparent !important;
-      font-weight: 700;
-      padding: 0 40rem;
-      border-radius: 6rem;
-      font-size: 16rem;
+
+    .btnSecondary {
+      width: 200rem;
+      min-width: 200rem;
       height: 56rem;
-      
+      border-radius: 6rem;
+      font-family: var(--font-family-base);
+      font-size: 20rem;
+      font-weight: 700;
+      line-height: 1.4;
+      background-color: var(--surface-button-secondary, rgba(255, 255, 255, 0.8)) !important;
+      backdrop-filter: blur(8px);
+      color: var(--color-text-button-secondary, #142b45) !important;
+      border: none !important;
+      box-shadow: none !important;
+
       &:hover {
-        background-color: rgba(255, 255, 255, 0.1) !important;
+        background-color: rgba(255, 255, 255, 0.95) !important;
       }
     }
   }
 }
 
 @media (max-width: 768px) {
-  .productCtaWrap {
-    > div { /* container */
-      border-radius: 0 !important; /* 모바일 풀 블리드 */
+  .ctaSection {
+    padding: 80rem 20rem;
+    background-image: url('/images/common/ctaSection_mo.jpg');
+
+    .ctaContainer {
+      max-width: 350rem;
     }
-    > div > div:first-child { /* header */
-      h2 {
-        font-size: 28rem !important;
-      }
+
+    .ctaEyebrow {
+      font-size: 16rem;
+      font-weight: 700;
+      line-height: 1.6;
+      letter-spacing: 0;
+      margin-bottom: 12rem;
     }
+
+    .ctaTitle {
+      font-size: 32rem;
+      line-height: 1.3;
+      letter-spacing: -0.5px;
+    }
+
+    .ctaDesc {
+      font-size: 16rem;
+      line-height: 1.6;
+      letter-spacing: 0;
+      margin: 12rem 0 0 0;
+      max-width: 350rem;
+    }
+
     .ctaBtnGroup {
       flex-direction: column;
       width: 100%;
-      .btnSolid, .btnOutline {
+      max-width: 350rem;
+      margin-top: 40rem;
+      gap: 12rem;
+
+      .btnPrimary,
+      .btnSecondary {
         width: 100%;
-        padding: 0 20rem;
+        min-width: 100%;
+        height: 56rem;
+        font-size: 16rem;
+        line-height: 1.4;
       }
     }
   }

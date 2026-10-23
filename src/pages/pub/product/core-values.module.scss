@@ -1,322 +1,715 @@
-@import '../../../assets/scss/variables';
+@use "@/assets/scss/variables" as *;
+@use "@/assets/scss/mixins" as *;
 
+/* 미매핑 피그마 토큰 (프로젝트 토큰 없음 → 시안 값 사용)
+ * - feedback/error #d93025 (프로젝트 --color-danger는 #ef4444로 값이 다름)
+ * - Label/Eyebrow 12 ExtraBold · 자간 1.54 / Body/Caption 12 Regular · 자간 0.96
+ * - Label/Field 14 SemiBold / Body/Small 14 · 1.75 · 자간 -0.08 */
+$feedback-error: #d93025;
 
-.heroVisual {
-  margin-top: 60rem;
+@mixin label-eyebrow {
+  font-family: var(--font-family-base);
+  font-size: 12rem;
+  font-weight: var(--font-weight-extrabold, 800);
+  line-height: normal;
+  letter-spacing: 1.54px;
+  text-transform: uppercase;
+}
+
+@mixin body-caption {
+  font-family: var(--font-family-base);
+  font-size: 12rem;
+  font-weight: var(--font-weight-regular, 400);
+  line-height: normal;
+  letter-spacing: 0.96px;
+}
+
+.pageWrap {
   width: 100%;
 }
 
-.videoGrid {
+/* --------------------------------------------------------------------------
+ * 1. Hero 카메라 월 (Figma PC 2159:13370 / Mobile 2453:11266)
+ * PC: CAM01 776 + 우측 2단 448, gap 16, radius 8 / MO: 350×220 가로 롤링, gap 12, radius 12
+ * -------------------------------------------------------------------------- */
+.heroVisual {
+  width: 100%;
+  /* HeroSection 본문 간격 40rem + 20rem = 시안 Copy→카메라 60rem
+   * (공통 Section이 본문 첫 요소 margin-top을 0으로 초기화하므로 padding 사용) */
+  padding-top: 20rem;
+}
+
+.camWall {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 776fr 448fr;
+  grid-template-rows: repeat(2, auto);
   gap: 16rem;
-  margin-bottom: 24rem;
+  width: 100%;
 }
 
-.videoItem {
+.camFeed {
   position: relative;
-  aspect-ratio: 16 / 9;
-  background-color: var(--color-gray-800);
-  background-size: cover;
-  background-position: center;
-  border-radius: 8rem;
   overflow: hidden;
-  box-shadow: 0 4rem 12rem rgba(0, 0, 0, 0.3);
+  border-radius: 8rem;
+  aspect-ratio: 448 / 272;
 
-  &:nth-child(1) { background-image: url('https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=600&q=80'); }
-  &:nth-child(2) { background-image: url('https://images.unsplash.com/photo-1494522855154-9297ac14b55f?auto=format&fit=crop&w=600&q=80'); }
-  &:nth-child(3) { background-image: url('https://images.unsplash.com/photo-1584433144859-1fc3ab64a957?auto=format&fit=crop&w=600&q=80'); }
-  &:nth-child(4) { background-image: url('https://images.unsplash.com/photo-1517512006864-7edc3048d74b?auto=format&fit=crop&w=600&q=80'); }
-  &:nth-child(5) { background-image: url('https://images.unsplash.com/photo-1605810230434-7631ac76ec81?auto=format&fit=crop&w=600&q=80'); }
-  &:nth-child(6) { background-image: url('https://images.unsplash.com/photo-1542382103-6743956795f7?auto=format&fit=crop&w=600&q=80'); }
-}
+  &:first-child {
+    grid-row: span 2;
+    aspect-ratio: auto;
+  }
 
-.videoOverlay {
-  position: absolute;
-  top: 12rem;
-  left: 12rem;
-  right: 12rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-family: var(--font-family-mono);
-  font-size: 12rem;
-  color: rgba(255, 255, 255, 0.9);
-  text-shadow: 0 1px 3px rgba(0,0,0,0.8);
-}
+  .camImg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 
-.rec {
-  display: flex;
-  align-items: center;
-  gap: 6rem;
-  color: #ff3b30;
-  font-weight: 700;
+  .camShade {
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0) 35%, rgba(0, 0, 0, 0) 70%, rgba(0, 0, 0, 0.55) 100%);
+  }
 
-  &::before {
-    content: '';
-    display: block;
-    width: 8rem;
-    height: 8rem;
-    background-color: #ff3b30;
-    border-radius: 50%;
-    box-shadow: 0 0 6px rgba(255, 59, 48, 0.8);
+  .camChip {
+    position: absolute;
+    display: inline-flex;
+    align-items: center;
+    gap: 6rem;
+    padding: 3rem 6rem;
+    border-radius: 4rem;
+    background-color: rgba(0, 0, 0, 0.55);
+    color: var(--color-text-inverse, #ffffff);
+  }
+
+  .camTag,
+  .camRec {
+    @include label-eyebrow;
+    top: 8rem;
+  }
+
+  .camTag {
+    left: 8rem;
+  }
+
+  .camRec {
+    right: 8rem;
+
+    .recDot {
+      width: 8rem;
+      height: 8rem;
+    }
+  }
+
+  .camTime {
+    @include body-caption;
+    left: 8rem;
+    bottom: 9rem;
   }
 }
 
-.videoLabels {
+.camIndicator {
+  display: none;
+}
+
+/* --------------------------------------------------------------------------
+ * 2. Value 01 프레임 스트립 (Figma PC 2159:13408 / Mobile 2159:13685)
+ * surface-gray 배경, radius 12, padding 16 / 프레임 gap 8, 프레임→라벨 12
+ * 썸네일: border-strong 1px, radius 4 / 가림: rgba(153,156,161,.8) + blur 5, radius 6
+ * -------------------------------------------------------------------------- */
+.frameStrip {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8rem;
+  width: 100%;
+  padding: 16rem;
+  box-sizing: border-box;
+  border-radius: 12rem;
+  background-color: var(--color-surface-gray, #f1f3f4);
+}
+
+.frameCell {
   display: flex;
-  justify-content: flex-start;
-  gap: 40rem;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.15);
-  padding-top: 24rem;
+  flex-direction: column;
+  gap: 12rem;
+  min-width: 0;
+}
 
-  li {
-    position: relative;
-    font-size: 16rem;
-    color: var(--color-gray-300);
+.frameThumb {
+  position: relative;
+  aspect-ratio: 194.667 / 146;
+  overflow: hidden;
+  border: 1px solid var(--color-border-strong, #80868b);
+  border-radius: 4rem;
+  background-color: #333;
+
+  .frameImg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+/* 가림 영역: 첫 프레임 기준 위치(프레임 대비 %)에서 프레임별 화면 이동량(--dx, --dy)만큼 함께 이동 */
+.frameMasks {
+  position: absolute;
+  inset: 0;
+  transform: translate(var(--dx, 0%), var(--dy, 0%));
+}
+
+.mask {
+  position: absolute;
+  border-radius: 6rem;
+  background-color: rgba(153, 156, 161, 0.8);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+.m1 { left: 4.11%; top: 43.15%; width: 12.33%; height: 32.88%; }
+.m2 { left: 73.46%; top: 50%; width: 22.6%; height: 42.47%; }
+.m3 { left: 92.47%; top: 29.45%; width: 16.44%; height: 38.36%; }
+.m4 { left: 76.03%; top: -0.68%; width: 11.3%; height: 19.18%; }
+.m5 { left: 46.23%; top: -0.68%; width: 9.25%; height: 15.07%; }
+.m6 { left: 104.28%; top: 4.79%; width: 15.41%; height: 43.84%; }
+
+.missedBox {
+  position: absolute;
+  left: 92.47%;
+  top: 34.25%;
+  width: 16.44%;
+  height: 30.14%;
+  border: 2px solid $feedback-error;
+  box-sizing: border-box;
+}
+
+.frameLabel {
+  display: flex;
+  align-items: center;
+  gap: 6rem;
+  min-width: 0;
+
+  .frameNo {
+    @include body-caption;
+    color: var(--color-text-gray-2, #5f6368);
+    white-space: nowrap;
+  }
+
+  .missedBadge {
+    @include label-eyebrow;
+    padding: 2rem 6rem;
+    border-radius: 4rem;
+    background-color: $feedback-error;
+    color: var(--color-text-inverse, #ffffff);
+  }
+}
+
+.frameMissed {
+  .frameThumb {
+    border: 2px solid $feedback-error;
+  }
+
+  .frameNo {
+    color: $feedback-error;
+  }
+}
+
+/* Value 01 하단 3열 항목 (Figma PC 2159:13473 / Mobile 2159:13757) */
+.feature3Col {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24rem;
+  width: 100%;
+  margin-top: 60rem;
+
+  .col {
     display: flex;
-    align-items: center;
-    gap: 12rem;
+    flex-direction: column;
+    gap: 8rem;
 
-    &::before {
-      content: '';
-      display: block;
-      width: 6rem;
-      height: 6rem;
-      background-color: var(--color-primary);
+    h3 {
+      @include text-subheading;
+      margin: 0;
+      color: var(--color-text-black, #000000);
+      word-break: keep-all;
+    }
+
+    p {
+      @include text-body;
+      margin: 0;
+      color: var(--color-text-gray-1, #3c4043);
+      word-break: keep-all;
     }
   }
 }
 
 /* --------------------------------------------------------------------------
-   Content Sections
--------------------------------------------------------------------------- */
-.sectionAlt {
-  background-color: var(--color-gray-50);
-}
-
-.limitVisual {
+ * 3. Value 02·03 좌측 항목 목록 (headerExtra · Figma PC 2159:13491 / Mobile 2159:13790)
+ * 항목마다 상단 border-default, padding 24 0, 제목→설명 8
+ * -------------------------------------------------------------------------- */
+.valueItems {
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  aspect-ratio: 16 / 5;
-  background-color: #1a1a1a;
-  background-image: url('https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=1920&q=80');
-  background-size: cover;
-  background-position: center;
-  border-radius: 12rem;
-  margin-bottom: 48rem;
-  box-shadow: 0 10rem 30rem rgba(0, 0, 0, 0.1);
 }
 
-.feature3Col {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 32rem;
+.valueItem {
+  display: flex;
+  flex-direction: column;
+  gap: 8rem;
+  padding: 24rem 0;
+  border-top: 1rem solid var(--color-border-default, #e8eaed);
 
-  .col {
-    .num {
-      display: inline-block;
-      font-size: 14rem;
-      font-weight: 700;
-      color: var(--color-primary);
-      margin-bottom: 12rem;
-    }
-    
-    h4 {
-      font-size: 20rem;
-      font-weight: 700;
-      color: var(--color-gray-900);
-      margin-bottom: 12rem;
-    }
-    
-    p {
-      font-size: 16rem;
-      color: var(--color-gray-600);
-      line-height: 1.6;
-    }
+  .valueItemTitle {
+    @include text-subheading;
+    margin: 0;
+    color: var(--color-text-black, #000000);
+    word-break: keep-all;
+  }
+
+  .valueItemDesc {
+    @include text-body;
+    margin: 0;
+    color: var(--color-text-gray-1, #3c4043);
+    word-break: keep-all;
   }
 }
 
-.checkList {
-  list-style: none;
-  padding: 0;
-  margin: 32rem 0 0 0;
+/* --------------------------------------------------------------------------
+ * 4. Value 02 비교 카드 (Figma PC 2159:13501 / Mobile 2159:13773)
+ * 카드 gap 20, 이미지 높이 500, radius 12 / 칩: rgba(0,0,0,.55), radius 6, padding 10 14
+ * -------------------------------------------------------------------------- */
+.compareCards {
   display: flex;
-  flex-direction: column;
-  gap: 24rem;
+  gap: 20rem;
+  width: 100%;
+}
 
-  li {
-    h4 {
-      position: relative;
-      font-size: 18rem;
-      font-weight: 700;
-      color: var(--color-gray-900);
-      margin-bottom: 8rem;
-      display: flex;
-      align-items: center;
-      gap: 8rem;
+.compareCard {
+  position: relative;
+  flex: 1 0 0;
+  min-width: 0;
+  aspect-ratio: 330 / 500;
+  overflow: hidden;
+  border-radius: 12rem;
 
-      &::before {
-        content: '';
-        display: block;
-        width: 16rem;
-        height: 16rem;
-        background-color: var(--color-primary);
-        border-radius: 4rem;
+  /* 시안의 사진 크롭(위로 20 이동, 가로 282.55% 확대 후 -71.87% 이동) 그대로 재현 */
+  .comparePhoto {
+    position: absolute;
+    inset: -4% 0 0 0;
+    overflow: hidden;
+
+    img {
+      position: absolute;
+      top: 0;
+      left: -71.87%;
+      width: 282.55%;
+      height: 100%;
+      max-width: none;
+      object-fit: cover;
+    }
+  }
+
+  .face {
+    position: absolute;
+  }
+
+  .faceLeft {
+    left: 17.27%;
+    top: 31.6%;
+    width: 26.06%;
+    height: 20.8%;
+  }
+
+  .faceRight {
+    left: 58.18%;
+    top: 30.4%;
+    width: 25.45%;
+    height: 21.2%;
+  }
+
+  &.weak .face {
+    background-color: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+  }
+
+  &.weak .faceLeft { border-radius: 44rem; }
+  &.weak .faceRight { border-radius: 52rem; }
+
+  &.solid .face {
+    border-radius: 40rem;
+    background-color: rgba(217, 204, 191, 0.35);
+    backdrop-filter: blur(11px);
+    -webkit-backdrop-filter: blur(11px);
+  }
+}
+
+.compareChip {
+  position: absolute;
+  top: 20rem;
+  left: 20rem;
+  display: flex;
+  align-items: center;
+  gap: 10rem;
+  padding: 10rem 14rem;
+  border-radius: 6rem;
+  background-color: rgba(0, 0, 0, 0.55);
+  color: var(--color-text-inverse, #ffffff);
+
+  .chipIcon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 24rem;
+    height: 24rem;
+    box-sizing: border-box;
+    border: 1rem solid var(--color-border-inverse, #ffffff);
+    border-radius: 12rem;
+    font-family: var(--font-family-base);
+    font-size: 16rem;
+    font-weight: var(--font-weight-bold, 700);
+    line-height: 1;
+  }
+
+  .chipLabel {
+    @include text-body;
+    white-space: nowrap;
+  }
+}
+
+/* --------------------------------------------------------------------------
+ * 5. Value 03 처리 이력 (Figma PC 2159:13536 / Mobile 2159:13816)
+ * PC: 상단 타이틀 + 4열 테이블(150/160/220/100) / MO: 카드 안 타이틀 + 2줄 레코드
+ * -------------------------------------------------------------------------- */
+.auditRecord {
+  width: 100%;
+}
+
+.auditTitle {
+  padding: 16rem 24rem;
+  font-family: var(--font-family-base);
+  font-size: 14rem;
+  font-weight: 600;
+  line-height: normal;
+  color: var(--color-text-gray-2, #5f6368);
+}
+
+.auditCard {
+  overflow: hidden;
+  border: 1rem solid var(--color-border-default, #e8eaed);
+  border-radius: 12rem;
+  background-color: var(--color-surface-white, #ffffff);
+}
+
+.auditRow {
+  display: grid;
+  grid-template-columns: 150fr 160fr 220fr 100fr;
+  align-items: center;
+  padding: 14rem 24rem;
+  border-bottom: 1rem solid var(--color-border-default, #e8eaed);
+  font-family: var(--font-family-base);
+  font-size: 14rem;
+  font-weight: var(--font-weight-regular, 400);
+  line-height: 1.75;
+  letter-spacing: -0.08px;
+  color: var(--color-text-black, #000000);
+  white-space: nowrap;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.auditHead {
+  padding: 12rem 24rem;
+  background-color: var(--color-surface-gray, #f1f3f4);
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: 0;
+  color: var(--color-text-gray-2, #5f6368);
+}
+
+.auditCardTitle,
+.auditList {
+  display: none;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* --------------------------------------------------------------------------
+ * 6. Responsive
+ * -------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .frameStrip {
+    grid-template-columns: repeat(3, 1fr);
+    row-gap: 16rem;
+  }
+
+  .feature3Col {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}
+
+/* 모바일 (Figma Mobile 2159:13642 · 390 기준) */
+@media (max-width: 768px) {
+  /* Hero 카메라 캐러셀: 350×220, radius 12, gap 12 / 인디케이터 활성 20×6 · 비활성 6×6 */
+  .heroVisual {
+    padding-top: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14rem;
+  }
+
+  .camWall {
+    display: flex;
+    gap: 12rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    border-radius: 12rem;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .camFeed {
+    flex: 0 0 100%;
+    aspect-ratio: 350 / 220;
+    border-radius: 12rem;
+    scroll-snap-align: start;
+
+    &:first-child {
+      aspect-ratio: 350 / 220;
+    }
+
+    .camShade {
+      background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 0.5) 100%);
+    }
+
+    .camChip {
+      gap: 4rem;
+      padding: 2rem 5rem;
+    }
+
+    .camTag,
+    .camRec {
+      top: 6rem;
+      letter-spacing: 0.96px;
+    }
+
+    .camTag {
+      left: 6rem;
+    }
+
+    .camRec {
+      right: 6rem;
+
+      .recDot {
+        width: 6rem;
+        height: 6rem;
       }
     }
 
-    p {
-      font-size: 15rem;
-      color: var(--color-gray-600);
-      line-height: 1.5;
-      padding-left: 24rem;
-    }
-  }
-}
-
-.compareCards {
-  display: flex;
-  gap: 24rem;
-  width: 100%;
-}
-
-.card {
-  flex: 1;
-  background: var(--color-white);
-  border-radius: 12rem;
-  overflow: hidden;
-  box-shadow: 0 4rem 20rem rgba(0, 0, 0, 0.08);
-  display: flex;
-  flex-direction: column;
-
-  .cardImg {
-    width: 100%;
-    aspect-ratio: 3 / 4;
-    background-size: cover;
-    background-position: center;
-
-    &.imgBefore {
-      background-image: url('https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&w=600&q=80');
-      filter: blur(8px);
-    }
-    
-    &.imgAfter {
-      background-image: url('https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&w=600&q=80');
+    .camTime {
+      left: 6rem;
+      bottom: 6rem;
     }
   }
 
-  .cardTag {
-    padding: 16rem;
-    text-align: center;
-    font-size: 16rem;
-    font-weight: 700;
-
-    &.tagRed {
-      color: #ef4444;
-      background-color: #fef2f2;
-    }
-
-    &.tagGreen {
-      color: #10b981;
-      background-color: #ecfdf5;
-    }
-  }
-}
-
-.tableMock {
-  width: 100%;
-  background: var(--color-white);
-  border-radius: 12rem;
-  border: 1px solid var(--color-gray-200);
-  box-shadow: 0 4rem 20rem rgba(0, 0, 0, 0.05);
-  overflow: hidden;
-  font-family: var(--font-family-mono);
-  font-size: 14rem;
-
-  .thRow {
-    padding: 16rem 20rem;
-    background-color: var(--color-gray-50);
-    border-bottom: 1px solid var(--color-gray-200);
-    font-weight: 700;
-    color: var(--color-gray-800);
-    font-family: var(--font-family-base);
-  }
-
-  .tbRow {
+  .camIndicator {
     display: flex;
-    padding: 12rem 20rem;
-    background-color: var(--color-white);
-    border-bottom: 1px solid var(--color-gray-200);
-    font-weight: 700;
-    color: var(--color-gray-500);
-  }
-
-  .tdRow {
-    display: flex;
-    padding: 16rem 20rem;
-    background-color: var(--color-white);
-    border-bottom: 1px solid var(--color-gray-100);
     align-items: center;
-    
-    &:last-child {
-      border-bottom: none;
+    gap: 6rem;
+
+    .dot,
+    .dotActive {
+      height: 6rem;
+      border-radius: 3rem;
+      transition: width 0.2s ease, background-color 0.2s ease;
+    }
+
+    .dot {
+      width: 6rem;
+      background-color: rgba(26, 28, 31, 0.2);
+    }
+
+    .dotActive {
+      width: 20rem;
+      background-color: var(--color-brand-primary, #3b5bff);
     }
   }
 
-  .col1 { flex: 2; color: var(--color-gray-500); }
-  .col2 { flex: 3; color: var(--color-gray-900); font-weight: 500; font-family: var(--font-family-base); }
-  .col3 { flex: 1; text-align: right; }
-
-  .badgeDone {
-    display: inline-block;
-    padding: 4rem 8rem;
-    background-color: #ecfdf5;
-    color: #10b981;
-    border-radius: 4rem;
-    font-size: 12rem;
-    font-family: var(--font-family-base);
-  }
-
-  .badgeIng {
-    display: inline-block;
-    padding: 4rem 8rem;
-    background-color: #fffbeb;
-    color: #f59e0b;
-    border-radius: 4rem;
-    font-size: 12rem;
-    font-family: var(--font-family-base);
-  }
-
-  .badgeWait {
-    display: inline-block;
-    padding: 4rem 8rem;
-    background-color: #f1f5f9;
-    color: #64748b;
-    border-radius: 4rem;
-    font-size: 12rem;
-    font-family: var(--font-family-base);
-  }
-}
-
-@media (max-width: 1024px) {
-  .feature3Col {
+  /* Value 01 프레임 스트립: 2열, padding 12, gap 12 10, 썸네일→라벨 6 */
+  .frameStrip {
     grid-template-columns: repeat(2, 1fr);
+    gap: 12rem 10rem;
+    padding: 12rem;
   }
-}
 
-@media (max-width: 768px) {
+  .frameCell {
+    gap: 6rem;
+  }
+
+  .frameThumb {
+    border-radius: 3rem;
+  }
+
+  .mask {
+    border-radius: 5rem;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+
+  .frameLabel .missedBadge {
+    padding: 1rem 5rem;
+  }
+
+  /* Value 01 항목: 세로 스택, 항목 padding 20 0, 제목→설명 6 */
   .feature3Col {
-    grid-template-columns: 1fr;
-  }
-  
-  .compareCards {
-    flex-direction: column;
+    margin-top: 40rem;
+
+    .col {
+      gap: 6rem;
+      padding: 20rem 0;
+    }
   }
 
-  .tableMock {
-    font-size: 12rem;
+  /* Value 02·03 항목: padding 20 0, 제목→설명 6 */
+  .valueItem {
+    gap: 6rem;
+    padding: 20rem 0;
+  }
+
+  /* Value 02 비교 카드: 가로 2열 유지, gap 12, 169×297.83, radius 6 */
+  .compareCards {
+    gap: 12rem;
+  }
+
+  .compareCard {
+    aspect-ratio: 169 / 297.83;
+    border-radius: 6rem;
+
+    .comparePhoto {
+      inset: -4.03% 0 4.03% 0;
+    }
+
+    .faceLeft {
+      left: 17.16%;
+      top: 29.55%;
+      width: 26.04%;
+      height: 19.47%;
+    }
+
+    .faceRight {
+      left: 56.8%;
+      top: 28.88%;
+      width: 27.22%;
+      height: 20.15%;
+    }
+
+    &.weak .faceLeft { border-radius: 22.5rem; }
+    &.weak .faceRight { border-radius: 26.6rem; }
+
+    &.weak .face {
+      backdrop-filter: blur(1px);
+      -webkit-backdrop-filter: blur(1px);
+    }
+
+    &.solid .face {
+      border-radius: 24rem;
+      backdrop-filter: blur(7px);
+      -webkit-backdrop-filter: blur(7px);
+    }
+  }
+
+  .compareChip {
+    top: 8rem;
+    left: 8rem;
+    align-items: flex-start;
+    gap: 8rem;
+    padding: 6rem 10rem;
+
+    .chipIcon {
+      width: 18rem;
+      height: 18rem;
+      border-radius: 9rem;
+      font-size: 11rem;
+    }
+
+    .chipLabel {
+      display: flex;
+      flex-direction: column;
+      font-size: 12rem;
+      line-height: 18rem;
+      white-space: normal;
+    }
+
+    .chipSep {
+      display: none;
+    }
+  }
+
+  /* Value 03 처리 이력: 테이블 대신 카드 안 타이틀 + 2줄 레코드 */
+  .auditTitle {
+    display: none;
+  }
+
+  .auditTable {
+    display: none;
+  }
+
+  .auditList {
+    display: block;
+  }
+
+  .auditCardTitle {
+    display: block;
+    padding: 14rem 16rem;
+    background-color: var(--color-surface-gray, #f1f3f4);
+    font-family: var(--font-family-base);
+    font-size: 14rem;
+    font-weight: 600;
+    line-height: normal;
+    color: var(--color-text-gray-2, #5f6368);
+  }
+
+  .auditItem {
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+    padding: 12rem 16rem;
+    border-top: 1rem solid var(--color-border-default, #e8eaed);
+  }
+
+  .auditItemTop {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .auditTarget {
+    font-family: var(--font-family-base);
+    font-size: 14rem;
+    font-weight: 600;
+    line-height: normal;
+    color: var(--color-text-black, #000000);
+  }
+
+  .auditMeta {
+    @include body-caption;
+    color: var(--color-text-gray-2, #5f6368);
+  }
+
+  /* 모바일 레코드 배지: Core Badge subtle보다 작은 padding 3 8 (시안) */
+  .auditItem .methodBadgeMo {
+    padding: 3rem 8rem;
   }
 }

@@ -48,7 +48,12 @@
 - **Monospace (var(--font-family-mono))**: `Consolas, Monaco, 'Courier New', monospace`
 
 ### 타이포그래피 스케일 및 믹스인 (텍스트 위계)
-서브화면을 기준으로 정의된 피그마 디자인 시스템을 따릅니다. 사이즈, 굵기, 줄간격은 한 번에 묶어서 SCSS Mixin(`@mixin text-[category]-[style]`)으로 사용합니다. 모든 크기 단위는 `rem` (1rem = 1px 기준)입니다. 메인 페이지에만 사용되는 예외 텍스트는 가이드에 포함하지 않고 수동 처리합니다.
+서브화면을 기준으로 정의된 피그마 디자인 시스템을 따릅니다. 사이즈, 굵기, 줄간격은 한 번에 묶어서 SCSS Mixin(`@mixin text-[category]-[style]`)으로 사용합니다. 모든 크기 단위는 `rem` (1rem = 1px 기준)입니다.
+
+> **💡 타이포그래피 적용 범위 아키텍처 원칙 (Core Scope Rule)**:
+> 1. **섹션 텍스트 관할**: 디자인 시스템의 타이포그래피 파운데이션은 웹페이지의 중심이 되는 **섹션 단위 목차(Eyebrow) / 제목(Title) / 본문(Description) / 보조설명(Lead, Caption)** 위계를 통제합니다.
+> 2. **독립 UI 가이드 격리**: 버튼(`Button`), 뱃지(`Badge`), 탭(`Tabs`), 모달(`Modal`), 폼 필드(`Form`), 데이터 테이블, 목업 시뮬레이터 그래픽 등의 독립적인 UI 요소들은 섹션 타이포그래피의 영향을 받지 않으며, 각 컴포넌트 고유의 스펙 가이드에 따라 독립적으로 정의·관리됩니다.
+
 
 - **Display**
   - Hero: `@mixin text-display-hero` (64px, 700(Bold), LH 1.2)
@@ -104,3 +109,11 @@
 
 ### Border Radius (테두리 곡률)
 - `--radius`: `8rem`
+
+### Layout / Container (본문 공통 너비 및 여백 규약)
+- `--layout-max-width`: `1240rem` (사이트 본문이 실제 차지하는 최대 너비 표준 · 패딩 제외)
+- `--layout-container-max-width`: `calc(--layout-max-width + --layout-gutter × 2)` = PC `1280rem` (좌우 거터 패딩을 갖는 공통 컨테이너의 `max-width`. 패딩을 포함한 박스 폭이 1280이어야 본문 영역이 정확히 1240이 되므로, 컨테이너에는 반드시 이 토큰을 사용)
+- `--content-max-width`: `1240rem`
+- `--layout-gutter`: `20rem` (사이트 공통 본문 좌우 여백 / Desktop 기준, Mobile 768px 이하 시 `16rem` 자동 오버라이드)
+- `--layout-gutter-mobile`: `16rem` (모바일 본문 공통 좌우 여백)
+- **Container 분리 원칙**: 컨텐츠 컴포넌트(배너, 카드, 리스트 등)가 직접 `max-width` 및 `margin: 0 auto`를 가지지 않으며, 반드시 본문 너비와 거터를 담당하는 `.container` 래퍼가 감싸도록 구조를 격리합니다.

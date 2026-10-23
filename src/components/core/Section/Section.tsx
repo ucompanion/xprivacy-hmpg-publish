@@ -21,6 +21,12 @@ export interface SectionHeaderProps {
   extra?: React.ReactNode;
   /** 추가 CSS 클래스 */
   className?: string;
+  /** 제목 전용 추가 CSS 클래스 */
+  titleClassName?: string;
+  /** Eyebrow 전용 추가 CSS 클래스 */
+  eyebrowClassName?: string;
+  /** Description 전용 추가 CSS 클래스 */
+  descriptionClassName?: string;
 }
 
 export interface SectionProps extends Omit<React.HTMLAttributes<HTMLElement>, 'title'> {
@@ -42,6 +48,14 @@ export interface SectionProps extends Omit<React.HTMLAttributes<HTMLElement>, 't
   headerExtra?: React.ReactNode;
   /** 내부 컨테이너 max-width 적용 여부 (기본값: true) */
   contained?: boolean;
+  /** 헤더 래퍼 추가 CSS 클래스 */
+  headerClassName?: string;
+  /** 제목 전용 추가 CSS 클래스 */
+  titleClassName?: string;
+  /** Eyebrow 전용 추가 CSS 클래스 */
+  eyebrowClassName?: string;
+  /** Description 전용 추가 CSS 클래스 */
+  descriptionClassName?: string;
   /** 섹션 본문 컨텐츠 */
   children?: React.ReactNode;
   /** 추가 CSS 클래스 */
@@ -61,12 +75,15 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
   theme = 'light',
   extra,
   className = '',
+  titleClassName = '',
+  eyebrowClassName = '',
+  descriptionClassName = '',
 }) => {
   return (
     <div className={`${styles.header} ${styles[`theme_${theme}`]} ${styles[`align_${align}`]} ${className}`}>
-      {eyebrow && <span className={styles.eyebrow}>{eyebrow}</span>}
-      <h2 className={styles.title}>{title}</h2>
-      {description && <p className={styles.description}>{description}</p>}
+      {eyebrow && <span className={`${styles.eyebrow} ${eyebrowClassName}`.trim()}>{eyebrow}</span>}
+      <h2 className={`${styles.title} ${titleClassName}`.trim()}>{title}</h2>
+      {description && <p className={`${styles.description} ${descriptionClassName}`.trim()}>{description}</p>}
       {extra && <div className={styles.extra}>{extra}</div>}
     </div>
   );
@@ -86,12 +103,16 @@ export const Section: React.FC<SectionProps> = ({
   bg = 'transparent',
   headerExtra,
   contained = true,
+  headerClassName,
+  titleClassName,
+  eyebrowClassName,
+  descriptionClassName,
   children,
   className = '',
   contentClassName = '',
   ...rest
 }) => {
-  const hasHeader = Boolean(eyebrow || title || description || headerExtra);
+  const hasHeader = [eyebrow, title, description, headerExtra].some(Boolean);
 
   const containerClass = [
     styles.container,
@@ -118,7 +139,10 @@ export const Section: React.FC<SectionProps> = ({
             align={align}
             theme={theme}
             extra={headerExtra}
-            className={styles.sectionHeader}
+            className={`${styles.sectionHeader} ${headerClassName ?? ''}`.trim()}
+            titleClassName={titleClassName}
+            eyebrowClassName={eyebrowClassName}
+            descriptionClassName={descriptionClassName}
           />
         )}
         {children && <div className={styles.content}>{children}</div>}

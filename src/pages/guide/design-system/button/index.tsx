@@ -1,4 +1,3 @@
-// @ts-nocheck
 import styles from '../template.module.scss';
 import { GuideSection } from '../components/GuideSection';
 import { CodeBlock } from '../components/CodeBlock';
@@ -36,9 +35,15 @@ export default function ButtonGuidePage() {
                 <tbody>
                   <tr>
                     <td><code>variant</code></td>
-                    <td><code>'solid' | 'outline' | 'ghost'</code></td>
+                    <td><code>'solid' | 'outline' | 'ghost' | 'subtle'</code></td>
                     <td><code>'solid'</code></td>
                     <td>버튼의 시각적 형태를 결정합니다.</td>
+                  </tr>
+                  <tr>
+                    <td><code>bordered</code></td>
+                    <td><code>boolean</code></td>
+                    <td><code>false</code></td>
+                    <td>subtle 버튼에 1px 테두리(border-button-secondary)를 더합니다. 밝은 카드 위 Secondary에 사용합니다.</td>
                   </tr>
                   <tr>
                     <td><code>color</code></td>
@@ -48,7 +53,7 @@ export default function ButtonGuidePage() {
                   </tr>
                   <tr>
                     <td><code>size</code></td>
-                    <td><code>'sm' | 'md' | 'lg'</code></td>
+                    <td><code>'sm' | 'md' | 'lg' | 'xl'</code></td>
                     <td><code>'md'</code></td>
                     <td>버튼의 크기를 결정합니다.</td>
                   </tr>
@@ -89,6 +94,21 @@ export default function ButtonGuidePage() {
 <Button variant="outline" color="secondary">Outline Secondary</Button>
 <Button variant="solid" color="danger">Solid Danger</Button>
 <Button variant="ghost" color="neutral">Ghost Neutral</Button>`} />
+          </GuideSection>
+
+          {/* 3-1. Button/v2 (Figma 2241:378) */}
+          <GuideSection title="3-1. Button/v2 (Primary · Secondary)" defaultOpen={false}>
+            <p className={styles.description}>
+              Figma Button/v2 규격(높이 56, radius 6, PC 20 · MO 16 Bold)은 `size="xl"`을 사용합니다. Primary는 `variant="solid"`(그림자 포함), Secondary는 흰 80% 배경 + 남색 글자의 `variant="subtle"`이고, 밝은 카드 위에서는 `bordered`로 1px 테두리를 더합니다(요금제 도입 방식 카드 · PoC).
+            </p>
+            <div className={`${styles.preview} ${styles.row}`}>
+              <Button variant="solid" color="primary" size="xl">도입 상담</Button>
+              <Button variant="subtle" size="xl">기술 · API 문의</Button>
+              <Button variant="subtle" bordered size="xl">PoC 신청</Button>
+            </div>
+            <CodeBlock code={`<Button variant="solid" color="primary" size="xl">도입 상담</Button>
+<Button variant="subtle" size="xl">기술 · API 문의</Button>
+<Button variant="subtle" bordered size="xl">PoC 신청</Button>`} />
           </GuideSection>
 
           {/* 4. Sizes (H2) */}

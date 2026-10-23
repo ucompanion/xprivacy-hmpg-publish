@@ -1,626 +1,553 @@
-@import '../../../assets/scss/variables';
+@use "@/assets/scss/variables" as *;
+@use "@/assets/scss/mixins" as *;
+
+/* 미매핑 피그마 값 (프로젝트 토큰 없음 → 시안 값 사용)
+ * - text/inverse-subtle #F1F3F4 → 같은 값의 surface-gray 사용
+ * - 콜아웃 그림자 0 12 32 rgba(13,26,102,.28) / 재생 버튼 rgba(0,0,0,.45)
+ * - 아이콘 유리 효과는 Core IconSurface에서 관리 */
 
 .pageWrap {
   width: 100%;
 }
 
 /* --------------------------------------------------------------------------
-   Hero Section
--------------------------------------------------------------------------- */
-.techHero {
-  background-size: cover;
-  background-position: center;
-  position: relative;
-  overflow: hidden;
+ * 1. Hero (Figma PC 2165:7508 / Mobile 2165:7733)
+ * PC 480 (copy top 154.5) / MO 560 (copy top 142 · bottom 70)
+ * -------------------------------------------------------------------------- */
+.engineHero {
+  --hero-compact-padding-top-pc: 155rem;
+  --hero-compact-padding-bottom-pc: 81rem;
+  --hero-compact-padding-top-mo: 142rem;
+  --hero-compact-padding-bottom-mo: 70rem;
+}
 
-  :global(.header) {
-    :global(.eyebrow) {
-      font-size: 13rem;
-      font-weight: 700;
-      color: #38bdf8;
-      letter-spacing: 0.1em;
-      margin-bottom: 14rem;
-      font-family: var(--font-family-mono);
-    }
-
-    :global(.title) {
-      font-size: 40rem;
-      font-weight: 700;
-      color: var(--color-white);
-      margin-bottom: 20rem;
-      line-height: 1.35;
-      word-break: keep-all;
-    }
-
-    :global(.description) {
-      font-size: 16rem;
-      line-height: 1.6;
-      color: rgba(255, 255, 255, 0.85);
-      word-break: keep-all;
-    }
+/* MO: 타이틀-설명 간격 16 (컴포넌트 기본 24) */
+@media (max-width: 768px) {
+  .pageWrap > .engineHero.engineHero h2 + p {
+    margin-top: 16rem !important;
   }
 }
 
 /* --------------------------------------------------------------------------
-   Section 1: HIGH-EFFICIENCY PROCESSING ENGINE (bg="white")
--------------------------------------------------------------------------- */
-.engineSpeedSection {
-  padding-top: 100rem;
-  padding-bottom: 100rem;
+ * 2. Privacy & Processing Engine (Figma PC 2165:7515 / Mobile 2165:7740)
+ * 카드 2열 gap 24: white, border default, radius 12, padding 40 36, gap 24
+ * 단계: surface-gray, radius 8, padding 14 20, gap 16 (번호 accent · 라벨 gray-2)
+ * -------------------------------------------------------------------------- */
+.engines {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24rem;
+}
 
-  :global(.header) {
-    margin-bottom: 56rem;
+.engineCard {
+  display: flex;
+  flex-direction: column;
+  gap: 24rem;
+  padding: 40rem 36rem;
+  border: 1rem solid var(--color-border-default);
+  border-radius: 12rem;
+  background-color: var(--color-surface-white);
+}
 
-    :global(.eyebrow) {
-      font-size: 13rem;
-      font-weight: 700;
-      color: var(--color-primary);
-      letter-spacing: 0.1em;
-      margin-bottom: 12rem;
-    }
+.engineHead {
+  display: flex;
+  flex-direction: column;
+  gap: 8rem;
+}
 
-    :global(.title) {
-      font-size: 36rem;
-      font-weight: 700;
-      color: var(--color-gray-900);
-      line-height: 1.35;
-      margin-bottom: 20rem;
-      word-break: keep-all;
-    }
+.engineTag {
+  @include text-body;
+  color: var(--color-text-gray-2);
+}
 
-    :global(.description) {
-      font-size: 16rem;
-      color: var(--color-gray-600);
-      line-height: 1.65;
-      word-break: keep-all;
-    }
+.engineTitle {
+  @include text-subheading;
+  margin: 0;
+  color: var(--color-text-black);
+}
+
+.engineDesc {
+  @include text-body;
+  margin: 0;
+  color: var(--color-text-gray-1);
+  word-break: keep-all;
+}
+
+.flow {
+  display: flex;
+  flex-direction: column;
+  gap: 8rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.flowStep {
+  @include text-body;
+  display: flex;
+  align-items: center;
+  gap: 16rem;
+  padding: 14rem 20rem;
+  border-radius: 8rem;
+  background-color: var(--color-surface-gray);
+}
+
+.flowNum {
+  flex-shrink: 0;
+  color: var(--color-text-accent);
+}
+
+.flowLabel {
+  color: var(--color-text-gray-2);
+}
+
+.engineNote {
+  @include text-note;
+  margin: 0;
+  color: var(--color-text-gray-2);
+}
+
+/* --------------------------------------------------------------------------
+ * 3. Detection & Tracking (Figma PC 2165:7560 / Mobile 2165:7785)
+ * 비교 비주얼 → 80 → [인트로 + 테스트 환경 | 표 640] gap 80
+ * -------------------------------------------------------------------------- */
+.performance {
+  display: flex;
+  flex-direction: column;
+  gap: 80rem;
+}
+
+/* 비교: 사진 560×400 radius 12 · 사이 120 · 라벨 14 아래 · 콜아웃 가운데 */
+.compare {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  gap: 120rem;
+}
+
+.video {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14rem;
+  max-width: 560rem;
+  margin: 0;
+}
+
+.videoFrame {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 560 / 400;
+  border-radius: 12rem;
+
+  > img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.playButton {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 72rem;
+  height: 72rem;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.45);
+  transform: translate(-50%, -50%);
+
+  img {
+    width: 28rem;
+    height: 28rem;
+  }
+}
+
+.videoLabel {
+  @include text-body;
+  color: var(--color-text-gray-2);
+  text-align: center;
+}
+
+/* 콜아웃: primary, padding 24 28 24 32, gap 20, radius 12 · 사진 세로 가운데 */
+.callout {
+  position: absolute;
+  top: calc(50% - 21rem);
+  left: 50%;
+  display: flex;
+  align-items: center;
+  gap: 20rem;
+  padding: 24rem 28rem 24rem 32rem;
+  border-radius: 12rem;
+  background-color: var(--color-primary);
+  box-shadow: 0 12rem 32rem rgba(13, 26, 102, 0.28);
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+}
+
+.calloutText {
+  display: flex;
+  flex-direction: column;
+  gap: 6rem;
+}
+
+.calloutTitle {
+  @include text-subheading;
+  color: var(--color-text-inverse);
+}
+
+.calloutSub {
+  @include text-body;
+  color: var(--color-surface-gray);
+}
+
+.calloutArrow {
+  flex-shrink: 0;
+  width: 28rem;
+  height: 28rem;
+}
+
+/* 하단: 왼쪽(인트로 · 테스트 환경) / 오른쪽(표 640) */
+.perfBody {
+  display: grid;
+  grid-template-columns: 1fr 640rem;
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    "intro bench"
+    "env bench";
+  gap: 24rem 80rem;
+}
+
+.perfIntro {
+  grid-area: intro;
+  display: flex;
+  flex-direction: column;
+}
+
+.perfEyebrow {
+  @include text-body;
+  color: var(--color-text-gray-2);
+}
+
+.perfHeading {
+  @include text-section;
+  margin: 12rem 0 0;
+  color: var(--color-text-black);
+}
+
+.perfLead {
+  @include text-body;
+  margin: 24rem 0 0;
+  color: var(--color-text-gray-1);
+  word-break: keep-all;
+}
+
+/* 테스트 환경: surface-gray, radius 12, padding 20 24, gap 14 / 항목 3개 가로 gap 8 */
+.testEnv {
+  grid-area: env;
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  gap: 14rem;
+  padding: 20rem 24rem;
+  border-radius: 12rem;
+  background-color: var(--color-surface-gray);
+}
+
+.testEnvTitle {
+  @include text-subheading;
+  margin: 0;
+  color: var(--color-text-black);
+}
+
+.testItems {
+  display: flex;
+  gap: 8rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* 항목: white, radius 12, padding 14 12 · 아이콘 32 → 10 → [라벨(Note) / 값(Body)] */
+.testItem {
+  flex: 1 1 0;
+  display: grid;
+  grid-template-columns: 32rem 1fr;
+  grid-template-areas:
+    "icon label"
+    "icon value";
+  align-items: center;
+  column-gap: 10rem;
+  min-width: 0;
+  padding: 14rem 12rem;
+  border-radius: 12rem;
+  background-color: var(--color-surface-white);
+}
+
+.testIcon {
+  grid-area: icon;
+}
+
+.testLabel {
+  @include text-note;
+  grid-area: label;
+  color: var(--color-text-gray-2);
+}
+
+.testValue {
+  @include text-body;
+  grid-area: value;
+  color: var(--color-text-gray-2);
+  white-space: nowrap;
+}
+
+.testNote {
+  @include text-note;
+  margin: 0;
+  color: var(--color-text-gray-2);
+}
+
+/* 표: white, border default, radius 12 / 헤드 blue-soft / 셀 padding 12 · 가운데 */
+.benchmark {
+  grid-area: bench;
+  display: flex;
+  flex-direction: column;
+  gap: 16rem;
+  min-width: 0;
+}
+
+.table {
+  width: 100%;
+  overflow: hidden;
+  border: 1rem solid var(--color-border-default);
+  border-radius: 12rem;
+  border-collapse: separate;
+  border-spacing: 0;
+  background-color: var(--color-surface-white);
+
+  th,
+  td {
+    @include text-body;
+    padding: 12rem 0;
+    border-bottom: 1rem solid var(--color-border-default);
+    color: var(--color-text-gray-1);
+    text-align: center;
   }
 
-  /* 2-Column Cards Grid */
-  .engineCardsGrid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 28rem;
-    width: 100%;
+  thead th {
+    background-color: var(--color-surface-blue-soft);
+    color: var(--color-text-gray-2);
+  }
+
+  tbody tr:last-child > * {
+    border-bottom: 0;
+  }
+}
+
+.tablePc {
+  thead th:nth-child(1) {
+    width: 150rem;
+  }
+
+  thead th:nth-child(2) {
+    width: 190rem;
+  }
+
+  thead th:nth-child(3) {
+    width: 150rem;
+  }
+
+  .groupInfo {
+    border-right: 1rem solid var(--color-border-default);
+    font-weight: var(--font-weight-regular);
+  }
+
+  .lastGroup {
+    border-bottom: 0;
+  }
+}
+
+.tableMo {
+  display: none;
+}
+
+.tableNote {
+  @include text-note;
+  margin: 0;
+  color: var(--color-text-gray-2);
+}
+
+/* --------------------------------------------------------------------------
+ * Responsive
+ * -------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .engines {
+    grid-template-columns: 1fr;
+  }
+
+  .compare {
+    gap: 40rem;
+  }
+
+  .perfBody {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+    grid-template-areas:
+      "intro"
+      "bench"
+      "env";
+    gap: 40rem;
+  }
+}
+
+/* 모바일 (Figma Mobile 2165:7732 · 390 기준) */
+@media (max-width: 768px) {
+  /* 엔진 카드: gap 12 / padding 28 20, gap 20 / 단계 padding 12 16, gap 12 */
+  .engines {
+    gap: 12rem;
   }
 
   .engineCard {
-    background-color: var(--color-white);
-    border: 1px solid var(--color-gray-200);
-    border-radius: 20rem;
-    padding: 36rem 32rem;
-    display: flex;
+    gap: 20rem;
+    padding: 28rem 20rem;
+  }
+
+  .flowStep {
+    gap: 12rem;
+    padding: 12rem 16rem;
+  }
+
+  .performance {
+    gap: 40rem;
+  }
+
+  /* 비교: 세로 스택 gap 12 · 사진 높이 206 radius 10 · 라벨 8 아래 · 콜아웃 흐름 배치 */
+  .compare {
     flex-direction: column;
-    box-shadow: 0 4rem 20rem rgba(0, 0, 0, 0.04);
-    transition: all 0.25s ease;
+    gap: 12rem;
+  }
 
-    &:hover {
-      border-color: var(--color-primary-300);
-      box-shadow: 0 8rem 28rem rgba(0, 0, 0, 0.08);
-      transform: translateY(-2rem);
-    }
+  .video {
+    max-width: none;
+    gap: 8rem;
+  }
 
-    .cardEyebrow {
-      font-size: 12rem;
-      font-weight: 700;
-      color: var(--color-primary);
-      letter-spacing: 0.08em;
-      font-family: var(--font-family-mono);
-      margin-bottom: 10rem;
-      text-transform: uppercase;
-    }
+  .videoFrame {
+    aspect-ratio: 350 / 206;
+    border-radius: 10rem;
+  }
 
-    .cardTitle {
-      font-size: 24rem;
-      font-weight: 700;
-      color: var(--color-gray-900);
-      margin: 0 0 14rem 0;
-      line-height: 1.3;
-    }
+  .playButton {
+    width: 56rem;
+    height: 56rem;
 
-    .cardDesc {
-      font-size: 14rem;
-      color: var(--color-gray-600);
-      line-height: 1.6;
-      margin: 0 0 28rem 0;
-      word-break: keep-all;
-    }
-
-    .stepList {
-      display: flex;
-      flex-direction: column;
-      gap: 10rem;
-      margin-bottom: 24rem;
-      flex: 1;
-
-      .stepItem {
-        display: flex;
-        align-items: center;
-        gap: 14rem;
-        background-color: #f8fafc;
-        border: 1px solid #f1f5f9;
-        border-radius: 10rem;
-        padding: 13rem 18rem;
-        transition: all 0.2s ease;
-
-        &:hover {
-          background-color: #f1f5f9;
-          border-color: #e2e8f0;
-        }
-
-        .stepNum {
-          font-size: 13rem;
-          font-weight: 700;
-          color: var(--color-primary);
-          font-family: var(--font-family-mono);
-          flex-shrink: 0;
-        }
-
-        .stepText {
-          font-size: 14rem;
-          font-weight: 600;
-          color: var(--color-gray-800);
-          line-height: 1.4;
-          word-break: keep-all;
-        }
-      }
-    }
-
-    .cardFootnote {
-      font-size: 12rem;
-      color: var(--color-gray-500);
-      margin: 0;
-      line-height: 1.5;
+    img {
+      width: 20rem;
+      height: 20rem;
     }
   }
 
-  /* Video Speed Compare Visual Banner */
-  .speedCompareBanner {
-    position: relative;
-    width: 100%;
-    margin-top: 60rem;
-    border-radius: 20rem;
-    overflow: hidden;
-    box-shadow: 0 12rem 36rem rgba(0, 0, 0, 0.08);
-
-    .imageSplitWrap {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      width: 100%;
-      height: 320rem;
-
-      .splitImgLeft, .splitImgRight {
-        width: 100%;
-        height: 100%;
-        background-size: cover;
-        background-position: center;
-        position: relative;
-      }
-
-      .splitImgLeft {
-        background-image: url('https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=800&q=80');
-
-        .playOverlayIcon {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          width: 52rem;
-          height: 52rem;
-          border-radius: 50%;
-          background: rgba(0, 0, 0, 0.6);
-          backdrop-filter: blur(4px);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: #fff;
-          cursor: pointer;
-          transition: all 0.2s ease;
-
-          svg {
-            width: 20rem;
-            height: 20rem;
-            margin-left: 2rem;
-          }
-
-          &:hover {
-            background: var(--color-primary);
-            transform: translate(-50%, -50%) scale(1.08);
-          }
-        }
-      }
-
-      .splitImgRight {
-        background-image: url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80');
-      }
-    }
-
-    /* Central Highlight Arrow/Badge */
-    .compareBadge {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%);
-      color: #ffffff;
-      padding: 16rem 32rem;
-      border-radius: 12rem;
-      box-shadow: 0 12rem 32rem rgba(30, 64, 175, 0.45);
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4rem;
-      z-index: 5;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-
-      .badgeMain {
-        font-size: 18rem;
-        font-weight: 700;
-        letter-spacing: -0.01em;
-        white-space: nowrap;
-      }
-
-      .badgeSub {
-        font-size: 13rem;
-        font-weight: 500;
-        color: rgba(255, 255, 255, 0.85);
-        white-space: nowrap;
-      }
-    }
+  .callout {
+    position: static;
+    gap: 12rem;
+    padding: 16rem 16rem 16rem 20rem;
+    box-shadow: none;
+    transform: none;
+    white-space: normal;
   }
-}
 
-/* --------------------------------------------------------------------------
-   Section 3: RESTRICTION & ATTENUATION (bg="white")
--------------------------------------------------------------------------- */
-.benchmarkSection {
-  padding-top: 100rem;
-  padding-bottom: 100rem;
+  .calloutText {
+    flex: 1 0 0;
+    gap: 4rem;
+  }
 
-  :global(.header) {
-    :global(.eyebrow) {
-      font-size: 13rem;
-      font-weight: 700;
-      color: var(--color-primary);
-      letter-spacing: 0.1em;
-      margin-bottom: 12rem;
-    }
+  .calloutArrow {
+    width: 22rem;
+    height: 22rem;
+  }
 
-    :global(.title) {
-      font-size: 36rem;
-      font-weight: 700;
-      color: var(--color-gray-900);
-      line-height: 1.35;
-      margin-bottom: 20rem;
-      word-break: keep-all;
-    }
+  .perfHeading {
+    margin-top: 12rem;
+  }
 
-    :global(.description) {
-      font-size: 16rem;
-      color: var(--color-gray-600);
-      line-height: 1.65;
-      word-break: keep-all;
+  .perfLead {
+    margin-top: 16rem;
+  }
+
+  /* 테스트 환경: padding 20, gap 12 / 항목 목록 white radius 12 padding 4 14 · 행 상단 border */
+  .testEnv {
+    gap: 12rem;
+    padding: 20rem;
+  }
+
+  .testItems {
+    flex-direction: column;
+    gap: 0;
+    padding: 4rem 14rem;
+    border-radius: 12rem;
+    background-color: var(--color-surface-white);
+  }
+
+  .testItem {
+    grid-template-columns: 32rem 1fr auto;
+    grid-template-areas: "icon label value";
+    column-gap: 12rem;
+    padding: 10rem 0;
+    border-radius: 0;
+    background-color: transparent;
+
+    & + & {
+      border-top: 1rem solid var(--color-border-default);
     }
   }
 
-  .tableCard {
-    width: 100%;
-    background-color: var(--color-white);
-    border: 1px solid var(--color-gray-200);
-    border-radius: 16rem;
-    padding: 24rem 28rem;
-    box-shadow: 0 4rem 20rem rgba(0, 0, 0, 0.04);
-
-    .tableResponsive {
-      width: 100%;
-      overflow-x: auto;
-    }
-
-    .benchmarkTable {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 13rem;
-
-      th, td {
-        padding: 12rem 14rem;
-        text-align: left;
-        line-height: 1.4;
-      }
-
-      thead {
-        tr {
-          border-bottom: 1px solid var(--color-gray-300);
-
-          th {
-            font-size: 13rem;
-            font-weight: 700;
-            color: var(--color-gray-800);
-            background-color: transparent;
-            white-space: nowrap;
-
-            &:nth-child(2), &:nth-child(3), &:nth-child(4) {
-              text-align: right;
-            }
-          }
-        }
-      }
-
-      tbody {
-        tr {
-          border-bottom: 1px solid var(--color-gray-100);
-
-          &:hover {
-            background-color: #f8fafc;
-          }
-
-          &.groupHeaderRow {
-            background-color: #f8fafc;
-            border-bottom: 1px solid var(--color-gray-200);
-
-            td {
-              font-weight: 700;
-              color: var(--color-gray-900);
-              font-size: 13rem;
-              padding-top: 14rem;
-              padding-bottom: 14rem;
-            }
-          }
-
-          td {
-            color: var(--color-gray-700);
-
-            &:nth-child(2), &:nth-child(3), &:nth-child(4) {
-              text-align: right;
-              font-family: var(--font-family-mono);
-            }
-
-            &.speedHighlight {
-              font-weight: 700;
-              color: var(--color-primary);
-            }
-          }
-        }
-      }
-    }
-
-    .tableFootnote {
-      font-size: 12rem;
-      color: var(--color-gray-500);
-      margin: 18rem 0 0 0;
-      line-height: 1.5;
-    }
-  }
-}
-
-/* --------------------------------------------------------------------------
-   Section 4: 도입효과 (bg="gray")
--------------------------------------------------------------------------- */
-.effectsSection {
-  padding-top: 100rem;
-  padding-bottom: 120rem;
-
-  :global(.header) {
-    margin-bottom: 48rem;
-
-    :global(.title) {
-      font-size: 36rem;
-      font-weight: 700;
-      color: var(--color-gray-900);
-      line-height: 1.3;
-    }
+  .testLabel {
+    @include text-body;
+    color: var(--color-text-gray-1);
   }
 
-  .effectsGrid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 24rem;
-    width: 100%;
-
-    .effectItem {
-      background-color: var(--color-white);
-      border: 1px solid var(--color-gray-200);
-      border-radius: 16rem;
-      padding: 32rem 24rem;
-      display: flex;
-      flex-direction: column;
-      gap: 16rem;
-      box-shadow: 0 4rem 16rem rgba(0, 0, 0, 0.03);
-      transition: all 0.2s ease;
-
-      &:hover {
-        border-color: var(--color-primary-300);
-        box-shadow: 0 8rem 24rem rgba(0, 0, 0, 0.06);
-        transform: translateY(-2rem);
-      }
-
-      .num {
-        font-size: 14rem;
-        font-weight: 700;
-        color: var(--color-primary);
-        font-family: var(--font-family-mono);
-        line-height: 1;
-      }
-
-      h4 {
-        font-size: 18rem;
-        font-weight: 700;
-        color: var(--color-gray-900);
-        line-height: 1.45;
-        margin: 0;
-        word-break: keep-all;
-      }
-    }
-  }
-}
-
-/* --------------------------------------------------------------------------
-   Responsive Breakpoints
--------------------------------------------------------------------------- */
-@media (max-width: 1024px) {
-  .engineSpeedSection {
-    padding-top: 60rem;
-    padding-bottom: 60rem;
-
-    .engineCardsGrid {
-      grid-template-columns: 1fr;
-      gap: 20rem;
-    }
-
-    .speedCompareBanner {
-      margin-top: 40rem;
-
-      .imageSplitWrap {
-        height: 260rem;
-      }
-    }
+  /* 표: 그룹 라벨 행 + 3열 (비식별 방식 왼쪽 정렬 · 속도 90 · 시간 70) */
+  .benchmark {
+    gap: 12rem;
   }
 
-  .benchmarkSection {
-    padding-top: 60rem;
-    padding-bottom: 60rem;
+  .tablePc {
+    display: none;
   }
 
-  .effectsSection {
-    padding-top: 60rem;
-    padding-bottom: 80rem;
+  .tableMo {
+    display: table;
 
-    .effectsGrid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16rem;
-    }
-  }
-}
-
-@media (max-width: 768px) {
-  .techHero {
-    :global(.header) {
-      :global(.title) {
-        font-size: 28rem;
-        line-height: 1.35;
-        margin-bottom: 14rem;
-      }
-
-      :global(.description) {
-        font-size: 14rem;
-        line-height: 1.55;
-      }
-    }
-  }
-
-  .engineSpeedSection {
-    padding-top: 48rem;
-    padding-bottom: 48rem;
-
-    :global(.header) {
-      margin-bottom: 32rem;
-
-      :global(.title) {
-        font-size: 26rem;
-        line-height: 1.35;
-        margin-bottom: 14rem;
-      }
-
-      :global(.description) {
-        font-size: 14rem;
-      }
+    th,
+    td {
+      padding: 10rem 8rem;
+      white-space: nowrap;
     }
 
-    .engineCard {
-      padding: 24rem 20rem;
-      border-radius: 16rem;
-
-      .cardTitle {
-        font-size: 20rem;
-      }
-
-      .stepList {
-        .stepItem {
-          padding: 11rem 14rem;
-          gap: 10rem;
-
-          .stepText {
-            font-size: 13rem;
-          }
-        }
-      }
+    th:first-child,
+    td:first-child {
+      padding-left: 16rem;
+      text-align: left;
     }
 
-    .speedCompareBanner {
-      margin-top: 32rem;
-
-      .imageSplitWrap {
-        height: 180rem;
-      }
-
-      .compareBadge {
-        padding: 12rem 20rem;
-
-        .badgeMain {
-          font-size: 15rem;
-        }
-
-        .badgeSub {
-          font-size: 11rem;
-        }
-      }
-    }
-  }
-
-  .benchmarkSection {
-    padding-top: 48rem;
-    padding-bottom: 48rem;
-
-    :global(.header) {
-      :global(.title) {
-        font-size: 26rem;
-        line-height: 1.35;
-        margin-bottom: 14rem;
-      }
-
-      :global(.description) {
-        font-size: 14rem;
-      }
+    thead th:nth-child(2) {
+      width: 90rem;
     }
 
-    .tableCard {
-      padding: 18rem 14rem;
-      border-radius: 12rem;
-
-      .benchmarkTable {
-        font-size: 12rem;
-
-        th, td {
-          padding: 10rem 8rem;
-        }
-      }
-    }
-  }
-
-  .effectsSection {
-    padding-top: 48rem;
-    padding-bottom: 60rem;
-
-    :global(.header) {
-      margin-bottom: 28rem;
-
-      :global(.title) {
-        font-size: 26rem;
-      }
+    thead th:nth-child(3) {
+      width: 70rem;
     }
 
-    .effectsGrid {
-      grid-template-columns: 1fr;
-      gap: 12rem;
-
-      .effectItem {
-        padding: 24rem 20rem;
-        border-radius: 12rem;
-
-        h4 {
-          font-size: 16rem;
-        }
-      }
+    .groupLabel th {
+      @include text-note;
+      padding: 8rem 16rem;
+      background-color: var(--color-surface-gray);
+      color: var(--color-text-gray-2);
+      text-align: left;
     }
   }
 }

@@ -1,144 +1,125 @@
 :root {
   /* ---------------------------------
-   * 1. Typography Tokens (Family, Size, Weight, Line-height)
+   * 1. Font Family & Weights
    * --------------------------------- */
   --font-family-base: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
   --font-family-mono: Consolas, Monaco, 'Courier New', monospace;
 
-  /* Weights */
   --font-weight-regular: 400;
-  --font-weight-medium: 500;
-  --font-weight-semibold: 600;
   --font-weight-bold: 700;
   --font-weight-extrabold: 800;
 
-  /* Responsive Font Sizes (Base: Desktop) */
-  --text-size-display-hero: 64rem;
-  --text-size-heading-section: 50rem;
-  --text-size-heading-card: 28rem;
-  --text-size-heading-item: 20rem;
-  --text-size-heading-item-small: 16rem;
-  --text-size-cta-heading: 50rem;
-  --text-size-label-eyebrow: 12rem;
-  --text-size-label-number: 12rem;
-  --text-size-body-lead: 16rem;
-  --text-size-body-small: 14rem;
-  --text-size-body-caption: 12rem;
-}
-
-@media (max-width: 768px) {
-  :root {
-    /* Responsive Font Sizes (Override: Mobile) */
-    --text-size-display-hero: 40rem;
-    --text-size-heading-section: 32rem;
-    --text-size-heading-card: 22rem;
-    --text-size-heading-item: 18rem;
-    --text-size-cta-heading: 32rem;
-    --text-size-body-lead: 14rem;
-  }
-}
-
-:root {
-
-  /* 메인 화면 예외 폰트는 별도 수동 처리하며, 서브화면용 공통 타이포그래피는 _mixins.scss의 mixin을 사용합니다. */
-
   /* ---------------------------------
-   * 2. Semantic Color Tokens
+   * 1.1 Font Sizes & Line Heights (Tokens)
    * --------------------------------- */
-  /* Primary (Blue) */
-  --color-primary-50: #f2f5ff;
-  --color-primary-100: #e5ebff;
-  --color-primary-200: #cbd7ff;
-  --color-primary-300: #9baeff;
-  --color-primary-400: #6b85ff;
-  --color-primary-500: #3b5bff; /* Main */
-  --color-primary-600: #2844d9;
-  --color-primary-700: #182fb3;
-  --color-primary-800: #0b1c8c;
-  --color-primary-900: #040d66;
+  --font-size-hero: 50rem;
+  --font-size-hero-mo: 44rem;
+  --line-height-hero: 1.2;
 
-  /* Secondary (Slate) */
-  --color-secondary-50: #effdff;
-  --color-secondary-100: #dffaff;
-  --color-secondary-200: #beecff;
-  --color-secondary-300: #93daff;
-  --color-secondary-400: #68c9ff;
-  --color-secondary-500: #3db7ff; /* Main */
-  --color-secondary-600: #2299d9;
-  --color-secondary-700: #0e7cb3;
-  --color-secondary-800: #03618c;
-  --color-secondary-900: #004766;
+  --font-size-section: 40rem;
+  --font-size-section-mo: 32rem;
+  --line-height-section: 1.3;
 
-  /* Success (Emerald) */
-  --color-success-50: #ecfdf5;
-  --color-success-100: #d1fae5;
-  --color-success-200: #a7f3d0;
-  --color-success-300: #6ee7b7;
-  --color-success-400: #34d399;
-  --color-success-500: #10b981; /* Main */
-  --color-success-600: #059669;
-  --color-success-700: #047857;
-  --color-success-800: #065f46;
-  --color-success-900: #064e3b;
+  --font-size-subheading: 20rem;
+  --line-height-subheading: 1.4;
 
-  /* Danger (Red) */
-  --color-danger-50: #fef2f2;
-  --color-danger-100: #fee2e2;
-  --color-danger-200: #fecaca;
-  --color-danger-300: #fca5a5;
-  --color-danger-400: #f87171;
-  --color-danger-500: #ef4444; /* Main */
-  --color-danger-600: #dc2626;
-  --color-danger-700: #b91c1c;
-  --color-danger-800: #991b1b;
-  --color-danger-900: #7f1d1d;
+  --font-size-body: 16rem;
+  --line-height-body: 1.75;
+  --line-height-body-mo: 1.6;
 
-  /* Warning (Amber) */
-  --color-warning-50: #fffbeb;
-  --color-warning-100: #fef3c7;
-  --color-warning-200: #fde68a;
-  --color-warning-300: #fcd34d;
-  --color-warning-400: #fbbf24;
-  --color-warning-500: #f59e0b; /* Main */
-  --color-warning-600: #d97706;
-  --color-warning-700: #b45309;
-  --color-warning-800: #92400e;
-  --color-warning-900: #78350f;
+  --font-size-eyebrow: 16rem;
+  --line-height-eyebrow: 1.75;
+  --line-height-eyebrow-mo: 1.6;
 
-  /* Neutral/Gray */
-  --color-gray-50: #f8f9fa;
-  --color-gray-100: #f1f3f4;
-  --color-gray-200: #e8eaed;
-  --color-gray-300: #dadce0;
-  --color-gray-400: #bdc1c6;
-  --color-gray-500: #9ea3a8; /* Main */
-  --color-gray-600: #80868b;
-  --color-gray-700: #5e6367;
-  --color-gray-800: #3c4043;
-  --color-gray-900: #1e2021;
-  
-  --color-black: #000000;
-  --color-white: #ffffff;
-
-  /* Legacy aliases to support existing code */
-  --color-primary: var(--color-primary-500);
-  --color-primary-hover: var(--color-primary-600);
-  --color-primary-light: var(--color-primary-50);
-  --color-secondary: var(--color-secondary-500);
-  --color-secondary-hover: var(--color-secondary-600);
-  --color-secondary-light: var(--color-secondary-50);
-  --color-success: var(--color-success-500);
-  --color-success-hover: var(--color-success-600);
-  --color-success-light: var(--color-success-50);
-  --color-danger: var(--color-danger-500);
-  --color-danger-hover: var(--color-danger-600);
-  --color-danger-light: var(--color-danger-50);
-  --color-warning: var(--color-warning-500);
-  --color-warning-hover: var(--color-warning-600);
-  --color-warning-light: var(--color-warning-50);
+  --font-size-note: 12rem;
+  --line-height-note: 1.75;
 
   /* ---------------------------------
-   * 3. Elevator Tokens (Shadows)
+   * 2. v2 Text Colors (위계 3단계 + 대비 예외)
+   * --------------------------------- */
+  --color-text-black: #000000;   /* 핵심 Hero · 주요 제목 · 강조 (흰 21:1 / #F1F3F4 18.9:1) */
+  --color-text-gray-1: #3c4043;  /* 보조 제목 · 중간 위계 (흰 10.5:1 / #F1F3F4 9.4:1) */
+  --color-text-gray-2: #5f6368;  /* 본문 · 낮은 우선순위 제목 (흰 6.05:1 / #F1F3F4 5.44:1) */
+  --color-text-eyebrow-section: #6f72af; /* 피그마 text/eyebrow-section: 섹션 Eyebrow 전용 */
+  --color-text-inverse: #ffffff; /* 대비 예외 — 어두운 Hero · 사진 위 · 브랜드색 버튼 내부 */
+
+  /* ---------------------------------
+   * 3. v2 Semantic Colors (최종 7대 핵심 토큰 + 상태 토큰)
+   * --------------------------------- */
+  /* Brand */
+  --color-brand-primary: #3b5bff; /* 버튼 배경, 테두리, 선택 상태 */
+  --color-primary: var(--color-brand-primary, #3b5bff);
+  --color-secondary: #3db7ff;
+  --color-success: #10b981;
+  --color-danger: #ef4444;
+  --color-warning: #f59e0b;
+  
+  /* Text Accent */
+  --color-text-accent: #3b5bff;   /* 파란 텍스트 예외: ✓, 단계 번호, 브랜드 문구(ON) */
+
+  /* Surface */
+  --color-surface-white: #ffffff;       /* 기본 섹션 · 카드 배경 */
+  --color-surface-gray: #f1f3f4;        /* 구분 섹션 배경 */
+  --color-surface-blue-subtle: #eef1ff; /* 강조 카드 · 선택 영역 배경 */
+  --color-surface-blue-soft: #f4f9fe;   /* Figma v2 surface/blue-soft: 파이프라인/프로세스 카드 배경 */
+  --color-surface-header: rgba(11, 20, 38, 0.4); /* Figma v2 surface/header (#0b142666) */
+  --surface-button-secondary: rgba(255, 255, 255, 0.8); /* Figma v2 surface/button-secondary: 데모 체험하기/도입 문의하기 버튼 배경 */
+
+  /* Button/v2 Tokens (Figma Node 2241:378 / 2481:57066) */
+  --color-text-button-secondary: #142b45; /* Figma v2 text/button-secondary: 보조 버튼 남색 텍스트 */
+  --shadow-button-primary: 0 4rem 6rem rgba(20, 43, 69, 0.1); /* Figma v2 Primary 버튼 그림자 */
+  --color-border-button-secondary: #c8d2df; /* Figma v2 border/button-secondary: 밝은 카드 위 Secondary 버튼 테두리 (3064:37404) */
+
+  /* Border */
+  --color-border-default: #e8eaed; /* 카드 · 구분선 기본 테두리 */
+  --color-border-strong: #80868b;  /* Outline 버튼 테두리 */
+  --color-border-inverse: #ffffff; /* Figma v2 border/inverse */
+  --color-border-unselected: #dadce0; /* Figma border/unselected: 입력 필드 · 체크박스 기본 테두리 */
+
+  /* Status (Figma Inline Alert/v2 · Text Field/v2 오류) */
+  --color-status-error: #d93025;      /* 오류 아이콘 · 오류 테두리 · 오류 안내 문구 */
+  --color-status-error-bg: #fce8e6;   /* 오류 안내 박스 배경 */
+  --color-status-success: #188038;    /* 완료 아이콘 · 조건 충족 문구 */
+  --color-status-success-bg: #e6f4ea; /* 완료 안내 박스 배경 */
+
+  /* Disabled (Figma Button/v2 Disabled) */
+  --color-surface-disabled: #e8eaed;
+  --color-text-disabled: #80868b;
+
+  /* ---------------------------------
+   * 4. Layout & Spacing Tokens
+   * --------------------------------- */
+  --layout-max-width: 1240rem;   /* 본문이 실제 차지하는 최대 폭 (패딩 제외) */
+  --content-max-width: 1240rem;
+  --layout-gutter: 20rem;        /* Desktop 본문 좌우 여백 */
+  --layout-gutter-mobile: 16rem; /* Mobile 본문 좌우 여백 */
+  /* 컨테이너 최대 폭 = 본문 1240 + 좌우 거터 (PC 1280) — 패딩을 주는 컨테이너는 이 값을 max-width로 사용 */
+  --layout-container-max-width: calc(var(--layout-max-width) + var(--layout-gutter) * 2);
+
+  /* Figma Spacings */
+  --spacing-none: 0;
+  --spacing-8: 8rem;
+  --spacing-12: 12rem;
+  --spacing-16: 16rem;
+  --spacing-20: 20rem;
+  --spacing-24: 24rem;
+  --spacing-40: 40rem;
+
+  /* Heights & Radius */
+  --btn-height: 56rem;
+  --btn-radius: 6rem;
+  --size-button-header-height: 39rem;
+  --header-height: 72rem;
+  --header-height-mo: 60rem;
+  --hero-compact-min-height-pc: auto;
+  --hero-compact-min-height-mo: auto;
+  --hero-compact-padding-top-pc: 158rem;
+  --hero-compact-padding-bottom-pc: 102rem;
+  --hero-compact-padding-top-mo: 96rem;
+  --hero-compact-padding-bottom-mo: 48rem;
+
+  /* ---------------------------------
+   * 5. Elevator Tokens (Shadows)
    * --------------------------------- */
   --elevator-none: none;
   --elevator-1: 0 1rem 2rem 0 rgba(0, 0, 0, 0.05);
@@ -147,7 +128,7 @@
   --elevator-4: 0 20rem 25rem -5rem rgba(0, 0, 0, 0.1), 0 10rem 10rem -5rem rgba(0, 0, 0, 0.04);
 
   /* ---------------------------------
-   * 4. Z-Index Tokens
+   * 6. Z-Index Tokens
    * --------------------------------- */
   --zindex-element: 1;
   --zindex-group: 10;
@@ -159,16 +140,18 @@
   --zindex-datepicker: 1400;
   --zindex-tooltip: 1500;
   --zindex-toast: 9999;
-
-  /* ---------------------------------
-   * 5. Utilities (Spacing, Radius)
-   * --------------------------------- */
-  --spacing-xs: 4rem;
-  --spacing-sm: 8rem;
-  --spacing-md: 16rem;
-  --spacing-lg: 24rem;
-  --spacing-xl: 32rem;
-  --spacing-2xl: 40rem;
-  
-  --radius: 8rem;
 }
+
+@media (max-width: 768px) {
+  :root {
+    --layout-gutter: var(--layout-gutter-mobile, 16rem);
+    --layout-container-max-width: calc(var(--layout-max-width) + var(--layout-gutter-mobile) * 2);
+  }
+}
+
+/* SCSS Variables */
+$layout-max-width: var(--layout-max-width, 1240rem);
+$layout-container-max-width: var(--layout-container-max-width, 1280rem);
+$content-max-width: var(--content-max-width, 1240rem);
+$layout-gutter: var(--layout-gutter, 20rem);
+$layout-gutter-mobile: var(--layout-gutter-mobile, 16rem);

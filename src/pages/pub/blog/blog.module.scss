@@ -1,0 +1,251 @@
+@use "@/assets/scss/variables" as *;
+@use "@/assets/scss/mixins" as *;
+
+/* 블로그 목록 (Figma PC 2429:3658 / Mobile 2433:4026) */
+
+.blogPage {
+  width: 100%;
+}
+
+/* --------------------------------------------------------------------------
+ * 1. Hero: 가운데 정렬 Compact · PC 높이 407 (문구 세로 가운데) / MO 위 120 · 아래 64
+ * -------------------------------------------------------------------------- */
+.blogHero {
+  --hero-compact-padding-top-pc: 148rem;
+  --hero-compact-padding-bottom-pc: 147rem;
+  --hero-compact-padding-top-mo: 120rem;
+  --hero-compact-padding-bottom-mo: 64rem;
+}
+
+/* --------------------------------------------------------------------------
+ * 공통: 그룹 제목(Subheading) → 20 → 내용 / 카테고리 Note gray-2 / 요약 Body gray-1 / 링크 Body primary
+ * -------------------------------------------------------------------------- */
+.listGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 20rem;
+}
+
+.listGroupAll {
+  gap: 24rem;
+}
+
+.groupTitle {
+  @include text-subheading;
+  margin: 0;
+  color: var(--color-text-black);
+}
+
+.category {
+  @include text-note;
+  color: var(--color-text-gray-2);
+}
+
+.summary {
+  @include text-body;
+  margin: 0;
+  color: var(--color-text-gray-1);
+  word-break: keep-all;
+}
+
+.moreLink {
+  @include text-body;
+  align-self: flex-start;
+  color: var(--color-text-accent);
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+/* --------------------------------------------------------------------------
+ * 2. 최신 글 (Figma PC 2429:3665): 테두리 카드 · padding 24 48 24 24 · 표지 560 × 336 → 40 → 글 (세로 가운데)
+ * -------------------------------------------------------------------------- */
+.latestCard {
+  display: flex;
+  align-items: center;
+  gap: 40rem;
+  padding: 24rem 48rem 24rem 24rem;
+  border: 1rem solid var(--color-border-default);
+  border-radius: 12rem;
+  background-color: var(--color-surface-white);
+}
+
+.latestCover {
+  display: block;
+  flex-shrink: 0;
+  width: 560rem;
+  aspect-ratio: 560 / 336;
+  border-radius: 12rem;
+  object-fit: cover;
+}
+
+.latestContent {
+  display: flex;
+  flex: 1 0 0;
+  flex-direction: column;
+  gap: 12rem;
+  min-width: 0;
+}
+
+.latestTitle {
+  @include text-section-mo;
+  margin: 0;
+  color: var(--color-text-black);
+  word-break: keep-all;
+}
+
+/* --------------------------------------------------------------------------
+ * 3. 전체 글 (Figma PC 2429:3674): 3열 (열 사이 20 · 행 사이 24) → 60 → 페이지 이동
+ * 카드: 테두리 · padding 24 24 32 · 표지(350 × 150 비율) → 24 → 글 / 링크는 카드 아래 고정
+ * -------------------------------------------------------------------------- */
+.allPosts {
+  display: flex;
+  flex-direction: column;
+  gap: 60rem;
+}
+
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24rem 20rem;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 24rem;
+  padding: 24rem 24rem 32rem;
+  border: 1rem solid var(--color-border-default);
+  border-radius: 12rem;
+  background-color: var(--color-surface-white);
+}
+
+.cardCover {
+  display: block;
+  width: 100%;
+  aspect-ratio: 350 / 150;
+  border-radius: 12rem;
+  object-fit: cover;
+}
+
+/* 글 영역: 시안 높이 245 고정 → 요약 줄 수와 관계없이 카드 높이·링크 위치를 맞춤 (최소 간격 32) */
+.cardContent {
+  display: flex;
+  flex: 1 0 auto;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 32rem;
+  min-height: 245rem;
+}
+
+.cardText {
+  display: flex;
+  flex-direction: column;
+  gap: 12rem;
+}
+
+.cardTitle {
+  @include text-subheading;
+  margin: 0;
+  color: var(--color-text-black);
+  word-break: keep-all;
+}
+
+/* 페이지 이동: 40 × 40 · radius 6 · 사이 8 / 현재 primary 배경 */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 8rem;
+}
+
+.pageButton,
+.pageArrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40rem;
+  height: 40rem;
+  padding: 0;
+  border-radius: 6rem;
+  cursor: pointer;
+}
+
+.pageButton {
+  border: 1rem solid var(--color-border-default);
+  background-color: var(--color-surface-white);
+  color: var(--color-text-black);
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-body);
+  font-weight: 500;
+  line-height: normal;
+}
+
+.pageCurrent {
+  border-color: var(--color-primary);
+  background-color: var(--color-primary);
+  color: var(--color-text-inverse);
+  font-weight: var(--font-weight-semibold, 600);
+}
+
+.pageArrow {
+  border: 0;
+  background: none;
+
+  &:disabled {
+    cursor: default;
+  }
+
+  img {
+    width: 20rem;
+    height: 20rem;
+  }
+}
+
+/* --------------------------------------------------------------------------
+ * Responsive
+ * -------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .cardGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .latestCard {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 24rem;
+    padding: 24rem;
+  }
+
+  .latestCover {
+    width: 100%;
+  }
+}
+
+/* 모바일 (Figma Mobile 2433:4026 · 390 기준) */
+@media (max-width: 768px) {
+  .latestCover,
+  .cardCover {
+    border-radius: 6.5rem;
+  }
+
+  .latestTitle {
+    @include text-subheading;
+  }
+
+  .allPosts {
+    gap: 40rem;
+  }
+
+  .cardGrid {
+    grid-template-columns: 1fr;
+    gap: 20rem;
+  }
+
+  /* MO 시안: 글 묶음 바로 아래 링크 (간격 0) */
+  .cardContent {
+    gap: 0;
+    min-height: 0;
+  }
+}

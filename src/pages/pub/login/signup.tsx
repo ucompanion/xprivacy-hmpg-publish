@@ -1,158 +1,101 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import FrontLayout from '../layouts/FrontLayout';
-import { SignupStepIndicator } from './components/SignupStepIndicator';
-import styles from './signup-flow.module.scss';
+import { Input } from '../../../components/core/Form/Input';
+import { Button } from '../../../components/core/Button/Button';
+import { AuthActions, AuthBody, AuthCard, AuthLink, AuthLinks } from './components/Auth';
+import styles from './login.module.scss';
 
+const PASSWORD_HELPER = '8자 이상, 영문·숫자·특수문자 중 2종 이상';
+
+/** 케이스별 초기 입력값 (오류 케이스: 확인 비밀번호 불일치) */
+function initialValues(isErrorCase: boolean) {
+  return {
+    name: '홍길동',
+    email: 'user@xprivacy.io',
+    password: 'password12',
+    confirmPassword: isErrorCase ? 'passwor9' : '',
+  };
+}
+
+/**
+ * 회원가입 2단계 · 정보 입력 (케이스: 기본 · ?case=error 오류)
+ * Figma PC 2966:5661 / 2966:5679 · MO 2967:3447 / 2967:3752
+ */
 export default function PubLoginSignup() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const currentCase = searchParams.get('case') || 'default';
+  const currentCase = searchParams.get('case') ?? 'default';
   const isErrorCase = currentCase === 'error';
 
-  const [name, setName] = useState('홍길동');
-  const [email, setEmail] = useState('user@xprivacy.io');
-  const [password, setPassword] = useState('password123');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [values, setValues] = useState(() => initialValues(isErrorCase));
 
-  useEffect(() => {
-    if (isErrorCase) {
-      setName('홍길동');
-      setEmail('user@xprivacy.io');
-      setPassword('password123');
-      setConfirmPassword('password999'); // 불일치 값
-    } else {
-      setName('홍길동');
-      setEmail('user@xprivacy.io');
-      setPassword('password123');
-      setConfirmPassword('');
-    }
-  }, [isErrorCase]);
+  // 케이스가 바뀌면 입력값 재설정 (effect 대신 렌더 중 이전 값 비교 · React 권장 방식)
+  const [prevCase, setPrevCase] = useState(currentCase);
+  if (prevCase !== currentCase) {
+    setPrevCase(currentCase);
+    setValues(initialValues(isErrorCase));
+  }
+
+  const update = (key: keyof typeof values) => (e: React.ChangeEvent<HTMLInputElement>) =>
+    setValues((prev) => ({ ...prev, [key]: e.target.value }));
+
+  const canSubmit = Object.values(values).every((value) => value.trim() !== '');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    navigate('/pub/login/signup-complete');
+    void navigate('/pub/login/signup-complete');
   };
-
-  const isButtonActive = isErrorCase || (name.trim() && email.trim() && password.trim() && confirmPassword.trim());
 
   return (
     <FrontLayout>
-      <div className={styles.page_wrap}>
-        <div className={styles.card}>
-          <SignupStepIndicator currentStep={2} />
-
-          <div className={styles.header}>
-            <h1 className={styles.title}>회원가입</h1>
-            <p className={styles.subtitle}>계정 정보를 입력해주세요.</p>
-          </div>
-
-          <form className={styles.form} onSubmit={handleSubmit}>
-            {/* 이름 */}
-            <div className={styles.form_group}>
-              <label htmlFor="signup-name" className={styles.label}>이름</label>
-              <input
-                id="signup-name"
-                type="text"
-                className={styles.input}
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="이름 입력"
-                required
-              />
-            </div>
-
-            {/* 이메일 */}
-            <div className={styles.form_group}>
-              <label htmlFor="signup-email" className={styles.label}>이메일</label>
-              <input
-                id="signup-email"
-                type="email"
-                className={`${styles.input} ${isErrorCase ? styles.has_error : ''}`}
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="name@company.com"
-                required
-              />
-              {isErrorCase && (
-                <p className={styles.error_text}>
-                  이미 가입된 이메일입니다.{' '}
-                  <Link to="/pub/login">로그인</Link>
-                  하거나{' '}
-                  <Link to="/pub/login/find-password">비밀번호를 찾아보세요.</Link>
-                </p>
-              )}
-            </div>
-
-            {/* 비밀번호 */}
-            <div className={styles.form_group}>
-              <label htmlFor="signup-password" className={styles.label}>비밀번호</label>
-              <div className={styles.password_wrap}>
-                <input
-                  id="signup-password"
-                  type={showPassword ? 'text' : 'password'}
-                  className={styles.input}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="비밀번호 입력"
-                  required
-                />
-                <button
-                  type="button"
-                  className={styles.btn_toggle}
-                  onClick={() => setShowPassword(!showPassword)}
-                >
-                  {showPassword ? '숨기기' : '보기'}
-                </button>
-              </div>
-              <p className={styles.helper_text}>8자 이상, 영문·숫자·특수문자 중 2종 이상</p>
-            </div>
-
-            {/* 비밀번호 확인 */}
-            <div className={styles.form_group}>
-              <label htmlFor="signup-confirm-password" className={styles.label}>비밀번호 확인</label>
-              <div className={styles.password_wrap}>
-                <input
-                  id="signup-confirm-password"
-                  type={showConfirmPassword ? 'text' : 'password'}
-                  className={`${styles.input} ${isErrorCase ? styles.has_error : ''}`}
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  placeholder="비밀번호를 한 번 더 입력하세요"
-                  required
-                />
-                <button
-                  type="button"
-                  className={styles.btn_toggle}
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                >
-                  {showConfirmPassword ? '숨기기' : '보기'}
-                </button>
-              </div>
-              {isErrorCase && (
-                <p className={styles.error_text}>비밀번호가 일치하지 않습니다.</p>
-              )}
-            </div>
-
-            {/* 가입하기 버튼 */}
-            <button
-              type="submit"
-              className={`${styles.btn_primary} ${isButtonActive ? '' : styles.disabled}`}
-              disabled={!isButtonActive}
-            >
+      <AuthCard step={2} title="회원가입" description="계정 정보를 입력해주세요.">
+        <form className={styles.form} onSubmit={handleSubmit}>
+          <AuthBody>
+            <Input size="lg" label="이름" value={values.name} onChange={update('name')} autoComplete="name" />
+            <Input
+              size="lg"
+              label="이메일"
+              type="email"
+              placeholder="name@company.com"
+              value={values.email}
+              onChange={update('email')}
+              autoComplete="email"
+              error={isErrorCase ? '이미 가입된 이메일입니다. 로그인하거나 비밀번호를 찾아보세요.' : undefined}
+            />
+            <Input
+              size="lg"
+              label="비밀번호"
+              type="password"
+              placeholder="비밀번호를 입력하세요"
+              value={values.password}
+              onChange={update('password')}
+              autoComplete="new-password"
+              helper={PASSWORD_HELPER}
+              passwordToggle
+            />
+            <Input
+              size="lg"
+              label="비밀번호 확인"
+              type="password"
+              placeholder="비밀번호를 한 번 더 입력하세요"
+              value={values.confirmPassword}
+              onChange={update('confirmPassword')}
+              autoComplete="new-password"
+              error={isErrorCase ? '비밀번호가 일치하지 않습니다.' : undefined}
+              passwordToggle
+            />
+          </AuthBody>
+          <AuthActions>
+            <Button type="submit" variant="solid" color="primary" size="xl" disabled={!canSubmit}>
               가입하기
-            </button>
-          </form>
-
-          <div className={styles.footer_links}>
-            <Link to="/pub/login/terms" className={styles.back_link}>
-              ← 이전 단계
-            </Link>
-          </div>
-        </div>
-      </div>
+            </Button>
+            <AuthLinks>
+              <AuthLink to="/pub/login/terms">← 이전 단계</AuthLink>
+            </AuthLinks>
+          </AuthActions>
+        </form>
+      </AuthCard>
     </FrontLayout>
   );
 }

@@ -1,357 +1,255 @@
-@import '../../../assets/scss/variables';
+@use "@/assets/scss/variables" as *;
+@use "@/assets/scss/mixins" as *;
+
+/* 미매핑 피그마 값 (프로젝트 토큰 없음 → 시안 값 사용)
+ * - accent/detection #3DB7FF: 탐지 박스 테두리·모서리·라벨 배경
+ * - 회의실 얼굴 블러 rgba(224,209,194,.35) + backdrop-blur 8 / 탐지 얼굴 블러 backdrop-blur 4
+ * - 탐지 라벨 Label/Eyebrow 12 ExtraBold · 자간 1.54 */
+$detect-color: #3db7ff;
+
+/* 비주얼 내부 치수는 560 프레임 기준값을 컨테이너 폭에 비례(cqw)시켜 MO(350)에서도 같은 비율 유지 */
+@function frame($px) {
+  @return calc(#{$px} / 560 * 100cqw);
+}
 
 .pageWrap {
   width: 100%;
 }
 
 /* --------------------------------------------------------------------------
-   Common Section Header Tuning for Feature Detail Page
--------------------------------------------------------------------------- */
-.featureSection {
-  padding-top: 100rem;
-  padding-bottom: 100rem;
-  border-bottom: 1px solid var(--color-gray-100);
-
-  &:last-of-type {
-    border-bottom: none;
-  }
-
-  :global(.header) {
-    :global(.eyebrow) {
-      font-size: 13rem;
-      font-weight: 700;
-      color: var(--color-primary);
-      letter-spacing: 0.1em;
-      margin-bottom: 14rem;
-      font-family: var(--font-family-mono);
-      text-transform: uppercase;
-    }
-
-    :global(.title) {
-      font-size: 38rem;
-      font-weight: 700;
-      color: var(--color-gray-900);
-      line-height: 1.35;
-      margin-bottom: 20rem;
-      word-break: keep-all;
-    }
-
-    :global(.description) {
-      font-size: 16rem;
-      color: var(--color-gray-600);
-      line-height: 1.65;
-      word-break: keep-all;
-    }
-  }
-
-  /* Left Column Features List */
-  .featureList {
-    display: flex;
-    flex-direction: column;
-    gap: 28rem;
-    margin-top: 40rem;
-
-    .featureItem {
-      display: flex;
-      flex-direction: column;
-      gap: 6rem;
-      position: relative;
-      padding-bottom: 20rem;
-      border-bottom: 1px solid var(--color-gray-100);
-
-      &:last-child {
-        border-bottom: none;
-        padding-bottom: 0;
-      }
-
-      .num {
-        font-size: 13rem;
-        font-weight: 700;
-        color: var(--color-primary);
-        font-family: var(--font-family-mono);
-        line-height: 1;
-        margin-bottom: 2rem;
-      }
-
-      .title {
-        font-size: 18rem;
-        font-weight: 700;
-        color: var(--color-gray-900);
-        margin: 0;
-        line-height: 1.4;
-      }
-
-      .desc {
-        font-size: 14rem;
-        color: var(--color-gray-600);
-        line-height: 1.6;
-        margin: 0;
-        word-break: keep-all;
-      }
-    }
-  }
-
-  /* Right Column Visual Box 1: De-Identified Result */
-  .deidVisualBox {
-    width: 100%;
-    aspect-ratio: 4 / 3.4;
-    background-color: var(--color-gray-200);
-    background-image: url('https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=1200&q=80');
-    background-size: cover;
-    background-position: center;
-    border-radius: 16rem;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 10rem 30rem rgba(0, 0, 0, 0.08);
-
-    /* Person 1 Blur Filter (Left pedestrian) */
-    .blurPersonLeft {
-      position: absolute;
-      top: 36%;
-      left: 17%;
-      width: 54rem;
-      height: 148rem;
-      border-radius: 6rem;
-      backdrop-filter: blur(14px) brightness(0.92);
-      background-color: rgba(255, 255, 255, 0.08);
-      box-shadow: 0 0 10rem rgba(0, 0, 0, 0.15);
-    }
-
-    /* Person 2 Blur Filter (Center pedestrian) */
-    .blurPersonCenter {
-      position: absolute;
-      top: 38%;
-      left: 45%;
-      width: 48rem;
-      height: 130rem;
-      border-radius: 6rem;
-      backdrop-filter: blur(14px) brightness(0.92);
-      background-color: rgba(255, 255, 255, 0.08);
-      box-shadow: 0 0 10rem rgba(0, 0, 0, 0.15);
-    }
-
-    /* Car License Plate Blur (Right SUV plate) */
-    .blurPlate {
-      position: absolute;
-      top: 51%;
-      left: 71%;
-      width: 64rem;
-      height: 24rem;
-      border-radius: 3rem;
-      backdrop-filter: blur(12px) brightness(0.9);
-      background-color: rgba(255, 255, 255, 0.1);
-      box-shadow: 0 0 8rem rgba(0, 0, 0, 0.15);
-    }
-  }
-
-  /* Right Column Visual Box 2: AI Precision Detection Preview */
-  .detectionVisualBox {
-    width: 100%;
-    aspect-ratio: 4 / 3.4;
-    background-color: var(--color-gray-200);
-    background-image: url('https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=1200&q=80');
-    background-size: cover;
-    background-position: center;
-    border-radius: 16rem;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 10rem 30rem rgba(0, 0, 0, 0.08);
-
-    /* Person 1 Bounding Box (Left pedestrian) */
-    .detectPersonLeft {
-      position: absolute;
-      top: 36%;
-      left: 17%;
-      width: 54rem;
-      height: 148rem;
-      border: 2px solid #38bdf8;
-      box-shadow: 0 0 10rem rgba(56, 189, 248, 0.5);
-      border-radius: 4rem;
-
-      .boxTag {
-        position: absolute;
-        top: -20rem;
-        left: -2px;
-        background: #38bdf8;
-        color: #0b0c0e;
-        font-size: 10rem;
-        font-weight: 700;
-        padding: 1rem 5rem;
-        border-radius: 2rem 2rem 0 0;
-        font-family: var(--font-family-mono);
-        white-space: nowrap;
-      }
-    }
-
-    /* Person 2 Bounding Box (Center pedestrian) */
-    .detectPersonCenter {
-      position: absolute;
-      top: 38%;
-      left: 45%;
-      width: 48rem;
-      height: 130rem;
-      border: 2px solid #38bdf8;
-      box-shadow: 0 0 10rem rgba(56, 189, 248, 0.5);
-      border-radius: 4rem;
-
-      .boxTag {
-        position: absolute;
-        top: -20rem;
-        left: -2px;
-        background: #38bdf8;
-        color: #0b0c0e;
-        font-size: 10rem;
-        font-weight: 700;
-        padding: 1rem 5rem;
-        border-radius: 2rem 2rem 0 0;
-        font-family: var(--font-family-mono);
-        white-space: nowrap;
-      }
-    }
-
-    /* Car License Plate Bounding Box */
-    .detectPlate {
-      position: absolute;
-      top: 51%;
-      left: 71%;
-      width: 64rem;
-      height: 24rem;
-      border: 2px solid #38bdf8;
-      box-shadow: 0 0 10rem rgba(56, 189, 248, 0.5);
-      border-radius: 3rem;
-
-      .boxTag {
-        position: absolute;
-        top: -20rem;
-        left: -2px;
-        background: #38bdf8;
-        color: #0b0c0e;
-        font-size: 10rem;
-        font-weight: 700;
-        padding: 1rem 5rem;
-        border-radius: 2rem 2rem 0 0;
-        font-family: var(--font-family-mono);
-        white-space: nowrap;
-      }
-    }
-
-    /* Bottom Status Banner */
-    .bottomPreviewBanner {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: rgba(11, 12, 14, 0.85);
-      backdrop-filter: blur(6px);
-      padding: 10rem 16rem;
-      display: flex;
-      align-items: center;
-      gap: 10rem;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-
-      .dot {
-        width: 8rem;
-        height: 8rem;
-        border-radius: 50%;
-        background-color: #38bdf8;
-        box-shadow: 0 0 8rem #38bdf8;
-        animation: pulseDot 1.5s ease-in-out infinite alternate;
-      }
-
-      .bannerText {
-        font-size: 12rem;
-        font-weight: 700;
-        color: #ffffff;
-        font-family: var(--font-family-mono);
-        letter-spacing: 0.05em;
-      }
-    }
-  }
-}
-
-@keyframes pulseDot {
-  0% {
-    opacity: 0.6;
-    transform: scale(0.9);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1.1);
-  }
+ * 1. Hero (Figma PC 2262:2976 / Mobile 2286:63931)
+ * 가운데 정렬 Compact · PC 높이 407 / MO 488 (헤더 72 아래 문구 세로 가운데)
+ * -------------------------------------------------------------------------- */
+.featureHero {
+  --hero-compact-padding-top-pc: 96rem;
+  --hero-compact-padding-bottom-pc: 95rem;
+  --hero-compact-padding-top-mo: 168rem;
+  --hero-compact-padding-bottom-mo: 96rem;
 }
 
 /* --------------------------------------------------------------------------
-   Responsive Breakpoints
--------------------------------------------------------------------------- */
-@media (max-width: 1024px) {
-  .featureSection {
-    padding-top: 60rem;
-    padding-bottom: 60rem;
+ * 2·3. 좌우 분할 섹션 (Figma PC 2257:2276 · 2257:2288 / Mobile 2286:3511 · 2286:3523)
+ * 텍스트 열(flex 1) + 비주얼 560×490 radius 12 · 사이 100 · 세로 가운데
+ * MO: 텍스트 → 40 → 비주얼(350×306.25)
+ * -------------------------------------------------------------------------- */
+.split {
+  display: flex;
+  align-items: center;
+  gap: 100rem;
+}
 
-    .featureList {
-      margin-top: 28rem;
-      gap: 20rem;
-    }
+.reverse {
+  flex-direction: row-reverse;
+}
+
+.copy {
+  flex: 1 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24rem;
+  min-width: 0;
+}
+
+/* Section Intro: eyebrow → 12 → 헤딩 → 24 → 설명 */
+.intro {
+  display: flex;
+  flex-direction: column;
+}
+
+.eyebrow {
+  @include text-body;
+  color: var(--color-text-gray-2);
+}
+
+.heading {
+  @include text-section;
+  margin: 12rem 0 0;
+  color: var(--color-text-black);
+}
+
+.lead {
+  @include text-body;
+  margin: 24rem 0 0;
+  color: var(--color-text-gray-1);
+  word-break: keep-all;
+}
+
+/* List Item (Number): 상단 border · padding 24 0 · 번호 → 40 → 제목/설명(gap 6) */
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.listItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 40rem;
+  padding: 24rem 0;
+  border-top: 1rem solid var(--color-border-default);
+}
+
+.listNum {
+  @include text-body;
+  flex-shrink: 0;
+  color: var(--color-text-gray-2);
+}
+
+.listText {
+  display: flex;
+  flex: 1 0 0;
+  flex-direction: column;
+  gap: 6rem;
+  min-width: 0;
+}
+
+.listTitle {
+  @include text-subheading;
+  margin: 0;
+  color: var(--color-text-black);
+}
+
+.listDesc {
+  @include text-body;
+  margin: 0;
+  color: var(--color-text-gray-1);
+  word-break: keep-all;
+}
+
+/* 비주얼: 560×490 · radius 12 · 사진 크롭은 시안 값 */
+.visual {
+  position: relative;
+  flex-shrink: 0;
+  width: 560rem;
+  aspect-ratio: 560 / 490;
+  overflow: hidden;
+  border-radius: 12rem;
+  container-type: inline-size;
+
+  > img {
+    position: absolute;
+    max-width: none;
+  }
+
+}
+
+.targetBlur,
+.targetMask,
+.detectionBox {
+  position: absolute;
+}
+
+.meetingImg {
+  top: 0;
+  left: -29.61%;
+  width: 156.72%;
+  height: 100%;
+}
+
+.apartmentImg {
+  top: -7.14%;
+  left: 0;
+  width: 100%;
+  height: 114.29%;
+}
+
+/* 회의실 얼굴: 비가역 블러 (따뜻한 반투명 + blur 8) */
+.faceBlur {
+  position: absolute;
+  border-radius: frame(22.961);
+  background-color: rgba(224, 209, 194, 0.35);
+  backdrop-filter: blur(frame(8));
+}
+
+/* 탐지: 얼굴 블러 · 번호판 마스킹 */
+.targetBlur {
+  border-radius: frame(4);
+  background-color: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(frame(4));
+}
+
+.targetMask {
+  border-radius: frame(3);
+  background-color: var(--color-text-gray-2);
+}
+
+/* Detection Box: 테두리 1 + 모서리 14 (선 3) + 라벨 */
+.detectionBox {
+  border: frame(1) solid $detect-color;
+}
+
+.corner {
+  position: absolute;
+  width: frame(14);
+  height: frame(14);
+  border: 0 solid $detect-color;
+
+  &:nth-child(1) {
+    top: frame(-2);
+    left: frame(-2);
+    border-top-width: frame(3);
+    border-left-width: frame(3);
+  }
+
+  &:nth-child(2) {
+    top: frame(-2);
+    right: frame(-2);
+    border-top-width: frame(3);
+    border-right-width: frame(3);
+  }
+
+  &:nth-child(3) {
+    bottom: frame(-2);
+    left: frame(-2);
+    border-bottom-width: frame(3);
+    border-left-width: frame(3);
+  }
+
+  &:nth-child(4) {
+    right: frame(-2);
+    bottom: frame(-2);
+    border-right-width: frame(3);
+    border-bottom-width: frame(3);
   }
 }
 
+/* 라벨: 박스 위 25 · padding 3 6 · 12 ExtraBold · 자간 1.54 */
+.detectionLabel {
+  position: absolute;
+  top: frame(-25);
+  left: frame(-1);
+  padding: frame(3) frame(6);
+  background-color: $detect-color;
+  color: var(--color-text-black);
+  font-family: var(--font-family-base);
+  font-size: frame(12);
+  font-weight: 800;
+  line-height: normal;
+  letter-spacing: frame(1.54);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* --------------------------------------------------------------------------
+ * Responsive
+ * -------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .split,
+  .reverse {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 40rem;
+  }
+
+  .visual {
+    width: 100%;
+  }
+}
+
+/* 모바일 (Figma Mobile 2286:3509 · 390 기준) */
 @media (max-width: 768px) {
-  .featureSection {
-    padding-top: 48rem;
-    padding-bottom: 48rem;
-
-    :global(.header) {
-      :global(.title) {
-        font-size: 26rem;
-        line-height: 1.35;
-        margin-bottom: 14rem;
-      }
-
-      :global(.description) {
-        font-size: 14rem;
-      }
-    }
-
-    .featureList {
-      margin-top: 24rem;
-      gap: 16rem;
-
-      .featureItem {
-        padding-bottom: 16rem;
-
-        .title {
-          font-size: 16rem;
-        }
-
-        .desc {
-          font-size: 13rem;
-        }
-      }
-    }
-
-    .deidVisualBox,
-    .detectionVisualBox {
-      border-radius: 12rem;
-      aspect-ratio: 16 / 11;
-      margin-top: 24rem;
-
-      .blurPersonLeft,
-      .detectPersonLeft {
-        width: 40rem;
-        height: 110rem;
-      }
-
-      .blurPersonCenter,
-      .detectPersonCenter {
-        width: 36rem;
-        height: 95rem;
-      }
-
-      .blurPlate,
-      .detectPlate {
-        width: 48rem;
-        height: 18rem;
-      }
-    }
+  /* MO 시안은 얼굴 박스 라벨 없이 번호판 라벨만 표시 */
+  .labelPcOnly {
+    display: none;
   }
 }

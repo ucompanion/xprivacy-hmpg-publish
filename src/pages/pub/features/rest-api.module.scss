@@ -1,604 +1,433 @@
-@import '../../../assets/scss/variables';
+@use "@/assets/scss/variables" as *;
+@use "@/assets/scss/mixins" as *;
+
+/* 미매핑 피그마 값 (프로젝트 토큰 없음 → 시안 값 사용)
+ * - 카드 테두리 #E3E7EE → border-default로 대체
+ * - REST API 강조 박스 배경 #EEF1FF · 테두리 rgba(59,91,255,.35)
+ * - 연동 화살표 선 rgba(59,91,255,.3) 2px */
+$accent-box-bg: #eef1ff;
+$accent-box-border: rgba(59, 91, 255, 0.35);
+$arrow-line: rgba(59, 91, 255, 0.3);
 
 .pageWrap {
   width: 100%;
 }
 
 /* --------------------------------------------------------------------------
-   1. Hero Section (White Bg, Centered)
--------------------------------------------------------------------------- */
-.heroSection {
-  padding-top: 100rem;
-  padding-bottom: 90rem;
-  background-color: var(--color-white);
+ * 1. Hero (Figma PC 2304:4399 / Mobile 2286:5114)
+ * 가운데 정렬 · 위아래 120 (MO 80) · 문구 → 48 → 2개 영역(사이 120)
+ * -------------------------------------------------------------------------- */
+.apiHero {
+  --hero-compact-padding-top-pc: 120rem;
+  --hero-compact-padding-bottom-pc: 120rem;
+  --hero-compact-padding-top-mo: 80rem;
+  --hero-compact-padding-bottom-mo: 80rem;
+}
 
-  :global(.header) {
-    align-items: center;
-    text-align: center;
-    margin-bottom: 48rem;
+/* 설명 폭: 시안 900 (컴포넌트 기본 640) */
+.pageWrap > .apiHero.apiHero h2 + p {
+  max-width: 900rem !important;
+}
 
-    :global(.eyebrow) {
-      font-size: 13rem;
-      font-weight: 700;
-      color: #3b5bff;
-      letter-spacing: 0.12em;
-      margin-bottom: 16rem;
-      font-family: var(--font-family-mono);
-      text-transform: uppercase;
-    }
+/* 헤더 묶음 폭: 컴포넌트 기본 774 → 설명 900이 들어가도록 1240 */
+.pageWrap > .apiHero.apiHero div:has(> h2 + p) {
+  max-width: 1240rem !important;
+}
 
-    :global(.title) {
-      font-size: 44rem;
-      font-weight: 800;
-      color: #0b0c0e;
-      line-height: 1.28;
-      letter-spacing: -0.02em;
-      margin-bottom: 20rem;
-      word-break: keep-all;
-    }
+.heroAreas {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 120rem;
+  margin: -12rem 0 0; /* 섹션 콘텐츠 간격 60 → 시안 48 */
+  padding: 0;
+  list-style: none;
+}
 
-    :global(.description) {
-      font-size: 17rem;
-      color: #4b5563;
-      line-height: 1.65;
-      max-width: 720rem;
-      margin: 0 auto;
-      word-break: keep-all;
-    }
-  }
+.heroArea {
+  display: flex;
+  align-items: center;
+  gap: 16rem;
+}
 
-  /* 2 Dark Cards Side-by-Side */
-  .heroCardsWrap {
-    display: flex;
-    gap: 20rem;
-    max-width: 980rem;
-    margin: 0 auto;
+.heroAreaText {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  text-align: left;
+  white-space: nowrap;
+}
 
-    .darkCard {
-      flex: 1;
-      background-color: #111315;
-      border-radius: 12rem;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      padding: 24rem 20rem;
-      display: flex;
-      flex-direction: column;
-      gap: 18rem;
-      box-shadow: 0 16rem 40rem rgba(0, 0, 0, 0.18);
+.heroAreaTitle {
+  @include text-subheading;
+  color: var(--color-text-black);
+}
 
-      .cardHeaderTitle {
-        font-size: 11rem;
-        font-family: var(--font-family-mono);
-        font-weight: 700;
-        color: #71717a;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-      }
-
-      /* 3-Step Workflow Rows */
-      .workflowRows {
-        display: flex;
-        flex-direction: column;
-        gap: 10rem;
-
-        .rowItem {
-          background-color: #16181b;
-          border: 1px solid rgba(255, 255, 255, 0.05);
-          border-radius: 6rem;
-          padding: 12rem 16rem;
-          font-size: 12rem;
-          font-family: var(--font-family-mono);
-          color: #d1d5db;
-          letter-spacing: 0.04em;
-        }
-      }
-
-      /* Integration Flow Diagram */
-      .integrationFlow {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 10rem;
-        height: 100%;
-        min-height: 140rem;
-
-        .flowBox {
-          flex: 1;
-          height: 72rem;
-          background-color: #16181b;
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          border-radius: 6rem;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          text-align: center;
-          font-size: 11rem;
-          font-family: var(--font-family-mono);
-          color: #e2e8f0;
-          padding: 0 8rem;
-          line-height: 1.35;
-
-          &.activeBox {
-            background-color: #0284c7;
-            color: #ffffff;
-            font-weight: 700;
-            border-color: #0284c7;
-            box-shadow: 0 0 16rem rgba(2, 132, 199, 0.4);
-          }
-        }
-
-        .flowArrow {
-          font-size: 14rem;
-          color: #71717a;
-        }
-      }
-    }
-  }
+.heroAreaDesc {
+  @include text-body;
+  color: var(--color-text-gray-1);
 }
 
 /* --------------------------------------------------------------------------
-   2. Section 1: Secure Architecture (White Bg, 2 Columns)
--------------------------------------------------------------------------- */
-.secureArchitectureSection {
-  padding-top: 100rem;
-  padding-bottom: 100rem;
-  background-color: var(--color-white);
-  border-top: 1px solid var(--color-gray-100);
+ * 2. 보안 아키텍처 (Figma PC 2281:4035)
+ * 흐름 5단계(노드 사이 → · gap 8) → 56 → 보안 항목 2×2 (위 검정선 · 열 사이 40)
+ * -------------------------------------------------------------------------- */
+.securityBody {
+  display: flex;
+  flex-direction: column;
+  gap: 56rem;
+  min-height: 609rem; /* 시안 Body 고정 높이 (항목 아래 여백 포함) */
+}
 
-  :global(.header) {
-    margin-bottom: 50rem;
+.archFlow {
+  display: flex;
+  align-items: stretch;
+  gap: 8rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
 
-    :global(.eyebrow) {
-      font-size: 13rem;
-      font-weight: 700;
-      color: #3b5bff;
-      letter-spacing: 0.12em;
-      margin-bottom: 14rem;
-      font-family: var(--font-family-mono);
-      text-transform: uppercase;
-    }
+.archNode {
+  display: flex;
+  flex: 1 0 0;
+  flex-direction: column;
+  gap: 6rem;
+  min-width: 0;
+  min-height: 132rem;
+  padding: 20rem 18rem;
+  border: 1rem solid var(--color-border-default);
+  border-radius: 8rem;
+  background-color: var(--color-surface-white);
+}
 
-    :global(.title) {
-      font-size: 38rem;
-      font-weight: 800;
-      color: #0b0c0e;
-      line-height: 1.32;
-      letter-spacing: -0.02em;
-      margin-bottom: 18rem;
-      word-break: keep-all;
-    }
+.archNodeTitle {
+  @include text-subheading;
+  color: var(--color-text-black);
+}
 
-    :global(.description) {
-      font-size: 16rem;
-      color: #4b5563;
-      line-height: 1.65;
-      word-break: keep-all;
-    }
-  }
+.archNodeDesc {
+  @include text-body;
+  color: var(--color-text-gray-2);
+}
 
-  .architectureGrid {
-    display: flex;
-    gap: 60rem;
-    align-items: flex-start;
+.archArrow {
+  @include text-subheading;
+  display: flex;
+  align-items: center;
+  color: var(--color-text-black);
+}
 
-    /* Left Pipeline */
-    .pipelineColumn {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 12rem;
+.securityItems {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 40rem;
+  margin: 0;
+  padding: 0;
+  border-top: 1rem solid var(--color-text-black);
+  list-style: none;
+}
 
-      .pipelineStep {
-        width: 100%;
-        background-color: #ffffff;
-        border: 1px solid var(--color-gray-200);
-        border-radius: 8rem;
-        padding: 16rem 20rem;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        box-shadow: 0 4rem 14rem rgba(0, 0, 0, 0.03);
+.securityItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 20rem;
+  min-height: 166rem;
+  padding: 24rem 0;
+  border-bottom: 1rem solid var(--color-border-default);
+}
 
-        .stepTitle {
-          font-size: 14rem;
-          font-weight: 700;
-          color: #0b0c0e;
-          font-family: var(--font-family-mono);
-        }
+.securityText {
+  display: flex;
+  flex: 1 0 0;
+  flex-direction: column;
+  gap: 6rem;
+  min-width: 0;
+}
 
-        .stepMeta {
-          font-size: 11rem;
-          color: #64748b;
-          font-family: var(--font-family-mono);
-        }
-      }
+.securityTag {
+  @include text-note;
+  color: var(--color-text-accent);
+}
 
-      .arrowDown {
-        font-size: 16rem;
-        color: #94a3b8;
-        line-height: 1;
-      }
-    }
+.securityTitle {
+  @include text-subheading;
+  margin: 0;
+  color: var(--color-text-black);
+}
 
-    /* Right 4 Feature Specs */
-    .specsColumn {
-      flex: 1.1;
-      display: flex;
-      flex-direction: column;
-      gap: 28rem;
-      border-top: 2px solid #0b0c0e;
-      padding-top: 28rem;
-
-      .specItem {
-        display: flex;
-        flex-direction: column;
-        gap: 6rem;
-        padding-bottom: 24rem;
-        border-bottom: 1px solid var(--color-gray-200);
-
-        &:last-child {
-          border-bottom: none;
-          padding-bottom: 0;
-        }
-
-        .eyebrowTag {
-          font-size: 11rem;
-          font-weight: 700;
-          color: #64748b;
-          font-family: var(--font-family-mono);
-          letter-spacing: 0.06em;
-          text-transform: uppercase;
-        }
-
-        .specTitle {
-          font-size: 18rem;
-          font-weight: 700;
-          color: #0b0c0e;
-          margin: 0;
-          line-height: 1.4;
-        }
-
-        .specDesc {
-          font-size: 14rem;
-          color: #64748b;
-          line-height: 1.65;
-          margin: 0;
-          word-break: keep-all;
-        }
-      }
-    }
-  }
+.securityDesc {
+  @include text-body;
+  margin: 0;
+  color: var(--color-text-gray-1);
+  word-break: keep-all;
 }
 
 /* --------------------------------------------------------------------------
-   3. Section 2: Workflow & Integration (Gray Bg)
--------------------------------------------------------------------------- */
-.workflowIntegrationSection {
-  padding-top: 100rem;
-  padding-bottom: 100rem;
-  background-color: var(--color-gray-100);
+ * 3. 워크플로우·연동 (Figma PC 2281:4079)
+ * 3단계 카드(gap 20) → 60 → REST API 패널(위 선 · padding-top 48 · 머리 → 34 → 흐름)
+ * -------------------------------------------------------------------------- */
+.integrationBody {
+  display: flex;
+  flex-direction: column;
+  gap: 60rem;
+}
 
-  :global(.header) {
-    margin-bottom: 48rem;
+.workflowSteps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
 
-    :global(.eyebrow) {
-      font-size: 13rem;
-      font-weight: 700;
-      color: #3b5bff;
-      letter-spacing: 0.12em;
-      margin-bottom: 14rem;
-      font-family: var(--font-family-mono);
-      text-transform: uppercase;
-    }
+.workflowStep,
+.apiBox {
+  display: flex;
+  align-items: center;
+  gap: 16rem;
+  padding: 24rem;
+  border: 1rem solid var(--color-border-default);
+  border-radius: 12rem;
+  background-color: var(--color-surface-white);
+}
 
-    :global(.title) {
-      font-size: 38rem;
-      font-weight: 800;
-      color: #0b0c0e;
-      line-height: 1.32;
-      letter-spacing: -0.02em;
-      margin-bottom: 18rem;
-      word-break: keep-all;
-    }
+.workflowText,
+.apiBoxText {
+  display: flex;
+  flex: 1 0 0;
+  flex-direction: column;
+  gap: 2rem;
+  min-width: 0;
+}
 
-    :global(.description) {
-      font-size: 16rem;
-      color: #4b5563;
-      line-height: 1.65;
-      word-break: keep-all;
-    }
-  }
+.workflowTitle,
+.apiBoxTitle,
+.apiTitle {
+  @include text-subheading;
+  margin: 0;
+  color: var(--color-text-black);
+}
 
-  /* 3 Process Cards */
-  .stepsCardsRow {
-    display: flex;
-    gap: 20rem;
-    margin-bottom: 60rem;
+.workflowDesc,
+.apiBoxDesc,
+.apiDesc {
+  @include text-body;
+  margin: 0;
+  color: var(--color-text-gray-1);
+  word-break: keep-all;
+}
 
-    .stepCard {
-      flex: 1;
-      background-color: #ffffff;
-      border-radius: 12rem;
-      padding: 30rem 26rem;
-      display: flex;
-      flex-direction: column;
-      gap: 12rem;
-      box-shadow: 0 4rem 18rem rgba(0, 0, 0, 0.04);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+.apiPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 34rem;
+  padding-top: 48rem;
+  border-top: 1rem solid var(--color-border-default);
+}
 
-      &:hover {
-        transform: translateY(-2rem);
-        box-shadow: 0 8rem 24rem rgba(0, 0, 0, 0.07);
-      }
+.apiHead {
+  display: flex;
+  align-items: flex-start;
+  gap: 40rem;
+}
 
-      .stepTag {
-        font-size: 11rem;
-        font-family: var(--font-family-mono);
-        color: #71717a;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-      }
+.apiTitle {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
 
-      .stepTitle {
-        font-size: 20rem;
-        font-weight: 700;
-        color: #0b0c0e;
-        margin: 0;
-      }
+.apiDesc {
+  flex: 1 0 0;
+  min-width: 0;
+}
 
-      .stepDesc {
-        font-size: 13rem;
-        color: #64748b;
-        line-height: 1.55;
-        margin: 0;
-        word-break: keep-all;
-      }
-    }
-  }
+.apiFlow {
+  display: flex;
+  align-items: center;
+}
 
-  /* REST API Integration Sub-block */
-  .apiIntegrationBlock {
-    display: flex;
-    flex-direction: column;
-    gap: 20rem;
+.apiBox {
+  flex: 1 0 0;
+  min-width: 0;
+  height: 120rem;
+}
 
-    .apiBlockHeader {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 24rem;
+.apiBoxText {
+  white-space: nowrap;
+}
 
-      .blockTitle {
-        font-size: 22rem;
-        font-weight: 800;
-        color: #0b0c0e;
-        margin: 0;
-        white-space: nowrap;
-      }
+.apiBoxAccent {
+  border-color: $accent-box-border;
+  background-color: $accent-box-bg;
+}
 
-      .blockDesc {
-        font-size: 14rem;
-        color: #64748b;
-        margin: 0;
-        text-align: right;
-        word-break: keep-all;
-      }
-    }
+/* 화살표 80×28 · 좌우 12 · 선 2 + 화살촉 12 */
+.apiArrow {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  width: 80rem;
+  height: 28rem;
+  padding: 0 12rem;
 
-    .apiFlowRow {
-      display: flex;
-      align-items: center;
-      gap: 16rem;
-
-      .flowCard {
-        flex: 1;
-        height: 80rem;
-        background-color: #ffffff;
-        border-radius: 8rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        font-size: 12rem;
-        font-weight: 700;
-        font-family: var(--font-family-mono);
-        color: #0b0c0e;
-        box-shadow: 0 4rem 14rem rgba(0, 0, 0, 0.03);
-
-        &.flowCardDark {
-          background-color: #111315;
-          color: #ffffff;
-          box-shadow: 0 6rem 20rem rgba(0, 0, 0, 0.15);
-        }
-      }
-
-      .arrowRight {
-        font-size: 18rem;
-        color: #94a3b8;
-      }
-    }
+  img {
+    width: 12rem;
+    height: 12rem;
   }
 }
 
+.apiArrowLine {
+  flex: 1 0 0;
+  height: 2rem;
+  border-radius: 1rem;
+  background-color: $arrow-line;
+}
+
 /* --------------------------------------------------------------------------
-   4. Responsive Breakpoints
--------------------------------------------------------------------------- */
+ * Responsive
+ * -------------------------------------------------------------------------- */
 @media (max-width: 1024px) {
-  .heroSection {
-    padding-top: 70rem;
-    padding-bottom: 60rem;
-
-    :global(.header) {
-      :global(.title) {
-        font-size: 34rem;
-      }
-
-      :global(.description) {
-        font-size: 15rem;
-      }
-    }
-
-    .heroCardsWrap {
-      flex-direction: column;
-    }
+  .archFlow,
+  .apiFlow {
+    flex-direction: column;
+    align-items: stretch;
   }
 
-  .secureArchitectureSection {
-    padding-top: 60rem;
-    padding-bottom: 60rem;
-
-    .architectureGrid {
-      flex-direction: column;
-      gap: 40rem;
-
-      .pipelineColumn {
-        width: 100%;
-      }
-
-      .specsColumn {
-        width: 100%;
-        border-top: none;
-        padding-top: 0;
-      }
-    }
+  .securityBody,
+  .archNode {
+    min-height: 0;
   }
 
-  .workflowIntegrationSection {
-    padding-top: 60rem;
-    padding-bottom: 60rem;
+  /* 세로 흐름에서는 flex-basis 0이 높이를 0으로 만들므로 내용 높이 사용 */
+  .archNode {
+    flex: none;
+  }
 
-    .stepsCardsRow {
-      flex-direction: column;
-      gap: 14rem;
-      margin-bottom: 40rem;
-    }
+  .archArrow {
+    justify-content: center;
+    transform: rotate(90deg);
+  }
 
-    .apiIntegrationBlock {
-      .apiBlockHeader {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 8rem;
+  .apiBox {
+    height: auto;
+  }
 
-        .blockDesc {
-          text-align: left;
-        }
-      }
+  .apiArrow {
+    align-self: center;
+    transform: rotate(90deg);
+  }
 
-      .apiFlowRow {
-        flex-direction: column;
-        gap: 10rem;
+  .securityItems,
+  .workflowSteps {
+    grid-template-columns: 1fr;
+  }
 
-        .flowCard {
-          width: 100%;
-          height: 60rem;
-        }
-
-        .arrowRight {
-          transform: rotate(90deg);
-        }
-      }
-    }
+  .apiHead {
+    flex-direction: column;
+    gap: 8rem;
   }
 }
 
+/* 모바일 (Figma Mobile 2286:5114 · 390 기준) */
 @media (max-width: 768px) {
-  .heroSection {
-    padding-top: 50rem;
-    padding-bottom: 50rem;
+  /* 히어로 2개 영역: 왼쪽 정렬 세로 배치 · 사이 16 */
+  .heroAreas {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16rem;
+    margin-top: 0; /* MO 섹션 콘텐츠 간격 40 = 시안 */
+  }
 
-    :global(.header) {
-      :global(.title) {
-        font-size: 26rem;
-        line-height: 1.34;
-        margin-bottom: 14rem;
-      }
+  .heroAreaText {
+    white-space: normal;
+  }
 
-      :global(.description) {
-        font-size: 14rem;
-        line-height: 1.6;
-      }
+  /* 보안 아키텍처: 흐름 → 24 → 항목 */
+  .securityBody {
+    gap: 24rem;
+  }
+
+  .archFlow {
+    gap: 0;
+  }
+
+  /* 노드: padding 20 22 · 제목 Body Bold 한 줄 · 설명 아래 (설명 없는/짧은 첫·끝 노드는 한 줄) */
+  .archNode {
+    gap: 0;
+    padding: 20rem 22rem;
+  }
+
+  .archNodeTitle {
+    @include text-body;
+    font-weight: var(--font-weight-bold);
+  }
+
+  .archNode:last-child {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  /* 화살표 ↓ · 높이 40 */
+  .archArrow {
+    justify-content: center;
+    height: 40rem;
+    font-size: 0;
+    transform: none;
+
+    &::before {
+      @include text-subheading;
+      content: attr(data-arrow-mo);
     }
   }
 
-  .secureArchitectureSection {
-    padding-top: 48rem;
-    padding-bottom: 48rem;
+  /* 보안 항목: 아이콘 40 → 14 → 글 */
+  .securityItem {
+    gap: 14rem;
+    min-height: 0;
+  }
 
-    :global(.header) {
-      :global(.title) {
-        font-size: 24rem;
-        line-height: 1.34;
-        margin-bottom: 14rem;
-      }
+  /* 워크플로우·연동: 단계 카드 gap 20 · padding 20 24 → 40 → API 패널 */
+  .integrationBody {
+    gap: 40rem;
+  }
 
-      :global(.description) {
-        font-size: 14rem;
-        line-height: 1.6;
-      }
-    }
+  .workflowStep,
+  .apiBox {
+    padding: 20rem 24rem;
+  }
 
-    .architectureGrid {
-      .pipelineColumn {
-        .pipelineStep {
-          padding: 14rem 16rem;
+  .apiPanel {
+    gap: 34rem;
+    padding-top: 0;
+  }
 
-          .stepTitle {
-            font-size: 12rem;
-          }
+  .apiHead {
+    gap: 24rem;
+  }
 
-          .stepMeta {
-            font-size: 10rem;
-          }
-        }
-      }
+  .apiBox {
+    height: auto;
+  }
 
-      .specsColumn {
-        gap: 20rem;
+  /* 세로 화살표: 높이 34 · 선 2×14 → 화살촉 12 (아래 방향) */
+  .apiArrow {
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 100%;
+    height: 34rem;
+    padding: 4rem 0 0;
+    transform: none;
 
-        .specItem {
-          padding-bottom: 18rem;
-
-          .specTitle {
-            font-size: 16rem;
-          }
-
-          .specDesc {
-            font-size: 13rem;
-          }
-        }
-      }
+    img {
+      transform: rotate(90deg);
     }
   }
 
-  .workflowIntegrationSection {
-    padding-top: 48rem;
-    padding-bottom: 48rem;
-
-    :global(.header) {
-      :global(.title) {
-        font-size: 24rem;
-        line-height: 1.34;
-        margin-bottom: 14rem;
-      }
-
-      :global(.description) {
-        font-size: 14rem;
-        line-height: 1.6;
-      }
-    }
-
-    .stepsCardsRow {
-      .stepCard {
-        padding: 20rem 18rem;
-
-        .stepTitle {
-          font-size: 18rem;
-        }
-
-        .stepDesc {
-          font-size: 12rem;
-        }
-      }
-    }
+  .apiArrowLine {
+    flex: 0 0 14rem;
+    width: 2rem;
+    height: 14rem;
   }
 }

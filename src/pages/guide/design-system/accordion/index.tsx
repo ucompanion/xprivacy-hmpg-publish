@@ -40,13 +40,31 @@ export default function AccordionGuidePage() {
                   <td><code>items</code></td>
                   <td><code>AccordionItemData[]</code></td>
                   <td>-</td>
-                  <td>`{`id: string, title: string, content: ReactNode`}` 배열</td>
+                  <td>`{`id: string, title: ReactNode, content: ReactNode`}` 배열</td>
                 </tr>
                 <tr>
                   <td><code>allowMultiple</code></td>
                   <td><code>boolean</code></td>
                   <td><code>false</code></td>
                   <td>true일 경우 여러 패널을 동시에 열어둘 수 있습니다.</td>
+                </tr>
+                <tr>
+                  <td><code>variant</code></td>
+                  <td><code>'boxed' | 'line'</code></td>
+                  <td><code>'boxed'</code></td>
+                  <td>line: 상하 구분선형 FAQ 스타일(제목 20 Bold, 답변 16, 화살표 아이콘)</td>
+                </tr>
+                <tr>
+                  <td><code>prefix</code></td>
+                  <td><code>ReactNode</code></td>
+                  <td>-</td>
+                  <td>제목 앞 표식 (예: <code>'Q'</code>). 답변은 제목 시작선에 맞춰 들여씁니다.</td>
+                </tr>
+                <tr>
+                  <td><code>defaultOpenIds</code></td>
+                  <td><code>string[]</code></td>
+                  <td><code>[]</code></td>
+                  <td>처음 열려 있을 항목 id 목록</td>
                 </tr>
               </tbody>
             </table>
@@ -77,6 +95,16 @@ export default function AccordionGuidePage() {
             <Accordion items={sampleItems} allowMultiple />
           </div>
           <CodeBlock code={`<Accordion items={sampleItems} allowMultiple />`} />
+        </GuideSection>
+
+        <GuideSection title="4. Line Variant (FAQ)" defaultOpen={false}>
+          <p className={styles.description}>
+            FAQ처럼 구분선으로 나열하는 경우 `variant="line"`, 질문 표식 `prefix="Q"`, 첫 항목 펼침 `defaultOpenIds`를 조합합니다.
+          </p>
+          <div className={styles.preview}>
+            <Accordion variant="line" prefix="Q" defaultOpenIds={['1']} items={sampleItems} />
+          </div>
+          <CodeBlock code={`<Accordion variant="line" prefix="Q" defaultOpenIds={['1']} items={sampleItems} />`} />
         </GuideSection>
       </div>
     </DesignSystemLayout>

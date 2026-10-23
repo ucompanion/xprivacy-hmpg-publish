@@ -30,9 +30,15 @@ export default function BadgeGuidePage() {
                 <tbody>
                   <tr>
                     <td><code>color</code></td>
-                    <td><code>'primary' | 'success' | 'warning' | 'neutral'</code></td>
+                    <td><code>'primary' | 'success' | 'warning' | 'neutral' | 'info'</code></td>
                     <td><code>'neutral'</code></td>
                     <td>뱃지의 의미론적 색상 테마를 결정합니다.</td>
+                  </tr>
+                  <tr>
+                    <td><code>variant</code></td>
+                    <td><code>'solid' | 'subtle'</code></td>
+                    <td><code>'solid'</code></td>
+                    <td>subtle: 연한 배경 + 진한 글자, radius 6 · 12 Regular (처리 방식 표기 등)</td>
                   </tr>
                   <tr>
                     <td><code>children</code></td>
@@ -69,6 +75,20 @@ export default function BadgeGuidePage() {
 <Badge color="success">Success</Badge>
 <Badge color="warning">Warning</Badge>
 <Badge color="neutral">Neutral</Badge>`} />
+          </GuideSection>
+
+          <GuideSection title="4. Subtle Variant" defaultOpen={false}>
+            <p className={styles.description}>
+              표 안의 처리 방식처럼 정보성 라벨에는 `variant="subtle"`과 `color="info"`를 함께 사용합니다.
+            </p>
+            <div className={`${styles.preview} ${styles.wrap}`}>
+              <Badge color="info" variant="subtle">Mosaic</Badge>
+              <Badge color="info" variant="subtle">Blur</Badge>
+              <Badge color="info" variant="subtle">Mask</Badge>
+            </div>
+            <CodeBlock code={`<Badge color="info" variant="subtle">Mosaic</Badge>
+<Badge color="info" variant="subtle">Blur</Badge>
+<Badge color="info" variant="subtle">Mask</Badge>`} />
           </GuideSection>
         </>
       )

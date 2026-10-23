@@ -56,24 +56,57 @@ const HISTORY_DATA: Record<string, { date: string; tag: string; content: string 
   ],
   '로그인': [
     { date: '2026.10.07', tag: '[진행중]', content: '로그인 케이스 3종 퍼블리싱 (기본, 에러, 잠김)' },
+    { date: '2026.10.23', tag: '[수정]', content: '피그마 v2 반영 (공통 인증 카드·Text Field/v2·Inline Alert/v2 적용, PC·MO)' },
   ],
   '회원가입': [
     { date: '2026.10.07', tag: '[진행중]', content: '회원가입 케이스 2종 퍼블리싱 (기본, 에러)' },
+    { date: '2026.10.23', tag: '[수정]', content: '피그마 v2 반영 (정보입력 기본·오류, 도움말·오류 문구 Text Field/v2)' },
   ],
   '패스워드 찾기': [
     { date: '2026.10.07', tag: '[진행중]', content: '패스워드 찾기 케이스 2종 퍼블리싱 (기본, 발송완료)' },
+    { date: '2026.10.23', tag: '[수정]', content: '피그마 v2 반영 (입력·발송안내)' },
   ],
   '비밀번호 재설정': [
     { date: '2026.10.07', tag: '[진행중]', content: '비밀번호 재설정 케이스 3종 퍼블리싱 (기본, 변경완료, 링크만료)' },
+    { date: '2026.10.23', tag: '[수정]', content: '피그마 v2 반영 (입력·완료·링크만료, 비밀번호 조건 표시)' },
   ],
   '약관동의': [
     { date: '2026.10.07', tag: '[진행중]', content: '회원가입 1단계 약관동의 퍼블리싱' },
+    { date: '2026.10.23', tag: '[수정]', content: '피그마 v2 반영 (단계 표시·전체 동의·약관 본문 펼치기)' },
   ],
   '가입완료': [
     { date: '2026.10.07', tag: '[진행중]', content: '회원가입 3단계 가입완료 화면 퍼블리싱' },
+    { date: '2026.10.23', tag: '[수정]', content: '피그마 v2 반영 (인증 메일 발송 안내)' },
+  ],
+  '탈퇴하기': [
+    { date: '2026.10.23', tag: '[완료]', content: '초안 작성 (시안 없음 · 로그인·회원가입 UI 컨셉 적용, 케이스: 기본·비밀번호 오류)' },
+  ],
+  '탈퇴완료': [
+    { date: '2026.10.23', tag: '[완료]', content: '초안 작성 (시안 없음 · 비밀번호 재설정 완료 화면 구성 적용)' },
   ],
   'Demo': [
     { date: '2026.10.07', tag: '[진행중]', content: '데모 전용 레이아웃(DemoLayout) 신설 및 파일 드롭존·처리 옵션 사이드바 퍼블리싱' },
+  ],
+  'Brochure': [
+    { date: '2026.10.15', tag: '[진행중]', content: '페이지 최초 작업 (Draft 초안 반영)' },
+  ],
+  'Pseudonymization Guide': [
+    { date: '2026.10.15', tag: '[진행중]', content: '페이지 최초 작업 (Draft 초안 반영)' },
+  ],
+  '문의': [
+    { date: '2026.10.15', tag: '[진행중]', content: '페이지 최초 작업 (Draft 초안 반영)' },
+  ],
+  'FAQ': [
+    { date: '2026.10.15', tag: '[진행중]', content: '페이지 최초 작업 (카테고리별 아코디언 및 반응형 인터랙션 구현)' },
+  ],
+  'Company': [
+    { date: '2026.10.15', tag: '[진행중]', content: '페이지 최초 작업 (Draft 초안 반영)' },
+  ],
+  'Blog 목록': [
+    { date: '2026.10.23', tag: '[완료]', content: '페이지 최초 작업 (최신 글 · 전체 글 카드 · 페이지 이동, PC·MO 피그마 반영)' },
+  ],
+  'Blog 상세': [
+    { date: '2026.10.23', tag: '[완료]', content: '페이지 최초 작업 (케이스 5종: 기업보안 · 방송미디어 · 자율주행 · 데이터활용 · 공공기관, 공통 블록 렌더러)' },
   ],
 };
 
@@ -347,14 +380,14 @@ export default function PubIndex() {
 
             <div className="status-summary">
               <div className="progress-bar">
-                <div className="progress-fill" style={{ width: '0%' }}></div>
+                <div className="progress-fill" style={{ width: '74%' }}></div>
               </div>
               <div className="status-counts">
-                <span>전체 <strong>46</strong></span>
-                <span>대기 <strong>22</strong></span>
-                <span>진행중 <strong className="text-ing">24</strong></span>
-                <span>완료 <strong className="text-done">0</strong></span>
-                <span>진행률 <strong className="text-primary">0%</strong></span>
+                <span>전체 <strong>39</strong></span>
+                <span>대기 <strong>10</strong></span>
+                <span>진행중 <strong className="text-ing">0</strong></span>
+                <span>완료 <strong className="text-done">29</strong></span>
+                <span>진행률 <strong className="text-primary">74%</strong></span>
               </div>
             </div>
           </header>
@@ -390,8 +423,8 @@ export default function PubIndex() {
                   <td>사용자 메인 (Header/Layout/Footer)</td>
                   <td><a href="/pub/main" target="_blank" rel="noreferrer">/pub/main</a></td>
                   <td>조찬기</td>
-                  <td><span className="status ing">진행중</span></td>
-                  <td>2026.10.06</td>
+                  <td><span className="status done">완료</span></td>
+                  <td>2026.10.23</td>
                   <td>
                     <button type="button" className="btn-history" onClick={() => openHistoryPopup('사용자 메인 (Header/Layout/Footer)')}>수정내역</button>
                   </td>
@@ -404,8 +437,8 @@ export default function PubIndex() {
                   <td>제품소개</td>
                   <td><a href="/pub/product/intro" target="_blank" rel="noreferrer">/pub/product/intro</a></td>
                   <td>조찬기</td>
-                  <td><span className="status ing">진행중</span></td>
-                  <td>2026.10.06</td>
+                  <td><span className="status done">완료</span></td>
+                  <td>2026.10.22</td>
                   <td>
                     <button type="button" className="btn-history" onClick={() => openHistoryPopup('제품소개')}>수정내역</button>
                   </td>
@@ -415,8 +448,8 @@ export default function PubIndex() {
                   <td>핵심가치</td>
                   <td><a href="/pub/product/core-values" target="_blank" rel="noreferrer">/pub/product/core-values</a></td>
                   <td>조찬기</td>
-                  <td><span className="status ing">진행중</span></td>
-                  <td>2026.10.06</td>
+                  <td><span className="status done">완료</span></td>
+                  <td>2026.10.22</td>
                   <td>
                     <button type="button" className="btn-history" onClick={() => openHistoryPopup('핵심가치')}>수정내역</button>
                   </td>
@@ -426,31 +459,31 @@ export default function PubIndex() {
                   <td>왜 xPrivacy인가</td>
                   <td><a href="/pub/product/why" target="_blank" rel="noreferrer">/pub/product/why</a></td>
                   <td>조찬기</td>
-                  <td><span className="status ing">진행중</span></td>
-                  <td>2026.10.06</td>
+                  <td><span className="status done">완료</span></td>
+                  <td>2026.10.22</td>
                   <td>
                     <button type="button" className="btn-history" onClick={() => openHistoryPopup('왜 xPrivacy인가')}>수정내역</button>
                   </td>
                 </tr>
 
                 <tr>
-                  <td>6</td>
+                  <td>5</td>
                   <td>요금제</td>
                   <td><a href="/pub/product/pricing" target="_blank" rel="noreferrer">/pub/product/pricing</a></td>
                   <td>조찬기</td>
-                  <td><span className="status ing">진행중</span></td>
-                  <td>2026.10.06</td>
+                  <td><span className="status done">완료</span></td>
+                  <td>2026.10.22</td>
                   <td>
                     <button type="button" className="btn-history" onClick={() => openHistoryPopup('요금제')}>수정내역</button>
                   </td>
                 </tr>
                 <tr>
-                  <td>7</td>
+                  <td>6</td>
                   <td>인증 및 특허</td>
                   <td><a href="/pub/product/certification" target="_blank" rel="noreferrer">/pub/product/certification</a></td>
                   <td>조찬기</td>
-                  <td><span className="status ing">진행중</span></td>
-                  <td>2026.10.06</td>
+                  <td><span className="status done">완료</span></td>
+                  <td>2026.10.22</td>
                   <td>
                     <button type="button" className="btn-history" onClick={() => openHistoryPopup('인증 및 특허')}>수정내역</button>
                   </td>
@@ -459,67 +492,67 @@ export default function PubIndex() {
                   <td colSpan={7}>▶ Technology</td>
                 </tr>
                 <tr>
-                  <td>8</td>
+                  <td>7</td>
                   <td>AI Detection</td>
                   <td><a href="/pub/technology/ai-detection" target="_blank" rel="noreferrer">/pub/technology/ai-detection</a></td>
                   <td>조찬기</td>
-                  <td><span className="status ing">진행중</span></td>
-                  <td>2026.10.06</td>
+                  <td><span className="status done">완료</span></td>
+                  <td>2026.10.22</td>
                   <td>
                     <button type="button" className="btn-history" onClick={() => openHistoryPopup('AI Detection')}>수정내역</button>
                   </td>
                 </tr>
                 <tr>
-                  <td>9</td>
+                  <td>8</td>
                   <td>Security</td>
                   <td><a href="/pub/technology/security" target="_blank" rel="noreferrer">/pub/technology/security</a></td>
                   <td>조찬기</td>
-                  <td><span className="status ing">진행중</span></td>
-                  <td>2026.10.07</td>
+                  <td><span className="status done">완료</span></td>
+                  <td>2026.10.22</td>
                   <td>
                     <button type="button" className="btn-history" onClick={() => openHistoryPopup('Security')}>수정내역</button>
                   </td>
                 </tr>
                 <tr>
-                  <td>10</td>
+                  <td>9</td>
                   <td>Processing Engine</td>
                   <td><a href="/pub/technology/processing-engine" target="_blank" rel="noreferrer">/pub/technology/processing-engine</a></td>
                   <td>조찬기</td>
-                  <td><span className="status ing">진행중</span></td>
-                  <td>2026.10.07</td>
+                  <td><span className="status done">완료</span></td>
+                  <td>2026.10.22</td>
                   <td>
                     <button type="button" className="btn-history" onClick={() => openHistoryPopup('Processing Engine')}>수정내역</button>
                   </td>
                 </tr>
                 <tr>
-                  <td>11</td>
+                  <td>10</td>
                   <td>Privacy Engine</td>
                   <td><a href="/pub/technology/privacy-engine" target="_blank" rel="noreferrer">/pub/technology/privacy-engine</a></td>
                   <td>조찬기</td>
-                  <td><span className="status ing">진행중</span></td>
-                  <td>2026.10.07</td>
+                  <td><span className="status done">완료</span></td>
+                  <td>2026.10.22</td>
                   <td>
                     <button type="button" className="btn-history" onClick={() => openHistoryPopup('Privacy Engine')}>수정내역</button>
                   </td>
                 </tr>
                 <tr>
-                  <td>12</td>
+                  <td>11</td>
                   <td>Virtual Face AI</td>
                   <td><a href="/pub/technology/virtual-face-ai" target="_blank" rel="noreferrer">/pub/technology/virtual-face-ai</a></td>
                   <td>조찬기</td>
-                  <td><span className="status ing">진행중</span></td>
-                  <td>2026.10.07</td>
+                  <td><span className="status done">완료</span></td>
+                  <td>2026.10.22</td>
                   <td>
                     <button type="button" className="btn-history" onClick={() => openHistoryPopup('Virtual Face AI')}>수정내역</button>
                   </td>
                 </tr>
                 <tr>
-                  <td>13</td>
+                  <td>12</td>
                   <td>Smart Workflow</td>
                   <td><a href="/pub/technology/smart-workflow" target="_blank" rel="noreferrer">/pub/technology/smart-workflow</a></td>
                   <td>조찬기</td>
-                  <td><span className="status ing">진행중</span></td>
-                  <td>2026.10.07</td>
+                  <td><span className="status done">완료</span></td>
+                  <td>2026.10.22</td>
                   <td>
                     <button type="button" className="btn-history" onClick={() => openHistoryPopup('Smart Workflow')}>수정내역</button>
                   </td>
@@ -529,62 +562,62 @@ export default function PubIndex() {
                   <td colSpan={7}>▶ Features</td>
                 </tr>
                 <tr>
-                  <td>15</td>
+                  <td>13</td>
                   <td>이미지 비식별</td>
                   <td><a href="/pub/features/image-deid" target="_blank" rel="noreferrer">/pub/features/image-deid</a></td>
                   <td>조찬기</td>
-                  <td><span className="status ing">진행중</span></td>
-                  <td>2026.10.07</td>
+                  <td><span className="status done">완료</span></td>
+                  <td>2026.10.22</td>
                   <td>
                     <button type="button" className="btn-history" onClick={() => openHistoryPopup('이미지 비식별')}>수정내역</button>
                   </td>
                 </tr>
                 <tr>
-                  <td>16</td>
+                  <td>14</td>
                   <td>영상 비식별</td>
                   <td><a href="/pub/features/video-deid" target="_blank" rel="noreferrer">/pub/features/video-deid</a></td>
                   <td>조찬기</td>
-                  <td><span className="status ing">진행중</span></td>
-                  <td>2026.10.07</td>
+                  <td><span className="status done">완료</span></td>
+                  <td>2026.10.22</td>
                   <td>
                     <button type="button" className="btn-history" onClick={() => openHistoryPopup('영상 비식별')}>수정내역</button>
                   </td>
                 </tr>
                 <tr>
-                  <td>17</td>
+                  <td>15</td>
                   <td>Batch Processing</td>
                   <td><a href="/pub/features/batch-processing" target="_blank" rel="noreferrer">/pub/features/batch-processing</a></td>
                   <td>조찬기</td>
-                  <td><span className="status ing">진행중</span></td>
-                  <td>2026.10.07</td>
+                  <td><span className="status done">완료</span></td>
+                  <td>2026.10.22</td>
                   <td>
                     <button type="button" className="btn-history" onClick={() => openHistoryPopup('Batch Processing')}>수정내역</button>
                   </td>
                 </tr>
                 <tr>
-                  <td>18</td>
+                  <td>16</td>
                   <td>AI 자동편집</td>
                   <td><a href="/pub/features/ai-auto-editing" target="_blank" rel="noreferrer">/pub/features/ai-auto-editing</a></td>
                   <td>조찬기</td>
-                  <td><span className="status ing">진행중</span></td>
-                  <td>2026.10.07</td>
+                  <td><span className="status done">완료</span></td>
+                  <td>2026.10.22</td>
                   <td>
                     <button type="button" className="btn-history" onClick={() => openHistoryPopup('AI 자동편집')}>수정내역</button>
                   </td>
                 </tr>
                 <tr>
-                  <td>19</td>
+                  <td>17</td>
                   <td>REST API</td>
                   <td><a href="/pub/features/rest-api" target="_blank" rel="noreferrer">/pub/features/rest-api</a></td>
                   <td>조찬기</td>
-                  <td><span className="status ing">진행중</span></td>
-                  <td>2026.10.07</td>
+                  <td><span className="status done">완료</span></td>
+                  <td>2026.10.22</td>
                   <td>
                     <button type="button" className="btn-history" onClick={() => openHistoryPopup('REST API')}>수정내역</button>
                   </td>
                 </tr>
                 <tr>
-                  <td>20</td>
+                  <td>18</td>
                   <td>On-Premise</td>
                   <td><a href="/pub/features/on-premise" target="_blank" rel="noreferrer">/pub/features/on-premise</a></td>
                   <td>조찬기</td>
@@ -593,7 +626,7 @@ export default function PubIndex() {
                   <td>-</td>
                 </tr>
                 <tr>
-                  <td>21</td>
+                  <td>19</td>
                   <td>Web Service</td>
                   <td><a href="/pub/features/web-service" target="_blank" rel="noreferrer">/pub/features/web-service</a></td>
                   <td>조찬기</td>
@@ -605,72 +638,14 @@ export default function PubIndex() {
                   <td colSpan={7}>▶ Solutions</td>
                 </tr>
                 <tr>
-                  <td>22</td>
-                  <td>방송</td>
-                  <td><a href="/pub/solutions/broadcasting" target="_blank" rel="noreferrer">/pub/solutions/broadcasting</a></td>
-                  <td>조찬기</td>
-                  <td><span className="status todo">대기</span></td>
-                  <td>-</td>
-                  <td>-</td>
-                </tr>
-                <tr>
-                  <td>23</td>
-                  <td>CCTV</td>
-                  <td><a href="/pub/solutions/cctv" target="_blank" rel="noreferrer">/pub/solutions/cctv</a></td>
-                  <td>조찬기</td>
-                  <td><span className="status todo">대기</span></td>
-                  <td>-</td>
-                  <td>-</td>
-                </tr>
-                <tr>
-                  <td>24</td>
-                  <td>Smart City</td>
-                  <td><a href="/pub/solutions/smart-city" target="_blank" rel="noreferrer">/pub/solutions/smart-city</a></td>
-                  <td>조찬기</td>
-                  <td><span className="status todo">대기</span></td>
-                  <td>-</td>
-                  <td>-</td>
-                </tr>
-                <tr>
-                  <td>25</td>
-                  <td>공공기관</td>
-                  <td><a href="/pub/solutions/public-institutions" target="_blank" rel="noreferrer">/pub/solutions/public-institutions</a></td>
-                  <td>조찬기</td>
-                  <td><span className="status todo">대기</span></td>
-                  <td>-</td>
-                  <td>-</td>
-                </tr>
-                <tr>
-                  <td>26</td>
-                  <td>AI Data</td>
-                  <td><a href="/pub/solutions/ai-data" target="_blank" rel="noreferrer">/pub/solutions/ai-data</a></td>
-                  <td>조찬기</td>
-                  <td><span className="status todo">대기</span></td>
-                  <td>-</td>
-                  <td>-</td>
-                </tr>
-                <tr>
-                  <td>27</td>
-                  <td>금융</td>
-                  <td><a href="/pub/solutions/finance" target="_blank" rel="noreferrer">/pub/solutions/finance</a></td>
-                  <td>조찬기</td>
-                  <td><span className="status todo">대기</span></td>
-                  <td>-</td>
-                  <td>-</td>
-                </tr>
-                <tr>
-                  <td>28</td>
-                  <td>제조</td>
-                  <td><a href="/pub/solutions/manufacturing" target="_blank" rel="noreferrer">/pub/solutions/manufacturing</a></td>
-                  <td>조찬기</td>
-                  <td><span className="status todo">대기</span></td>
-                  <td>-</td>
-                  <td>-</td>
-                </tr>
-                <tr>
-                  <td>29</td>
-                  <td>의료</td>
-                  <td><a href="/pub/solutions/medical" target="_blank" rel="noreferrer">/pub/solutions/medical</a></td>
+                  <td>20</td>
+                  <td>
+                    <div>Solutions (원페이지)</div>
+                    <div style={{ fontSize: '12px', color: 'var(--pub-text-sub)', marginTop: '2px' }}>
+                      방송 / CCTV / Smart City / 공공기관 / AI Data / 금융 / 제조 / 의료
+                    </div>
+                  </td>
+                  <td><a href="/pub/solutions" target="_blank" rel="noreferrer">/pub/solutions</a></td>
                   <td>조찬기</td>
                   <td><span className="status todo">대기</span></td>
                   <td>-</td>
@@ -680,18 +655,18 @@ export default function PubIndex() {
                   <td colSpan={7}>▶ Demo</td>
                 </tr>
                 <tr>
-                  <td>30</td>
+                  <td>21</td>
                   <td>Demo</td>
                   <td><a href="/pub/demo/demo" target="_blank" rel="noreferrer">/pub/demo/demo</a></td>
                   <td>조찬기</td>
-                  <td><span className="status ing">진행중</span></td>
-                  <td>2026.10.07</td>
+                  <td><span className="status done">완료</span></td>
+                  <td>2026.10.22</td>
                   <td>
                     <button type="button" className="btn-history" onClick={() => openHistoryPopup('Demo')}>수정내역</button>
                   </td>
                 </tr>
                 <tr>
-                  <td>31</td>
+                  <td>22</td>
                   <td>이미지 체험</td>
                   <td><a href="/pub/demo/image" target="_blank" rel="noreferrer">/pub/demo/image</a></td>
                   <td>조찬기</td>
@@ -700,7 +675,7 @@ export default function PubIndex() {
                   <td>-</td>
                 </tr>
                 <tr>
-                  <td>32</td>
+                  <td>23</td>
                   <td>영상 체험</td>
                   <td><a href="/pub/demo/video" target="_blank" rel="noreferrer">/pub/demo/video</a></td>
                   <td>조찬기</td>
@@ -709,7 +684,7 @@ export default function PubIndex() {
                   <td>-</td>
                 </tr>
                 <tr>
-                  <td>33</td>
+                  <td>24</td>
                   <td>튜토리얼</td>
                   <td><a href="/pub/demo/tutorial" target="_blank" rel="noreferrer">/pub/demo/tutorial</a></td>
                   <td>조찬기</td>
@@ -722,64 +697,101 @@ export default function PubIndex() {
                   <td colSpan={7}>▶ Contact</td>
                 </tr>
                 <tr>
-                  <td>36</td>
+                  <td>25</td>
                   <td>Brochure</td>
                   <td><a href="/pub/contact/brochure" target="_blank" rel="noreferrer">/pub/contact/brochure</a></td>
                   <td>조찬기</td>
-                  <td><span className="status todo">대기</span></td>
-                  <td>-</td>
-                  <td>-</td>
+                  <td><span className="status done">완료</span></td>
+                  <td>2026.10.22</td>
+                  <td>
+                    <button type="button" className="btn-history" onClick={() => openHistoryPopup('Brochure')}>수정내역</button>
+                  </td>
                 </tr>
                 <tr>
-                  <td>37</td>
+                  <td>26</td>
                   <td>Pseudonymization Guide</td>
                   <td><a href="/pub/contact/pseudonymization-guide" target="_blank" rel="noreferrer">/pub/contact/pseudonymization-guide</a></td>
                   <td>조찬기</td>
-                  <td><span className="status todo">대기</span></td>
-                  <td>-</td>
-                  <td>-</td>
+                  <td><span className="status done">완료</span></td>
+                  <td>2026.10.22</td>
+                  <td>
+                    <button type="button" className="btn-history" onClick={() => openHistoryPopup('Pseudonymization Guide')}>수정내역</button>
+                  </td>
                 </tr>
                 <tr>
-                  <td>38</td>
+                  <td>27</td>
                   <td>문의</td>
                   <td><a href="/pub/contact/inquiry" target="_blank" rel="noreferrer">/pub/contact/inquiry</a></td>
                   <td>조찬기</td>
-                  <td><span className="status todo">대기</span></td>
-                  <td>-</td>
-                  <td>-</td>
+                  <td><span className="status done">완료</span></td>
+                  <td>2026.10.22</td>
+                  <td>
+                    <button type="button" className="btn-history" onClick={() => openHistoryPopup('문의')}>수정내역</button>
+                  </td>
                 </tr>
                 <tr>
-                  <td>39</td>
+                  <td>28</td>
                   <td>FAQ</td>
                   <td><a href="/pub/contact/faq" target="_blank" rel="noreferrer">/pub/contact/faq</a></td>
                   <td>조찬기</td>
-                  <td><span className="status todo">대기</span></td>
-                  <td>-</td>
-                  <td>-</td>
+                  <td><span className="status done">완료</span></td>
+                  <td>2026.10.22</td>
+                  <td>
+                    <button type="button" className="btn-history" onClick={() => openHistoryPopup('FAQ')}>수정내역</button>
+                  </td>
                 </tr>
                 <tr>
-                  <td>40</td>
-                  <td>Download</td>
-                  <td><a href="/pub/contact/download" target="_blank" rel="noreferrer">/pub/contact/download</a></td>
-                  <td>조찬기</td>
-                  <td><span className="status todo">대기</span></td>
-                  <td>-</td>
-                  <td>-</td>
-                </tr>
-                <tr>
-                  <td>41</td>
+                  <td>29</td>
                   <td>Company</td>
                   <td><a href="/pub/contact/company" target="_blank" rel="noreferrer">/pub/contact/company</a></td>
                   <td>조찬기</td>
-                  <td><span className="status todo">대기</span></td>
-                  <td>-</td>
-                  <td>-</td>
+                  <td><span className="status done">완료</span></td>
+                  <td>2026.10.22</td>
+                  <td>
+                    <button type="button" className="btn-history" onClick={() => openHistoryPopup('Company')}>수정내역</button>
+                  </td>
+                </tr>
+                <tr className="category">
+                  <td colSpan={7}>▶ Blog</td>
+                </tr>
+                <tr>
+                  <td>30</td>
+                  <td>Blog 목록</td>
+                  <td><a href="/pub/blog" target="_blank" rel="noreferrer">/pub/blog</a></td>
+                  <td>조찬기</td>
+                  <td><span className="status done">완료</span></td>
+                  <td>2026.10.23</td>
+                  <td>
+                    <button type="button" className="btn-history" onClick={() => openHistoryPopup('Blog 목록')}>수정내역</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>31</td>
+                  <td>Blog 상세</td>
+                  <td>
+                    <div>
+                      <a href="/pub/blog/detail" target="_blank" rel="noreferrer">/pub/blog/detail</a>
+                    </div>
+                    <div style={{ marginTop: '4px', display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
+                      <a href="/pub/blog/detail?case=security" target="_blank" rel="noreferrer" style={{ fontSize: '11px', padding: '2px 6px', background: 'var(--pub-surface)', border: '1px solid var(--pub-border)', borderRadius: '3px' }}>기업보안</a>
+                      <a href="/pub/blog/detail?case=media" target="_blank" rel="noreferrer" style={{ fontSize: '11px', padding: '2px 6px', background: 'var(--pub-surface)', border: '1px solid var(--pub-border)', borderRadius: '3px' }}>방송미디어</a>
+                      <a href="/pub/blog/detail?case=driving" target="_blank" rel="noreferrer" style={{ fontSize: '11px', padding: '2px 6px', background: 'var(--pub-surface)', border: '1px solid var(--pub-border)', borderRadius: '3px' }}>자율주행</a>
+                      <a href="/pub/blog/detail?case=data" target="_blank" rel="noreferrer" style={{ fontSize: '11px', padding: '2px 6px', background: 'var(--pub-surface)', border: '1px solid var(--pub-border)', borderRadius: '3px' }}>데이터활용</a>
+                      <a href="/pub/blog/detail?case=cctv" target="_blank" rel="noreferrer" style={{ fontSize: '11px', padding: '2px 6px', background: 'var(--pub-surface)', border: '1px solid var(--pub-border)', borderRadius: '3px' }}>공공기관</a>
+                    </div>
+                  </td>
+                  <td>조찬기</td>
+                  <td><span className="status done">완료</span></td>
+                  <td>2026.10.23</td>
+                  <td>
+                    <button type="button" className="btn-history" onClick={() => openHistoryPopup('Blog 상세')}>수정내역</button>
+                  </td>
                 </tr>
                 <tr className="category">
                   <td colSpan={7}>▶ Login</td>
                 </tr>
                 <tr>
-                  <td>42</td>
+                  <td>32</td>
                   <td>로그인</td>
                   <td>
                     <div>
@@ -792,8 +804,8 @@ export default function PubIndex() {
                     </div>
                   </td>
                   <td>조찬기</td>
-                  <td><span className="status ing">진행중</span></td>
-                  <td>2026.10.07</td>
+                  <td><span className="status done">완료</span></td>
+                  <td>2026.10.23</td>
                   <td>
                     <button 
                       type="button" 
@@ -805,7 +817,7 @@ export default function PubIndex() {
                   </td>
                 </tr>
                 <tr>
-                  <td>43</td>
+                  <td>33</td>
                   <td>회원가입</td>
                   <td>
                     <div>
@@ -817,8 +829,8 @@ export default function PubIndex() {
                     </div>
                   </td>
                   <td>조찬기</td>
-                  <td><span className="status ing">진행중</span></td>
-                  <td>2026.10.07</td>
+                  <td><span className="status done">완료</span></td>
+                  <td>2026.10.23</td>
                   <td>
                     <button 
                       type="button" 
@@ -830,7 +842,7 @@ export default function PubIndex() {
                   </td>
                 </tr>
                 <tr>
-                  <td>44</td>
+                  <td>34</td>
                   <td>패스워드 찾기</td>
                   <td>
                     <div>
@@ -842,8 +854,8 @@ export default function PubIndex() {
                     </div>
                   </td>
                   <td>조찬기</td>
-                  <td><span className="status ing">진행중</span></td>
-                  <td>2026.10.07</td>
+                  <td><span className="status done">완료</span></td>
+                  <td>2026.10.23</td>
                   <td>
                     <button 
                       type="button" 
@@ -855,7 +867,7 @@ export default function PubIndex() {
                   </td>
                 </tr>
                 <tr>
-                  <td>45</td>
+                  <td>35</td>
                   <td>비밀번호 재설정</td>
                   <td>
                     <div>
@@ -868,8 +880,8 @@ export default function PubIndex() {
                     </div>
                   </td>
                   <td>조찬기</td>
-                  <td><span className="status ing">진행중</span></td>
-                  <td>2026.10.07</td>
+                  <td><span className="status done">완료</span></td>
+                  <td>2026.10.23</td>
                   <td>
                     <button 
                       type="button" 
@@ -881,12 +893,12 @@ export default function PubIndex() {
                   </td>
                 </tr>
                 <tr>
-                  <td>46</td>
+                  <td>36</td>
                   <td>약관동의</td>
                   <td><a href="/pub/login/terms" target="_blank" rel="noreferrer">/pub/login/terms</a></td>
                   <td>조찬기</td>
-                  <td><span className="status ing">진행중</span></td>
-                  <td>2026.10.07</td>
+                  <td><span className="status done">완료</span></td>
+                  <td>2026.10.23</td>
                   <td>
                     <button 
                       type="button" 
@@ -898,12 +910,12 @@ export default function PubIndex() {
                   </td>
                 </tr>
                 <tr>
-                  <td>47</td>
+                  <td>37</td>
                   <td>가입완료</td>
                   <td><a href="/pub/login/signup-complete" target="_blank" rel="noreferrer">/pub/login/signup-complete</a></td>
                   <td>조찬기</td>
-                  <td><span className="status ing">진행중</span></td>
-                  <td>2026.10.07</td>
+                  <td><span className="status done">완료</span></td>
+                  <td>2026.10.23</td>
                   <td>
                     <button 
                       type="button" 
@@ -915,22 +927,34 @@ export default function PubIndex() {
                   </td>
                 </tr>
                 <tr>
-                  <td>48</td>
+                  <td>38</td>
                   <td>탈퇴하기</td>
-                  <td><a href="/pub/login/withdraw" target="_blank" rel="noreferrer">/pub/login/withdraw</a></td>
+                  <td>
+                    <div>
+                      <a href="/pub/login/withdraw" target="_blank" rel="noreferrer">/pub/login/withdraw</a>
+                    </div>
+                    <div style={{ marginTop: '4px', display: 'flex', gap: '4px' }}>
+                      <a href="/pub/login/withdraw" target="_blank" rel="noreferrer" style={{ fontSize: '11px', padding: '2px 6px', background: 'var(--pub-surface)', border: '1px solid var(--pub-border)', borderRadius: '3px' }}>기본</a>
+                      <a href="/pub/login/withdraw?case=error" target="_blank" rel="noreferrer" style={{ fontSize: '11px', padding: '2px 6px', background: 'var(--pub-surface)', border: '1px solid var(--pub-border)', borderRadius: '3px' }}>비밀번호 오류</a>
+                    </div>
+                  </td>
                   <td>조찬기</td>
-                  <td><span className="status todo">대기</span></td>
-                  <td>-</td>
-                  <td>-</td>
+                  <td><span className="status done">완료</span></td>
+                  <td>2026.10.23</td>
+                  <td>
+                    <button type="button" className="btn-history" onClick={() => openHistoryPopup('탈퇴하기')}>수정내역</button>
+                  </td>
                 </tr>
                 <tr>
-                  <td>49</td>
+                  <td>39</td>
                   <td>탈퇴완료</td>
                   <td><a href="/pub/login/withdraw-complete" target="_blank" rel="noreferrer">/pub/login/withdraw-complete</a></td>
                   <td>조찬기</td>
-                  <td><span className="status todo">대기</span></td>
-                  <td>-</td>
-                  <td>-</td>
+                  <td><span className="status done">완료</span></td>
+                  <td>2026.10.23</td>
+                  <td>
+                    <button type="button" className="btn-history" onClick={() => openHistoryPopup('탈퇴완료')}>수정내역</button>
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -946,8 +970,8 @@ export default function PubIndex() {
               <div className="popup-body">
                 {HISTORY_DATA[popupTitle]?.length ? (
                   <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-                    {HISTORY_DATA[popupTitle].map((item, idx) => (
-                      <li key={idx} style={{ padding: '12px 0', borderBottom: '1px dashed var(--pub-border)', fontSize: '14px' }}>
+                    {HISTORY_DATA[popupTitle].map((item) => (
+                      <li key={`${item.date}-${item.tag}-${item.content}`} style={{ padding: '12px 0', borderBottom: '1px dashed var(--pub-border)', fontSize: '14px' }}>
                         <span style={{ fontSize: '12px', color: 'var(--pub-text-sub)', marginBottom: '4px', display: 'block' }}>{item.date}</span>
                         <span style={{ fontWeight: 600, color: 'var(--pub-status-done)', marginRight: '6px' }}>{item.tag}</span>
                         {item.content}

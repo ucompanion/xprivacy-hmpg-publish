@@ -1,0 +1,20 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" overflow="visible" xmlns="http://www.w3.org/2000/svg">
+<g transform="translate(14.333 16)">
+<g id="Glyph artwork">
+<g id="Vector" filter="url(#filter0_d_0_4)">
+<path d="M12.2 26.6667C14.7448 27.9721 17.6722 28.3257 20.4546 27.6638C23.237 27.0018 25.6914 25.3678 27.3757 23.0563C29.06 20.7448 29.8633 17.9077 29.6408 15.0563C29.4184 12.2049 28.1848 9.52669 26.1624 7.50432C24.1401 5.48195 21.4619 4.2484 18.6105 4.02595C15.7591 3.8035 12.922 4.60679 10.6105 6.29106C8.29893 7.97532 6.66496 10.4298 6.003 13.2122C5.34104 15.9946 5.69463 18.922 7.00004 21.4667L4.33337 29.3334L12.2 26.6667Z" stroke-width="2.66667" stroke-linecap="round" stroke-linejoin="round" stroke="#3B5BFF"/>
+</g>
+</g>
+<defs>
+<filter id="filter0_d_0_4" x="0" y="1.65625" width="34.0105" height="34.0105" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="2"/>
+<feGaussianBlur stdDeviation="1.5"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0.23 0 0 0 0 0.36 0 0 0 0 1 0 0 0 0.28 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_0_4"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_0_4" result="shape"/>
+</filter>
+</defs>
+</g>
+</svg>

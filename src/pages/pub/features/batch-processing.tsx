@@ -1,469 +1,230 @@
-import React from 'react';
-import FrontLayout from '../layouts/FrontLayout';
-import { BasicSection } from '../../../components/domain/Section';
-import { ProductCta } from '../product/sections/ProductCta';
-import styles from './batch-processing.module.scss';
+import type { ReactNode } from "react";
+import FrontLayout from "../layouts/FrontLayout";
+import { HeroSection, BasicSection } from "../../../components/domain/Section";
+import { IconSurface } from "../../../components/core/Icon/IconSurface";
+import { ProductCta } from "../product/sections/ProductCta";
+import styles from "./batch-processing.module.scss";
 
-// Hero: 3 Process Steps
+const IMG = "/images/features/batch-processing";
+
+// 히어로 처리 흐름 3단계 (Figma PC 2291:4485)
 const HERO_STEPS = [
+  { step: "STEP 01", title: "일괄 등록", glyph: "glyph_folder_up.svg" },
+  { step: "STEP 02", title: "병렬 처리", glyph: "glyph_layers.svg" },
+  { step: "STEP 03", title: "검수·반출", glyph: "glyph_file_check.svg" },
+];
+
+interface Item {
+  title: string;
+  desc: string;
+}
+
+// 1. 대용량 파일 일괄 드래그 앤 드롭 (Figma PC 2281:2751 / Mobile 2286:4167)
+const UPLOAD_ITEMS: Item[] = [
   {
-    num: '01',
-    title: '일괄 등록',
-    subtitle: '대용량 파일 일괄 드래그 앤 드롭',
+    title: "여러 파일 한 번에 등록",
+    desc: "여러 개의 이미지와 영상 파일을 한 번의 드래그 앤 드롭으로 함께 업로드합니다.",
   },
   {
-    num: '02',
-    title: '병렬 처리',
-    subtitle: '워크플로우 자동화 및 동시 병렬 처리',
+    title: "이종 파일 포맷 동시 입력 지원",
+    desc: "JPG, PNG 이미지부터 MP4, MOV 영상까지 분류 작업 없이 한 작업창에 일괄 등록할 수 있습니다.",
   },
   {
-    num: '03',
-    title: '검수·반출',
-    subtitle: '일괄 결과 검수 및 아카이브 다운로드',
+    title: "대용량 파일 전송 중단 없는 안정적 네트워크 파이프라인",
+    desc: "대용량 CCTV 및 행정 아카이브 파일도 전송 오류를 줄여 안정적으로 업로드합니다.",
   },
 ];
 
-// Section 1: 대용량 파일 일괄 드래그 앤 드롭
-const SECTION1_FEATURES = [
+// 2. 워크플로우 자동화 및 동시 병렬 처리 (Figma PC 2281:2829 / Mobile 2286:4245)
+const PARALLEL_ITEMS: Item[] = [
   {
-    num: '01',
-    title: '폴더 구조 전체 일괄 업로드',
-    desc: '하위 폴더에 담긴 수백 개의 이미지와 영상까지 구조 훼손 없이 한 번의 드래그 앤 드롭으로 원스톱 업로드합니다.',
+    title: "고속 처리 엔진 기반 일괄 가공",
+    desc: "멀티미디어 고속 처리 엔진으로 등록된 파일을 일괄 가공하여 대량의 비식별 작업도 빠르게 처리합니다.",
   },
   {
-    num: '02',
-    title: '이종 파일 포맷 동시 입력 지원',
-    desc: 'JPG, PNG부터 MP4, AVI, MOV까지 다양한 확장자의 미디어를 분류 작업 없이 한 작업창에 일괄 등록할 수 있습니다.',
+    title: "동일한 비식별 옵션 일괄 적용",
+    desc: "얼굴·신체·번호판별 비식별 옵션(모자이크, 마스킹, 블러, 가상 얼굴)을 선택해 등록된 전체 파일에 동일하게 적용합니다.",
   },
   {
-    num: '03',
-    title: '대용량 파일 전송 중단 없는 안정적 네트워크 파이프라인',
-    desc: '수십 십기가바이트(GB) 이상의 대용량 CCTV 및 행정 아카이브 파일도 튕김이나 전송 오류 없이 안전하게 받아냅니다.',
+    title: "담당자 부재 중에도 지속되는 스마트 작업 큐",
+    desc: "웹 브라우저를 닫거나 다른 업무를 보는 동안에도 서버에서 비식별화 작업이 계속 진행됩니다.",
   },
 ];
 
-// Section 2: 워크플로우 자동화 및 동시 병렬 처리
-const SECTION2_FEATURES = [
+// 3. 일괄 결과 검수 및 아카이브 다운로드 (Figma PC 2281:2910 / Mobile 2286:4326)
+const EXPORT_ITEMS: Item[] = [
   {
-    num: '01',
-    title: '지능형 AI 멀티 스레드 병렬 연산',
-    desc: '등록된 파일들을 AI 연산 자원에 효율적으로 분배·동시 처리하여 대량의 가공 요청도 대기 없이 빠르게 해결합니다.',
+    title: "처리 결과 한눈에 확인",
+    desc: "파일별 처리 상태와 결과를 목록에서 한눈에 확인할 수 있습니다.",
   },
   {
-    num: '02',
-    title: '클릭 한 번으로 동일 보안 정책 일괄 적용',
-    desc: '자주 사용하는 비식별 옵션(모자이크, 가우시안 블러, 가상 얼굴 변환 등)을 프리셋으로 저장해 등록된 전체 파일에 동일하게 일괄 적용합니다.',
+    title: "일괄 검수 및 빠른 개별 수정 지원",
+    desc: "일괄 처리된 결과물 중 재확인이 필요한 특정 파일만 클릭하여 즉시 타임라인 검수 및 영역 수정을 진행합니다.",
   },
   {
-    num: '03',
-    title: '담당자 부재 중에도 지속되는 스마트 작업 큐',
-    desc: '웹 브라우저를 닫거나 다른 업무를 보는 동안에도 서버에서 비식별화 작업이 멈춤 없이 24시간 자동 진행됩니다.',
+    title: "원클릭 압축 파일 반출",
+    desc: "가공 완료된 결과물을 암호화된 압축(ZIP) 파일 형태로 한 번에 다운로드합니다.",
   },
 ];
 
-// Section 3: 일괄 결과 검수 및 아카이브 다운로드
-const SECTION3_FEATURES = [
-  {
-    num: '01',
-    title: '대시보드 기반 실시간 진행률 모니터링',
-    desc: '전체 작업 진행률(%), 성공/실패 여부, 처리 완료된 파일 썸네일을 대시보드 한눈에 파악할 수 있습니다.',
-  },
-  {
-    num: '02',
-    title: '일괄 검수 및 빠른 개별 수정 지원',
-    desc: '일괄 처리된 결과물 중 재확인이 필요한 특정 파일만 클릭하여 즉시 타임라인 검수 및 영역 수정을 진행합니다.',
-  },
-  {
-    num: '03',
-    title: '원클릭 압축 파일 반출',
-    desc: '가공 완료된 수백 개의 결과물을 원본 폴더 구조 그대로 유지하며 암호화된 압축(ZIP) 파일 형태로 일괄 다운로드합니다.',
-  },
-];
+function FeatureCopy({
+  eyebrow,
+  heading,
+  lead,
+  items,
+}: {
+  eyebrow: string;
+  heading: ReactNode;
+  lead: string;
+  items: Item[];
+}) {
+  return (
+    <div className={styles.copy}>
+      <div className={styles.intro}>
+        <span className={styles.eyebrow}>{eyebrow}</span>
+        <h2 className={styles.heading}>{heading}</h2>
+        <p className={styles.lead}>{lead}</p>
+      </div>
+      <ol className={styles.list}>
+        {items.map((item, idx) => (
+          <li key={item.title} className={styles.listItem}>
+            <span className={styles.listNum}>
+              {String(idx + 1).padStart(2, "0")}
+            </span>
+            <div className={styles.listText}>
+              <h3 className={styles.listTitle}>{item.title}</h3>
+              <p className={styles.listDesc}>{item.desc}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  );
+}
 
-export default function PubSubFeaturesBatchProcessing() {
+/**
+ * 설명용 도식 (시안 렌더링 이미지 · PC/MO 레이아웃이 달라 이미지 2종)
+ * 이미지는 카드 그림자 여백을 포함하므로 음수 여백으로 카드 영역(560×490 / 350 폭)에 맞춤
+ */
+function Diagram({ name, alt }: { name: string; alt: string }) {
+  return (
+    <figure className={styles.diagram}>
+      <picture>
+        <source media="(max-width: 768px)" srcSet={`${IMG}/${name}_mo.png`} />
+        <img src={`${IMG}/${name}.png`} alt={alt} />
+      </picture>
+    </figure>
+  );
+}
+
+export default function PubFeaturesBatchProcessing() {
   return (
     <FrontLayout>
       <div className={styles.pageWrap}>
-        
-        {/* ===================================================================
-            Hero Section: 대량의 영상 데이터, 대기 시간 없이 초고속 병렬 가공
-        =================================================================== */}
-        <BasicSection
-          className={styles.heroSection}
-          bg="white"
-          layout="vertical"
+        {/* 1. Hero (Figma PC 2291:4476 / Mobile 2291:4516 · 가운데 정렬 + 처리 흐름 3단계) */}
+        <HeroSection
+          heroVariant="compact"
           align="center"
-          eyebrow="FEATURES"
+          className={styles.batchHero}
+          eyebrow="Features"
           title={
             <>
-              대량의 영상 데이터,<br />
-              대기 시간 없이 초고속 병렬 가공
+              대량의 이미지·영상
+              <br className="mobileBr" /> 데이터,
+              <br className="pcBr" /> 한 번에
+              <br className="mobileBr" /> 등록하고
+              <br className="mobileBr" /> 병렬로 가공
             </>
           }
-          description={
-            <>
-              반복적이고 소모적인 개별 가공 작업 없이, 다수의 이미지와 영상을 한꺼번에 등록하여<br />
-              탐지부터 비식별 처리까지 한 번에 완료합니다.
-            </>
-          }
+          description="반복적이고 소모적인 개별 가공 작업 없이, 다수의 이미지와 영상을 한꺼번에 등록하여 탐지부터 비식별 처리까지 한 번에 완료합니다."
         >
-          {/* Action Button */}
-          <div className={styles.heroAction}>
-            <a href="/pub/demo" className={styles.btnTrial}>
-              무료 체험 시작
-            </a>
-          </div>
-
-          {/* 3 Step Process Cards */}
-          <div className={styles.processSteps}>
-            {HERO_STEPS.map((step, idx) => (
-              <React.Fragment key={step.num}>
-                <div className={styles.stepCard}>
-                  <span className={styles.stepNum}>{step.num}</span>
-                  <h3 className={styles.stepTitle}>{step.title}</h3>
-                  <p className={styles.stepSubtitle}>{step.subtitle}</p>
-                </div>
-                {idx < HERO_STEPS.length - 1 && (
-                  <span className={styles.stepArrow}>→</span>
-                )}
-              </React.Fragment>
-            ))}
-          </div>
-        </BasicSection>
-
-        {/* ===================================================================
-            Section 1: 대용량 파일 일괄 드래그 앤 드롭 (Gray Bg, Mockup Left, Text Right)
-        =================================================================== */}
-        <BasicSection
-          className={styles.featureSection}
-          bg="gray"
-          layout="horizontal-reverse"
-          align="left"
-          eyebrow="WHY XPRIVACY"
-          title={
-            <>
-              대용량 파일<br />
-              일괄 드래그 앤 드롭
-            </>
-          }
-          description={
-            <>
-              폴더 단위 대용량 업로드를 지원하여 수많은 이미지와 영상 파일을<br />
-              일일이 개별 등록할 필요 없이 한 번에 세팅합니다.
-            </>
-          }
-          headerExtra={
-            <div className={styles.featureList}>
-              {SECTION1_FEATURES.map((item) => (
-                <div key={item.num} className={styles.featureItem}>
-                  <span className={styles.num}>{item.num}</span>
-                  <h4 className={styles.title}>{item.title}</h4>
-                  <p className={styles.desc}>{item.desc}</p>
-                </div>
+          {/* 섹션 콘텐츠 첫 요소의 margin은 0으로 고정되므로 한 겹 감싸 간격(48)을 조정 */}
+          <div>
+            <ol className={styles.heroSteps}>
+              {HERO_STEPS.map((item) => (
+                <li key={item.step} className={styles.heroStep}>
+                  <IconSurface
+                    src={`${IMG}/${item.glyph}`}
+                    size={52}
+                    sizeMo={44}
+                    glyphFit="fill"
+                  />
+                  <span className={styles.heroStepText}>
+                    <span className={styles.heroStepLabel}>{item.step}</span>
+                    <strong className={styles.heroStepTitle}>
+                      {item.title}
+                    </strong>
+                  </span>
+                </li>
               ))}
-            </div>
-          }
-        >
-          {/* BATCH UPLOAD Mockup */}
-          <div className={styles.mockupCard}>
-            <div className={styles.mockupHeader}>
-              <span className={styles.headerTitle}>BATCH UPLOAD</span>
-              <span className={styles.disclaimerBadge}>설명용 표현 · 실제 제품 화면 아님</span>
-            </div>
+            </ol>
+          </div>
+        </HeroSection>
 
-            <div className={styles.uploadMockupBody}>
-              {/* Left Folder Tree */}
-              <div className={styles.sourceTree}>
-                <span className={styles.treeTitle}>SOURCE FOLDER</span>
-                <div className={styles.treeNode}>
-                  <div className={styles.folderRow}>📁 archive</div>
-                  <div className={styles.subNode}>
-                    <div className={styles.folderRow}>📁 cam_A</div>
-                    <div className={styles.subNode}>
-                      <div className={styles.fileRow}>
-                        <span>clip_01</span>
-                        <span className={styles.typeTag}>영상</span>
-                      </div>
-                      <div className={styles.fileRow}>
-                        <span>clip_02</span>
-                        <span className={styles.typeTag}>영상</span>
-                      </div>
-                      <div className={styles.fileRow}>
-                        <span>frame_01</span>
-                        <span className={styles.typeTag}>이미지</span>
-                      </div>
-                    </div>
-
-                    <div className={styles.folderRow}>📁 cam_B</div>
-                    <div className={styles.subNode}>
-                      <div className={styles.fileRow}>
-                        <span>clip_03</span>
-                        <span className={styles.typeTag}>영상</span>
-                      </div>
-                      <div className={styles.fileRow}>
-                        <span>frame_02</span>
-                        <span className={styles.typeTag}>이미지</span>
-                      </div>
-                    </div>
-
-                    <div className={styles.folderRow}>📁 docs_scan</div>
-                    <div className={styles.subNode}>
-                      <div className={styles.fileRow}>
-                        <span>scan_01</span>
-                        <span className={styles.typeTag}>이미지</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Transfer Indicator */}
-              <div className={styles.transferIndicator}>
-                <span className={styles.arrow}>→</span>
-                <span className={styles.label}>Drag &amp; Drop</span>
-              </div>
-
-              {/* Drop Zone */}
-              <div className={styles.dropZone}>
-                <div className={styles.dropIcon}>📁</div>
-                <div className={styles.dropText}>
-                  폴더째 끌어다 놓기
-                  <small>작업창에 일괄 등록</small>
-                </div>
-                <div className={styles.registeredFolders}>
-                  <span>archive / cam_A</span>
-                  <span>archive / cam_B</span>
-                  <span>archive / docs_scan</span>
-                </div>
-              </div>
-            </div>
-
-            <div className={styles.mockupFooter}>
-              <span>폴더 구조 유지 표시 · 파일 수·용량은 표시하지 않음</span>
-            </div>
+        {/* 2. 업로드 */}
+        <BasicSection bg="white" layout="vertical" align="left">
+          <div className={styles.split}>
+            <Diagram
+              name="diagram_upload"
+              alt="여러 폴더의 이미지·영상 파일을 드래그 앤 드롭으로 작업창에 일괄 등록하는 흐름 (설명용 표현)"
+            />
+            <FeatureCopy
+              eyebrow="UPLOAD"
+              heading="대용량 파일 일괄 드래그 앤 드롭"
+              lead="여러 이미지와 영상 파일을 일일이 개별 등록할 필요 없이 한 번에 등록합니다."
+              items={UPLOAD_ITEMS}
+            />
           </div>
         </BasicSection>
 
-        {/* ===================================================================
-            Section 2: 워크플로우 자동화 및 동시 병렬 처리 (White Bg, Text Left, Mockup Right)
-        =================================================================== */}
-        <BasicSection
-          className={styles.featureSection}
-          bg="white"
-          layout="horizontal"
-          align="left"
-          eyebrow="WHY XPRIVACY"
+        {/* 3. 병렬 처리 */}
+        <BasicSection bg="gray" layout="vertical" align="left">
+          <div className={`${styles.split} ${styles.reverse}`}>
+            <Diagram
+              name="diagram_queue"
+              alt="입력 파일에 보안 정책을 일괄 적용해 AI 작업 큐 4개로 분배하고 결과를 만드는 흐름 (설명용 표현)"
+            />
+            <FeatureCopy
+              eyebrow="PARALLEL"
+              heading="워크플로우 자동화 및 동시 병렬 처리"
+              lead="다량의 파일이 등록되더라도 AI가 탐지부터 비식별 처리까지 자동으로 이어서 처리해 반복 작업을 줄입니다."
+              items={PARALLEL_ITEMS}
+            />
+          </div>
+        </BasicSection>
+
+        {/* 4. 검수·반출 */}
+        <BasicSection bg="white" layout="vertical" align="left">
+          <div className={styles.split}>
+            <Diagram
+              name="diagram_export"
+              alt="결과 목록에서 필요한 파일만 개별 검수한 뒤 암호화 ZIP으로 반출하는 흐름 (설명용 표현)"
+            />
+            <FeatureCopy
+              eyebrow="EXPORT"
+              heading="일괄 결과 검수 및 아카이브 다운로드"
+              lead="파일별 가공 상태를 한눈에 확인하고, 검수 완료된 결과물 전체를 압축 파일 형태로 한 번에 반출할 수 있습니다."
+              items={EXPORT_ITEMS}
+            />
+          </div>
+        </BasicSection>
+
+        {/* 5. CTA */}
+        <ProductCta
+          eyebrow="GET STARTED"
           title={
             <>
-              워크플로우 자동화 및<br />
-              동시 병렬 처리
+              업무 환경에 맞는 서비스를
+              <br />
+              직접 확인해보세요
             </>
           }
-          description={
-            <>
-              대기 시간 없는 초고속 AI 동시 병렬 가공 엔진<br />
-              여러 대의 AI 작업 큐(Queue)가 동시 가동되어 다량의 파일이 입력되더라도<br />
-              멈춤 없이 실시간급으로 일괄 탐지 및 비식별 처리를 완료합니다.
-            </>
-          }
-          headerExtra={
-            <div className={styles.featureList}>
-              {SECTION2_FEATURES.map((item) => (
-                <div key={item.num} className={styles.featureItem}>
-                  <span className={styles.num}>{item.num}</span>
-                  <h4 className={styles.title}>{item.title}</h4>
-                  <p className={styles.desc}>{item.desc}</p>
-                </div>
-              ))}
-            </div>
-          }
-        >
-          {/* PARALLEL QUEUE Mockup */}
-          <div className={styles.mockupCard}>
-            <div className={styles.mockupHeader}>
-              <span className={styles.headerTitle}>PARALLEL QUEUE</span>
-              <span className={styles.disclaimerBadge}>설명용 표현 · 실제 제품 화면 아님</span>
-            </div>
-
-            <div className={styles.queueMockupBody}>
-              {/* Input Files */}
-              <div className={styles.inputFilesBox}>
-                <span className={styles.boxLabel}>입력 파일</span>
-                <span className={styles.itemPill}>clip_01</span>
-                <span className={styles.itemPill}>clip_02</span>
-                <span className={styles.itemPill}>clip_03</span>
-                <span className={styles.itemPill}>frame_01</span>
-                <span className={styles.itemPill}>frame_02</span>
-                <span className={styles.itemPill}>scan_01</span>
-                <span className={styles.itemPill}>...</span>
-              </div>
-
-              {/* Preset Column */}
-              <div className={styles.presetBadgeColumn}>
-                <div className={styles.presetBox}>
-                  <span className={styles.presetTag}>PRESET</span>
-                  <span className={styles.presetText}>보안 정책<br />일괄 적용</span>
-                </div>
-                <div className={styles.distributeArrow}>
-                  <span>분배</span>
-                  <span>→</span>
-                </div>
-              </div>
-
-              {/* Queue Cluster */}
-              <div className={styles.queueCluster}>
-                <span className={styles.clusterTitle}>AI 작업 큐 (QUEUE)</span>
-                <div className={styles.queueRow}>
-                  <span className={styles.qName}>Queue A</span>
-                  <span className={styles.qFile}>clip_01</span>
-                  <span className={`${styles.statusTag} ${styles.processing}`}>처리 중</span>
-                </div>
-                <div className={styles.queueRow}>
-                  <span className={styles.qName}>Queue B</span>
-                  <span className={styles.qFile}>clip_02</span>
-                  <span className={`${styles.statusTag} ${styles.processing}`}>처리 중</span>
-                </div>
-                <div className={styles.queueRow}>
-                  <span className={styles.qName}>Queue C</span>
-                  <span className={styles.qFile}>frame_01</span>
-                  <span className={`${styles.statusTag} ${styles.processing}`}>처리 중</span>
-                </div>
-                <div className={styles.queueRow}>
-                  <span className={styles.qName}>Queue D</span>
-                  <span className={styles.qFile}>clip_03</span>
-                  <span className={`${styles.statusTag} ${styles.waiting}`}>대기</span>
-                </div>
-                <div className={styles.clusterFooterText}>
-                  서버 측 작업 큐 (동시 가동 표시)
-                </div>
-              </div>
-
-              {/* Result Indicator */}
-              <div className={styles.resultColumn}>
-                <span className={styles.arrow}>→</span>
-                <div className={styles.resultBox}>
-                  <div className={styles.icon} />
-                  <span className={styles.label}>결과</span>
-                </div>
-              </div>
-            </div>
-
-            <div className={styles.mockupFooter}>
-              <span className={`${styles.footerBadge} ${styles.badgeBlue}`}>처리 중</span>
-              <span className={`${styles.footerBadge} ${styles.badgeGray}`}>대기</span>
-              <span>진행률·처리 시간은 표시하지 않음</span>
-            </div>
-          </div>
-        </BasicSection>
-
-        {/* ===================================================================
-            Section 3: 일괄 결과 검수 및 아카이브 다운로드 (Gray Bg, Mockup Left, Text Right)
-        =================================================================== */}
-        <BasicSection
-          className={styles.featureSection}
-          bg="gray"
-          layout="horizontal-reverse"
-          align="left"
-          eyebrow="WHY XPRIVACY"
-          title={
-            <>
-              일괄 결과 검수 및<br />
-              아카이브 다운로드
-            </>
-          }
-          description={
-            <>
-              파일별 가공 상태를 대시보드에서 한눈에 확인하고,<br />
-              검수 완료된 결과물 전체를 원클릭 압축 파일 형태로 즉시 반출할 수 있습니다.
-            </>
-          }
-          headerExtra={
-            <div className={styles.featureList}>
-              {SECTION3_FEATURES.map((item) => (
-                <div key={item.num} className={styles.featureItem}>
-                  <span className={styles.num}>{item.num}</span>
-                  <h4 className={styles.title}>{item.title}</h4>
-                  <p className={styles.desc}>{item.desc}</p>
-                </div>
-              ))}
-            </div>
-          }
-        >
-          {/* REVIEW & EXPORT Mockup */}
-          <div className={styles.mockupCard}>
-            <div className={styles.mockupHeader}>
-              <span className={styles.headerTitle}>REVIEW &amp; EXPORT</span>
-              <span className={styles.disclaimerBadge}>설명용 표현 · 실제 제품 화면 아님</span>
-            </div>
-
-            <div className={styles.reviewMockupBody}>
-              {/* Result List */}
-              <div className={styles.resultListBox}>
-                <span className={styles.boxTitle}>결과 목록</span>
-                <div className={styles.resultRow}>
-                  <span>clip_01</span>
-                  <span className={`${styles.statusTag} ${styles.done}`}>완료</span>
-                </div>
-                <div className={styles.resultRow}>
-                  <span>clip_02</span>
-                  <span className={`${styles.statusTag} ${styles.done}`}>완료</span>
-                </div>
-                <div className={`${styles.resultRow} ${styles.highlightReview}`}>
-                  <span>clip_03</span>
-                  <span className={`${styles.statusTag} ${styles.needReview}`}>검수 필요</span>
-                </div>
-                <div className={styles.resultRow}>
-                  <span>frame_01</span>
-                  <span className={`${styles.statusTag} ${styles.done}`}>완료</span>
-                </div>
-                <div className={styles.resultRow}>
-                  <span>frame_02</span>
-                  <span className={`${styles.statusTag} ${styles.done}`}>완료</span>
-                </div>
-                <div className={styles.resultRow}>
-                  <span>scan_01</span>
-                  <span className={`${styles.statusTag} ${styles.done}`}>완료</span>
-                </div>
-              </div>
-
-              {/* Review Filter */}
-              <div className={styles.reviewBadgeColumn}>
-                <span className={styles.arrow}>→</span>
-                <div className={styles.reviewBox}>
-                  <span className={styles.rTitle}>개별 검수</span>
-                  <span className={styles.rSub}>필요한 파일만</span>
-                </div>
-                <span className={styles.arrow}>→</span>
-              </div>
-
-              {/* Export Archive Box */}
-              <div className={styles.exportArchiveBox}>
-                <div className={styles.archiveIcon}>📦</div>
-                <div className={styles.archiveTitle}>
-                  압축 파일
-                  <small>일괄 반출</small>
-                </div>
-                <div className={styles.archiveTree}>
-                  <span className={styles.folder}>📁 archive</span>
-                  <span className={styles.subFolder}>📁 cam_A</span>
-                  <span className={styles.subFolder}>📁 cam_B</span>
-                </div>
-              </div>
-            </div>
-
-            <div className={styles.mockupFooter}>
-              <span className={`${styles.footerBadge} ${styles.badgeGreen}`}>완료</span>
-              <span className={`${styles.footerBadge} ${styles.badgeOrange}`}>검수 필요</span>
-              <span>진행률(%)·암호화 방식은 표시하지 않음</span>
-            </div>
-          </div>
-        </BasicSection>
-
-        {/* ===================================================================
-            Section 4: Bottom Product CTA
-        =================================================================== */}
-        <ProductCta />
-
+          description="무료 체험으로 제품을 먼저 확인하거나 기관·기업 환경에 맞는 도입 방식을 상담할 수 있습니다."
+          solidButtonText="도입 문의하기"
+          outlineButtonText="데모 체험하기"
+          solidButtonHref="/pub/contact/inquiry"
+          outlineButtonHref="/pub/demo/image"
+        />
       </div>
     </FrontLayout>
   );

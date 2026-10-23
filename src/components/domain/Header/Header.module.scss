@@ -1,60 +1,59 @@
+@use "@/assets/scss/variables" as *;
+@use "@/assets/scss/mixins" as *;
+
 .header {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: 60rem;
-  background-color: #333333;
+  height: var(--header-height, 72rem);
+  background: var(--color-surface-header, rgba(11, 20, 38, 0.4));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: var(--zindex-layout);
+  z-index: var(--zindex-layout, 100);
+  transition: background-color 0.25s ease, border-color 0.25s ease;
+
+  @media (max-width: 768px) {
+    height: var(--header-height-mo, 60rem);
+  }
 }
 
 .container {
   width: 100%;
-  max-width: 1240rem;
-  padding: 0 100rem;
+  max-width: var(--layout-container-max-width, 1280rem);
+  padding-left: var(--spacing-20, 20rem);
+  padding-right: var(--spacing-20, 20rem);
   display: flex;
   align-items: center;
   justify-content: space-between;
+  box-sizing: border-box;
 }
 
 .logo {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 8rem;
   text-decoration: none;
-  color: #ffffff;
+  flex-shrink: 0;
+
+  .logo_img {
+    width: 141.6rem;
+    height: 30rem;
+    object-fit: contain;
+    display: block;
+  }
 }
 
-.logo_svg {
-  width: 24rem;
-  height: 24rem;
-}
-
-.logo_text {
-  font-size: 16rem;
-  display: flex;
-  align-items: center;
-  gap: 4rem;
-}
-
-.logo_text_bold {
-  font-weight: 700;
-  letter-spacing: 0.5rem;
-}
-
-.logo_text_regular {
-  font-weight: 400;
-  letter-spacing: 0.5rem;
-  text-transform: uppercase;
-}
-
+/* --------------------------------------------------------------------------
+   GNB Navigation (PC)
+-------------------------------------------------------------------------- */
 .nav {
   display: flex;
   align-items: center;
-  gap: 32rem;
+  gap: var(--spacing-40, 40rem); /* Figma: spacing/40 */
 }
 
 .nav_item {
@@ -68,12 +67,12 @@
 }
 
 .nav_link {
-  color: #ffffff;
-  font-size: 14rem;
-  font-weight: 500;
+  @include text-body; /* Figma: v2/PC/Body (Pretendard 16px, 400, LH 1.75) */
+  color: var(--color-text-inverse, #ffffff);
   text-decoration: none;
   transition: opacity 0.2s;
-  padding: 20rem 0; // to give hover area
+  padding: 22rem 0;
+  white-space: nowrap;
 
   &:hover {
     opacity: 0.8;
@@ -86,13 +85,14 @@
   top: 100%;
   left: 50%;
   transform: translateX(-50%);
-  background-color: #ffffff;
+  background-color: var(--color-surface-white, #ffffff);
   flex-direction: column;
   min-width: 160rem;
-  box-shadow: 0 4rem 12rem rgba(0,0,0,0.1);
-  border-radius: 8rem;
-  padding: 8rem 0;
+  box-shadow: 0 4rem 16rem rgba(0, 0, 0, 0.12);
+  border-radius: var(--btn-radius, 6rem);
+  padding: var(--spacing-8, 8rem) 0;
   margin: 0;
+  z-index: 100;
   
   &::before {
     content: '';
@@ -109,8 +109,8 @@
   
   a {
     display: block;
-    padding: 10rem 20rem;
-    color: #333333;
+    padding: 10rem var(--spacing-20, 20rem);
+    color: var(--color-text-gray-1, #3c4043);
     font-size: 14rem;
     text-decoration: none;
     white-space: nowrap;
@@ -118,86 +118,112 @@
     transition: background-color 0.2s, color 0.2s;
     
     &:hover {
-      background-color: #f3f4f6;
-      color: #2979FF;
+      background-color: var(--color-surface-gray, #f1f3f4);
+      color: var(--color-primary, #3b5bff);
     }
   }
 }
 
+/* --------------------------------------------------------------------------
+   Actions (PC)
+-------------------------------------------------------------------------- */
 .actions {
   display: flex;
   align-items: center;
+  gap: var(--spacing-24, 24rem); /* Figma: spacing/24 */
 }
 
 .login_link {
-  color: #ffffff;
-  font-size: 13rem;
-  font-weight: 500;
+  @include text-body; /* Figma: v2/PC/Body */
+  color: var(--color-text-inverse, #ffffff);
   text-decoration: none;
-  margin-right: 24rem;
   transition: opacity 0.2s;
+  white-space: nowrap;
 
   &:hover {
     opacity: 0.8;
   }
 }
 
+.buttons_group {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-12, 12rem); /* Figma: spacing/12 */
+}
+
 .btn_inquiry {
-  padding: 6rem 16rem;
-  border-radius: 4rem;
-  font-size: 13rem;
-  font-weight: 600;
-  background-color: #ffffff;
-  color: #111827;
+  @include text-body; /* Figma: v2/PC/Body */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100rem;
+  height: var(--size-button-header-height, 39rem); /* Figma: size/button/header-height (39) */
+  padding: 0 var(--spacing-20, 20rem);
+  border-radius: var(--btn-radius, 6rem);
+  background-color: var(--color-surface-white, #ffffff);
+  color: var(--color-text-black, #000000);
   border: none;
   cursor: pointer;
-  margin-right: 8rem;
-  transition: background-color 0.2s;
+  text-decoration: none;
+  white-space: nowrap;
+  box-sizing: border-box;
+  transition: background-color 0.2s, transform 0.15s;
 
   &:hover {
-    background-color: #f3f4f6;
+    background-color: #e5e7eb;
+    transform: translateY(-1rem);
   }
 }
 
 .btn_trial {
-  padding: 6rem 16rem;
-  border-radius: 4rem;
-  font-size: 13rem;
-  font-weight: 600;
+  @include text-body; /* Figma: v2/PC/Body */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100rem;
+  height: var(--size-button-header-height, 39rem); /* Figma: size/button/header-height (39) */
+  padding: 0 22rem;
+  border-radius: var(--btn-radius, 6rem);
   background-color: transparent;
-  color: #ffffff;
-  border: 1rem solid #ffffff;
+  color: var(--color-text-inverse, #ffffff);
+  border: 1px solid var(--color-border-inverse, #ffffff); /* Figma: border/inverse (1px) */
   cursor: pointer;
-  transition: background-color 0.2s;
+  text-decoration: none;
+  white-space: nowrap;
+  box-sizing: border-box;
+  transition: background-color 0.2s, border-color 0.2s, transform 0.15s;
 
   &:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.12);
+    transform: translateY(-1rem);
   }
 }
 
+/* --------------------------------------------------------------------------
+   Mobile Hamburger & Overlay
+-------------------------------------------------------------------------- */
 .hamburger {
   display: none;
   background: none;
   border: none;
   cursor: pointer;
-  padding: 8rem;
+  padding: var(--spacing-8, 8rem);
   flex-direction: column;
   gap: 5rem;
 
   .line {
     width: 24rem;
     height: 2rem;
-    background-color: #ffffff;
+    background-color: var(--color-text-inverse, #ffffff);
     border-radius: 1rem;
     transition: all 0.3s;
   }
 }
 
-/* Mobile Full-Screen Overlay */
 .mobile_menu_overlay {
   position: fixed;
-  inset: 0; /* top: 0, left: 0, right: 0, bottom: 0 */
-  background-color: #000000;
+  inset: 0;
+  background-color: var(--color-text-black, #000000);
   z-index: 1000;
   display: flex;
   flex-direction: column;
@@ -208,90 +234,83 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 18rem 24rem; /* Matches 60rem height roughly */
+  padding: 18rem var(--spacing-24, 24rem);
 }
 
 .btn_close {
   background: none;
   border: none;
-  padding: 8rem;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding: 4rem;
 }
 
 .mobile_menu_body {
   flex: 1;
-  padding: 24rem 24rem;
+  padding: 32rem var(--spacing-24, 24rem);
 }
 
 .mobile_nav {
   display: flex;
   flex-direction: column;
+  gap: var(--spacing-20, 20rem);
 }
 
 .mobile_nav_link {
-  color: #ffffff;
-  font-size: 16rem;
-  font-weight: 400;
+  @include text-subheading;
+  color: var(--color-text-inverse, #ffffff);
   text-decoration: none;
-  padding: 20rem 0;
-  border-bottom: 1rem solid #222222;
-  transition: color 0.2s;
-
-  &:hover {
-    color: #cccccc;
-  }
 }
 
 .mobile_menu_footer {
-  padding: 0 24rem 40rem 24rem;
+  padding: var(--spacing-24, 24rem);
   display: flex;
   flex-direction: column;
+  gap: var(--spacing-12, 12rem);
+  border-top: 1px solid #222222;
 }
 
 .btn_mobile_inquiry {
-  width: 100%;
-  height: 52rem;
-  background-color: #ffffff;
-  color: #000000;
-  font-size: 16rem;
-  font-weight: 600;
-  border: none;
-  border-radius: 4rem;
-  margin-bottom: 12rem;
-  cursor: pointer;
+  @include text-body;
+  font-weight: var(--font-weight-bold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48rem;
+  background-color: var(--color-surface-white, #ffffff);
+  color: var(--color-text-black, #000000);
+  border-radius: var(--btn-radius, 6rem);
+  text-decoration: none;
 }
 
 .btn_mobile_trial {
-  width: 100%;
-  height: 52rem;
-  background-color: #000000;
-  color: #ffffff;
-  font-size: 16rem;
-  font-weight: 600;
-  border: 1rem solid #ffffff;
-  border-radius: 4rem;
-  margin-bottom: 24rem;
+  @include text-body;
+  font-weight: var(--font-weight-bold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48rem;
+  background-color: transparent;
+  color: var(--color-text-inverse, #ffffff);
+  border: 2px solid var(--color-border-inverse, #ffffff);
+  border-radius: var(--btn-radius, 6rem);
   cursor: pointer;
 }
 
 .mobile_login_link {
-  color: #ffffff;
-  font-size: 14rem;
+  @include text-note;
+  color: var(--color-text-gray-2, #5f6368);
   text-decoration: none;
-  text-align: center;
-  font-weight: 400;
+  margin-top: var(--spacing-8, 8rem);
 }
 
-/* Mobile Responsive */
+/* --------------------------------------------------------------------------
+   Responsive Media Queries
+-------------------------------------------------------------------------- */
 @media (max-width: 1024px) {
-  .container {
-    padding: 0 24rem; /* Matches the overlay padding for alignment */
+  .nav {
+    display: none;
   }
 
-  .nav,
   .actions {
     display: none;
   }

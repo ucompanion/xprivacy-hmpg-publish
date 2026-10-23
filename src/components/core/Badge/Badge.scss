@@ -24,4 +24,22 @@
     background-color: var(--color-secondary-500);
     color: var(--color-gray-800);
   }
+  &.color-info {
+    background-color: var(--color-brand-primary, #3b5bff);
+    color: var(--color-text-inverse, #ffffff);
+  }
+
+  /* SUBTLE VARIANT: 연한 배경 + 진한 글자 (Figma 처리 방식 Badge · 12 Regular · 자간 0.96) */
+  &.variant-subtle {
+    padding: 4rem 10rem;
+    border-radius: 6rem;
+    font-weight: var(--font-weight-regular, 400);
+    line-height: normal;
+    letter-spacing: 0.96px;
+
+    &.color-info {
+      background-color: var(--color-surface-blue-subtle, #eef1ff);
+      color: var(--color-text-accent, #3b5bff);
+    }
+  }
 }

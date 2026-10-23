@@ -28,7 +28,7 @@ export const BasicModal: React.FC<BasicModalProps> = ({
           <Button variant="outline" color="neutral" onClick={props.onClose}>
             {cancelText}
           </Button>
-          <Button variant="solid" color="primary" onClick={onConfirm || props.onClose}>
+          <Button variant="solid" color="primary" onClick={onConfirm ?? props.onClose}>
             {confirmText}
           </Button>
         </>

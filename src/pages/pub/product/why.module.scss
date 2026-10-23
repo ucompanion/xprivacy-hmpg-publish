@@ -1,819 +1,685 @@
-@import '../../../assets/scss/variables';
+@use "@/assets/scss/variables" as *;
+@use "@/assets/scss/mixins" as *;
+
+/* 미매핑 피그마 토큰 (프로젝트 토큰 없음 → 시안 값 사용)
+ * - accent/detection #3db7ff · surface/muted #e8eaed · text/disabled #80868b · text/inverse-subtle #f1f3f4
+ * - Label/Eyebrow 12 ExtraBold · 자간 1.54 / Body/Caption 12 · 자간 0.96
+ * - Heading/Item-Small 16 Bold / Body/Small 14 · 1.75 · 자간 -0.08 / Label/Field 14 SemiBold */
+$accent-detection: #3db7ff;
+$surface-muted: #e8eaed;
+$text-disabled: #80868b;
+$text-inverse-subtle: #f1f3f4;
+
+@mixin label-eyebrow {
+  font-family: var(--font-family-base);
+  font-size: 12rem;
+  font-weight: var(--font-weight-extrabold, 800);
+  line-height: normal;
+  letter-spacing: 1.54px;
+  text-transform: uppercase;
+}
+
+@mixin body-caption {
+  font-family: var(--font-family-base);
+  font-size: 12rem;
+  font-weight: var(--font-weight-regular, 400);
+  line-height: normal;
+  letter-spacing: 0.96px;
+}
+
+@mixin body-small {
+  font-family: var(--font-family-base);
+  font-size: 14rem;
+  font-weight: var(--font-weight-regular, 400);
+  line-height: 1.75;
+  letter-spacing: -0.08px;
+}
 
 .pageWrap {
   width: 100%;
 }
 
-/* --------------------------------------------------------------------------
-   Hero Section
--------------------------------------------------------------------------- */
-.heroSectionWhy {
-  :global(.header) {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: flex-end;
-    gap: 60rem;
-    margin-bottom: 56rem;
-
-    :global(.title) {
-      flex: 1;
-      font-size: 38rem;
-      font-weight: 700;
-      line-height: 1.3;
-      color: var(--color-white);
-      margin-bottom: 0;
-      word-break: keep-all;
-    }
-
-    :global(.description) {
-      flex: 1;
-      max-width: 480rem;
-      font-size: 15rem;
-      line-height: 1.6;
-      color: rgba(255, 255, 255, 0.85);
-      margin-bottom: 0;
-      word-break: keep-all;
-    }
+/* PC 전용 줄바꿈 (모바일은 자연 줄바꿈) */
+.pcBr {
+  @media (max-width: 768px) {
+    display: none;
   }
 }
 
-.heroFeatureList {
-  display: flex;
-  align-items: stretch;
-  justify-content: center;
-  gap: 24rem;
+/* --------------------------------------------------------------------------
+ * 1. Hero 가치 패널 (Figma PC 2159:13868 / Mobile 2159:14102)
+ * 흰색 90% 패널, radius 12, padding 32 · gap 20 (MO padding 20 · 세로 gap 24)
+ * -------------------------------------------------------------------------- */
+/* 공통 Section은 본문 첫 요소 margin-top을 0으로 초기화하므로 padding으로 간격 보정
+ * (Section 본문 간격 60 + 40 = 시안 Copy→패널 100 / 모바일은 Section 간격 40 = 시안 40) */
+.heroValues {
   width: 100%;
+  padding-top: 40rem;
 
-  .itemCard {
-    flex: 1;
-    background-color: var(--color-white);
-    border-radius: 16rem;
-    padding: 28rem 24rem;
-    display: flex;
-    flex-direction: column;
-    gap: 12rem;
-    text-align: left;
-    box-shadow: 0 10rem 30rem rgba(0, 0, 0, 0.08);
+  @media (max-width: 768px) {
+    padding-top: 0;
+  }
+}
 
-    .num {
-      display: inline-block;
-      font-size: 18rem;
-      font-weight: 700;
-      color: var(--color-primary);
-      font-family: var(--font-family-mono);
-      line-height: 1;
-    }
+.valuePanel {
+  display: flex;
+  gap: 20rem;
+  width: 100%;
+  padding: 32rem;
+  box-sizing: border-box;
+  border-radius: 12rem;
+  background-color: rgba(255, 255, 255, 0.9);
+}
 
-    h4 {
-      font-size: 18rem;
-      font-weight: 700;
-      color: var(--color-gray-900);
-      margin: 0;
-    }
+.valueItem {
+  flex: 1 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8rem;
+  min-width: 0;
 
-    p {
-      font-size: 14rem;
-      color: var(--color-gray-600);
-      line-height: 1.5;
-      margin: 0;
-      word-break: keep-all;
+  .valueTitle {
+    @include text-subheading;
+    margin: 0;
+    color: var(--color-text-black, #000000);
+  }
+
+  .valueDesc {
+    @include text-body;
+    margin: 0;
+    color: var(--color-text-gray-1, #3c4043);
+    word-break: keep-all;
+  }
+}
+
+/* --------------------------------------------------------------------------
+ * 탐지 박스 공통 (Figma Detection Box 1320:386)
+ * 1px 테두리 + 네 모서리 강조 svg(14px, -1px 위치) / 라벨: 상단 -25, padding 3 6
+ * -------------------------------------------------------------------------- */
+.detectBox {
+  position: absolute;
+  box-sizing: border-box;
+  border: 1px solid $accent-detection;
+
+  .corner {
+    position: absolute;
+    width: 17rem;
+    height: 17rem;
+  }
+
+  .tl { top: -2.5rem; left: -2.5rem; }
+  .tr { top: -2.5rem; right: -2.5rem; }
+  .bl { bottom: -2.5rem; left: -2.5rem; }
+  .br { bottom: -2.5rem; right: -2.5rem; }
+
+  .detectLabel {
+    @include label-eyebrow;
+    position: absolute;
+    top: -25rem;
+    left: -1rem;
+    padding: 3rem 6rem;
+    background-color: $accent-detection;
+    color: var(--color-text-black, #000000);
+    white-space: nowrap;
+  }
+
+  &.toneWhite {
+    border-color: var(--color-border-inverse, #ffffff);
+
+    .detectLabel {
+      background-color: var(--color-surface-white, #ffffff);
     }
   }
 }
 
 /* --------------------------------------------------------------------------
-   Content Sections
--------------------------------------------------------------------------- */
-.sectionAlt {
-  background-color: var(--color-gray-50);
+ * 2. 정밀 AI 탐지 (Figma PC 2159:13878 / Mobile 2159:14112)
+ * -------------------------------------------------------------------------- */
+/* 시안 Main 간격 40 (기존 페이지 설정 유지) */
+.detectionContainer {
+  align-items: center;
+  gap: 40rem;
+
+  > [class*="sectionHeader"] {
+    flex: 0 0 440rem;
+    width: 440rem;
+    max-width: 440rem;
+  }
+
+  > [class*="content"] {
+    flex: 1;
+    max-width: none;
+  }
+
+  @media (max-width: 1024px) {
+    > [class*="sectionHeader"],
+    > [class*="content"] {
+      width: 100%;
+      max-width: 100%;
+      flex: 1 1 auto;
+    }
+  }
 }
 
-/* 1. 정밀 AI 탐지 */
+/* 좌측 탐지 대상 목록 (Figma 2159:13886): 항목 상단 border, padding 20 0, 제목→설명 4 */
 .featureBlockList {
   display: flex;
   flex-direction: column;
-  gap: 20rem;
-  margin-top: 32rem;
-  padding-top: 32rem;
-  border-top: 1px solid var(--color-gray-200);
+  width: 100%;
 
   .fBlock {
-    padding-bottom: 20rem;
-    border-bottom: 1px solid var(--color-gray-100);
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+    padding: 20rem 0;
+    border-top: 1rem solid var(--color-border-default, #e8eaed);
+  }
 
-    &:last-child {
-      border-bottom: none;
-      padding-bottom: 0;
-    }
+  .fTitle {
+    margin: 0;
+    font-family: var(--font-family-base);
+    font-size: 16rem;
+    font-weight: var(--font-weight-bold, 700);
+    line-height: normal;
+    color: var(--color-text-black, #000000);
+  }
 
-    .title {
-      font-size: 16rem;
-      font-weight: 700;
-      color: var(--color-gray-900);
-      font-family: var(--font-family-mono);
-      margin: 0 0 6rem 0;
-    }
-
-    p {
-      font-size: 14rem;
-      color: var(--color-gray-600);
-      margin: 0;
-      line-height: 1.5;
-      word-break: keep-all;
-    }
+  .fDesc {
+    @include body-small;
+    margin: 0;
+    color: var(--color-text-gray-2, #5f6368);
+    word-break: keep-all;
   }
 }
 
-.trackingVisual {
-  width: 100%;
-  height: 580rem;
-  background-color: var(--color-gray-200);
-  background-image: url('https://images.unsplash.com/photo-1449844908441-8829872d2607?auto=format&fit=crop&w=1200&q=80');
-  background-size: cover;
-  background-position: center;
-  border-radius: 16rem;
+/* 가상 얼굴 Points (Figma 2159:14036): 제목→설명 6 */
+.featureBlockList.points .fBlock {
+  gap: 6rem;
+}
+
+/* PC 처리 예시: 760×520, radius 12, 캡션 gap 12 */
+.detectVisualPc {
+  display: flex;
+  flex-direction: column;
+  gap: 12rem;
+  margin: 0;
+}
+
+.detectPhoto {
   position: relative;
   overflow: hidden;
-  box-shadow: 0 8rem 30rem rgba(0, 0, 0, 0.08);
-
-  .pedestrianBox {
-    position: absolute;
-    top: 32%;
-    left: 23%;
-    width: 52rem;
-    height: 148rem;
-    border: 2px solid #38bdf8;
-    box-shadow: 0 0 12rem rgba(56, 189, 248, 0.5);
-    border-radius: 4rem;
-    overflow: visible;
-
-    .boxTag {
-      position: absolute;
-      top: -19rem;
-      left: -2px;
-      background: #38bdf8;
-      color: #0b0c0e;
-      font-size: 10rem;
-      font-weight: 700;
-      padding: 1rem 5rem;
-      border-radius: 2rem 2rem 0 0;
-      font-family: var(--font-family-mono);
-      white-space: nowrap;
-      z-index: 10;
-      line-height: 1.4;
-    }
-
-    .pedestrianInner {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      border-radius: 2rem;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .pedestrianFaceBox {
-      width: 100%;
-      height: 42rem;
-      position: relative;
-      border-bottom: 1px dashed rgba(56, 189, 248, 0.6);
-      overflow: hidden;
-    }
-
-    .pedestrianBodyBox {
-      width: 100%;
-      flex: 1;
-      position: relative;
-      overflow: hidden;
-    }
-  }
-
-  .carPlateBox {
-    position: absolute;
-    top: 48%;
-    left: 45%;
-    width: 70rem;
-    height: 28rem;
-    border: 2px solid #38bdf8;
-    box-shadow: 0 0 12rem rgba(56, 189, 248, 0.5);
-    border-radius: 3rem;
-    overflow: visible;
-
-    .boxTag {
-      position: absolute;
-      top: -19rem;
-      left: -2px;
-      background: #38bdf8;
-      color: #0b0c0e;
-      font-size: 10rem;
-      font-weight: 700;
-      padding: 1rem 5rem;
-      border-radius: 2rem 2rem 0 0;
-      font-family: var(--font-family-mono);
-      white-space: nowrap;
-      z-index: 10;
-      line-height: 1.4;
-    }
-
-    .plateInner {
-      width: 100%;
-      height: 100%;
-      border-radius: 1rem;
-      overflow: hidden;
-      position: relative;
-    }
-  }
-
-  /* Filter Layer Dynamic Styles */
-  .filterLayer {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    transition: all 0.25s ease;
-
-    &.mosaic {
-      backdrop-filter: blur(4px);
-      background-image: 
-        repeating-linear-gradient(0deg, rgba(15, 23, 42, 0.55) 0px, rgba(15, 23, 42, 0.55) 1px, transparent 1px, transparent 6px),
-        repeating-linear-gradient(90deg, rgba(15, 23, 42, 0.55) 0px, rgba(15, 23, 42, 0.55) 1px, transparent 1px, transparent 6px),
-        linear-gradient(135deg, rgba(148, 163, 184, 0.35) 0%, rgba(51, 65, 85, 0.5) 100%);
-      background-size: 6px 6px, 6px 6px, 100% 100%;
-    }
-
-    &.masking {
-      background-color: #0b0c0e;
-      box-shadow: inset 0 0 8rem rgba(0, 0, 0, 0.95);
-    }
-
-    &.blur {
-      backdrop-filter: blur(14px) brightness(0.9);
-      background-color: rgba(255, 255, 255, 0.08);
-    }
-
-    &.virtualFace {
-      backdrop-filter: blur(6px);
-      background: radial-gradient(circle at center, rgba(56, 189, 248, 0.25) 0%, rgba(11, 12, 14, 0.9) 100%);
-      border: 1px solid #38bdf8;
-      box-shadow: inset 0 0 10rem rgba(56, 189, 248, 0.6);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      .virtualFaceGraphic {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        height: 100%;
-      }
-
-      .virtualFaceIcon {
-        width: 22rem;
-        height: 22rem;
-        color: #38bdf8;
-        filter: drop-shadow(0 0 6rem rgba(56, 189, 248, 0.9));
-        animation: pulseFace 2s ease-in-out infinite alternate;
-      }
-    }
-  }
-
-  /* Floating Mock UI - Dark Panel */
-  .floatingPanel {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: 230rem;
-    background-color: #0b0c0e;
-    color: #fff;
-    padding: 24rem 18rem;
-    display: flex;
-    flex-direction: column;
-    gap: 16rem;
-    overflow-y: auto;
-    border-left: 1px solid rgba(255, 255, 255, 0.08);
-    scrollbar-width: thin;
-    scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
-
-    &::-webkit-scrollbar {
-      width: 3px;
-    }
-    &::-webkit-scrollbar-thumb {
-      background: rgba(255, 255, 255, 0.15);
-      border-radius: 2px;
-    }
-
-    .panelTitle {
-      font-size: 15rem;
-      font-weight: 700;
-      color: #ffffff;
-      margin: 0;
-      letter-spacing: -0.01em;
-    }
-
-    .optGroup {
-      h5 {
-        font-size: 13rem;
-        font-weight: 700;
-        color: #ffffff;
-        margin: 0 0 10rem 0;
-      }
-
-      .radioGroup {
-        display: flex;
-        flex-direction: column;
-        gap: 8rem;
-
-        .radioItem {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: 6rem 8rem;
-          border-radius: 6rem;
-          cursor: pointer;
-          user-select: none;
-          transition: background-color 0.15s ease;
-          position: relative;
-
-          &:hover {
-            background-color: rgba(255, 255, 255, 0.06);
-          }
-
-          .radioText {
-            font-size: 13rem;
-            color: #cbd5e1;
-            transition: color 0.15s ease, font-weight 0.15s ease;
-          }
-
-          .radioInput {
-            position: absolute;
-            opacity: 0;
-            width: 0;
-            height: 0;
-            pointer-events: none;
-
-            &:focus-visible ~ .radioCircle {
-              outline: 2px solid #38bdf8;
-              outline-offset: 2px;
-            }
-          }
-
-          .radioCircle {
-            width: 15rem;
-            height: 15rem;
-            border-radius: 50%;
-            border: 1.5px solid #64748b;
-            background-color: transparent;
-            display: inline-block;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            flex-shrink: 0;
-          }
-
-          &.active {
-            .radioText {
-              color: #38bdf8;
-              font-weight: 600;
-            }
-
-            .radioCircle {
-              background-color: #38bdf8;
-              border-color: #38bdf8;
-              box-shadow: 0 0 8rem rgba(56, 189, 248, 0.5);
-            }
-          }
-        }
-      }
-    }
-  }
+  border-radius: 12rem;
+  aspect-ratio: 760 / 520;
 }
 
-@keyframes pulseFace {
-  0% {
-    transform: scale(0.92);
-    opacity: 0.8;
-  }
-  100% {
-    transform: scale(1.08);
-    opacity: 1;
-  }
+.detectImgPc,
+.detectImgMo {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 122.64%;
+  max-width: none;
+  object-fit: cover;
 }
 
-/* 2. 작은·원거리 얼굴 & 4. 처리 속도 공통 Split Wrapper */
-.splitContentWrap {
+.detectImgPc {
+  left: -7.81%;
+}
+
+.detectImgMo {
+  left: -22.28%;
+}
+
+.faceBlur,
+.faceMosaic,
+.plateMask {
+  position: absolute;
+}
+
+.faceBlur {
+  border-radius: 4rem;
+  background-color: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.faceMosaic {
+  background-color: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(2.5px);
+  -webkit-backdrop-filter: blur(2.5px);
+}
+
+.plateMask {
+  border-radius: 2rem;
+  background-color: var(--color-text-gray-2, #5f6368);
+}
+
+.detectCaption {
+  @include text-body;
+  color: var(--color-text-gray-1, #3c4043);
+}
+
+.detectVisualMo {
+  display: none;
+}
+
+/* Mobile Privacy Options 패널: 검정 배경, padding 20 16, gap 16 */
+.privacyPanel {
   display: flex;
-  gap: 32rem;
-  align-items: stretch;
-  width: 100%;
+  flex-direction: column;
+  gap: 16rem;
+  padding: 20rem 16rem;
+  background-color: var(--color-text-black, #000000);
+  color: var(--color-text-inverse, #ffffff);
+}
 
-  .tableCard {
-    flex: 1;
-    background: var(--color-white);
-    border-radius: 16rem;
-    padding: 32rem 24rem;
-    box-shadow: 0 4rem 20rem rgba(0, 0, 0, 0.04);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    border: 1px solid var(--color-gray-100);
+.privacyTitle {
+  margin: 0;
+  font-family: var(--font-family-base);
+  font-size: 14rem;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.privacyGroups {
+  display: grid;
+  grid-template-columns: 114fr 102fr 102fr;
+}
+
+.privacyGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8rem;
+  padding: 0 12rem;
+  border-left: 1rem solid rgba(255, 255, 255, 0.2);
+
+  &:first-child {
+    padding-left: 0;
+    border-left: none;
   }
 
-  .distanceVisualRight {
-    flex: 1;
-    aspect-ratio: 16 / 11;
-    background-color: var(--color-gray-200);
-    background-image: url('https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&w=1200&q=80');
-    background-size: cover;
-    background-position: center;
-    border-radius: 16rem;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 4rem 20rem rgba(0, 0, 0, 0.04);
-
-    .faceDetectBox1 {
-      position: absolute;
-      top: 38%;
-      left: 16%;
-      width: 44rem;
-      height: 50rem;
-      border: 2px solid #38bdf8;
-      box-shadow: 0 0 8rem rgba(56, 189, 248, 0.5);
-      border-radius: 4rem;
-    }
-    .faceDetectBox2 {
-      position: absolute;
-      top: 45%;
-      left: 36%;
-      width: 42rem;
-      height: 48rem;
-      border: 2px solid #38bdf8;
-      box-shadow: 0 0 8rem rgba(56, 189, 248, 0.5);
-      border-radius: 4rem;
-    }
-    .faceDetectBox3 {
-      position: absolute;
-      top: 37%;
-      left: 54%;
-      width: 44rem;
-      height: 50rem;
-      border: 2px solid #38bdf8;
-      box-shadow: 0 0 8rem rgba(56, 189, 248, 0.5);
-      border-radius: 4rem;
-    }
-    .faceDetectBox4 {
-      position: absolute;
-      top: 43%;
-      left: 74%;
-      width: 42rem;
-      height: 48rem;
-      border: 2px solid #38bdf8;
-      box-shadow: 0 0 8rem rgba(56, 189, 248, 0.5);
-      border-radius: 4rem;
-    }
-  }
-
-  .chartCard {
-    flex: 1;
-    background: var(--color-white);
-    border-radius: 16rem;
-    padding: 32rem 28rem;
-    box-shadow: 0 4rem 20rem rgba(0, 0, 0, 0.04);
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    border: 1px solid var(--color-gray-100);
-
-    .chartArea {
-      width: 100%;
-      height: 200rem;
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-around;
-      gap: 16rem;
-      border-bottom: 1px solid var(--color-gray-200);
-      padding-bottom: 12rem;
-
-      .barItem {
-        flex: 1;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-        align-items: center;
-        gap: 8rem;
-
-        .barValue {
-          font-size: 13rem;
-          font-weight: 700;
-          color: var(--color-primary);
-          font-family: var(--font-family-mono);
-        }
-
-        .bar {
-          width: 100%;
-          max-width: 56rem;
-          background: linear-gradient(180deg, #3b82f6 0%, #2563eb 100%);
-          border-radius: 6rem 6rem 0 0;
-        }
-
-        .barLabel {
-          font-size: 12rem;
-          font-weight: 600;
-          color: var(--color-gray-600);
-          font-family: var(--font-family-mono);
-          text-align: center;
-          white-space: nowrap;
-        }
-      }
-    }
+  &:last-child {
+    padding-right: 0;
   }
 }
 
-/* Metric Table */
-.metricTableSmall {
-  width: 100%;
-  border-collapse: collapse;
-
-  th, td {
-    padding: 16rem 12rem;
-    text-align: center;
-    border-bottom: 1px solid var(--color-gray-100);
-    font-size: 14rem;
-  }
-
-  th {
-    font-weight: 600;
-    color: var(--color-gray-500);
-    background: transparent;
-  }
-
-  td {
-    font-weight: 600;
-    color: var(--color-gray-800);
-
-    &:first-child {
-      text-align: left;
-      font-family: var(--font-family-mono);
-    }
-  }
-
-  tr:last-child td {
-    border-bottom: none;
-  }
-
-  .chkIcon {
-    display: inline-block;
-    width: 20rem;
-    height: 20rem;
-    background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 13l4 4L19 7" stroke="%233b82f6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>');
-    background-size: contain;
-    background-repeat: no-repeat;
-  }
-
-  .dashIcon {
-    display: inline-block;
-    width: 14rem;
-    height: 14rem;
-    background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 12h14" stroke="%23cbd5e1" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>');
-    background-size: contain;
-    background-repeat: no-repeat;
-  }
+.privacyGroupName {
+  @include label-eyebrow;
 }
 
-/* Speed Table */
-.speedTable {
-  width: 100%;
-  border-collapse: collapse;
-
-  th, td {
-    padding: 16rem 12rem;
-    border-bottom: 1px solid var(--color-gray-100);
-    font-size: 14rem;
-  }
-
-  th {
-    font-weight: 600;
-    color: var(--color-gray-500);
-    text-align: left;
-    &:last-child {
-      text-align: right;
-    }
-  }
-
-  td {
-    font-weight: 600;
-    color: var(--color-gray-900);
-
-    &:first-child {
-      font-family: var(--font-family-mono);
-    }
-    &:nth-child(2) {
-      color: var(--color-primary);
-    }
-    &:last-child {
-      text-align: right;
-    }
-  }
-
-  tr:last-child td {
-    border-bottom: none;
-  }
-}
-
-.speedNote {
-  margin-top: 24rem;
-  font-size: 13rem;
-  color: var(--color-gray-400);
-  line-height: 1.5;
-  text-align: center;
-}
-
-/* 3. 가상 얼굴 */
-.virtualFaceVisualDevice {
-  width: 100%;
+.privacyOption {
+  @include body-small;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  color: $text-inverse-subtle;
+  white-space: nowrap;
 
-  .deviceFrame {
-    background-color: #0b0c0e;
-    border-radius: 16rem;
-    padding: 28rem 20rem;
-    display: flex;
-    align-items: center;
-    gap: 16rem;
-    width: 100%;
-    box-shadow: 0 20rem 40rem rgba(0, 0, 0, 0.15);
+  &.optionSelected {
+    color: $accent-detection;
 
-    .faceWrap {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 12rem;
-
-      .faceLabel {
-        font-size: 13rem;
-        font-weight: 600;
-        color: #fff;
-        text-align: left;
-      }
-
-      .faceBefore, .faceAfter {
-        width: 100%;
-        aspect-ratio: 3 / 4;
-        background-color: var(--color-gray-800);
-        background-image: url('https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=600&q=80');
-        background-size: cover;
-        background-position: center;
-        border-radius: 8rem;
-      }
-
-      .faceAfter {
-        filter: hue-rotate(35deg) contrast(1.05) brightness(1.02);
-      }
-    }
-
-    .faceArrow {
-      color: #64748b;
-      font-size: 16rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    > span:first-child {
+      font-weight: 600;
     }
   }
 }
 
 /* --------------------------------------------------------------------------
-   Responsive Breakpoints
--------------------------------------------------------------------------- */
+ * 3. 작은·원거리 얼굴 (Figma PC 2159:13953 / Mobile 2159:14187)
+ * 장면 1240×560 radius 12 / 확대 영역: 2.5px 점선 brand / 인셋: 2px brand 테두리, radius 8
+ * -------------------------------------------------------------------------- */
+.distantVisualPc {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12rem;
+  aspect-ratio: 1240 / 560;
+}
+
+.distantImg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.zoomLine {
+  position: absolute;
+  pointer-events: none;
+}
+
+.zoomArea {
+  position: absolute;
+  box-sizing: border-box;
+  border: 2.5px dashed var(--color-brand-primary, #3b5bff);
+}
+
+.zoomInset {
+  position: absolute;
+  overflow: hidden;
+  box-sizing: border-box;
+  border: 2px solid var(--color-brand-primary, #3b5bff);
+  border-radius: 8rem;
+  background-color: var(--color-surface-white, #ffffff);
+}
+
+.zoomImg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.zoomLabel {
+  @include body-caption;
+  position: absolute;
+  left: 6rem;
+  bottom: 10rem;
+  padding: 4rem 8rem;
+  border-radius: 4rem;
+  background-color: rgba(0, 0, 0, 0.65);
+  color: var(--color-text-inverse, #ffffff);
+}
+
+.distantVisualMo {
+  display: none;
+}
+
+/* --------------------------------------------------------------------------
+ * 4. 가상 얼굴 비교 (Figma PC 2159:14043 / Mobile 2159:14270)
+ * 카드 gap 20(MO 8), 이미지 327×418 radius 12, 이미지→라벨 12 / 화살표 28 Bold, 세로 가운데
+ * -------------------------------------------------------------------------- */
+.virtualCompare {
+  display: flex;
+  align-items: center;
+  gap: 20rem;
+  width: 100%;
+}
+
+.virtualCard {
+  flex: 1 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12rem;
+  min-width: 0;
+}
+
+.virtualImg {
+  width: 100%;
+  aspect-ratio: 327 / 418;
+  border-radius: 12rem;
+  object-fit: cover;
+}
+
+.virtualLabel {
+  @include label-eyebrow;
+  padding: 6rem 10rem;
+  border-radius: 6rem;
+  white-space: nowrap;
+}
+
+.labelOriginal {
+  background-color: $surface-muted;
+  color: var(--color-text-gray-2, #5f6368);
+}
+
+.labelVirtual {
+  background-color: var(--color-brand-primary, #3b5bff);
+  color: var(--color-text-inverse, #ffffff);
+}
+
+.virtualArrow {
+  flex-shrink: 0;
+  font-family: var(--font-family-base);
+  font-size: 28rem;
+  font-weight: var(--font-weight-bold, 700);
+  line-height: normal;
+  color: $text-disabled;
+}
+
+/* --------------------------------------------------------------------------
+ * 5. 처리 속도 (Figma PC 2159:14060 / Mobile 2159:14287)
+ * 카드 padding 8 32, radius 12 / 열 200 · 가변 · 120 · 120, gap 32 / 막대 12(MO 8)
+ * -------------------------------------------------------------------------- */
+.speedWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 48rem;
+  width: 100%;
+}
+
+.speedList {
+  padding: 8rem 32rem;
+  border: 1rem solid var(--color-border-default, #e8eaed);
+  border-radius: 12rem;
+  background-color: var(--color-surface-white, #ffffff);
+}
+
+.speedHeader,
+.speedRow {
+  display: grid;
+  grid-template-columns: 200rem 1fr 120rem 120rem;
+  column-gap: 32rem;
+  align-items: center;
+}
+
+.speedHeader {
+  @include text-body;
+  padding: 16rem 0 12rem;
+  color: var(--color-text-gray-2, #5f6368);
+}
+
+.alignRight {
+  text-align: right;
+}
+
+.speedRow {
+  padding: 20rem 0;
+  border-top: 1rem solid var(--color-border-default, #e8eaed);
+}
+
+.speedMethod {
+  font-family: var(--font-family-base);
+  font-size: 16rem;
+  font-weight: var(--font-weight-bold, 700);
+  line-height: normal;
+  color: var(--color-text-black, #000000);
+}
+
+.speedTrack {
+  position: relative;
+  height: 12rem;
+  overflow: hidden;
+  border-radius: 6rem;
+  background-color: $surface-muted;
+}
+
+.speedFill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: 6rem;
+  background-color: var(--color-brand-primary, #3b5bff);
+}
+
+.speedTime {
+  font-family: var(--font-family-base);
+  font-size: 16rem;
+  font-weight: var(--font-weight-bold, 700);
+  line-height: normal;
+  color: var(--color-text-accent, #3b5bff);
+  text-align: right;
+}
+
+.speedFps {
+  @include text-body;
+  color: var(--color-text-gray-2, #5f6368);
+  text-align: right;
+}
+
+.moOnly,
+.speedMeta {
+  display: none;
+}
+
+.speedFootnote {
+  @include body-caption;
+  margin: 0;
+  color: var(--color-text-gray-2, #5f6368);
+}
+
+/* --------------------------------------------------------------------------
+ * Responsive
+ * -------------------------------------------------------------------------- */
 @media (max-width: 1024px) {
-  .heroSectionWhy {
-    :global(.header) {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 16rem;
-      margin-bottom: 40rem;
-
-      :global(.title) {
-        font-size: 32rem;
-      }
-      :global(.description) {
-        max-width: 100%;
-        font-size: 14rem;
-      }
-    }
+  .speedList {
+    padding: 8rem 20rem;
   }
 
-  .heroFeatureList {
-    flex-direction: column;
-    gap: 16rem;
-  }
-
-  .splitContentWrap {
-    flex-direction: column;
-    gap: 24rem;
-
-    .tableCard, .distanceVisualRight, .chartCard {
-      width: 100%;
-    }
+  .speedHeader,
+  .speedRow {
+    grid-template-columns: 140rem 1fr 90rem 100rem;
+    column-gap: 16rem;
   }
 }
 
 @media (max-width: 768px) {
-  .heroSectionWhy {
-    :global(.header) {
-      :global(.title) {
-        font-size: 26rem;
-        line-height: 1.35;
-      }
+  /* Hero 가치 패널: 세로 스택 */
+  .valuePanel {
+    flex-direction: column;
+    gap: 24rem;
+    padding: 20rem;
+  }
+
+  /* 정밀 AI 탐지: PC 이미지+캡션 → 탐지 결과 + Privacy Options */
+  .detectVisualPc {
+    display: none;
+  }
+
+  .detectVisualMo {
+    display: block;
+    overflow: hidden;
+    border-radius: 12rem;
+
+    .detectPhoto {
+      aspect-ratio: 350 / 239;
+      border-radius: 0;
     }
   }
 
-  .trackingVisual {
-    height: 440rem;
+  /* 작은·원거리 얼굴: 장면 350×280 + gap 12 + 인셋 350×123, 연결선이 둘을 잇는 구조 */
+  .distantVisualPc {
+    display: none;
+  }
 
-    .pedestrianBox {
-      top: 32%;
-      left: 10%;
-      width: 40rem;
-      height: 110rem;
-      .boxTag {
-        font-size: 8rem;
-        top: -16rem;
-      }
-      .pedestrianFaceBox {
-        height: 32rem;
-      }
-    }
+  .distantVisualMo {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 12rem;
+  }
 
-    .carPlateBox {
-      top: 50%;
-      left: 32%;
-      width: 50rem;
-      height: 20rem;
-      .boxTag {
-        font-size: 8rem;
-        top: -16rem;
-      }
-    }
+  .distantPhotoMo {
+    position: relative;
+    overflow: hidden;
+    border-radius: 12rem;
+    aspect-ratio: 350 / 280;
 
-    .floatingPanel {
-      width: 175rem;
-      padding: 16rem 12rem;
-      gap: 12rem;
-
-      .panelTitle {
-        font-size: 13rem;
-      }
-
-      .optGroup {
-        h5 {
-          font-size: 11rem;
-          margin-bottom: 6rem;
-        }
-
-        .radioGroup {
-          gap: 4rem;
-
-          .radioItem {
-            padding: 4rem 6rem;
-
-            .radioText {
-              font-size: 11rem;
-            }
-
-            .radioCircle {
-              width: 12rem;
-              height: 12rem;
-            }
-          }
-        }
-      }
+    .distantImg {
+      object-position: bottom;
     }
   }
 
-  .virtualFaceVisualDevice {
-    .deviceFrame {
-      flex-direction: row;
-      padding: 16rem 12rem;
-      gap: 10rem;
+  .sceneChip {
+    position: absolute;
+    top: 8rem;
+    left: 8rem;
+    padding: 5rem 10rem;
+    border-radius: 6rem;
+    background-color: rgba(0, 0, 0, 0.6);
+    font-family: var(--font-family-base);
+    font-size: 12rem;
+    font-weight: 600;
+    line-height: normal;
+    color: var(--color-text-inverse, #ffffff);
+  }
 
-      .faceWrap {
-        .faceLabel {
-          font-size: 11rem;
-        }
-      }
+  .zoomInsetMo {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 350 / 123;
+    box-sizing: border-box;
+    border: 2px solid var(--color-brand-primary, #3b5bff);
+    border-radius: 8rem;
+    background-color: var(--color-surface-white, #ffffff);
+  }
 
-      .faceArrow {
-        font-size: 12rem;
-        transform: none;
-      }
+  /* 가상 얼굴 비교: gap 8 */
+  .virtualCompare {
+    gap: 8rem;
+  }
+
+  /* 처리 속도: 카드 padding 4 20, 행은 [방식·시간] / 막대 / [라벨·속도] 3줄 */
+  .speedWrap {
+    gap: 32rem;
+  }
+
+  .speedList {
+    padding: 4rem 20rem;
+  }
+
+  .speedHeader {
+    display: none;
+  }
+
+  .speedRow {
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "method time"
+      "track track"
+      "meta fps";
+    gap: 10rem 0;
+    padding: 18rem 0;
+
+    &:nth-child(2) {
+      border-top: none;
     }
   }
 
-  .speedNote {
-    text-align: left;
+  .speedMethod { grid-area: method; }
+
+  .speedTime {
+    grid-area: time;
+    font-size: 20rem;
+  }
+
+  .speedTrack {
+    grid-area: track;
+    height: 8rem;
+    border-radius: 4rem;
+  }
+
+  .speedFill {
+    border-radius: 4rem;
+  }
+
+  .speedMeta,
+  .speedFps {
+    @include body-caption;
+    color: var(--color-text-gray-2, #5f6368);
+  }
+
+  .speedMeta {
+    grid-area: meta;
+    display: block;
+  }
+
+  .speedFps {
+    grid-area: fps;
+  }
+
+  .moOnly {
+    display: inline;
   }
 }

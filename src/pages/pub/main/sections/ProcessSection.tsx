@@ -117,8 +117,8 @@ export const ProcessSection = () => {
           </p>
 
           <ul className={styles.feature_list}>
-            {features.map((feat, idx) => (
-              <li key={idx} className={styles.feature_item}>
+            {features.map((feat) => (
+              <li key={feat.text} className={styles.feature_item}>
                 <div className={styles.feature_icon}>
                   {feat.icon}
                 </div>

@@ -1,154 +1,106 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import FrontLayout from '../layouts/FrontLayout';
-import { SignupStepIndicator } from './components/SignupStepIndicator';
-import styles from './signup-flow.module.scss';
+import { Button } from '../../../components/core/Button/Button';
+import { AuthActions, AuthBody, AuthCard, AuthCheckbox, AuthLink, AuthLinks } from './components/Auth';
+import styles from './login.module.scss';
 
+const TERMS_OF_SERVICE = `제1조 (목적)
+이 약관은 서비스 이용과 관련하여 필요한 사항을 규정함을 목적으로 합니다.
+
+제2조 (이용계약의 성립)
+이용자는 약관에 동의함으로써 이용계약이 성립됩니다.
+
+제3조 (서비스의 제공 및 변경)
+회사는 안정적인 서비스 제공을 위해 운영상·기술상 필요에 따라 서비스를 변경할 수 있습니다.`;
+
+const PRIVACY_CONSENT = `1. 수집 항목
+이름, 이메일, 비밀번호
+
+2. 수집 및 이용 목적
+회원 식별, 서비스 제공, 고객 문의 응대
+
+3. 보유 및 이용 기간
+회원 탈퇴 시까지 (관련 법령에 따라 보관이 필요한 경우 해당 기간)`;
+
+interface Agreement {
+  id: string;
+  label: string;
+  content: string;
+}
+
+const AGREEMENTS: Agreement[] = [
+  { id: 'service', label: '[필수] 이용약관 동의', content: TERMS_OF_SERVICE },
+  { id: 'privacy', label: '[필수] 개인정보 수집 및 이용 동의', content: PRIVACY_CONSENT },
+];
+
+/**
+ * 회원가입 1단계 · 약관 동의
+ * Figma PC 2966:5641 · MO 2967:3142
+ */
 export default function PubLoginTerms() {
   const navigate = useNavigate();
+  const [checked, setChecked] = useState<Record<string, boolean>>({ service: true, privacy: false });
+  const [opened, setOpened] = useState<Record<string, boolean>>({ service: true, privacy: false });
 
-  const [term1, setTerm1] = useState(true);
-  const [term2, setTerm2] = useState(false);
-  const [openTerm1, setOpenTerm1] = useState(true);
-  const [openTerm2, setOpenTerm2] = useState(false);
+  const checkedCount = AGREEMENTS.filter((item) => checked[item.id]).length;
+  const allChecked = checkedCount === AGREEMENTS.length;
 
-  const allChecked = term1 && term2;
-  const isIndeterminate = (term1 || term2) && !allChecked;
-
-  const handleToggleAll = () => {
-    if (allChecked) {
-      setTerm1(false);
-      setTerm2(false);
-    } else {
-      setTerm1(true);
-      setTerm2(true);
-    }
+  const toggleAll = () => {
+    setChecked(Object.fromEntries(AGREEMENTS.map((item) => [item.id, !allChecked])));
   };
 
   const handleNext = (e: React.FormEvent) => {
     e.preventDefault();
-    if (allChecked) {
-      navigate('/pub/login/signup');
-    }
+    if (allChecked) void navigate('/pub/login/signup');
   };
 
   return (
     <FrontLayout>
-      <div className={styles.page_wrap}>
-        <div className={styles.card}>
-          <SignupStepIndicator currentStep={1} />
-
-          <div className={styles.header}>
-            <h1 className={styles.title}>회원가입</h1>
-            <p className={styles.subtitle}>서비스 이용을 위해 약관에 동의해주세요.</p>
-          </div>
-
-          <form onSubmit={handleNext}>
-            {/* 약관에 모두 동의합니다 */}
-            <div className={styles.terms_all_wrap} onClick={handleToggleAll}>
-              <span
-                className={`${styles.custom_checkbox} ${allChecked ? styles.checked : isIndeterminate ? styles.indeterminate : ''}`}
-                role="checkbox"
-                aria-checked={allChecked}
-                tabIndex={0}
-              >
-                {allChecked ? (
-                  <svg width="12" height="10" viewBox="0 0 12 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M1 5L4.5 8.5L11 1.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                ) : isIndeterminate ? (
-                  <svg width="10" height="2" viewBox="0 0 10 2" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M0 1H10" stroke="white" strokeWidth="2" />
-                  </svg>
-                ) : null}
-              </span>
-              <span className={styles.label_all}>약관에 모두 동의합니다.</span>
-            </div>
-
-            {/* 약관 목록 */}
-            <div className={styles.terms_list}>
-              {/* 약관 1: 이용약관 */}
-              <div className={styles.terms_item}>
-                <div className={styles.terms_header}>
-                  <label className={styles.terms_label} onClick={() => setTerm1(!term1)}>
-                    <span className={`${styles.custom_checkbox} ${term1 ? styles.checked : ''}`}>
-                      {term1 && (
-                        <svg width="12" height="10" viewBox="0 0 12 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M1 5L4.5 8.5L11 1.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                      )}
-                    </span>
-                    <span>[필수] 이용약관 동의</span>
-                  </label>
-                  <button
-                    type="button"
-                    className={styles.btn_view}
-                    onClick={() => setOpenTerm1(!openTerm1)}
-                  >
-                    {openTerm1 ? '접기' : '보기'}
-                  </button>
-                </div>
-                {openTerm1 && (
-                  <div className={styles.terms_body}>
-                    <p><strong>제1조 (목적)</strong></p>
-                    <p>이 약관은 서비스 이용과 관련하여 필요한 사항을 규정함을 목적으로 합니다.</p>
-                    <p><strong>제2조 (이용계약의 성립)</strong></p>
-                    <p>이용계약은 회원이 본 약관에 동의하고 회사가 정한 양식에 따라 가입을 신청한 후 회사가 이를 승낙함으로써 체결됩니다.</p>
+      <AuthCard step={1} title="회원가입" description="서비스 이용을 위해 약관에 동의해주세요.">
+        <form className={styles.form} onSubmit={handleNext}>
+          <AuthBody>
+            <div className={styles.agreements}>
+              <AuthCheckbox
+                checked={allChecked}
+                indeterminate={checkedCount > 0 && !allChecked}
+                label="약관에 모두 동의합니다."
+                strong
+                onChange={toggleAll}
+              />
+              <hr className={styles.agreeDivider} />
+              {AGREEMENTS.map((item) => (
+                <div key={item.id} className={styles.agreeRow}>
+                  <div className={styles.agreeHead}>
+                    <AuthCheckbox
+                      checked={Boolean(checked[item.id])}
+                      label={item.label}
+                      onChange={() => setChecked((prev) => ({ ...prev, [item.id]: !prev[item.id] }))}
+                    />
+                    <button
+                      type="button"
+                      className={styles.agreeToggle}
+                      aria-expanded={Boolean(opened[item.id])}
+                      onClick={() => setOpened((prev) => ({ ...prev, [item.id]: !prev[item.id] }))}
+                    >
+                      {opened[item.id] ? '접기' : '보기'}
+                    </button>
                   </div>
-                )}
-              </div>
-
-              {/* 약관 2: 개인정보 수집 및 이용 */}
-              <div className={styles.terms_item}>
-                <div className={styles.terms_header}>
-                  <label className={styles.terms_label} onClick={() => setTerm2(!term2)}>
-                    <span className={`${styles.custom_checkbox} ${term2 ? styles.checked : ''}`}>
-                      {term2 && (
-                        <svg width="12" height="10" viewBox="0 0 12 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M1 5L4.5 8.5L11 1.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                      )}
-                    </span>
-                    <span>[필수] 개인정보 수집 및 이용 동의</span>
-                  </label>
-                  <button
-                    type="button"
-                    className={styles.btn_view}
-                    onClick={() => setOpenTerm2(!openTerm2)}
-                  >
-                    {openTerm2 ? '접기' : '보기'}
-                  </button>
+                  {opened[item.id] && <div className={styles.agreeContent}>{item.content}</div>}
                 </div>
-                {openTerm2 && (
-                  <div className={styles.terms_body}>
-                    <p><strong>1. 수집하는 개인정보 항목</strong></p>
-                    <p>이름, 이메일, 비밀번호 등 회원 가입 및 서비스 제공에 필요한 최소한의 정보를 수집합니다.</p>
-                    <p><strong>2. 개인정보의 수집 및 이용목적</strong></p>
-                    <p>회원 식별, 서비스 제공 및 계약 이행, 고객 상담 및 고지사항 전달 등을 위해 활용됩니다.</p>
-                  </div>
-                )}
-              </div>
+              ))}
             </div>
-
-            <button
-              type="submit"
-              className={`${styles.btn_primary} ${allChecked ? '' : styles.disabled}`}
-              disabled={!allChecked}
-            >
+          </AuthBody>
+          <AuthActions>
+            <Button type="submit" variant="solid" color="primary" size="xl" disabled={!allChecked}>
               다음
-            </button>
-          </form>
-
-          <div className={styles.footer_links}>
-            <span>
-              이미 계정이 있으신가요?
-              <Link to="/pub/login" className={styles.link}>
-                로그인
-              </Link>
-            </span>
-          </div>
-        </div>
-      </div>
+            </Button>
+            <AuthLinks lead="이미 계정이 있으신가요?">
+              <AuthLink to="/pub/login">로그인</AuthLink>
+            </AuthLinks>
+          </AuthActions>
+        </form>
+      </AuthCard>
     </FrontLayout>
   );
 }

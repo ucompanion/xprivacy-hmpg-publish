@@ -1,0 +1,29 @@
+@use "@/assets/scss/variables" as *;
+@use "@/assets/scss/mixins" as *;
+
+.basicSection {
+  /* BasicSection domain wrapper */
+}
+
+/* 
+ * 베이직섹션 전용 Eyebrow 스타일 (피그마 Node 2730:31257 1:1 매칭)
+ * Pretendard Bold 700, 16rem, line-height 1.75 (MO 1.6), letter-spacing 0, color #6f72af (--color-text-eyebrow-section)
+ */
+.basicEyebrow {
+  font-family: var(--font-family-base) !important;
+  font-size: var(--font-size-eyebrow, 16rem) !important;
+  font-weight: var(--font-weight-bold, 700) !important;
+  line-height: var(--line-height-eyebrow, 1.75) !important;
+  letter-spacing: 0 !important;
+  color: var(--color-text-eyebrow-section, #6f72af) !important;
+  text-transform: uppercase !important;
+  margin-bottom: var(--spacing-16, 16rem) !important;
+  display: block;
+
+  @media (max-width: 768px) {
+    font-size: var(--font-size-eyebrow, 16rem) !important;
+    line-height: var(--line-height-eyebrow-mo, 1.6) !important;
+    letter-spacing: 0 !important;
+    margin-bottom: var(--spacing-12, 12rem) !important;
+  }
+}

@@ -1,0 +1,251 @@
+@use "@/assets/scss/variables" as *;
+@use "@/assets/scss/mixins" as *;
+
+.guidePage {
+  width: 100%;
+}
+
+.heroEyebrow {
+  display: inline-block;
+  color: var(--color-primary);
+  @include text-eyebrow;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.05em;
+  margin-bottom: 8rem;
+}
+
+/* 미매핑 피그마 값 (초안 v1 텍스트 스타일 · 프로젝트 v2 토큰 없음 → 시안 값 사용)
+ * - Heading/Card 28 Bold · Body/Small 14 (자간 -0.08) · Caption 12 (자간 0.96) · Label/Eyebrow 12 ExtraBold (자간 1.54) */
+$font-size-card: 28rem;
+$font-size-small: 14rem;
+
+@mixin text-small {
+  font-family: var(--font-family-base);
+  font-size: $font-size-small;
+  line-height: 1.75;
+  letter-spacing: -0.08rem;
+}
+
+/* ---------------------------------
+ * 출처 표시 (Figma PC 1218:15064): "출처" primary → 8 → 링크 gray-2 · Caption
+ * 섹션 소개 → 24 → 출처 (섹션 콘텐츠 간격 60 → 시안 24)
+ * --------------------------------- */
+.sourceWrap > .source {
+  margin-top: -36rem;
+}
+
+.source {
+  @include text-note;
+  display: flex;
+  gap: 8rem;
+  margin: 0;
+  color: var(--color-text-gray-2);
+  line-height: normal;
+  letter-spacing: 0.96rem;
+}
+
+.sourceLabel {
+  color: var(--color-text-accent);
+}
+
+.sourceLink {
+  color: inherit;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+/* ---------------------------------
+ * 3. 처리 전에 확인할 세 가지 (Figma PC 1218:15069)
+ * 카드 3개 (사이 20) · 테두리 · padding 32 · 번호 28 primary → 12 → 제목 28 → 12 → 설명 Small
+ * --------------------------------- */
+.checkCards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.checkCard {
+  display: flex;
+  flex-direction: column;
+  gap: 12rem;
+  padding: 32rem;
+  border: 1rem solid var(--color-border-default);
+  border-radius: 12rem;
+  background-color: var(--color-surface-white);
+}
+
+.checkNum,
+.checkTitle {
+  margin: 0;
+  font-family: var(--font-family-base);
+  font-size: $font-size-card;
+  font-weight: var(--font-weight-bold);
+  line-height: normal;
+}
+
+.checkNum {
+  color: var(--color-text-accent);
+}
+
+.checkTitle {
+  color: var(--color-text-black);
+}
+
+.checkDesc {
+  @include text-small;
+  margin: 0;
+  color: var(--color-text-gray-2);
+}
+
+/* ---------------------------------
+ * 4. 가명처리 다섯 단계 (Figma PC 1218:15075)
+ * 단계 5개 (회색 · radius 12 · padding 24 · 번호 Eyebrow 12 → 12 → 제목 20) · 사이 화살표 24 (간격 12) → 24 → 출처
+ * --------------------------------- */
+.flowGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 24rem;
+}
+
+.flow {
+  display: flex;
+  align-items: stretch;
+  gap: 12rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.flowStep {
+  display: flex;
+  flex: 1 0 0;
+  flex-direction: column;
+  gap: 12rem;
+  min-width: 0;
+  padding: 24rem;
+  border-radius: 12rem;
+  background-color: var(--color-surface-gray);
+}
+
+.flowNum {
+  @include text-note;
+  color: var(--color-text-accent);
+  font-weight: var(--font-weight-extrabold);
+  line-height: normal;
+  letter-spacing: 1.54rem;
+}
+
+.flowTitle {
+  @include text-subheading;
+  color: var(--color-text-black);
+  line-height: normal;
+}
+
+.flowArrow {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+
+  img {
+    width: 24rem;
+    height: 24rem;
+  }
+}
+
+/* ---------------------------------
+ * 6. 다음 행동 (Figma PC 1218:15109)
+ * 회색 · 테두리 · radius 12 · padding 40 · 글 → 40 → Primary 버튼 (높이 60 · 좌우 20)
+ * --------------------------------- */
+.nextBox {
+  display: flex;
+  align-items: center;
+  gap: 40rem;
+  padding: 40rem;
+  border: 1rem solid var(--color-border-default);
+  border-radius: 12rem;
+  background-color: var(--color-surface-gray);
+}
+
+.nextText {
+  display: flex;
+  flex: 1 0 0;
+  flex-direction: column;
+  gap: 8rem;
+  min-width: 0;
+}
+
+.nextTitle {
+  @include text-subheading;
+  margin: 0;
+  color: var(--color-text-black);
+  line-height: normal;
+}
+
+.nextDesc {
+  @include text-small;
+  margin: 0;
+  color: var(--color-text-gray-2);
+}
+
+.nextButton.nextButton {
+  --btn-height: 60rem;
+
+  flex-shrink: 0;
+  padding: 0 20rem;
+  font-weight: var(--font-weight-semibold, 600);
+}
+
+/* ---------------------------------
+ * 7. 일반 안내 (Figma PC 1218:15114): 위 여백 없음 · 위 선 · padding-top 24 · 안내 Small → 8 → 확인일 Caption
+ * --------------------------------- */
+.guidePage > .noticeSection.noticeSection {
+  padding-top: 0;
+}
+
+.notice {
+  display: flex;
+  flex-direction: column;
+  gap: 8rem;
+  padding-top: 24rem;
+  border-top: 1rem solid var(--color-border-default);
+}
+
+.noticeText {
+  @include text-small;
+  margin: 0;
+  color: var(--color-text-gray-2);
+}
+
+.noticeDate {
+  @include text-note;
+  margin: 0;
+  color: var(--color-text-gray-2);
+  line-height: normal;
+  letter-spacing: 0.96rem;
+}
+
+/* ---------------------------------
+ * Responsive (모바일 시안 보류 · 세로 배치만 처리)
+ * --------------------------------- */
+@media (max-width: 1024px) {
+  .checkCards {
+    grid-template-columns: 1fr;
+  }
+
+  .flow,
+  .nextBox {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .flowArrow {
+    justify-content: center;
+    transform: rotate(90deg);
+  }
+}

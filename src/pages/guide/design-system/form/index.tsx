@@ -84,6 +84,20 @@ export default function FormGuidePage() {
 />`} />
           </GuideSection>
 
+          <GuideSection title="2-1. Text Field/v2 (size lg)" defaultOpen={false}>
+            <p className={styles.description}>
+              Figma Text Field/v2 규격(라벨 16 SemiBold · 입력 높이 52 · radius 8)은 `size="lg"`를 사용합니다. `helper`(도움말), `error`(오류 문구 · 빨간 테두리), `passwordToggle`(보기/숨기기) 옵션을 조합합니다. 로그인·회원가입 화면에서 사용합니다.
+            </p>
+            <div className={`${styles.preview} ${styles.form_box}`}>
+              <Input size="lg" label="이메일" type="email" placeholder="name@company.com" />
+              <Input size="lg" label="비밀번호" type="password" placeholder="비밀번호를 입력하세요" helper="8자 이상, 영문·숫자·특수문자 중 2종 이상" passwordToggle />
+              <Input size="lg" label="비밀번호 확인" type="password" defaultValue="passwor9" error="비밀번호가 일치하지 않습니다." passwordToggle />
+            </div>
+            <CodeBlock code={`<Input size="lg" label="이메일" type="email" placeholder="name@company.com" />
+<Input size="lg" label="비밀번호" type="password" placeholder="비밀번호를 입력하세요" helper="8자 이상, 영문·숫자·특수문자 중 2종 이상" passwordToggle />
+<Input size="lg" label="비밀번호 확인" type="password" defaultValue="passwor9" error="비밀번호가 일치하지 않습니다." passwordToggle />`} />
+          </GuideSection>
+
           <GuideSection title="3. Select Box" defaultOpen={false}>
             <p className={styles.description}>
               여러 옵션 중 하나를 선택할 수 있는 드롭다운입니다.

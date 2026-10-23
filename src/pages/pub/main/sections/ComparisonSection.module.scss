@@ -5,9 +5,11 @@
 
 .container {
   width: 100%;
-  max-width: 1240rem;
+  max-width: var(--layout-container-max-width, 1280rem);
   margin: 0 auto;
-  padding: 0 100rem;
+  padding-left: var(--layout-gutter, 20rem);
+  padding-right: var(--layout-gutter, 20rem);
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -95,14 +97,14 @@
 /* Base original image */
 .image_after {
   width: 100%;
-  background-image: url('https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=1200');
+  background-image: url('/images/main/comparison_sample.jpg');
   /* Simulate processing (e.g. blur) */
   filter: blur(4px) brightness(0.9);
 }
 
 /* Clipped original image */
 .image_before {
-  background-image: url('https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=1200');
+  background-image: url('/images/main/comparison_sample.jpg');
   border-right: 1rem solid rgba(255, 255, 255, 0.5);
   /* subtle edge */
 }

@@ -1,219 +1,208 @@
 import FrontLayout from '../layouts/FrontLayout';
 import { HeroSection, BasicSection } from '../../../components/domain/Section';
+import { BenefitCardGroup } from '../../../components/domain/Benefit/BenefitCards';
 import { ProductCta } from '../product/sections/ProductCta';
 import styles from './virtual-face-ai.module.scss';
 
-const ORIGINAL_BEFORE_IMG = 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=600&q=80';
-const VIRTUAL_AFTER_IMG = 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=600&q=80';
+const IMG = '/images/technology/virtual-face-ai';
 
-const DEMO_MALE_ORIGIN = 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80';
-const DEMO_MALE_SYNTH = 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&w=400&q=80';
-
-const DEMO_FEMALE_ORIGIN = 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=400&q=80';
-const DEMO_FEMALE_SYNTH = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80';
-
-const EFFECT_ITEMS = [
-  { num: '01', title: '어색함 없는 고품질 비식별화 달성' },
-  { num: '02', title: '법적·초상권 리스크 원천 차단' },
-  { num: '03', title: '홍보·방송용 영상의 활용 가치 극대화' },
-  { num: '04', title: '시청 몰입감을 방해하지 않는 디자인' },
+// 섹션 1 포인트 (Figma PC 2165:9260 / Mobile 2165:9397)
+const IDENTITY_POINTS = [
+  { title: '신원 보호', desc: '원본 얼굴의 신원 보호를 목표로 하는 변환' },
+  { title: '자연스러운 결과', desc: '기존 Blur·Mosaic과 다른 자연스러운 결과 표현' },
+  {
+    title: '데이터 재사용성',
+    desc: '비식별화 처리 이후에도 데이터로 다시 활용할 수 있어 단순 가림 처리보다 높은 데이터 가치를 유지합니다.',
+  },
 ];
+
+// 섹션 2 포인트 (Figma PC 2165:9321 / Mobile 2165:9429)
+const SYNTHESIS_POINTS = [
+  { title: '장면의 자연스러운 인상 유지', desc: '얼굴만 가상의 얼굴로 치환해 장면의 자연스러운 인상을 유지' },
+  { title: '자연스러운 가상 얼굴 치환', desc: '원본 신원을 보호하는 자연스러운 가상 얼굴로 치환' },
+  {
+    title: '한국인 특화 데이터셋 활용',
+    desc: '이질감 없는 한국인 맞춤 페이스로 공공 홍보 및 공공데이터 개방 영상의 품질 극대화',
+  },
+];
+
+// 자사 / 타사 비교 행
+const VENDOR_ROWS = [
+  { id: 'xprivacy', tab: 'xPrivacy', result: 'synth_xprivacy.jpg', arrow: 'arrow_primary' },
+  { id: 'general', tab: '일반 방식', result: 'synth_general.jpg', arrow: 'arrow_gray' },
+];
+
+// 도입 효과 (Figma PC 2165:9334 / Mobile 2165:9469)
+const BENEFITS = [
+  {
+    glyph: 'glyph_quality.svg',
+    title: ['모자이크 없는 고품질', '미디어 완성'],
+    desc: '답답한 모자이크 대신 가상 얼굴을 합성해 영상의 몰입감과 미관을 살립니다.',
+  },
+  {
+    glyph: 'glyph_portrait.svg',
+    title: ['초상권 노출 부담 완화'],
+    desc: '실존하지 않는 가상 얼굴로 교체해 원본 신원 노출을 줄입니다.',
+  },
+  {
+    glyph: 'glyph_value.svg',
+    title: ['자연스러운 화면으로 활용', '가치 유지'],
+    desc: '자연스러운 얼굴 표현을 유지해 비식별 이후에도 영상을 활용할 수 있습니다.',
+  },
+  {
+    glyph: 'glyph_korean.svg',
+    title: ['이질감 없는 한국인 가상 얼굴'],
+    desc: '한국인 데이터셋 기반으로 이질감 없는 가상 얼굴을 생성합니다.',
+  },
+];
+
+function PointList({ items }: { items: { title: string; desc: string }[] }) {
+  return (
+    <ul className={styles.pointList}>
+      {items.map((pt) => (
+        <li key={pt.title} className={styles.point}>
+          <h4 className={styles.pointTitle}>{pt.title}</h4>
+          <p className={styles.pointDesc}>{pt.desc}</p>
+        </li>
+      ))}
+    </ul>
+  );
+}
 
 export default function PubSubTechnologyVirtualFaceAi() {
   return (
     <FrontLayout>
       <div className={styles.pageWrap}>
-        
-        {/* Top Hero Section */}
+        {/* 1. Hero (Figma PC 2165:9246 / Mobile 2165:9383) */}
         <HeroSection
-          className={styles.techHero}
-          align="left"
-          bgImage="https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=1600&q=80"
+          heroVariant="compact"
+          bgPreset="technology"
+          className={styles.vfaHero}
           eyebrow="VIRTUAL FACE AI"
           title={
             <>
-              초상권 걱정 없이 영상의 몰입감과<br />
-              미관을 살리는 생성형 AI 비식별화
+              초상권 걱정 없이<br className="mobileBr" /> 영상의 몰입감과<br />
+              미관을 살리는<br className="mobileBr" /> 생성형 AI 비식별화
             </>
           }
-          description={
-            <>
-              자체 개발 생성 AI 모델을 기반으로 자연스러운 가상 얼굴을 생성해<br className="desktop-only" />
-              영상 고유의 맥락을 살리면서 원본 인물의 복원을 원천 차단하여<br className="desktop-only" />
-              초상권 침해 리스크를 완벽 차단합니다.
-            </>
-          }
+          description="답답한 모자이크 대신 한국인 데이터셋 기반 생성형 AI로 이질감 없는 가상 얼굴을 합성하여 홍보 및 행정 영상의 몰입도를 높입니다."
         />
 
-        {/* Section 1: 신원은 보호하고... (bg="white", Horizontal) */}
-        <BasicSection
-          className={styles.identitySection}
-          bg="white"
-          layout="horizontal"
-          align="left"
-          eyebrow="VIRTUAL FACE AI"
+        {/* 2. Original → Virtual Face (Figma PC 2165:9253 / Mobile 2165:9390) */}
+        <BasicSection bg="white" layout="vertical" align="left">
+          <div className={styles.splitWrap}>
+            <div className={styles.copyCol}>
+              <div className={styles.intro}>
+                <div className={styles.headGroup}>
+                  <span className={styles.eyebrow}>IDENTITY PROTECTION</span>
+                  <h3 className={styles.heading}>
+                    신원은 보호하고 자연스러운<br />
+                    얼굴 표현은 유지합니다
+                  </h3>
+                </div>
+                <p className={styles.lead}>
+                  한국인 데이터셋 기반 생성형 AI를 활용해 원본 얼굴의 신원을 보호하면서
+                  <br className="pcBr" /> 자연스러운 가상 얼굴로 변환합니다.
+                </p>
+              </div>
+              <PointList items={IDENTITY_POINTS} />
+            </div>
+
+            <div className={styles.compare}>
+              <figure className={styles.compareItem}>
+                <img src={`${IMG}/compare_original.jpg`} alt="원본 얼굴" className={styles.comparePhoto} />
+                <figcaption className={`${styles.compareLabel} ${styles.labelOriginal}`}>ORIGINAL FACE</figcaption>
+              </figure>
+              <span className={styles.compareArrow} aria-hidden="true">
+                →
+              </span>
+              <figure className={styles.compareItem}>
+                <img src={`${IMG}/compare_virtual.jpg`} alt="가상 얼굴로 변환한 결과" className={styles.comparePhoto} />
+                <figcaption className={`${styles.compareLabel} ${styles.labelVirtual}`}>VIRTUAL FACE</figcaption>
+              </figure>
+            </div>
+          </div>
+        </BasicSection>
+
+        {/* 3. 가상 인물 교체 (Figma PC 2165:9287 / Mobile 2165:9422) · PC는 비주얼 왼쪽 */}
+        <BasicSection bg="gray" layout="vertical" align="left">
+          <div className={`${styles.splitWrap} ${styles.reverse}`}>
+            <div className={styles.copyCol}>
+              <div className={styles.intro}>
+                <div className={styles.headGroup}>
+                  <span className={styles.eyebrow}>AI-SYNTHESIZED FACES</span>
+                  <h3 className={styles.heading}>생성형 AI 기술로 가상 인물 교체</h3>
+                </div>
+                <p className={styles.lead}>
+                  한국인 데이터셋 기반 생성형 AI로 이질감 없는 가상 얼굴을 합성하여 홍보 및 행정 영상의
+                  몰입도를 높입니다.
+                </p>
+              </div>
+              <PointList items={SYNTHESIS_POINTS} />
+            </div>
+
+            <div className={styles.vendorPanel}>
+              {VENDOR_ROWS.map((row) => (
+                <div key={row.id} className={`${styles.vendorRow} ${styles[`vendor_${row.id}`]}`}>
+                  <div className={styles.vendorTab}>
+                    <span>{row.tab}</span>
+                  </div>
+                  <div className={styles.vendorBody}>
+                    <figure className={styles.vendorCard}>
+                      <img src={`${IMG}/synth_raw.jpg`} alt="원본" />
+                      <figcaption>원본</figcaption>
+                    </figure>
+                    <picture className={styles.vendorArrow}>
+                      <source media="(max-width: 768px)" srcSet={`${IMG}/${row.arrow}_mo.svg`} />
+                      <img src={`${IMG}/${row.arrow}.svg`} alt="" aria-hidden="true" />
+                    </picture>
+                    <figure className={styles.vendorCard}>
+                      <img src={`${IMG}/${row.result}`} alt={`${row.tab} 비식별화 결과`} />
+                      <figcaption>비식별화</figcaption>
+                    </figure>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </BasicSection>
+
+        {/* 4. 도입 효과 */}
+        <BasicSection bg="white" layout="vertical" align="left" eyebrow="BENEFITS" title="도입 효과">
+          <BenefitCardGroup
+            bordered
+            items={BENEFITS.map((item) => ({
+              glyph: `${IMG}/${item.glyph}`,
+              title: (
+                <>
+                  {item.title[0]}
+                  {item.title[1] && (
+                    <>
+                      <br className="pcBr" /> {item.title[1]}
+                    </>
+                  )}
+                </>
+              ),
+              desc: item.desc,
+            }))}
+          />
+        </BasicSection>
+
+        {/* 5. CTA */}
+        <ProductCta
+          eyebrow="GET STARTED"
           title={
             <>
-              신원은 보호하고<br />
-              자연스러운 얼굴 표현은 유지합니다
+              업무 환경에 맞는 서비스를<br />
+              직접 확인해보세요
             </>
           }
-          description="단순한 검은 박스나 흐릿한 블러 대신, 고품질 가상 얼굴을 합성하여 원본 영상의 몰입감과 자연스러움을 유지함과 동시에 완벽한 비식별화를 달성합니다."
-          headerExtra={
-            <div className={styles.featureBlockList}>
-              <div className={styles.fBlock}>
-                <h4>Natural Expression</h4>
-                <p>자연스러운 표정 변화 및 시선 방향 완벽 유지</p>
-              </div>
-              <div className={styles.fBlock}>
-                <h4>Security Guarantee</h4>
-                <p>원본 복원 불가한 비가역적 보안성 제공</p>
-              </div>
-              <div className={styles.fBlock}>
-                <h4>High-Quality Synthesis</h4>
-                <p>고해상도 영상에서도 이질감 없는 자연스러운 합성</p>
-              </div>
-            </div>
-          }
-        >
-          {/* Comparison Cards: Before & After */}
-          <div className={styles.comparisonVisualWrap}>
-            <div className={styles.compareCard}>
-              <div 
-                className={styles.imgArea} 
-                style={{ backgroundImage: `url(${ORIGINAL_BEFORE_IMG})` }} 
-              />
-              <span className={`${styles.cardBadge} ${styles.before}`}>
-                DE-IDENTIFYING (BEFORE)
-              </span>
-            </div>
-
-            <div className={styles.compareArrow} aria-hidden="true">
-              →
-            </div>
-
-            <div className={styles.compareCard}>
-              <div 
-                className={styles.imgArea} 
-                style={{ backgroundImage: `url(${VIRTUAL_AFTER_IMG})` }} 
-              />
-              <span className={`${styles.cardBadge} ${styles.after}`}>
-                VIRTUAL FACE (AFTER)
-              </span>
-            </div>
-          </div>
-        </BasicSection>
-
-        {/* Section 2: 생성 AI 기술을 활용... (bg="gray", Horizontal Reverse) */}
-        <BasicSection
-          className={styles.generationSection}
-          bg="gray"
-          layout="horizontal-reverse"
-          align="left"
-          eyebrow="DE-IDENTIFICATION & RE-IDENTIFICATION"
-          title={
-            <>
-              생성 AI 기술을 활용<br />
-              가상 인물로 교체
-            </>
-          }
-          description="독자적인 생성 AI 기술을 기반으로, 원본 인물의 포즈와 표정, 조명 환경을 그대로 반영하면서도 완전히 새로운 가상 인물의 얼굴로 자연스럽게 실시간 교체합니다."
-          headerExtra={
-            <div className={styles.featureBlockList}>
-              <div className={styles.fBlock}>
-                <h4>성별 및 연령 유지</h4>
-                <p>원본 인물의 성별과 연령대, 피부 톤을 고려한 맞춤형 가상 얼굴 자동 생성</p>
-              </div>
-              <div className={styles.fBlock}>
-                <h4>일관성 있는 표정 재현</h4>
-                <p>말하거나 웃는 등 다양한 표정 변화를 어색함 없이 실시간 동기화</p>
-              </div>
-              <div className={styles.fBlock}>
-                <h4>안정적 트랙 단위 연속성</h4>
-                <p>영상 전체 프레임에서 동일 인물에 대해 일관된 가상 얼굴을 안정적으로 유지</p>
-              </div>
-            </div>
-          }
-        >
-          {/* Demographic Demo Card */}
-          <div className={styles.demoCard}>
-            {/* Row 1: Male */}
-            <div className={styles.demoRow}>
-              <span className={`${styles.genderBadge} ${styles.male}`}>남성</span>
-              
-              <div className={styles.faceItem}>
-                <div 
-                  className={styles.faceThumb} 
-                  style={{ backgroundImage: `url(${DEMO_MALE_ORIGIN})` }} 
-                />
-                <span className={styles.faceLabel}>원본</span>
-              </div>
-
-              <div className={styles.arrowDivider}>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M5 12h14M12 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </div>
-
-              <div className={styles.faceItem}>
-                <div 
-                  className={styles.faceThumb} 
-                  style={{ backgroundImage: `url(${DEMO_MALE_SYNTH})` }} 
-                />
-                <span className={styles.faceLabel}>가상 인물</span>
-              </div>
-            </div>
-
-            {/* Row 2: Female */}
-            <div className={styles.demoRow}>
-              <span className={`${styles.genderBadge} ${styles.female}`}>여성</span>
-              
-              <div className={styles.faceItem}>
-                <div 
-                  className={styles.faceThumb} 
-                  style={{ backgroundImage: `url(${DEMO_FEMALE_ORIGIN})` }} 
-                />
-                <span className={styles.faceLabel}>원본</span>
-              </div>
-
-              <div className={styles.arrowDivider}>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M5 12h14M12 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </div>
-
-              <div className={styles.faceItem}>
-                <div 
-                  className={styles.faceThumb} 
-                  style={{ backgroundImage: `url(${DEMO_FEMALE_SYNTH})` }} 
-                />
-                <span className={styles.faceLabel}>가상 인물</span>
-              </div>
-            </div>
-          </div>
-        </BasicSection>
-
-        {/* Section 3: 도입효과 (bg="white") */}
-        <BasicSection
-          className={styles.effectsSection}
-          bg="white"
-          layout="vertical"
-          align="left"
-          title="도입효과"
-        >
-          <div className={styles.effectsGrid}>
-            {EFFECT_ITEMS.map((item) => (
-              <div key={item.num} className={styles.effectItem}>
-                <span className={styles.num}>{item.num}</span>
-                <h4>{item.title}</h4>
-              </div>
-            ))}
-          </div>
-        </BasicSection>
-
-        {/* Section 4: Bottom CTA */}
-        <ProductCta />
-
+          description="무료 체험으로 제품을 먼저 확인하거나 기관·기업 환경에 맞는 도입 방식을 상담할 수 있습니다."
+          solidButtonText="도입 문의하기"
+          outlineButtonText="데모 체험하기"
+          solidButtonHref="/pub/contact/inquiry"
+          outlineButtonHref="/pub/demo/image"
+        />
       </div>
     </FrontLayout>
   );

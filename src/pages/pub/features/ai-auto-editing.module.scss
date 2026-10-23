@@ -1,758 +1,257 @@
-@import '../../../assets/scss/variables';
+@use "@/assets/scss/variables" as *;
+@use "@/assets/scss/mixins" as *;
+
+/* 미매핑 피그마 값 (프로젝트 토큰 없음 → 시안 값 사용)
+ * - 히어로 단계 연결선 rgba(59,91,255,.3) 103.75×2
+ * - 설명용 도식은 시안 렌더링 이미지(그림자 여백 포함: PC 좌우 40 · 위 25 · 아래 55 / MO 좌우 20 · 위 15 · 아래 36) */
 
 .pageWrap {
   width: 100%;
+  overflow-x: clip; /* 도식 이미지 그림자 여백이 MO 화면 밖으로 나가 가로 스크롤 생기는 것 방지 */
 }
 
 /* --------------------------------------------------------------------------
-   1. Hero Section (White Background, Centered Layout)
--------------------------------------------------------------------------- */
-.heroSection {
-  padding-top: 100rem;
-  padding-bottom: 90rem;
-  background-color: var(--color-white);
+ * 1. Hero (Figma PC 2304:4170 / Mobile 2304:4284)
+ * 가운데 정렬 · 위아래 120 (MO 80) · 문구 → 48 → 처리 흐름 3단계
+ * -------------------------------------------------------------------------- */
+.editHero {
+  --hero-compact-padding-top-pc: 120rem;
+  --hero-compact-padding-bottom-pc: 120rem;
+  --hero-compact-padding-top-mo: 80rem;
+  --hero-compact-padding-bottom-mo: 80rem;
+}
 
-  :global(.header) {
-    align-items: center;
-    text-align: center;
-    margin-bottom: 32rem;
+/* 설명 폭: 시안 900 (컴포넌트 기본 640) */
+.pageWrap > .editHero.editHero h2 + p {
+  max-width: 900rem !important;
+}
 
-    :global(.eyebrow) {
-      font-size: 13rem;
-      font-weight: 700;
-      color: #3b5bff;
-      letter-spacing: 0.12em;
-      margin-bottom: 16rem;
-      font-family: var(--font-family-mono);
-      text-transform: uppercase;
-    }
+/* 헤더 묶음 폭: 컴포넌트 기본 774 → 설명 900이 들어가도록 1240 */
+.pageWrap > .editHero.editHero div:has(> h2 + p) {
+  max-width: 1240rem !important;
+}
 
-    :global(.title) {
-      font-size: 44rem;
-      font-weight: 800;
-      color: #0b0c0e;
-      line-height: 1.28;
-      letter-spacing: -0.02em;
-      margin-bottom: 20rem;
-      word-break: keep-all;
-    }
+/* 단계: 아이콘 52 → 16 → [STEP Note primary / 제목 Subheading / 설명 Body] · 단계 사이 연결선 103.75×2 (gap 24) */
+.heroSteps {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24rem;
+  margin: -12rem 0 0; /* 섹션 콘텐츠 간격 60 → 시안 48 */
+  padding: 0;
+  list-style: none;
+}
 
-    :global(.description) {
-      font-size: 17rem;
-      color: #4b5563;
-      line-height: 1.65;
-      max-width: 720rem;
-      margin: 0 auto;
-      word-break: keep-all;
-    }
+.heroStep {
+  display: flex;
+  align-items: center;
+  gap: 16rem;
+
+  & + &::before {
+    content: '';
+    width: 103.75rem;
+    height: 2rem;
+    margin-right: 8rem; /* 연결선 양옆 24: gap 24 + (이 요소 gap 16 + 8) */
+    border-radius: 1rem;
+    background-color: rgba(59, 91, 255, 0.3);
   }
+}
 
-  .heroAction {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 56rem;
+.heroStepText {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  text-align: left;
+}
 
-    .btnTrial {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 14rem 36rem;
-      font-size: 16rem;
-      font-weight: 600;
-      color: #ffffff;
-      background-color: #3b5bff;
-      border-radius: 8rem;
-      text-decoration: none;
-      transition: all 0.2s ease;
-      box-shadow: 0 4rem 14rem rgba(59, 91, 255, 0.28);
+.heroStepLabel {
+  @include text-note;
+  color: var(--color-text-accent);
+}
 
-      &:hover {
-        background-color: #2b46df;
-        transform: translateY(-1rem);
-        box-shadow: 0 6rem 20rem rgba(59, 91, 255, 0.35);
-      }
-    }
-  }
+.heroStepTitle {
+  @include text-subheading;
+  color: var(--color-text-black);
+  white-space: nowrap;
+}
 
-  /* Timeline Mockup Box */
-  .timelineMockup {
-    max-width: 960rem;
-    margin: 0 auto;
-    background-color: #111315;
-    border-radius: 12rem;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    overflow: hidden;
-    box-shadow: 0 20rem 50rem rgba(0, 0, 0, 0.25);
-    padding: 24rem 24rem 18rem;
-    display: flex;
-    flex-direction: column;
-    gap: 18rem;
+.heroStepDesc {
+  @include text-body;
+  color: var(--color-text-gray-1);
+  white-space: nowrap;
+}
 
-    .mockupHeader {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+/* --------------------------------------------------------------------------
+ * 2~4. 좌우 분할 섹션 (도식 560×490 · 텍스트 열 flex 1 · 사이 100 · 위 정렬)
+ * DOM은 도식 → 글 (MO 순서), PC 2번째는 row-reverse로 도식 오른쪽
+ * -------------------------------------------------------------------------- */
+.split {
+  display: flex;
+  align-items: flex-start;
+  gap: 100rem;
+}
 
-      .headerTitle {
-        font-size: 12rem;
-        font-weight: 700;
-        font-family: var(--font-family-mono);
-        color: #e2e8f0;
-        letter-spacing: 0.08em;
-      }
+.reverse {
+  flex-direction: row-reverse;
+}
 
-      .disclaimerBadge {
-        font-size: 11rem;
-        color: #71717a;
-        background-color: rgba(255, 255, 255, 0.05);
-        padding: 3rem 8rem;
-        border-radius: 4rem;
-      }
-    }
+.copy {
+  flex: 1 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24rem;
+  min-width: 0;
+}
 
-    .timelineScrollWrapper {
-      width: 100%;
-      overflow-x: auto;
-    }
+.intro {
+  display: flex;
+  flex-direction: column;
+}
 
-    .timelineContainer {
-      min-width: 680rem;
-      display: flex;
-      flex-direction: column;
-      gap: 12rem;
+.eyebrow {
+  @include text-body;
+  color: var(--color-text-gray-2);
+}
 
-      .rulerRow {
-        display: flex;
-        padding-left: 140rem;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        padding-bottom: 8rem;
+.heading {
+  @include text-section;
+  margin: 12rem 0 0;
+  color: var(--color-text-black);
+}
 
-        .timeTick {
-          flex: 1;
-          font-size: 10rem;
-          font-family: var(--font-family-mono);
-          color: #71717a;
-          text-align: left;
-        }
-      }
+.lead {
+  @include text-body;
+  margin: 24rem 0 0;
+  color: var(--color-text-gray-1);
+  word-break: keep-all;
+}
 
-      .trackRow {
-        display: flex;
-        align-items: center;
-        background-color: #16181b;
-        border-radius: 6rem;
-        height: 48rem;
-        padding: 0 12rem;
-        position: relative;
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
 
-        .rowLabel {
-          width: 130rem;
-          display: flex;
-          align-items: center;
-          gap: 8rem;
-          font-size: 13rem;
-          font-weight: 600;
-          color: #e2e8f0;
+.listItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 40rem;
+  padding: 24rem 0;
+  border-top: 1rem solid var(--color-border-default);
+}
 
-          .badgeEffect {
-            font-size: 10rem;
-            padding: 1rem 6rem;
-            border-radius: 3rem;
-            font-family: var(--font-family-mono);
+.listNum {
+  @include text-body;
+  flex-shrink: 0;
+  color: var(--color-text-gray-2);
+}
 
-            &.mosaic {
-              background-color: rgba(56, 189, 248, 0.15);
-              color: #38bdf8;
-              border: 1px solid rgba(56, 189, 248, 0.3);
-            }
+.listText {
+  display: flex;
+  flex: 1 0 0;
+  flex-direction: column;
+  gap: 6rem;
+  min-width: 0;
+}
 
-            &.blur {
-              background-color: rgba(99, 102, 241, 0.15);
-              color: #818cf8;
-              border: 1px solid rgba(99, 102, 241, 0.3);
-            }
-          }
-        }
+.listTitle {
+  @include text-subheading;
+  margin: 0;
+  color: var(--color-text-black);
+}
 
-        .trackBarArea {
-          flex: 1;
-          height: 100%;
-          position: relative;
-          display: flex;
-          align-items: center;
+.listDesc {
+  @include text-body;
+  margin: 0;
+  color: var(--color-text-gray-1);
+  word-break: keep-all;
+}
 
-          .spanBar {
-            position: absolute;
-            height: 28rem;
-            background: rgba(56, 189, 248, 0.12);
-            border: 1px solid #38bdf8;
-            border-radius: 4rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 8rem;
-            color: #ffffff;
-            font-size: 10rem;
-            font-family: var(--font-family-mono);
+/* 도식: 카드 영역 560 폭 · 이미지(640×570)는 그림자 여백만큼 바깥으로 */
+.diagram {
+  flex-shrink: 0;
+  width: 560rem;
+  margin: 0;
 
-            .keyframeDiamond {
-              color: #38bdf8;
-              font-size: 9rem;
-            }
-
-            .spanPoint {
-              font-size: 9rem;
-              color: #e0f2fe;
-            }
-          }
-        }
-      }
-    }
-
-    .timelineFooter {
-      padding-top: 10rem;
-      border-top: 1px solid rgba(255, 255, 255, 0.06);
-      display: flex;
-      align-items: center;
-      gap: 16rem;
-      font-size: 11rem;
-      font-family: var(--font-family-mono);
-      color: #71717a;
-
-      .legendItem {
-        display: flex;
-        align-items: center;
-        gap: 6rem;
-
-        .diamond {
-          color: #38bdf8;
-        }
-
-        .barSample {
-          width: 14rem;
-          height: 4rem;
-          background-color: #38bdf8;
-          border-radius: 2rem;
-        }
-      }
-    }
+  img {
+    display: block;
+    width: calc(100% * 640 / 560);
+    max-width: none;
+    height: auto;
+    margin: calc(-25 / 560 * 100%) 0 calc(-55 / 560 * 100%) calc(-40 / 560 * 100%);
   }
 }
 
 /* --------------------------------------------------------------------------
-   2. Common Feature Sections (Section 1 ~ 2)
--------------------------------------------------------------------------- */
-.featureSection {
-  padding-top: 100rem;
-  padding-bottom: 100rem;
-
-  :global(.header) {
-    :global(.eyebrow) {
-      font-size: 13rem;
-      font-weight: 700;
-      color: #3b5bff;
-      letter-spacing: 0.12em;
-      margin-bottom: 14rem;
-      font-family: var(--font-family-mono);
-      text-transform: uppercase;
-    }
-
-    :global(.title) {
-      font-size: 38rem;
-      font-weight: 800;
-      color: #0b0c0e;
-      line-height: 1.32;
-      letter-spacing: -0.02em;
-      margin-bottom: 20rem;
-      word-break: keep-all;
-    }
-
-    :global(.description) {
-      font-size: 16rem;
-      color: #4b5563;
-      line-height: 1.65;
-      word-break: keep-all;
-    }
-  }
-
-  .featureList {
-    display: flex;
+ * Responsive
+ * -------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .split,
+  .reverse {
     flex-direction: column;
-    gap: 28rem;
-    margin-top: 40rem;
-
-    .featureItem {
-      display: flex;
-      flex-direction: column;
-      gap: 6rem;
-      position: relative;
-      padding-bottom: 24rem;
-      border-bottom: 1px solid var(--color-gray-200);
-
-      &:last-child {
-        border-bottom: none;
-        padding-bottom: 0;
-      }
-
-      .num {
-        font-size: 13rem;
-        font-weight: 700;
-        color: #3b5bff;
-        font-family: var(--font-family-mono);
-        line-height: 1;
-        margin-bottom: 2rem;
-      }
-
-      .title {
-        font-size: 18rem;
-        font-weight: 700;
-        color: #0b0c0e;
-        margin: 0;
-        line-height: 1.4;
-      }
-
-      .desc {
-        font-size: 14rem;
-        color: #64748b;
-        line-height: 1.65;
-        margin: 0;
-        word-break: keep-all;
-      }
-    }
+    align-items: stretch;
+    gap: 40rem;
   }
 
-  /* ------------------------------------------------------------------------
-     Common Mockup Card Styles
-  ------------------------------------------------------------------------ */
-  .mockupCard {
+  .diagram {
     width: 100%;
-    max-width: 580rem;
-    background-color: #111315;
-    border-radius: 14rem;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    overflow: hidden;
-    box-shadow: 0 16rem 40rem rgba(0, 0, 0, 0.22);
-    padding: 24rem 20rem 18rem;
-    display: flex;
-    flex-direction: column;
-    gap: 20rem;
+    max-width: 560rem;
+  }
+}
 
-    .mockupHeader {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      .headerTitle {
-        font-size: 12rem;
-        font-weight: 700;
-        font-family: var(--font-family-mono);
-        color: #e2e8f0;
-        letter-spacing: 0.08em;
-      }
-
-      .disclaimerBadge {
-        font-size: 11rem;
-        color: #71717a;
-        background-color: rgba(255, 255, 255, 0.05);
-        padding: 3rem 8rem;
-        border-radius: 4rem;
-      }
-    }
-
-    .mockupFooter {
-      padding-top: 14rem;
-      border-top: 1px solid rgba(255, 255, 255, 0.06);
-      display: flex;
-      align-items: center;
-      gap: 16rem;
-      font-size: 11rem;
-      font-family: var(--font-family-mono);
-      color: #71717a;
-    }
+/* 모바일 (Figma Mobile 2286:4677 · 390 기준) */
+@media (max-width: 768px) {
+  /* 단계: 아이콘 위 · 제목 아래 · STEP 라벨/설명 숨김 · 아이콘 사이 연결선 */
+  .heroSteps {
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0;
+    margin-top: 0; /* MO 섹션 콘텐츠 간격 40 = 시안 */
   }
 
-  /* ------------------------------------------------------------------------
-     Specific Mockup 1: TRACKING PREVIEW
-  ------------------------------------------------------------------------ */
-  .trackingCanvas {
-    height: 260rem;
-    background-color: #0c0d0f;
-    border-radius: 8rem;
+  .heroStep {
     position: relative;
-    overflow: hidden;
-    background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-    background-size: 20rem 20rem;
-    padding: 16rem;
-
-    /* Trail boxes */
-    .trailBox1 {
-      position: absolute;
-      top: 50rem;
-      left: 60rem;
-      width: 44rem;
-      height: 110rem;
-      border: 1px dashed rgba(255, 255, 255, 0.15);
-      border-radius: 4rem;
-    }
-
-    .trailBox2 {
-      position: absolute;
-      top: 50rem;
-      left: 120rem;
-      width: 44rem;
-      height: 110rem;
-      border: 1px dashed rgba(255, 255, 255, 0.22);
-      border-radius: 4rem;
-    }
-
-    .trailBox3 {
-      position: absolute;
-      top: 50rem;
-      left: 180rem;
-      width: 44rem;
-      height: 110rem;
-      border: 1px dashed rgba(255, 255, 255, 0.3);
-      border-radius: 4rem;
-    }
-
-    /* Active Track Box: Person 01 */
-    .activeTrackPerson1 {
-      position: absolute;
-      top: 50rem;
-      left: 244rem;
-      width: 46rem;
-      height: 110rem;
-      border: 2px solid #38bdf8;
-      border-radius: 4rem;
-      box-shadow: 0 0 14rem rgba(56, 189, 248, 0.4);
-
-      .trackTag {
-        position: absolute;
-        top: -18rem;
-        left: -2px;
-        background-color: #38bdf8;
-        color: #0b0c0e;
-        font-size: 9rem;
-        font-weight: 700;
-        font-family: var(--font-family-mono);
-        padding: 1rem 5rem;
-        border-radius: 2rem 2rem 0 0;
-        white-space: nowrap;
-      }
-    }
-
-    /* Active Track Box: Person 02 */
-    .activeTrackPerson2 {
-      position: absolute;
-      top: 70rem;
-      left: 310rem;
-      width: 40rem;
-      height: 90rem;
-      border: 2px solid #38bdf8;
-      border-radius: 4rem;
-      box-shadow: 0 0 14rem rgba(56, 189, 248, 0.4);
-
-      .trackTag {
-        position: absolute;
-        top: -18rem;
-        left: -2px;
-        background-color: #38bdf8;
-        color: #0b0c0e;
-        font-size: 9rem;
-        font-weight: 700;
-        font-family: var(--font-family-mono);
-        padding: 1rem 5rem;
-        border-radius: 2rem 2rem 0 0;
-        white-space: nowrap;
-      }
-    }
-
-    /* Active Track Box: Plate 01 */
-    .activeTrackPlate {
-      position: absolute;
-      bottom: 30rem;
-      right: 50rem;
-      width: 58rem;
-      height: 22rem;
-      border: 2px solid #38bdf8;
-      border-radius: 3rem;
-      box-shadow: 0 0 10rem rgba(56, 189, 248, 0.4);
-
-      .trackTag {
-        position: absolute;
-        top: -18rem;
-        left: -2px;
-        background-color: #38bdf8;
-        color: #0b0c0e;
-        font-size: 9rem;
-        font-weight: 700;
-        font-family: var(--font-family-mono);
-        padding: 1rem 5rem;
-        border-radius: 2rem 2rem 0 0;
-        white-space: nowrap;
-      }
-    }
-
-    .trailInfo {
-      position: absolute;
-      bottom: 12rem;
-      left: 16rem;
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
-      font-size: 10rem;
-      font-family: var(--font-family-mono);
-      color: #94a3b8;
-    }
-  }
-
-  /* ------------------------------------------------------------------------
-     Specific Mockup 2: EFFECT MAPPING
-  ------------------------------------------------------------------------ */
-  .mappingBody {
-    display: flex;
+    flex: 1 1 0;
     flex-direction: column;
     gap: 12rem;
 
-    .mappingRow {
-      background-color: #16181b;
-      border-radius: 8rem;
-      padding: 14rem 16rem;
-      display: flex;
-      align-items: center;
-      gap: 16rem;
-
-      .thumbBox {
-        width: 44rem;
-        height: 44rem;
-        border-radius: 6rem;
-        background-color: #0284c7;
-        flex-shrink: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 4rem 12rem rgba(2, 132, 199, 0.35);
-
-        &.thumbMedium {
-          width: 38rem;
-          height: 38rem;
-        }
-
-        &.thumbSmall {
-          width: 32rem;
-          height: 32rem;
-        }
-      }
-
-      .infoTrackArea {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        gap: 6rem;
-
-        .metaLine {
-          display: flex;
-          align-items: center;
-          gap: 8rem;
-
-          .name {
-            font-size: 13rem;
-            font-weight: 700;
-            color: #e2e8f0;
-          }
-
-          .effectTag {
-            font-size: 10rem;
-            font-family: var(--font-family-mono);
-            padding: 1rem 6rem;
-            border-radius: 3rem;
-
-            &.mosaic {
-              background-color: rgba(56, 189, 248, 0.15);
-              color: #38bdf8;
-              border: 1px solid rgba(56, 189, 248, 0.3);
-            }
-
-            &.blur {
-              background-color: rgba(99, 102, 241, 0.15);
-              color: #818cf8;
-              border: 1px solid rgba(99, 102, 241, 0.3);
-            }
-          }
-
-          .desc {
-            font-size: 11rem;
-            color: #94a3b8;
-          }
-        }
-
-        .barTrack {
-          height: 5rem;
-          background-color: rgba(255, 255, 255, 0.06);
-          border-radius: 3rem;
-          position: relative;
-          overflow: hidden;
-
-          .filledSpan {
-            position: absolute;
-            height: 100%;
-            background-color: #38bdf8;
-            border-radius: 3rem;
-            box-shadow: 0 0 6rem #38bdf8;
-          }
-        }
-      }
-
-      .timeInOut {
-        text-align: right;
-        font-size: 10rem;
-        font-family: var(--font-family-mono);
-        color: #71717a;
-        white-space: nowrap;
-        line-height: 1.4;
-
-        span {
-          display: block;
-          color: #d1d5db;
-        }
-      }
-    }
-  }
-}
-
-/* --------------------------------------------------------------------------
-   3. Responsive Breakpoints
--------------------------------------------------------------------------- */
-@media (max-width: 1024px) {
-  .heroSection {
-    padding-top: 70rem;
-    padding-bottom: 60rem;
-
-    :global(.header) {
-      :global(.title) {
-        font-size: 34rem;
-      }
-
-      :global(.description) {
-        font-size: 15rem;
-      }
+    & + &::before {
+      position: absolute;
+      top: 21rem;
+      right: calc(50% + 30rem);
+      width: calc(100% - 60rem);
+      margin: 0;
     }
   }
 
-  .featureSection {
-    padding-top: 60rem;
-    padding-bottom: 60rem;
-
-    :global(.container) {
-      display: flex;
-      flex-direction: column;
-
-      :global(.content) {
-        order: 1;
-        width: 100%;
-        margin-bottom: 36rem;
-      }
-
-      :global(.sectionHeader) {
-        order: 2;
-        width: 100%;
-      }
-    }
-
-    .mockupCard {
-      max-width: 100%;
-    }
-  }
-}
-
-@media (max-width: 768px) {
-  .heroSection {
-    padding-top: 50rem;
-    padding-bottom: 50rem;
-
-    :global(.header) {
-      :global(.title) {
-        font-size: 26rem;
-        line-height: 1.34;
-        margin-bottom: 14rem;
-      }
-
-      :global(.description) {
-        font-size: 14rem;
-        line-height: 1.6;
-      }
-    }
-
-    .heroAction {
-      margin-bottom: 36rem;
-
-      .btnTrial {
-        width: 100%;
-        padding: 14rem 20rem;
-        font-size: 15rem;
-      }
-    }
-
-    .timelineMockup {
-      padding: 16rem 14rem;
-      border-radius: 10rem;
-
-      .timelineContainer {
-        min-width: 540rem;
-      }
-    }
+  .heroStepText {
+    align-items: center;
+    text-align: center;
   }
 
-  .featureSection {
-    padding-top: 48rem;
-    padding-bottom: 48rem;
+  /* MO 시안: 한 줄 유지 (자간 -1.28) */
+  .headingOneLine {
+    letter-spacing: -1.28rem;
+    white-space: nowrap;
+  }
 
-    :global(.header) {
-      :global(.title) {
-        font-size: 24rem;
-        line-height: 1.34;
-        margin-bottom: 14rem;
-      }
+  .heroStepLabel,
+  .heroStepDesc {
+    display: none;
+  }
 
-      :global(.description) {
-        font-size: 14rem;
-        line-height: 1.6;
-      }
-    }
+  .heroStepTitle {
+    @include text-body;
+    font-weight: var(--font-weight-bold);
+  }
 
-    .featureList {
-      margin-top: 24rem;
-      gap: 16rem;
+  /* 도식 MO 이미지(390 폭)는 카드 350 + 좌우 20 */
+  .diagram {
+    max-width: none;
 
-      .featureItem {
-        padding-bottom: 16rem;
-
-        .title {
-          font-size: 16rem;
-        }
-
-        .desc {
-          font-size: 13rem;
-        }
-      }
-    }
-
-    .mockupCard {
-      padding: 16rem 14rem;
-      border-radius: 10rem;
-
-      .mappingBody {
-        .mappingRow {
-          padding: 12rem;
-          gap: 12rem;
-
-          .infoTrackArea {
-            .metaLine {
-              flex-wrap: wrap;
-            }
-          }
-        }
-      }
+    img {
+      width: calc(100% * 390 / 350);
+      margin: calc(-15 / 350 * 100%) 0 calc(-36 / 350 * 100%) calc(-20 / 350 * 100%);
     }
   }
 }

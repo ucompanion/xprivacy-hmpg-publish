@@ -1,229 +1,584 @@
-@import '../../../assets/scss/variables';
-@import '../../../assets/scss/mixins';
+@use "@/assets/scss/variables" as *;
+@use "@/assets/scss/mixins" as *;
 
-/* --------------------------------------------------------------------------
-   Hero Section
--------------------------------------------------------------------------- */
+/* 미매핑 피그마 토큰 (프로젝트 토큰 없음 → 시안 값 사용)
+ * - Label/Field 14 SemiBold (체크 표시) / v2/Note 12 · 1.75 (각주)
+ * - 그림자 4px: 4 4 4 rgba(0,0,0,.1) / PoC 테두리 rgba(59,91,255,.25)
+ * - 도입 방식 아이콘 유리 효과는 Core IconSurface(tone soft · glyphFit fill)에서 관리 */
+$shadow-card: 4rem 4rem 4rem rgba(0, 0, 0, 0.1);
 
-/* --------------------------------------------------------------------------
-   Pricing Section
--------------------------------------------------------------------------- */
-.pricingSection {
-  padding: 80rem 0 120rem 0;
-  background-color: var(--color-white);
+@mixin label-field {
+  font-family: var(--font-family-base);
+  font-size: 14rem;
+  font-weight: 600;
+  line-height: normal;
 }
 
-.billingToggle {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 60rem;
-  margin-top: -120rem; // 위로 살짝 올려서 히어로와 겹치게 할 수 있음 (시안상 겹치진 않는듯 하여 0으로 둠)
-  margin-top: 0;
-
-  .toggleTrack {
-    display: inline-flex;
-    background-color: var(--color-white);
-    border: 1px solid var(--color-gray-200);
-    border-radius: 40rem;
-    padding: 6rem;
-    
-    button {
-      padding: 12rem 32rem;
-      border-radius: 40rem;
-      font-size: 16rem;
-      font-weight: 700;
-      color: var(--color-gray-500);
-      transition: all 0.2s ease-in-out;
-      background: none;
-      border: none;
-      cursor: pointer;
-      
-      &.active {
-        background-color: var(--color-primary-500);
-        color: var(--color-white);
-        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
-      }
-
-      &:hover:not(.active) {
-        color: var(--color-gray-900);
-      }
-    }
-  }
-}
-
-.pricingGrid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24rem;
-  text-align: left;
-  
-  .planCard {
-    background-color: var(--color-white);
-    border: 1px solid var(--color-gray-200);
-    border-radius: 16rem;
-    padding: 40rem 32rem;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.02);
-    position: relative;
-    transition: all 0.3s;
-    
-    &.highlight {
-      border: 2px solid var(--color-primary-500);
-      box-shadow: 0 12px 32px rgba(37, 99, 235, 0.1);
-    }
-
-    &:hover {
-      transform: translateY(-4rem);
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
-    }
-
-    .planHeader {
-      margin-bottom: 32rem;
-      
-      h3 {
-        font-size: 20rem;
-        font-weight: 700;
-        color: var(--color-gray-900);
-        margin-bottom: 8rem;
-      }
-      p {
-        font-size: 14rem;
-        color: var(--color-gray-500);
-      }
-    }
-
-    .planPrice {
-      margin-bottom: 32rem;
-      
-      h2 {
-        font-size: 32rem;
-        font-weight: 800;
-        color: var(--color-gray-900);
-        margin-bottom: 8rem;
-      }
-      p {
-        font-size: 14rem;
-        color: var(--color-gray-500);
-      }
-    }
-
-    .planFeatures {
-      margin-bottom: 40rem;
-      flex-grow: 1;
-      
-      ul {
-        display: flex;
-        flex-direction: column;
-        gap: 16rem;
-        list-style: none;
-        padding: 0;
-        margin: 0;
-        
-        li {
-          display: flex;
-          align-items: flex-start;
-          gap: 12rem;
-          font-size: 15rem;
-          color: var(--color-gray-700);
-          line-height: 1.5;
-          
-          .check {
-            color: var(--color-primary-500);
-            font-weight: 700;
-            margin-top: 2rem;
-          }
-        }
-      }
-    }
-  }
-}
-
-.outlineBtn {
+.pageWrap {
   width: 100%;
-  border-color: var(--color-gray-300) !important;
-  color: var(--color-gray-800) !important;
-  
-  &:hover {
-    background-color: var(--color-gray-50) !important;
+}
+
+/* --------------------------------------------------------------------------
+ * Hero (Figma PC 2156:30127 · BG 2523:12177 / Mobile 2156:31213)
+ * PC: 낮은 Hero 전용 배경(라인 제거, 1920×480)으로 교체
+ * MO: 공통 compact 모바일 배경과 동일 → 컴포넌트 기본값 유지
+ * -------------------------------------------------------------------------- */
+/* 여백: 컴포넌트 CSS 변수 옵션으로 시안 값 지정 (PC 158/100, MO 112/40) */
+.pricingHero {
+  --hero-compact-padding-bottom-pc: 100rem;
+  --hero-compact-padding-top-mo: 112rem;
+  --hero-compact-padding-bottom-mo: 40rem;
+}
+
+@media (min-width: 769px) {
+  .pageWrap > .pricingHero {
+    background-image: url('/images/product/pricing/hero_bg.jpg');
   }
 }
 
 /* --------------------------------------------------------------------------
-   Inquiry Section
--------------------------------------------------------------------------- */
-.inquirySection {
-  padding: 120rem 0;
-  background-color: var(--color-gray-50);
+ * 2. Trust / Logo Strip (Figma PC 2156:30142 / Mobile 2156:31227)
+ * PC: 8개 로고 132×40 균등 배치, 높이 137 / MO: 110×32, gap 32, 자동 가로 흐름
+ * -------------------------------------------------------------------------- */
+.logoStrip {
+  width: 100%;
+  overflow: hidden;
+  padding: 48rem 0;
+  box-sizing: border-box;
+  border-top: 1rem solid var(--color-border-default, #e8eaed);
+  border-bottom: 1rem solid var(--color-border-default, #e8eaed);
+  background-color: var(--color-surface-white, #ffffff);
 }
 
-.inquiryList {
+.logoTrack {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: var(--layout-container-max-width, 1280rem);
+  margin: 0 auto;
+  padding: 0 var(--layout-gutter, 20rem);
+  box-sizing: border-box;
+}
+
+.logoImg {
+  width: 132rem;
+  height: 40rem;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.logoClone {
+  display: none;
+}
+
+@keyframes logoFlow {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* --------------------------------------------------------------------------
+ * 3. 도입 방식 (Figma PC 2156:30157 / Mobile 2156:31242)
+ * 카드 3열 gap 24, padding 36 28, radius 12, 그림자 4px / 추천 카드 brand 2px 테두리
+ * -------------------------------------------------------------------------- */
+.deployWrap {
   display: flex;
   flex-direction: column;
-  gap: 16rem;
-  
-  .inquiryCard {
-    background-color: var(--color-white);
-    border-radius: 12rem;
-    padding: 32rem;
-    display: flex;
-    align-items: flex-start;
-    gap: 24rem;
-    transition: all 0.2s;
-    cursor: pointer;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.02);
+  gap: 60rem;
+  width: 100%;
+}
 
-    &:hover {
-      transform: translateY(-2rem);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
-      
-      .arrow {
-        transform: translateX(4rem);
-        color: var(--color-primary-500);
-      }
-    }
-    
-    .num {
-      font-size: 16rem;
-      font-weight: 700;
-      color: var(--color-primary-400);
-    }
-    
-    .text {
-      flex-grow: 1;
-      
-      h4 {
-        font-size: 18rem;
-        font-weight: 700;
-        color: var(--color-gray-900);
-        margin-bottom: 8rem;
-      }
-      p {
-        font-size: 14rem;
-        color: var(--color-gray-500);
-        line-height: 1.5;
-      }
-    }
-    
-    .arrow {
-      color: var(--color-gray-400);
-      font-size: 20rem;
-      transition: all 0.2s;
-    }
+.planCards {
+  display: flex;
+  align-items: flex-start;
+  gap: 24rem;
+}
+
+.planCard {
+  flex: 1 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 28rem;
+  min-width: 0;
+  padding: 36rem 28rem;
+  box-sizing: border-box;
+  border: 1rem solid var(--color-border-default, #e8eaed);
+  border-radius: 12rem;
+  background-color: var(--color-surface-white, #ffffff);
+  box-shadow: $shadow-card;
+
+  &.featured {
+    border: 2rem solid var(--color-brand-primary, #3b5bff);
   }
 }
 
+.planHead {
+  display: flex;
+  align-items: center;
+  gap: 12rem;
+}
+
+.planTitleGroup {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.planTitle {
+  @include text-subheading;
+  margin: 0;
+  color: var(--color-text-black, #000000);
+  white-space: nowrap;
+}
+
+.planTag {
+  @include text-body;
+  color: var(--color-text-gray-2, #5f6368);
+  white-space: nowrap;
+}
+
+.planPrice {
+  @include text-subheading;
+  margin: 0;
+  padding-bottom: 24rem;
+  border-bottom: 1rem solid var(--color-border-default, #e8eaed);
+  color: var(--color-text-black, #000000);
+}
+
+.checkList {
+  display: flex;
+  flex-direction: column;
+  gap: 12rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.checkItem {
+  @include text-body;
+  display: flex;
+  align-items: flex-start;
+  gap: 12rem;
+  color: var(--color-text-black, #000000);
+  word-break: keep-all;
+}
+
+.checkMark {
+  @include label-field;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 22rem;
+  height: 22rem;
+  border-radius: 12rem;
+  background-color: var(--color-surface-blue-subtle, #eef1ff);
+  color: var(--color-text-accent, #3b5bff);
+}
+
+.fullButton {
+  width: 100%;
+}
+
+/* PoC 카드 (Figma 2156:30254): surface-blue-soft, padding 32 40, gap 48, 체크 원 흰색 */
+.pocCard {
+  display: flex;
+  align-items: center;
+  gap: 48rem;
+  padding: 32rem 40rem;
+  box-sizing: border-box;
+  border: 1rem solid rgba(59, 91, 255, 0.25);
+  border-radius: 12rem;
+  background-color: var(--color-surface-blue-soft, #f4f9fe);
+  box-shadow: $shadow-card;
+
+  .checkMark {
+    background-color: var(--color-surface-white, #ffffff);
+  }
+}
+
+.pocList {
+  flex: 1 0 0;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 12rem 28rem;
+  min-width: 0;
+
+  .checkItem {
+    white-space: nowrap;
+  }
+}
+
+.pocButton {
+  flex-shrink: 0;
+  width: 200rem;
+}
+
 /* --------------------------------------------------------------------------
-   Mobile Responsive
--------------------------------------------------------------------------- */
-@media (max-width: 1024px) {
-  .pricingGrid {
-    grid-template-columns: 1fr;
-    max-width: 480rem;
-    margin: 0 auto;
+ * 4. 도입 절차 (Figma PC 2156:30292 / Mobile 2156:31377)
+ * PC: 4단계 타임라인, brand 2px 막대(시안 비율), gap 4 / MO: 행 리스트(번호·제목·기간)
+ * -------------------------------------------------------------------------- */
+.timeline {
+  display: flex;
+  align-items: flex-start;
+  gap: 4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.phase {
+  flex-basis: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8rem;
+  min-width: 0;
+}
+
+.phaseBar {
+  width: 100%;
+  height: 2rem;
+  border-radius: 5rem;
+  background-color: var(--color-brand-primary, #3b5bff);
+}
+
+.phaseNum {
+  @include text-body;
+  color: var(--color-text-accent, #3b5bff);
+}
+
+.phaseTitle {
+  @include text-subheading;
+  color: var(--color-text-black, #000000);
+  white-space: nowrap;
+}
+
+.phaseDuration {
+  @include text-body;
+  color: var(--color-text-gray-2, #5f6368);
+  white-space: nowrap;
+}
+
+/* --------------------------------------------------------------------------
+ * 5. 견적 산정 기준 (Figma PC 2156:30323 / Mobile 2156:31406)
+ * 비교표(헤더 surface-blue-soft, 행 padding 18 24) + 기준 카드(padding 12 32), 각주 12
+ * -------------------------------------------------------------------------- */
+.estimateWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 20rem;
+  width: 100%;
+}
+
+.estimateRow {
+  display: flex;
+  align-items: stretch;
+  gap: 24rem;
+}
+
+.compareTable {
+  flex: 576 0 0;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+  border: 1rem solid var(--color-border-default, #e8eaed);
+  border-radius: 12rem;
+  background-color: var(--color-surface-white, #ffffff);
+}
+
+.compareRow {
+  flex: 1 0 auto;
+  display: flex;
+  align-items: center;
+  padding: 18rem 24rem;
+  border-top: 1rem solid var(--color-border-default, #e8eaed);
+}
+
+.compareHead {
+  flex: 0 0 auto;
+  border-top: none;
+  background-color: var(--color-surface-blue-soft, #f4f9fe);
+
+  .compareLabel {
+    color: var(--color-text-gray-2, #5f6368);
+  }
+}
+
+.compareLabel {
+  @include text-body;
+  flex: 1 0 0;
+  min-width: 0;
+  color: var(--color-text-black, #000000);
+}
+
+.planCol {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  width: 150rem;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.planEn,
+.planSub {
+  @include text-body;
+  color: var(--color-text-gray-2, #5f6368);
+}
+
+.planKo {
+  @include text-subheading;
+  color: var(--color-text-black, #000000);
+}
+
+.tableCheck {
+  @include label-field;
+  color: var(--color-text-accent, #3b5bff);
+}
+
+.tableDash {
+  @include text-body;
+  color: var(--color-text-gray-2, #5f6368);
+}
+
+.criteriaCard {
+  flex: 640 0 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 0;
+  margin: 0;
+  padding: 12rem 32rem;
+  box-sizing: border-box;
+  border: 1rem solid var(--color-border-default, #e8eaed);
+  border-radius: 12rem;
+  background-color: var(--color-surface-white, #ffffff);
+}
+
+.criteriaItem {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  padding: 18rem 0;
+
+  & + & {
+    border-top: 1rem solid var(--color-border-default, #e8eaed);
   }
 
-  .inquirySection {
-    padding: 80rem 0;
+  dt,
+  dd {
+    @include text-body;
+    margin: 0;
+  }
+
+  dt {
+    color: var(--color-text-black, #000000);
+  }
+
+  dd {
+    color: var(--color-text-gray-2, #5f6368);
+  }
+}
+
+.estimateNote {
+  @include text-note;
+  margin: 0;
+  color: var(--color-text-gray-2, #5f6368);
+}
+
+/* --------------------------------------------------------------------------
+ * 6. 자주 묻는 질문 (Figma PC 2156:30379 / Mobile 2156:31462)
+ * 목록은 Core Accordion variant="line" + prefix="Q" 옵션 사용
+ * -------------------------------------------------------------------------- */
+.faqWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 60rem;
+  width: 100%;
+}
+
+/* Contact Bar: surface-gray, radius 12, padding 32 40 */
+.contactBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24rem;
+  padding: 32rem 40rem;
+  border-radius: 12rem;
+  background-color: var(--color-surface-gray, #f1f3f4);
+}
+
+.contactText {
+  display: flex;
+  flex-direction: column;
+  gap: 8rem;
+}
+
+.contactTitle {
+  @include text-subheading;
+  color: var(--color-text-black, #000000);
+}
+
+.contactInfo {
+  @include text-body;
+  color: var(--color-text-gray-2, #5f6368);
+}
+
+.contactButton {
+  flex-shrink: 0;
+  width: 200rem;
+}
+
+/* --------------------------------------------------------------------------
+ * Responsive
+ * -------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .planCards {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .pocCard {
+    flex-wrap: wrap;
+  }
+
+  .estimateRow {
+    flex-direction: column;
+  }
+
+  /* 세로 배치에서는 가로 비율(576:640) 대신 내용 높이 사용 */
+  .compareTable,
+  .criteriaCard {
+    flex: none;
+  }
+}
+
+/* 모바일 (Figma Mobile 2156:31212 · 390 기준) */
+@media (max-width: 768px) {
+  /* 로고: 110×32, gap 32, 자동 가로 흐름 (목록 2벌 이어붙여 -50% 이동) */
+  .logoStrip {
+    padding: 32rem 0;
+  }
+
+  .logoTrack {
+    justify-content: flex-start;
+    gap: 32rem;
+    width: max-content;
+    max-width: none;
+    margin: 0;
+    padding: 0 0 0 20rem;
+    animation: logoFlow 24s linear infinite;
+
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
+    }
+  }
+
+  .logoImg {
+    width: 110rem;
+    height: 32rem;
+  }
+
+  .logoClone {
+    display: block;
+  }
+
+  .deployWrap {
+    gap: 40rem;
+  }
+
+  .planCards {
+    gap: 12rem;
+  }
+
+  .planCard {
+    padding: 28rem 24rem;
+  }
+
+  .planTitleGroup {
+    gap: 8rem;
+  }
+
+  /* PoC: 세로 스택, padding 28 24, gap 20 */
+  .pocCard {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20rem;
+    padding: 28rem 24rem;
+  }
+
+  .pocList {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 12rem;
+
+    .checkItem {
+      white-space: normal;
+    }
+  }
+
+  .pocButton {
+    width: 100%;
+  }
+
+  /* 도입 절차: 행 리스트 (상단 border, padding 20 0, gap 12) */
+  .timeline {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .phase {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 12rem;
+    width: 100%;
+    padding: 20rem 0;
+    border-top: 1rem solid var(--color-border-default, #e8eaed);
+  }
+
+  .phaseBar {
+    display: none;
+  }
+
+  .phaseTitle {
+    flex: 1 0 0;
+    min-width: 0;
+  }
+
+  /* 견적: 비교표 3등분 열, padding 14 16 / 기준 카드 padding 8 32 */
+  .estimateRow {
+    gap: 12rem;
+  }
+
+  .compareRow {
+    padding: 14rem 16rem;
+  }
+
+  .planCol {
+    flex: 1 0 0;
+    width: auto;
+    min-width: 0;
+  }
+
+  .criteriaCard {
+    padding: 8rem 32rem;
+  }
+
+  /* FAQ */
+  .faqWrap {
+    gap: 40rem;
+  }
+
+  .contactBar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20rem;
+    padding: 24rem 20rem;
+  }
+
+  .contactButton {
+    width: 100%;
   }
 }

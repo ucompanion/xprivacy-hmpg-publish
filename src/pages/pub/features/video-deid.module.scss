@@ -1,594 +1,462 @@
-@import '../../../assets/scss/variables';
+@use "@/assets/scss/variables" as *;
+@use "@/assets/scss/mixins" as *;
+
+/* 미매핑 피그마 값 (프로젝트 토큰 없음 → 시안 값 사용)
+ * - accent/detection #3DB7FF (selected) · 흰색(detected): 탐지 박스 테두리·모서리·라벨
+ * - 얼굴 블러 backdrop-blur 4.5 / 3.5 · 히어로 모자이크 blur 7 · 타임라인 구간 #22C3D7
+ * - 히어로 사진 그림자 0 24 60 rgba(27,42,107,.12) / 칩·썸네일 레일 rgba(255,255,255,.92)
+ * - 탐지 라벨 Label/Eyebrow 12 ExtraBold · 자간 1.54 / 칩 16 SemiBold · 타임라인 13 SemiBold */
+$detect-color: #3db7ff;
+$timeline-color: #22c3d7;
+$arrow-color: #80878c; /* 가상 얼굴 화살표 (대응 토큰 없음) */
+
+/* 비주얼 내부 치수: 시안 px × --u (컨테이너 폭 ÷ 시안 프레임 폭) */
+@function u($px) {
+  @return calc(#{$px} * var(--u));
+}
 
 .pageWrap {
   width: 100%;
 }
 
 /* --------------------------------------------------------------------------
-   1. Hero Section (Light Background + Centered Layout)
--------------------------------------------------------------------------- */
-.heroSection {
-  padding-top: 100rem;
-  padding-bottom: 90rem;
-  background-color: var(--color-white);
-
-  :global(.header) {
-    align-items: center;
-    text-align: center;
-    margin-bottom: 32rem;
-
-    :global(.eyebrow) {
-      font-size: 13rem;
-      font-weight: 700;
-      color: #3b5bff;
-      letter-spacing: 0.12em;
-      margin-bottom: 16rem;
-      font-family: var(--font-family-mono);
-      text-transform: uppercase;
-    }
-
-    :global(.title) {
-      font-size: 44rem;
-      font-weight: 800;
-      color: #0b0c0e;
-      line-height: 1.28;
-      letter-spacing: -0.02em;
-      margin-bottom: 20rem;
-      word-break: keep-all;
-    }
-
-    :global(.description) {
-      font-size: 17rem;
-      color: #4b5563;
-      line-height: 1.65;
-      max-width: 680rem;
-      margin: 0 auto;
-      word-break: keep-all;
-    }
-  }
-
-  .heroAction {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 56rem;
-
-    .btnTrial {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 14rem 36rem;
-      font-size: 16rem;
-      font-weight: 600;
-      color: #ffffff;
-      background-color: #3b5bff;
-      border-radius: 8rem;
-      text-decoration: none;
-      transition: all 0.2s ease;
-      box-shadow: 0 4rem 14rem rgba(59, 91, 255, 0.28);
-
-      &:hover {
-        background-color: #2b46df;
-        transform: translateY(-1rem);
-        box-shadow: 0 6rem 20rem rgba(59, 91, 255, 0.35);
-      }
-    }
-  }
-
-  /* Dark UI Mockup Box */
-  .workspaceMockup {
-    max-width: 880rem;
-    margin: 0 auto;
-    background-color: #111315;
-    border-radius: 12rem;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    overflow: hidden;
-    box-shadow: 0 20rem 50rem rgba(0, 0, 0, 0.25);
-
-    .mockupHeader {
-      height: 44rem;
-      background-color: #16181b;
-      padding: 0 20rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-
-      .headerLeft {
-        display: flex;
-        align-items: center;
-        gap: 8rem;
-        font-size: 13rem;
-        font-weight: 600;
-        color: #e2e8f0;
-
-        .statusDot {
-          width: 7rem;
-          height: 7rem;
-          border-radius: 50%;
-          background-color: #10b981;
-          box-shadow: 0 0 8rem #10b981;
-        }
-      }
-
-      .headerRight {
-        font-size: 11rem;
-        font-family: var(--font-family-mono);
-        color: #71717a;
-        letter-spacing: 0.08em;
-      }
-    }
-
-    .mockupBody {
-      display: flex;
-      min-height: 380rem;
-
-      .videoArea {
-        flex: 1.8;
-        background-color: #0c0d0f;
-        position: relative;
-        padding: 20rem;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-        background-size: 24rem 24rem;
-
-        .videoTag {
-          font-size: 11rem;
-          font-family: var(--font-family-mono);
-          color: #71717a;
-          letter-spacing: 0.06em;
-          text-transform: uppercase;
-        }
-
-        .centerVisualGuide {
-          align-self: center;
-          width: 70%;
-          height: 180rem;
-          border: 1px dashed rgba(59, 91, 255, 0.35);
-          border-radius: 8rem;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background: rgba(59, 91, 255, 0.03);
-          position: relative;
-
-          .trackingBox {
-            position: absolute;
-            width: 70rem;
-            height: 90rem;
-            border: 2px solid #38bdf8;
-            border-radius: 4rem;
-            top: 25%;
-            left: 20%;
-            box-shadow: 0 0 12rem rgba(56, 189, 248, 0.35);
-
-            .trackLabel {
-              position: absolute;
-              top: -18rem;
-              left: -2px;
-              background-color: #38bdf8;
-              color: #0b0c0e;
-              font-size: 9rem;
-              font-weight: 700;
-              font-family: var(--font-family-mono);
-              padding: 1rem 4rem;
-              border-radius: 2rem 2rem 0 0;
-            }
-          }
-
-          .trackingBox2 {
-            position: absolute;
-            width: 60rem;
-            height: 80rem;
-            border: 2px solid #38bdf8;
-            border-radius: 4rem;
-            top: 30%;
-            right: 25%;
-            box-shadow: 0 0 12rem rgba(56, 189, 248, 0.35);
-
-            .trackLabel {
-              position: absolute;
-              top: -18rem;
-              left: -2px;
-              background-color: #38bdf8;
-              color: #0b0c0e;
-              font-size: 9rem;
-              font-weight: 700;
-              font-family: var(--font-family-mono);
-              padding: 1rem 4rem;
-              border-radius: 2rem 2rem 0 0;
-            }
-          }
-
-          .trackCenterText {
-            font-size: 12rem;
-            font-family: var(--font-family-mono);
-            color: rgba(255, 255, 255, 0.3);
-            letter-spacing: 0.1em;
-          }
-        }
-
-        .videoFooterBadge {
-          font-size: 11rem;
-          color: #71717a;
-          background-color: rgba(255, 255, 255, 0.05);
-          padding: 4rem 10rem;
-          border-radius: 4rem;
-          width: fit-content;
-        }
-      }
-
-      .controlSidebar {
-        width: 250rem;
-        background-color: #141619;
-        border-left: 1px solid rgba(255, 255, 255, 0.06);
-        padding: 24rem 20rem;
-        display: flex;
-        flex-direction: column;
-        gap: 24rem;
-
-        .groupBlock {
-          display: flex;
-          flex-direction: column;
-          gap: 12rem;
-
-          .groupTitle {
-            font-size: 10rem;
-            font-family: var(--font-family-mono);
-            font-weight: 700;
-            color: #71717a;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-          }
-
-          .targetRow {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-size: 13rem;
-            color: #d1d5db;
-
-            .onBadge {
-              font-size: 11rem;
-              font-weight: 700;
-              font-family: var(--font-family-mono);
-              color: #38bdf8;
-            }
-          }
-
-          .radioRow {
-            display: flex;
-            align-items: center;
-            gap: 10rem;
-            font-size: 13rem;
-            color: #9ca3af;
-            cursor: pointer;
-
-            &.active {
-              color: #ffffff;
-              font-weight: 600;
-            }
-
-            .radioDot {
-              width: 14rem;
-              height: 14rem;
-              border-radius: 50%;
-              border: 1.5px solid #4b5563;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-
-              &.checked {
-                border-color: #3b5bff;
-                background-color: #3b5bff;
-
-                &::after {
-                  content: '';
-                  width: 5rem;
-                  height: 5rem;
-                  border-radius: 50%;
-                  background-color: #ffffff;
-                }
-              }
-            }
-          }
-
-          .reviewRow {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-size: 13rem;
-            color: #9ca3af;
-
-            .count {
-              font-family: var(--font-family-mono);
-              font-weight: 700;
-              color: #e5e7eb;
-            }
-          }
-        }
-      }
-    }
-  }
+ * 1. Hero (Figma PC 2280:2796 / Mobile 2286:64089)
+ * 가운데 정렬 · 위아래 120 (MO 80) · 문구 → 48 → 처리 예시 사진 1240×560 (MO 350×240)
+ * -------------------------------------------------------------------------- */
+.videoHero {
+  --hero-compact-padding-top-pc: 120rem;
+  --hero-compact-padding-bottom-pc: 120rem;
+  --hero-compact-padding-top-mo: 80rem;
+  --hero-compact-padding-bottom-mo: 80rem;
 }
 
-/* --------------------------------------------------------------------------
-   2. Alternating Feature Sections (Section 1 ~ 5)
--------------------------------------------------------------------------- */
-.featureSection {
-  padding-top: 100rem;
-  padding-bottom: 100rem;
+/* 설명 폭: 시안 900 (컴포넌트 기본 640) */
+.pageWrap > .videoHero.videoHero h2 + p {
+  max-width: 900rem !important;
+}
 
-  :global(.header) {
-    :global(.eyebrow) {
-      font-size: 13rem;
-      font-weight: 700;
-      color: #3b5bff;
-      letter-spacing: 0.12em;
-      margin-bottom: 14rem;
-      font-family: var(--font-family-mono);
-      text-transform: uppercase;
-    }
+/* 헤더 묶음 폭: 컴포넌트 기본 774 → 설명 900이 들어가도록 1240 */
+.pageWrap > .videoHero.videoHero div:has(> h2 + p) {
+  max-width: 1240rem !important;
+}
 
-    :global(.title) {
-      font-size: 38rem;
-      font-weight: 800;
-      color: #0b0c0e;
-      line-height: 1.32;
-      letter-spacing: -0.02em;
-      margin-bottom: 20rem;
-      word-break: keep-all;
-    }
+.heroPhoto {
+  --u: calc(100cqw / 1240);
 
-    :global(.description) {
-      font-size: 16rem;
-      color: #4b5563;
-      line-height: 1.65;
-      word-break: keep-all;
-    }
-  }
+  position: relative;
+  width: 100%;
+  max-width: 1240rem;
+  margin: -12rem auto 0; /* 섹션 콘텐츠 간격 60 → 시안 48 */
+  aspect-ratio: 1240 / 560;
+  overflow: hidden;
+  border-radius: 12rem;
+  box-shadow: 0 24rem 60rem rgba(27, 42, 107, 0.12);
+  container-type: inline-size;
+}
 
-  /* List of 3 key sub-features */
-  .featureList {
-    display: flex;
-    flex-direction: column;
-    gap: 28rem;
-    margin-top: 40rem;
+/* 원본 비율(1152×928) 캔버스를 폭에 맞춰 세로 가운데 배치 → 오버레이를 사진 좌표에 고정 */
+.heroCanvas {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  aspect-ratio: 1152 / 928;
+  transform: translateY(-50%);
 
-    .featureItem {
-      display: flex;
-      flex-direction: column;
-      gap: 6rem;
-      position: relative;
-      padding-bottom: 24rem;
-      border-bottom: 1px solid var(--color-gray-200);
-
-      &:last-child {
-        border-bottom: none;
-        padding-bottom: 0;
-      }
-
-      .num {
-        font-size: 13rem;
-        font-weight: 700;
-        color: #3b5bff;
-        font-family: var(--font-family-mono);
-        line-height: 1;
-        margin-bottom: 2rem;
-      }
-
-      .title {
-        font-size: 18rem;
-        font-weight: 700;
-        color: #0b0c0e;
-        margin: 0;
-        line-height: 1.4;
-      }
-
-      .desc {
-        font-size: 14rem;
-        color: #64748b;
-        line-height: 1.65;
-        margin: 0;
-        word-break: keep-all;
-      }
-    }
-  }
-
-  /* Visual Container Box */
-  .visualCard {
+  > img {
+    display: block;
     width: 100%;
-    aspect-ratio: 1 / 1;
-    max-width: 520rem;
-    border-radius: 20rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+  }
 
-    &:hover {
-      transform: translateY(-2rem);
-    }
+}
 
-    /* Style for White Visual Box (used on Gray Section 1, 3, 5) */
-    &.visualWhite {
-      background-color: #ffffff;
-      border: 1.5px dashed #d5d9df;
-      box-shadow: 0 10rem 30rem rgba(0, 0, 0, 0.04);
-    }
+.heroMosaic {
+  position: absolute;
+  border-radius: u(6);
+  background-color: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(u(7));
+}
 
-    /* Style for Gray Visual Box (used on White Section 2, 4) */
-    &.visualGray {
-      background-color: #f1f3f4;
-      border: 1px solid #e2e8f0;
-      box-shadow: 0 10rem 30rem rgba(0, 0, 0, 0.03);
-    }
+/* 칩: 24,24 · padding 10 16 · gap 8 · 16 SemiBold (MO 12,12 · padding 5 8 · 12) */
+.heroChip {
+  position: absolute;
+  top: 24rem;
+  left: 24rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 8rem;
+  padding: 10rem 16rem;
+  border-radius: 999rem;
+  background-color: rgba(255, 255, 255, 0.92);
+  color: var(--color-text-black);
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-body, 16rem);
+  font-weight: var(--font-weight-semibold, 600);
+  line-height: normal;
+  white-space: nowrap;
 
-    .visualWatermark {
-      font-size: 13rem;
-      font-weight: 700;
-      color: #94a3b8;
-      font-family: var(--font-family-mono);
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      text-align: center;
-    }
+  img {
+    width: 8rem;
+    height: 8rem;
   }
 }
 
 /* --------------------------------------------------------------------------
-   3. Responsive Breakpoints
--------------------------------------------------------------------------- */
-@media (max-width: 1024px) {
-  .heroSection {
-    padding-top: 70rem;
-    padding-bottom: 60rem;
+ * 2~6. 좌우 분할 섹션 (비주얼 560×490 · 텍스트 열 flex 1 · 사이 100 · 위 정렬)
+ * DOM은 비주얼 → 글 (MO 순서), PC 2·4번째는 row-reverse로 비주얼 오른쪽
+ * -------------------------------------------------------------------------- */
+.split {
+  display: flex;
+  align-items: flex-start;
+  gap: 100rem;
+}
 
-    :global(.header) {
-      :global(.title) {
-        font-size: 34rem;
-      }
+.reverse {
+  flex-direction: row-reverse;
+}
 
-      :global(.description) {
-        font-size: 15rem;
-      }
-    }
+.copy {
+  flex: 1 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24rem;
+  min-width: 0;
+}
 
-    .workspaceMockup {
-      .mockupBody {
-        flex-direction: column;
+.intro {
+  display: flex;
+  flex-direction: column;
+}
 
-        .videoArea {
-          min-height: 240rem;
-        }
+.eyebrow {
+  @include text-body;
+  color: var(--color-text-gray-2);
+}
 
-        .controlSidebar {
-          width: 100%;
-          border-left: none;
-          border-top: 1px solid rgba(255, 255, 255, 0.06);
-          padding: 20rem;
-        }
-      }
-    }
+.heading {
+  @include text-section;
+  margin: 12rem 0 0;
+  color: var(--color-text-black);
+}
+
+.lead {
+  @include text-body;
+  margin: 24rem 0 0;
+  color: var(--color-text-gray-1);
+  word-break: keep-all;
+}
+
+/* List Item (Number): 상단 border · padding 24 0 · 번호 → 40 → 제목/설명(gap 6) */
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.listItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 40rem;
+  padding: 24rem 0;
+  border-top: 1rem solid var(--color-border-default);
+}
+
+.listNum {
+  @include text-body;
+  flex-shrink: 0;
+  color: var(--color-text-gray-2);
+}
+
+.listText {
+  display: flex;
+  flex: 1 0 0;
+  flex-direction: column;
+  gap: 6rem;
+  min-width: 0;
+}
+
+.listTitle {
+  @include text-subheading;
+  margin: 0;
+  color: var(--color-text-black);
+}
+
+.listDesc {
+  @include text-body;
+  margin: 0;
+  color: var(--color-text-gray-1);
+  word-break: keep-all;
+}
+
+.note {
+  @include text-note;
+  margin: 0;
+  color: var(--color-text-gray-2);
+}
+
+/* 비주얼 프레임 560×490 · radius 12 */
+.visual {
+  --u: calc(100cqw / 560);
+
+  position: relative;
+  flex-shrink: 0;
+  width: 560rem;
+  aspect-ratio: 560 / 490;
+  overflow: hidden;
+  border-radius: 12rem;
+  container-type: inline-size;
+}
+
+.cover {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.faceBlur {
+  position: absolute;
+  border-radius: u(4);
+  background-color: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(u(4.5));
+}
+
+.faceBlurSoft {
+  backdrop-filter: blur(u(3.5));
+}
+
+.plateMask {
+  position: absolute;
+  border-radius: u(3);
+  background-color: var(--color-text-gray-2);
+}
+
+/* Detection Box: 테두리 1 + 모서리 14 (선 3) + 라벨(기본 left -1 · top -25) */
+.detectionBox {
+  --tone: #{$detect-color};
+
+  position: absolute;
+  border: u(1) solid var(--tone);
+}
+
+.toneDetected {
+  --tone: var(--color-surface-white);
+}
+
+.corner {
+  position: absolute;
+  width: u(14);
+  height: u(14);
+  border: 0 solid var(--tone);
+
+  &:nth-child(1) {
+    top: u(-2);
+    left: u(-2);
+    border-top-width: u(3);
+    border-left-width: u(3);
   }
 
-  .featureSection {
-    padding-top: 60rem;
-    padding-bottom: 60rem;
+  &:nth-child(2) {
+    top: u(-2);
+    right: u(-2);
+    border-top-width: u(3);
+    border-right-width: u(3);
+  }
 
-    /* CRITICAL MOBILE SPEC: Visual Box must be on TOP in ALL sections on Mobile! */
-    :global(.container) {
-      display: flex;
-      flex-direction: column;
+  &:nth-child(3) {
+    bottom: u(-2);
+    left: u(-2);
+    border-bottom-width: u(3);
+    border-left-width: u(3);
+  }
 
-      :global(.content) {
-        order: 1;
-        width: 100%;
-        margin-bottom: 36rem;
-      }
-
-      :global(.sectionHeader) {
-        order: 2;
-        width: 100%;
-      }
-    }
-
-    .visualCard {
-      max-width: 100%;
-      aspect-ratio: 16 / 12;
-      border-radius: 16rem;
-    }
+  &:nth-child(4) {
+    right: u(-2);
+    bottom: u(-2);
+    border-right-width: u(3);
+    border-bottom-width: u(3);
   }
 }
 
-@media (max-width: 768px) {
-  .heroSection {
-    padding-top: 50rem;
-    padding-bottom: 50rem;
+.detectionLabel {
+  position: absolute;
+  top: calc(var(--label-y, -25) * var(--u));
+  left: calc(var(--label-x, -1) * var(--u));
+  padding: u(3) u(6);
+  background-color: var(--tone);
+  color: var(--color-text-black);
+  font-family: var(--font-family-base);
+  font-size: u(12);
+  font-weight: 800;
+  line-height: normal;
+  letter-spacing: u(1.54);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
 
-    :global(.header) {
-      :global(.title) {
-        font-size: 26rem;
-        line-height: 1.34;
-        margin-bottom: 14rem;
-      }
+/* 가상 얼굴: 회색 패널 · 사진 232×290 radius 12 · 라벨 Note 12 · 화살표 20 Bold */
+.facePanel {
+  background-color: var(--color-surface-gray);
+}
 
-      :global(.description) {
-        font-size: 14rem;
-        line-height: 1.6;
-      }
-    }
+.facePhoto {
+  position: absolute;
+  overflow: hidden;
+  border-radius: u(12);
 
-    .heroAction {
-      margin-bottom: 36rem;
+  img {
+    position: absolute;
+    max-width: none;
+  }
+}
 
-      .btnTrial {
-        width: 100%;
-        padding: 14rem 20rem;
-        font-size: 15rem;
-      }
-    }
+.faceLabel {
+  position: absolute;
+  color: var(--color-text-gray-2);
+  font-family: var(--font-family-base);
+  font-size: u(12);
+  line-height: 1.75;
+  text-align: center;
+}
 
-    .workspaceMockup {
-      border-radius: 10rem;
+.faceLabelAccent {
+  color: var(--color-primary);
+}
 
-      .mockupHeader {
-        padding: 0 14rem;
-      }
+.faceArrow {
+  position: absolute;
+  color: $arrow-color;
+  font-family: var(--font-family-base);
+  font-size: u(20);
+  font-weight: var(--font-weight-bold);
+  line-height: normal;
+  text-align: center;
+}
 
-      .mockupBody {
-        .videoArea {
-          padding: 14rem;
+/* 등장인물 썸네일 레일: 304,418 · padding 8 · gap 6 · radius 8 / 썸네일 40 radius 6 (선택 2px primary) */
+.peopleRail {
+  position: absolute;
+  top: u(418);
+  left: u(304);
+  display: flex;
+  gap: u(6);
+  padding: u(8);
+  border-radius: u(8);
+  background-color: rgba(255, 255, 255, 0.92);
+}
 
-          .centerVisualGuide {
-            width: 90%;
-            height: 140rem;
-          }
-        }
-      }
-    }
+.thumb {
+  position: relative;
+  width: u(40);
+  height: u(40);
+  overflow: hidden;
+  border-radius: u(6);
+
+  img {
+    position: absolute;
+    max-width: none;
+  }
+}
+
+.thumbActive::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: u(2) solid var(--color-primary);
+  border-radius: inherit;
+}
+
+/* 타임라인 검수: 16,425 · 검정 60% · padding 10 14 · gap 8 · 막대 500×8 */
+.timeline {
+  position: absolute;
+  top: u(425);
+  left: u(16);
+  display: flex;
+  flex-direction: column;
+  gap: u(8);
+  padding: u(10) u(14);
+  border-radius: u(8);
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.timelineTitle {
+  color: var(--color-text-inverse);
+  font-family: var(--font-family-base);
+  font-size: u(13);
+  font-weight: var(--font-weight-semibold, 600);
+  line-height: normal;
+  white-space: nowrap;
+}
+
+.timelineBar {
+  position: relative;
+  width: u(500);
+  height: u(8);
+  border-radius: u(4);
+  background-color: rgba(255, 255, 255, 0.25);
+
+  > span {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    border-radius: u(4);
+    background-color: $timeline-color;
   }
 
-  .featureSection {
-    padding-top: 48rem;
-    padding-bottom: 48rem;
+  .playhead {
+    top: u(-5);
+    left: 66%;
+    width: u(2);
+    height: u(18);
+    border-radius: 0;
+    background-color: var(--color-surface-white);
+  }
+}
 
-    :global(.header) {
-      :global(.title) {
-        font-size: 24rem;
-        line-height: 1.34;
-        margin-bottom: 14rem;
-      }
+/* --------------------------------------------------------------------------
+ * Responsive
+ * -------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .split,
+  .reverse {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 40rem;
+  }
 
-      :global(.description) {
-        font-size: 14rem;
-        line-height: 1.6;
-      }
-    }
+  .visual {
+    width: 100%;
+  }
+}
 
-    .featureList {
-      margin-top: 24rem;
-      gap: 16rem;
+/* 모바일 (Figma Mobile 2286:3761 · 390 기준) */
+@media (max-width: 768px) {
+  /* 히어로 사진 350×240 · 탐지 박스 선은 시안 MO 0.45 배율 */
+  .heroPhoto {
+    --u: 0.45px;
 
-      .featureItem {
-        padding-bottom: 16rem;
+    margin-top: 0; /* MO 섹션 콘텐츠 간격 40 = 시안 */
+    aspect-ratio: 350 / 240;
+    box-shadow: 0 6.774rem 16.935rem rgba(27, 42, 107, 0.12);
+  }
 
-        .title {
-          font-size: 16rem;
-        }
+  .heroMosaic {
+    border-radius: 1.694rem;
+    backdrop-filter: blur(1.976rem);
+  }
 
-        .desc {
-          font-size: 13rem;
-        }
-      }
-    }
+  .heroChip {
+    top: 12rem;
+    left: 12rem;
+    gap: 4rem;
+    padding: 5rem 8rem;
+    font-size: 12rem;
 
-    .visualCard {
-      aspect-ratio: 16 / 12;
-      border-radius: 12rem;
+    img {
+      width: 4rem;
+      height: 4rem;
     }
   }
 }

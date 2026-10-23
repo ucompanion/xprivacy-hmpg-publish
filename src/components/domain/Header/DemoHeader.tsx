@@ -55,7 +55,7 @@ export const DemoHeader: React.FC = () => {
               Technology
             </Link>
             <Link
-              to="/pub/solutions/broadcasting"
+              to="/pub/solutions"
               className={`${styles.nav_link} ${isActive('/pub/solutions') ? styles.active : ''}`}
             >
               Solutions
@@ -127,7 +127,7 @@ export const DemoHeader: React.FC = () => {
               Technology
             </Link>
             <Link
-              to="/pub/solutions/broadcasting"
+              to="/pub/solutions"
               className={isActive('/pub/solutions') ? styles.active : ''}
               onClick={closeMobileMenu}
             >

@@ -1,0 +1,333 @@
+@use "@/assets/scss/variables" as *;
+@use "@/assets/scss/mixins" as *;
+
+/* 블로그 상세 (Figma PC 2435:4286 외 4개 케이스 / Mobile 기본 포맷 2436:5308)
+ * 미매핑 피그마 값: MO 표 글자 14 (프로젝트 타이포 단계 12/16에 없음) */
+$table-font-size-mo: 14rem;
+
+.blogDetail {
+  width: 100%;
+}
+
+/* --------------------------------------------------------------------------
+ * 1. 글 머리: 왼쪽 정렬 · PC 위 193(헤더 포함) · 아래 80 / MO 위 152 · 아래 56
+ * 카테고리 Note gray-2 → 16 → 제목 (PC Hero 50 / MO Section 32)
+ * -------------------------------------------------------------------------- */
+.articleHero {
+  --hero-compact-padding-top-pc: 193rem;
+  --hero-compact-padding-bottom-pc: 80rem;
+  --hero-compact-padding-top-mo: 152rem;
+  --hero-compact-padding-bottom-mo: 56rem;
+}
+
+.heroCategory.heroCategory {
+  @include text-note;
+  color: var(--color-text-gray-2);
+  text-transform: none;
+}
+
+.heroTitle.heroTitle {
+  @include text-hero;
+  word-break: keep-all;
+
+  @media (max-width: 768px) {
+    @include text-section-mo;
+  }
+}
+
+/* --------------------------------------------------------------------------
+ * 2. 본문: 위 80 (MO 56) · 묶음 사이 60 (MO 40) · 묶음 안 24
+ * -------------------------------------------------------------------------- */
+.blogDetail > .articleSection.articleSection {
+  padding-top: 80rem;
+
+  @media (max-width: 768px) {
+    padding-top: 56rem;
+  }
+}
+
+.article {
+  display: flex;
+  flex-direction: column;
+  gap: 60rem;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 24rem;
+}
+
+/* 표지: 1240 × 531 비율 (그림 자체에 둥근 모서리 포함) */
+.cover {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1240 / 531;
+}
+
+.paragraph {
+  @include text-body;
+  margin: 0;
+  color: var(--color-text-gray-1);
+  word-break: keep-all;
+
+  strong {
+    color: var(--color-text-black);
+    font-weight: var(--font-weight-bold);
+  }
+}
+
+/* 소제목: PC 32 (MO 20) · 참고 자료 제목 20 */
+.heading {
+  @include text-section-mo;
+  margin: 0;
+  color: var(--color-text-black);
+  word-break: keep-all;
+}
+
+.subHeading {
+  @include text-subheading;
+  margin: 0;
+  color: var(--color-text-black);
+}
+
+/* 표: 테두리 · radius 12 · 머리줄 회색 · 칸 padding 14 16 · 칸 사이 선 */
+.tableWrap {
+  overflow: hidden;
+  border: 1rem solid var(--color-border-default);
+  border-radius: 12rem;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+
+  th,
+  td {
+    padding: 14rem 16rem;
+    border-right: 1rem solid var(--color-border-default);
+    border-bottom: 1rem solid var(--color-border-default);
+    text-align: left;
+    vertical-align: top;
+    word-break: keep-all;
+
+    &:last-child {
+      border-right: 0;
+    }
+  }
+
+  tbody tr:last-child td {
+    border-bottom: 0;
+  }
+
+  th {
+    @include text-body;
+    background-color: var(--color-surface-gray);
+    color: var(--color-text-black);
+    font-weight: var(--font-weight-bold);
+    line-height: 1.6;
+  }
+
+  td {
+    @include text-body;
+    color: var(--color-text-gray-1);
+  }
+}
+
+/* 번호 목록: 항목 사이 12 · 번호 → 8 → 글 · Body gray-1 */
+.orderedList {
+  display: flex;
+  flex-direction: column;
+  gap: 12rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: blog-step;
+
+  li {
+    @include text-body;
+    display: flex;
+    gap: 8rem;
+    color: var(--color-text-gray-1);
+    word-break: keep-all;
+    counter-increment: blog-step;
+
+    &::before {
+      content: counter(blog-step) ".";
+      flex-shrink: 0;
+    }
+
+    strong {
+      color: var(--color-text-black);
+      font-weight: var(--font-weight-bold);
+    }
+  }
+}
+
+/* 참고 자료: 항목 사이 8 · "•" → 링크(primary) — 설명(gray-1) */
+.references {
+  display: flex;
+  flex-direction: column;
+  gap: 8rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    @include text-body;
+    color: var(--color-text-gray-1);
+    word-break: keep-all;
+
+    &::before {
+      content: "•";
+      margin-right: 8rem;
+    }
+  }
+}
+
+.referenceLink {
+  color: var(--color-text-accent);
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+/* 글 끝: 위 선 → 32 → 목록으로 버튼 (Secondary 200 × 56) */
+.articleFooter {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-top: 32rem;
+  border-top: 1rem solid var(--color-border-default);
+}
+
+.listButton.listButton {
+  width: 200rem;
+  background-color: var(--color-surface-white);
+  font-weight: var(--font-weight-semibold, 600);
+}
+
+/* --------------------------------------------------------------------------
+ * 3. 다른 글: 제목 줄 (Section 32 / 목록으로 Body gray-2) → 60 → 목록 (구분선)
+ * 줄: padding 28 32 · 글 묶음(카테고리 primary → 8 → 제목 Subheading) → 24 → 화살표 24
+ * -------------------------------------------------------------------------- */
+.others {
+  display: flex;
+  flex-direction: column;
+  gap: 60rem;
+}
+
+.othersHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.othersTitle {
+  @include text-section-mo;
+  margin: 0;
+  color: var(--color-text-black);
+}
+
+.othersListLink {
+  @include text-body;
+  color: var(--color-text-gray-2);
+  text-decoration: none;
+
+  &:hover {
+    color: var(--color-text-black);
+  }
+}
+
+.otherList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li + li {
+    border-top: 1rem solid var(--color-border-default);
+  }
+}
+
+.otherRow {
+  display: flex;
+  align-items: center;
+  gap: 24rem;
+  padding: 28rem 32rem;
+  color: inherit;
+  text-decoration: none;
+
+  &:hover .otherTitle {
+    color: var(--color-text-accent);
+  }
+}
+
+.otherText {
+  display: flex;
+  flex: 1 0 0;
+  flex-direction: column;
+  gap: 8rem;
+  min-width: 0;
+}
+
+.otherCategory {
+  @include text-note;
+  color: var(--color-text-accent);
+}
+
+.otherTitle {
+  @include text-subheading;
+  color: var(--color-text-black);
+  word-break: keep-all;
+}
+
+.otherArrow {
+  flex-shrink: 0;
+  width: 24rem;
+  height: 24rem;
+}
+
+/* --------------------------------------------------------------------------
+ * 모바일 (Figma Mobile 2436:5308 · 390 기준)
+ * -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+  .article {
+    gap: 40rem;
+  }
+
+  .heading,
+  .othersTitle {
+    @include text-subheading;
+  }
+
+  /* 표: 칸 padding 12 10 · 글자 14 */
+  .table {
+    th,
+    td {
+      padding: 12rem 10rem;
+      font-size: $table-font-size-mo;
+      line-height: 1.6;
+    }
+  }
+
+  .listButton.listButton {
+    width: 100%;
+  }
+
+  .others {
+    gap: 40rem;
+  }
+
+  /* 줄: padding 28 24 · 화살표 숨김 (시안 글 폭 302) */
+  .otherRow {
+    padding: 28rem 24rem;
+  }
+
+  .otherArrow {
+    display: none;
+  }
+}

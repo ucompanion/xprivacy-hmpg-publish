@@ -1,7 +1,26 @@
-@import '../../../assets/scss/variables';
+@use "@/assets/scss/variables" as *;
+@use "@/assets/scss/mixins" as *;
 
 .introWrap {
   width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+.pcBr {
+  display: block;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+.mobileBr {
+  display: none;
+
+  @media (max-width: 768px) {
+    display: block;
+  }
 }
 
 /* ---------------------------------
@@ -10,28 +29,28 @@
 .heroActions {
   display: flex;
   justify-content: center;
-  gap: 16rem;
+  gap: var(--spacing-16, 16rem);
   margin-top: 36rem;
   margin-bottom: 64rem;
 
   .btnSolid {
     min-width: 160rem;
     height: 52rem;
-    font-size: 16rem;
-    font-weight: 700;
+    @include text-body;
+    font-weight: var(--font-weight-bold);
   }
 
   .btnOutline {
     min-width: 160rem;
     height: 52rem;
-    font-size: 16rem;
-    font-weight: 700;
+    @include text-body;
+    font-weight: var(--font-weight-bold);
     border-color: rgba(255, 255, 255, 0.4) !important;
-    color: var(--color-white) !important;
+    color: var(--color-text-inverse) !important;
 
     &:hover {
       background-color: rgba(255, 255, 255, 0.1) !important;
-      border-color: var(--color-white) !important;
+      border-color: var(--color-border-inverse) !important;
     }
   }
 }
@@ -40,35 +59,52 @@
   width: 100%;
   display: flex;
   justify-content: center;
-  margin-bottom: 30rem;
 }
 
 .heroMock {
   position: relative;
   width: 100%;
-  max-width: 900rem;
-  aspect-ratio: 16 / 9;
-  background-image: url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1600&q=80');
-  background-size: cover;
-  background-position: center;
+  max-width: 1240rem;
+  aspect-ratio: 1240 / 560;
+  background-color: #0b1426;
   border-radius: 16rem;
   overflow: hidden;
-  box-shadow: 0 20rem 50rem rgba(0, 0, 0, 0.5);
+  user-select: none;
+  -webkit-user-select: none;
 
-  /* 오른쪽 반투명 + 블러 처리 */
-  &::before {
-    content: '';
+  /* 1. Base Layer (Original Image) & 2. Top Layer (Compare Image) */
+  .imageOriginal,
+  .imageCompare {
     position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 50%;
-    backdrop-filter: blur(10px);
-    background-color: rgba(255, 255, 255, 0.04);
-    z-index: 2;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
   }
 
-  .mockTagLeft, .mockTagRight {
+  .imageOriginal {
+    z-index: 1;
+  }
+
+  .imageCompare {
+    z-index: 2;
+    will-change: clip-path;
+  }
+
+  .visualImg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+
+  /* 3. Original & Compare Status Badges */
+  .mockTagLeft,
+  .mockTagRight {
     position: absolute;
     top: 20rem;
     padding: 6rem 14rem;
@@ -76,77 +112,31 @@
     font-weight: 700;
     border-radius: 4rem;
     z-index: 5;
+    pointer-events: none;
   }
-  
+
   .mockTagLeft {
     left: 20rem;
     background-color: rgba(0, 0, 0, 0.65);
     color: var(--color-white);
   }
-  
+
   .mockTagRight {
     right: 20rem;
     background-color: var(--color-primary);
     color: var(--color-white);
   }
 
-  /* 탐지 바운딩 박스 오버레이 (오른쪽 영역) */
-  .detectBoxCenter {
-    position: absolute;
-    top: 32%;
-    left: 53%;
-    width: 72rem;
-    height: 84rem;
-    border: 2rem solid var(--color-white);
-    border-radius: 4rem;
-    z-index: 4;
-  }
-
-  .detectBoxRight {
-    position: absolute;
-    top: 24%;
-    right: 18%;
-    width: 80rem;
-    height: 96rem;
-    border: 2rem solid var(--color-white);
-    border-radius: 4rem;
-    z-index: 4;
-  }
-
-  .detectBoxTopRight {
-    position: absolute;
-    top: 18%;
-    right: 28%;
-    width: 44rem;
-    height: 52rem;
-    border: 1.5rem solid rgba(255, 255, 255, 0.7);
-    border-radius: 4rem;
-    z-index: 4;
-  }
-
-  .detectTag {
-    position: absolute;
-    top: -20rem;
-    left: 50%;
-    transform: translateX(-50%);
-    background: var(--color-white);
-    color: #0f172a;
-    font-size: 11rem;
-    font-weight: 700;
-    padding: 2rem 6rem;
-    border-radius: 3rem;
-    white-space: nowrap;
-  }
-
-  /* 중앙 비교 슬라이더 */
+  /* 4. 중앙 비교 슬라이더 라인 & 직접 드래그 버튼 핸들 */
   .mockSlider {
     position: absolute;
     top: 0;
     bottom: 0;
-    left: 50%;
     width: 2rem;
     z-index: 6;
-    
+    pointer-events: none;
+    transform: translateX(-50%);
+
     .mockSliderLine {
       position: absolute;
       top: 0;
@@ -156,377 +146,376 @@
       background-color: var(--color-white);
       box-shadow: 0 0 12rem rgba(0, 0, 0, 0.4);
     }
-    
+
     .mockSliderHandle {
       position: absolute;
       top: 50%;
       left: 1rem;
       transform: translate(-50%, -50%);
-      width: 40rem;
-      height: 40rem;
+      width: 44rem;
+      height: 44rem;
+      padding: 0;
+      margin: 0;
+      border: none;
+      outline: none;
       background-color: var(--color-white);
       border-radius: 50%;
-      box-shadow: 0 4rem 16rem rgba(0, 0, 0, 0.35);
+      box-shadow: 0 4rem 18rem rgba(0, 0, 0, 0.35);
       display: flex;
       align-items: center;
       justify-content: center;
+      gap: 2rem;
+      color: #334155;
+      cursor: grab;
+      touch-action: none;
+      pointer-events: auto;
+      user-select: none;
+      -webkit-user-select: none;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
 
-      .handleDots {
-        color: #475569;
-        font-weight: 900;
-        font-size: 15rem;
-        letter-spacing: 2rem;
-        padding-left: 2rem;
+      &:hover {
+        transform: translate(-50%, -50%) scale(1.06);
+        box-shadow: 0 6rem 22rem rgba(0, 0, 0, 0.45);
+      }
+
+      &:active,
+      &.isDragging {
+        cursor: grabbing;
+        transform: translate(-50%, -50%) scale(1.08);
+        box-shadow: 0 6rem 24rem rgba(37, 99, 235, 0.45);
+      }
+
+      &:focus-visible {
+        outline: 2rem solid var(--color-primary);
+        outline-offset: 2rem;
       }
     }
   }
 }
 
 /* ---------------------------------
- * 1.1 Standalone Client Logos Bar (Full-width White Strip)
+ * 1.1 Standalone Client Logos Bar (Figma v2 Trust / Logo Strip - Node 2156:29986)
+ * Height: 137rem, Background: #ffffff, 8 logos evenly distributed in 1240rem container
  * --------------------------------- */
 .partnerBar {
   width: 100%;
-  background-color: var(--color-white);
-  border-bottom: 1px solid var(--color-gray-100);
-  padding: 28rem 20rem;
+  background-color: var(--color-white, #ffffff);
+  border-top: 1px solid var(--color-gray-100, #e8eaed);
+  border-bottom: 1px solid var(--color-gray-100, #e8eaed);
+  padding: 48rem 0;
+  min-height: 137rem;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
 
   .partnerInner {
-    max-width: 1200rem;
+    max-width: var(--layout-container-max-width, 1280rem);
+    width: 100%;
     margin: 0 auto;
+    padding-left: var(--layout-gutter, 20rem);
+    padding-right: var(--layout-gutter, 20rem);
+    box-sizing: border-box;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 32rem;
-    flex-wrap: wrap;
-
-    .partnerLabel {
-      font-size: 13rem;
-      font-weight: 600;
-      color: var(--color-gray-400);
-    }
-
-    .partnerDivider {
-      width: 1px;
-      height: 14rem;
-      background-color: var(--color-gray-200);
-    }
 
     .partnerLogos {
       display: flex;
       align-items: center;
-      gap: 36rem;
+      justify-content: space-between;
+      width: 100%;
+      gap: 20rem;
       flex-wrap: wrap;
-      justify-content: center;
 
-      .logoItem {
-        font-size: 16rem;
-        font-weight: 800;
-        color: var(--color-gray-400);
-        letter-spacing: -0.01em;
-        font-family: var(--font-family-mono);
+      .partnerLink {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 132rem;
+        height: 40rem;
+        transition: transform 0.2s ease, opacity 0.2s ease;
+        text-decoration: none;
+
+        &:hover {
+          opacity: 0.8;
+          transform: translateY(-2rem);
+        }
+
+        &:focus-visible {
+          outline: 2rem solid var(--color-primary);
+          outline-offset: 4rem;
+          border-radius: 4rem;
+        }
+
+        .partnerLogoImg {
+          width: 132rem;
+          height: 40rem;
+          object-fit: contain;
+          display: block;
+        }
       }
     }
   }
 }
 
 /* ---------------------------------
- * 2. Process Section
+ * 2. Process Section (Figma v2 Section / Pipeline - Node 2730:31255)
+ * Background: #ffffff, 4 Cards 280x280 + 3 Lines 40x1, Gap from Intro: 60rem
  * --------------------------------- */
 .processSection {
-  background-color: var(--color-white);
+  background-color: var(--color-surface-white, #ffffff);
 
   .pipelineWrap {
     position: relative;
-    margin-top: 50rem;
     width: 100%;
-
-    .pipelineLine {
-      position: absolute;
-      top: 16rem;
-      left: 100rem;
-      right: 100rem;
-      height: 2rem;
-      background-color: var(--color-gray-200);
-      z-index: 1;
-    }
+    margin-top: 0;
 
     .pipelineSteps {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 24rem;
-      position: relative;
-      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      max-width: 1240rem;
+      margin: 0 auto;
 
-      .pipeStep {
+      /* Step Card: 280x280 square, background #f4f9fe, radius 16rem, padding 32rem 28rem */
+      .stepCard {
+        flex: 1 1 280rem;
+        max-width: 280rem;
+        min-width: 0;
+        min-height: 280rem;
+        height: auto;
+        background-color: var(--color-surface-blue-soft, #f4f9fe);
+        border-radius: 16rem;
+        padding: 32rem 28rem;
+        box-sizing: border-box;
         display: flex;
         flex-direction: column;
-        align-items: center;
+        align-items: flex-start;
+        text-align: left;
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
 
-        .stepBadge {
-          width: 32rem;
-          height: 32rem;
-          border-radius: 50%;
-          background-color: var(--color-primary);
-          color: var(--color-white);
+        &:hover {
+          transform: translateY(-4rem);
+          box-shadow: 0 12rem 28rem rgba(20, 43, 69, 0.07);
+        }
+
+        /* 3D Glass Icon Container: 64x64, radius 16rem, white glass glow (Figma v2/ProcessIcon/Surface/PC) */
+        .stepIconBox {
+          width: 64rem;
+          height: 64rem;
+          border-radius: 16rem;
           display: flex;
           align-items: center;
           justify-content: center;
-          font-size: 13rem;
-          font-weight: 700;
-          box-shadow: 0 0 0 4rem var(--color-white);
-          z-index: 3;
-          margin-bottom: -16rem;
+          margin-bottom: 24rem;
+          box-shadow: 0 14rem 30rem -8rem rgba(20, 40, 122, 0.14),
+                      0 2rem 3rem rgba(0, 0, 0, 0.06);
+          flex-shrink: 0;
+
+          .stepIconImg {
+            width: 100%;
+            height: 100%;
+            display: block;
+          }
         }
 
-        .stepCard {
-          background-color: var(--color-white);
-          border: 1px solid var(--color-gray-200);
-          border-radius: 16rem;
-          padding: 40rem 20rem 32rem;
-          width: 100%;
+        /* Card Text: 224x128, flex col, gap 8rem */
+        .stepText {
           display: flex;
           flex-direction: column;
-          align-items: center;
-          text-align: center;
-          box-shadow: 0 4rem 16rem rgba(0, 0, 0, 0.03);
+          align-items: flex-start;
+          gap: 8rem;
+          width: 100%;
 
-          .stepIconBox {
-            width: 56rem;
-            height: 56rem;
-            border-radius: 14rem;
-            background-color: #eff6ff;
-            color: var(--color-primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20rem;
-
-            svg {
-              width: 28rem;
-              height: 28rem;
-            }
+          /* Label: 16px Regular, line-height 1.75, color text/gray-2 (#5f6368) */
+          .stepLabel {
+            font-family: var(--font-family-base);
+            font-size: 16rem;
+            font-weight: 400;
+            line-height: 1.75;
+            letter-spacing: 0;
+            color: var(--color-text-gray-2, #5f6368);
+            margin: 0;
+            white-space: nowrap;
           }
 
-          .stepText {
-            .stepCategory {
-              display: block;
-              font-size: 12rem;
-              font-weight: 700;
-              color: var(--color-gray-400);
-              letter-spacing: 0.05em;
-              margin-bottom: 6rem;
-            }
+          /* Value: 20px Bold, line-height 1.4, color text/black (#000000) */
+          .stepValue {
+            font-family: var(--font-family-base);
+            font-size: 20rem;
+            font-weight: 700;
+            line-height: 1.4;
+            letter-spacing: 0;
+            color: var(--color-text-black, #000000);
+            margin: 0;
+            white-space: nowrap;
+          }
 
-            .stepTitle {
-              font-size: 16rem;
-              font-weight: 700;
-              color: #0f172a;
-              line-height: 1.35;
-            }
+          /* Desc: 16px Regular, line-height 1.75, color text/gray-2 (#5f6368) */
+          .stepDesc {
+            font-family: var(--font-family-base);
+            font-size: 16rem;
+            font-weight: 400;
+            line-height: 1.75;
+            letter-spacing: 0;
+            color: var(--color-text-gray-2, #5f6368);
+            margin: 0;
+            word-break: keep-all;
           }
         }
+      }
+
+      /* Horizontal Connector Line: 40x1, border/default (#e8eaed) */
+      .stepConnector {
+        width: 40rem;
+        height: 1rem;
+        background-color: var(--color-border-default, #e8eaed);
+        flex-shrink: 1;
+        min-width: 12rem;
       }
     }
   }
 }
 
 /* ---------------------------------
- * 3. Features Section
+/* ---------------------------------
+ * 3. Masking Workflow Section (Figma PC 2156:30050 / Mobile 2156:30974)
+ * Background: #f1f3f4 (surface/subtle), 1240rem container, gap: 40rem
+ * Steps (340rem): 4 cards with number, uppercase english label, title
+ * Workspace Window (860rem): white container, radius 16rem, padding 24rem,
+ * Canvas aspect ratio: 2436 / 1360 with radius 12rem
  * --------------------------------- */
 .featureSection {
-  background-color: #f8fafc;
+  background-color: var(--color-surface-gray, #f1f3f4);
 
   .featureSplit {
     display: flex;
-    gap: 48rem;
-    align-items: stretch;
-    margin-top: 50rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40rem;
+    max-width: 1240rem;
+    margin: 0 auto;
 
+    /* Left Steps Column (Figma Masking Stepper/PC v2 2186:15171)
+     * width 340rem, gap 8rem / Step: padding 24rem, radius 12rem, gap 16rem
+     * Number·English: Body 16rem/1.75 Regular, Title: Subheading 20rem/1.4 Bold */
     .featureTabs {
-      flex: 1;
+      width: 340rem;
+      max-width: 100%;
+      flex-shrink: 0;
       display: flex;
       flex-direction: column;
-      gap: 12rem;
-      justify-content: center;
+      gap: 8rem;
 
-      .activeTabCard {
-        background-color: var(--color-white);
-        border: 1.5px solid var(--color-primary);
+      .activeTabCard,
+      .inactiveTab {
+        width: 100%;
+        min-height: 110rem;
+        box-sizing: border-box;
+        border: none;
         border-radius: 12rem;
-        padding: 22rem 24rem;
-        box-shadow: 0 6rem 24rem rgba(59, 130, 246, 0.12);
+        padding: 24rem;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 16rem;
         text-align: left;
         cursor: pointer;
-        display: flex;
-        flex-direction: column;
-        gap: 6rem;
-        width: 100%;
+        transition: background-color 0.2s ease;
 
-        .tabSub {
-          font-size: 13rem;
-          font-weight: 700;
-          color: var(--color-primary);
-          display: flex;
-          align-items: center;
-          gap: 6rem;
-
-          .chevron {
-            font-size: 16rem;
-            font-weight: 900;
-            line-height: 1;
-          }
+        .tabNumber {
+          @include text-body;
+          flex-shrink: 0;
         }
 
-        .tabTitle {
-          font-size: 18rem;
-          font-weight: 700;
-          color: #0f172a;
+        .tabText {
+          flex: 1;
+          min-width: 0;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 6rem;
+
+          .tabEnglish {
+            @include text-body;
+          }
+
+          .tabTitle {
+            @include text-subheading;
+            margin: 0;
+          }
+        }
+      }
+
+      .activeTabCard {
+        background-color: var(--color-surface-white, #ffffff);
+
+        .tabNumber {
+          color: var(--color-text-accent, #3b5bff);
+        }
+
+        .tabText {
+          .tabEnglish {
+            color: var(--color-text-accent, #3b5bff);
+          }
+
+          .tabTitle {
+            color: var(--color-text-black, #000000);
+          }
         }
       }
 
       .inactiveTab {
         background-color: transparent;
-        border: none;
-        padding: 18rem 24rem;
-        text-align: left;
-        cursor: pointer;
-        display: flex;
-        flex-direction: column;
-        gap: 6rem;
-        width: 100%;
-        border-radius: 12rem;
-        transition: background-color 0.2s;
 
         &:hover {
-          background-color: rgba(0, 0, 0, 0.03);
+          background-color: rgba(255, 255, 255, 0.6);
         }
 
-        .inactiveSub {
-          font-size: 13rem;
-          font-weight: 600;
-          color: var(--color-gray-400);
+        .tabNumber {
+          color: var(--color-text-gray-2, #5f6368);
         }
 
-        .inactiveTitle {
-          font-size: 16rem;
-          font-weight: 600;
-          color: #475569;
+        .tabText {
+          .tabEnglish {
+            color: var(--color-text-gray-2, #5f6368);
+          }
+
+          .tabTitle {
+            color: var(--color-text-gray-2, #5f6368);
+          }
         }
       }
     }
 
+    /* Right Workspace Window (width: 860rem) */
     .featureVisual {
-      flex: 1.4;
-      display: flex;
-      align-items: center;
+      flex: 1;
+      max-width: 860rem;
 
-      .uiMock {
+      .workspaceWindow {
         width: 100%;
-        background: var(--color-white);
+        background-color: var(--color-surface-white, #ffffff);
         border-radius: 16rem;
-        overflow: hidden;
-        box-shadow: 0 10rem 30rem rgba(0, 0, 0, 0.08);
-        border: 1px solid var(--color-gray-200);
+        padding: 24rem;
+        box-sizing: border-box;
+        box-shadow: 0 10rem 30rem rgba(20, 43, 69, 0.06);
 
-        .uiMockHeader {
-          height: 40rem;
-          background-color: var(--color-white);
-          border-bottom: 1px solid var(--color-gray-100);
-          display: flex;
-          align-items: center;
-          padding: 0 16rem;
-          gap: 6rem;
-
-          .dot {
-            width: 9rem;
-            height: 9rem;
-            border-radius: 50%;
-            background-color: #cbd5e1;
-
-            &:first-child { background-color: #3b82f6; }
-            &:nth-child(2) { background-color: #93c5fd; }
-          }
-        }
-
-        .uiMockContent {
-          position: relative;
+        .canvasArea {
           width: 100%;
-          aspect-ratio: 16 / 10;
+          aspect-ratio: 2436 / 1360; /* 812 / 453.2 */
+          border-radius: 12rem;
           overflow: hidden;
+          background-color: #000000;
 
-          img {
+          .workflowImage {
             width: 100%;
             height: 100%;
             object-fit: cover;
-          }
-
-          .featTag {
-            position: absolute;
-            background-color: rgba(255, 255, 255, 0.95);
-            color: #0f172a;
-            font-size: 11rem;
-            font-weight: 700;
-            padding: 3rem 8rem;
-            border-radius: 4rem;
-            box-shadow: 0 2rem 8rem rgba(0, 0, 0, 0.15);
-            border: 1px solid rgba(0, 0, 0, 0.06);
-            white-space: nowrap;
-
-            &.featTag1 { top: 28%; left: 16%; }
-            &.featTag2 { top: 36%; left: 34%; }
-            &.featTag3 { top: 26%; right: 26%; }
-            &.featTag4 { top: 28%; right: 12%; }
-          }
-
-          .floatingPanel {
-            position: absolute;
-            bottom: 14rem;
-            right: 14rem;
-            background: rgba(255, 255, 255, 0.96);
-            backdrop-filter: blur(6px);
-            border-radius: 10rem;
-            padding: 10rem 12rem;
-            box-shadow: 0 6rem 20rem rgba(0, 0, 0, 0.18);
-            border: 1px solid var(--color-gray-200);
-
-            .panelHeader {
-              font-size: 11rem;
-              font-weight: 700;
-              color: #475569;
-              margin-bottom: 6rem;
-            }
-
-            .panelThumbGrid {
-              display: grid;
-              grid-template-columns: repeat(2, 36rem);
-              gap: 6rem;
-
-              .panelThumb {
-                position: relative;
-                width: 36rem;
-                height: 36rem;
-                border-radius: 6rem;
-                overflow: hidden;
-
-                img {
-                  width: 100%;
-                  height: 100%;
-                  object-fit: cover;
-                }
-
-                .thumbDot {
-                  position: absolute;
-                  bottom: 2rem;
-                  right: 2rem;
-                  width: 6rem;
-                  height: 6rem;
-                  border-radius: 50%;
-                  background-color: #10b981;
-                  border: 1px solid var(--color-white);
-                }
-              }
-            }
+            display: block;
+            animation: workflowFadeIn 0.35s ease-out;
           }
         }
       }
@@ -534,180 +523,159 @@
   }
 }
 
+@keyframes workflowFadeIn {
+  from {
+    opacity: 0.75;
+    transform: scale(0.995);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 /* ---------------------------------
- * 4. Integration Section
+ * 4. Solution Section (AI 비식별 통합 솔루션)
  * --------------------------------- */
-.integrationSection {
-  background-color: var(--color-white);
-
-  .integSteps {
-    margin-top: 50rem;
+.solutionSection {
+  .solutionFormula {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16rem;
+    align-items: stretch;
+    gap: 24rem;
+    width: 100%;
+  }
 
-    .arrowIcon {
-      color: var(--color-gray-300);
-      font-size: 20rem;
-      font-weight: 700;
+  /* 보호 대상 (Figma PC 2156:30065)
+   * padding 32rem, radius 12rem, gap 24rem / 항목: py 14rem, gap 12rem, 하단 border/default
+   * 제목: v2/PC/Subheading, 항목: v2/PC/Body */
+  .targetCard {
+    flex: 0 0 340rem;
+    width: 340rem;
+    box-sizing: border-box;
+    padding: 32rem;
+    border-radius: 12rem;
+    display: flex;
+    flex-direction: column;
+    gap: 24rem;
+
+    .cardTitle {
+      @include text-subheading;
+      color: var(--color-text-black, #000000);
+      margin: 0;
     }
 
-    .integCard {
-      flex: 1;
-      background-color: #f8fafc;
-      border-radius: 16rem;
-      border: 1px solid var(--color-gray-200);
-      overflow: hidden;
-      
-      .cardHeader {
-        padding: 24rem 24rem 16rem;
-        background-color: transparent;
-        border-bottom: 1px solid var(--color-gray-200);
-        text-align: left;
-
-        .cardStep {
-          display: block;
-          font-size: 12rem;
-          color: var(--color-gray-400);
-          font-weight: 700;
-          margin-bottom: 6rem;
-        }
-
-        h4 {
-          font-size: 20rem;
-          font-weight: 700;
-          color: #0f172a;
-          margin: 0;
-        }
-      }
-
-      .cardBody {
-        padding: 24rem;
-
-        .targetList {
-          display: flex;
-          flex-direction: column;
-          gap: 16rem;
-
-          .targetItem {
-            display: flex;
-            align-items: center;
-            gap: 10rem;
-            font-size: 16rem;
-            font-weight: 600;
-            color: #1e293b;
-
-            .chk {
-              color: var(--color-primary);
-              font-weight: 800;
-              font-size: 16rem;
-            }
-          }
-        }
-
-        .resultList {
-          display: flex;
-          flex-direction: column;
-          gap: 16rem;
-
-          .resultItem {
-            display: flex;
-            align-items: flex-start;
-            gap: 10rem;
-
-            .chk {
-              color: var(--color-primary);
-              font-weight: 800;
-              font-size: 16rem;
-              margin-top: 1rem;
-            }
-
-            .resultText {
-              display: flex;
-              flex-direction: column;
-
-              strong {
-                font-size: 15rem;
-                font-weight: 700;
-                color: #1e293b;
-              }
-
-              .resultSub {
-                font-size: 12rem;
-                color: var(--color-gray-400);
-                margin-top: 2rem;
-              }
-            }
-          }
-        }
-      }
+    .targetList {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
     }
 
-    .integCardCenter {
-      flex: 1.5;
+    .targetItem {
+      display: flex;
+      align-items: center;
+      gap: 12rem;
+      padding: 14rem 0;
+      border-bottom: 1rem solid var(--color-border-default, #e8eaed);
 
-      .compareFaces {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 12rem;
+      .targetNum {
+        @include text-body;
+        color: var(--color-text-accent, #3b5bff);
+      }
 
-        .face {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 10rem;
-
-          .faceImg {
-            width: 100%;
-            aspect-ratio: 1 / 1;
-            background-color: var(--color-gray-200);
-            border-radius: 8rem;
-            background-image: url('https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&q=80');
-            background-size: cover;
-            background-position: center;
-            border: 1px solid var(--color-gray-200);
-
-            &.mosaic { filter: contrast(1.2) blur(5px); }
-            &.blur { filter: blur(8px); }
-            &.virtual { filter: hue-rotate(180deg) brightness(1.1); }
-          }
-
-          span {
-            font-size: 12rem;
-            font-weight: 600;
-            color: var(--color-gray-500);
-          }
-        }
+      .targetName {
+        @include text-body;
+        color: var(--color-text-black, #000000);
       }
     }
   }
 
-  .bottomBanner {
-    margin-top: 40rem;
-    background-color: #eff6ff;
-    border-radius: 12rem;
-    padding: 20rem 24rem;
-    text-align: center;
+  .methodCard {
+    flex: 1;
+    background-color: var(--color-gray-100, #f1f3f4);
+    border-radius: 16rem;
+    padding: 32rem 40rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
-    .bannerText {
-      font-size: 17rem;
-      font-weight: 700;
-      color: #1e293b;
+    .cardTitle {
+      font-size: 20rem;
+      font-weight: var(--font-weight-bold, 700);
+      line-height: 1.4;
+      color: var(--color-text-black, #000000);
+      text-align: center;
+      margin: 0 0 24rem;
+      width: 100%;
+    }
 
-      .dash {
-        color: var(--color-primary);
-        margin-right: 8rem;
+    .methodContent {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20rem;
+      width: 100%;
+    }
+
+    .avatarItem {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 145rem;
+
+      .avatarImgWrap {
+        width: 145rem;
+        height: 183rem;
+        border-radius: 12rem;
+        overflow: hidden;
+        background-color: var(--color-gray-200, #e8eaed);
+
+        .avatarImg {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+        }
       }
 
-      .off {
-        color: #1e293b;
-        font-weight: 800;
+      .avatarLabel {
+        margin-top: 12rem;
+        font-size: 16rem;
+        font-weight: var(--font-weight-medium, 500);
+        color: var(--color-text-gray-2, #5f6368);
+        text-align: center;
+        letter-spacing: -0.2px;
       }
+    }
 
-      .on {
-        color: var(--color-primary);
-        font-weight: 800;
+    .methodArrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 20rem;
+      height: 183rem;
+      color: var(--color-gray-400, #80868b);
+
+      svg {
+        display: block;
+      }
+    }
+  }
+
+  @media (max-width: 1240px) {
+    .solutionFormula {
+      gap: 16rem;
+    }
+    .targetCard {
+      flex: 0 0 280rem;
+      width: 280rem;
+    }
+    .methodCard {
+      padding: 32rem 20rem;
+      .methodContent {
+        gap: 10rem;
+      }
+      .avatarItem {
+        width: 120rem;
       }
     }
   }
@@ -717,160 +685,557 @@
  * Responsive Design (PC -> Tablet -> Mobile)
  * --------------------------------- */
 @media (max-width: 1024px) {
-  .featureSplit {
-    flex-direction: column-reverse; /* 모바일: Visual 위, Tabs 아래 */
-    
-    .featureTabs {
-      flex-direction: row;
-      flex-wrap: wrap;
-      
-      .activeTabCard, .inactiveTab {
-        flex: 1 1 calc(50% - 8rem);
+  .featureSection {
+    .featureSplit {
+      flex-direction: column;
+      gap: 24rem;
+      margin-top: 0;
+
+      .featureVisual {
+        order: -1;
+        width: 100%;
+        max-width: 100%;
+      }
+
+      .featureTabs {
+        width: 100%;
+        max-width: 100%;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12rem;
+
+        .activeTabCard,
+        .inactiveTab {
+          width: 100%;
+          box-sizing: border-box;
+        }
+      }
+    }
+  }
+
+  .solutionSection {
+    .solutionFormula {
+      flex-direction: column;
+      gap: 20rem;
+    }
+
+    /* 보호 대상 (Figma Mobile 2156:30989)
+     * surface/subtle 배경, padding 24rem, radius 12rem, gap 16rem
+     * 항목: 가로 3등분 칩, surface/base 배경, padding 12rem, radius 8rem, gap 8rem */
+    .targetCard {
+      width: 100%;
+      flex: none;
+      background-color: var(--color-surface-gray, #f1f3f4);
+      border-radius: 12rem;
+      padding: 24rem;
+      gap: 16rem;
+
+      .targetList {
+        flex-direction: row;
+        gap: 8rem;
+      }
+
+      .targetItem {
+        flex: 1 0 0;
+        min-width: 0;
+        gap: 8rem;
+        padding: 12rem;
+        background-color: var(--color-surface-white, #ffffff);
+        border-radius: 8rem;
+        border-bottom: none;
+
+        .targetName {
+          white-space: nowrap;
+        }
       }
     }
 
-    .featureVisual {
+    .methodCard {
       width: 100%;
-    }
-  }
+      padding: 24rem;
+      border-radius: 16rem;
 
-  .integSteps {
-    flex-direction: column;
-    
-    .arrowIcon {
-      padding: 16rem 0;
-    }
-    
-    .integCard, .integCardCenter {
-      width: 100%;
-    }
-  }
-}
+      .cardTitle {
+        text-align: left;
+        margin-bottom: 20rem;
+      }
 
-@media (max-width: 768px) {
-  .heroActions {
-    flex-direction: column;
-    button { width: 100%; }
-  }
-
-  .heroMock {
-    aspect-ratio: 4 / 3;
-    .mockTagLeft, .mockTagRight {
-      top: 12rem;
-      padding: 4rem 12rem;
-      font-size: 12rem;
+      .methodContent {
+        justify-content: space-around;
+      }
     }
   }
 
   .partnerBar {
-    padding: 20rem 16rem;
-    .partnerInner {
-      flex-direction: column;
-      gap: 12rem;
+    padding: 0;
+    min-height: 110rem;
+    height: 110rem;
+    overflow: hidden;
 
-      .partnerDivider {
-        display: none;
-      }
+    .partnerInner {
+      max-width: 100%;
+      padding: 0;
 
       .partnerLogos {
-        gap: 20rem;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 32rem;
+        padding: 35rem 20rem;
+        box-sizing: border-box;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        scroll-behavior: smooth;
+        cursor: grab;
+        user-select: none;
+        -webkit-user-select: none;
+
+        &:active {
+          cursor: grabbing;
+        }
+
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        &::-webkit-scrollbar {
+          display: none;
+          width: 0;
+          height: 0;
+        }
+
+        &::after {
+          content: '';
+          display: block;
+          flex-shrink: 0;
+          width: 20rem;
+          margin-left: -32rem;
+        }
+
+        .partnerLink {
+          width: 120rem;
+          height: 36rem;
+          flex-shrink: 0;
+
+          .partnerLogoImg {
+            width: 120rem;
+            height: 36rem;
+            object-fit: contain;
+            pointer-events: none;
+          }
+        }
       }
     }
   }
 
   .processSection .pipelineWrap {
-    .pipelineLine {
-      top: 20rem;
-      bottom: 20rem;
-      left: 16rem;
-      right: auto;
-      width: 2rem;
-      height: calc(100% - 40rem);
+    margin-top: 0;
+
+    .pipelineSteps {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 280rem));
+      justify-content: center;
+      gap: 20rem;
+
+      .stepConnector {
+        display: none;
+      }
+
+      .stepCard {
+        width: 100%;
+        height: auto;
+        min-height: 260rem;
+      }
     }
+  }
+}
+
+@media (max-width: 768px) {
+  :global(.heroSectionWrap .buttonsWrap) {
+    flex-direction: row !important;
+    gap: 8rem !important;
+    width: 100% !important;
+
+    button,
+    a {
+      flex: 1 !important;
+      width: 100% !important;
+      min-width: 0 !important;
+      height: 56rem !important;
+      font-size: 16rem !important;
+      padding: 0 8rem !important;
+      white-space: nowrap !important;
+    }
+  }
+
+  .heroMock {
+    aspect-ratio: 1050 / 900;
+    border-radius: 12rem;
+
+    .mockTagLeft,
+    .mockTagRight {
+      top: 12rem;
+      padding: 4rem 12rem;
+      @include text-note;
+    }
+
+    .mockSliderHandle {
+      width: 38rem;
+      height: 38rem;
+    }
+  }
+
+  /* ---------------------------------
+   * 1.1 Client Logos Bar (Figma Mobile Node 2156:30912)
+   * Dimensions: width 390rem, height 97rem, background #ffffff
+   * Border: 1px solid #e8eaed (top & bottom)
+   * 1. 무조건 한줄 처리 (flex-wrap: nowrap)
+   * 2. 공간 모자르면 가로 슬라이드 (overflow-x: auto, 스크롤바 숨김)
+   * Logo size: 110rem x 32rem, Gap: 32rem, Padding: 32.5rem 20rem
+   * --------------------------------- */
+  .partnerBar {
+    width: 100%;
+    height: 97rem;
+    min-height: 97rem;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: var(--color-surface-white, #ffffff);
+    border-top: 1px solid var(--color-border-default, #e8eaed);
+    border-bottom: 1px solid var(--color-border-default, #e8eaed);
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+
+    .partnerInner {
+      width: 100%;
+      max-width: 100%;
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+
+      .partnerLogos {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 32rem; /* Figma gap between logos: 32rem */
+        padding: 32.5rem 20rem; /* Figma: y=32, height=32, total 97rem */
+        box-sizing: border-box;
+        width: 100%;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        scroll-behavior: smooth;
+        cursor: grab;
+        user-select: none;
+        -webkit-user-select: none;
+
+        &:active {
+          cursor: grabbing;
+        }
+
+        /* 2. 스크롤바 표시 없는 가로 슬라이드 (핵심 요구사항) */
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* IE and Edge */
+        &::-webkit-scrollbar {
+          display: none; /* Chrome, Safari, Opera */
+          width: 0;
+          height: 0;
+        }
+
+        /* 끝 도달 시 오른쪽 여백 20rem 보존 더미 */
+        &::after {
+          content: '';
+          display: block;
+          flex-shrink: 0;
+          width: 20rem;
+          margin-left: -32rem;
+        }
+
+        .partnerLink {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 110rem; /* Figma Logo width: 110rem */
+          height: 32rem; /* Figma Logo height: 32rem */
+          flex-shrink: 0;
+          transition: opacity 0.2s ease, transform 0.2s ease;
+
+          &:hover {
+            opacity: 0.8;
+            transform: translateY(-1rem);
+          }
+
+          .partnerLogoImg {
+            width: 110rem;
+            height: 32rem;
+            object-fit: contain;
+            display: block;
+            pointer-events: none;
+          }
+        }
+      }
+    }
+  }
+
+  .processSection .pipelineWrap {
+    margin-top: 0;
 
     .pipelineSteps {
       display: flex;
       flex-direction: column;
-      gap: 16rem;
+      align-items: stretch;
+      gap: 0;
+      width: 100%;
 
-      .pipeStep {
+      .stepConnector {
+        width: 1px !important;
+        min-width: 0 !important;
+        max-width: 1px !important;
+        height: 24rem !important;
+        background-color: var(--color-border-default, #e8eaed) !important;
+        margin: 0 auto !important;
+        display: block !important;
+        flex-shrink: 0;
+
+        &::before {
+          display: none !important;
+        }
+
+        svg {
+          display: none !important;
+        }
+      }
+
+      .stepCard {
+        flex: none;
+        width: 100%;
+        max-width: 100%;
+        height: 160rem;
+        min-height: 160rem;
+        padding: 21rem 20rem;
+        display: flex;
         flex-direction: row;
         align-items: center;
         gap: 16rem;
-        width: 100%;
+        box-sizing: border-box;
+        border-radius: 16rem;
+        background-color: var(--color-surface-blue-soft, #f4f9fe);
 
-        .stepBadge {
+        .stepIconBox {
           margin-bottom: 0;
           flex-shrink: 0;
-          width: 32rem;
-          height: 32rem;
-          font-size: 12rem;
-          box-shadow: 0 0 0 3rem #f8fafc;
-        }
-
-        .stepCard {
-          flex: 1;
-          flex-direction: row;
+          width: 48rem;
+          height: 48rem;
+          border-radius: 12rem;
+          box-shadow: 0 4rem 12rem rgba(20, 40, 122, 0.08);
+          display: flex;
           align-items: center;
-          padding: 18rem 20rem;
-          gap: 16rem;
-          text-align: left;
-
-          .stepIconBox {
-            margin-bottom: 0;
-            flex-shrink: 0;
-            width: 52rem;
-            height: 52rem;
-          }
-        }
-      }
-    }
-  }
-
-  .featureSplit .featureTabs {
-    flex-direction: column;
-    .activeTabCard, .inactiveTab {
-      flex: 1 1 100%;
-    }
-  }
-
-  .integrationSection .integSteps {
-    .integCard .cardBody {
-      padding: 16rem 12rem;
-
-      .targetList {
-        flex-direction: row;
-        justify-content: space-between;
-        gap: 6rem;
-
-        .targetItem {
-          background-color: var(--color-white);
-          border: 1px solid var(--color-gray-200);
-          border-radius: 8rem;
-          padding: 8rem 4rem;
-          flex: 1;
           justify-content: center;
-          font-size: 12rem;
-          white-space: nowrap;
-          gap: 4rem;
 
-          .chk {
+          .stepIconImg {
+            width: 100%;
+            height: 100%;
+            display: block;
+          }
+        }
+
+        .stepText {
+          display: flex;
+          flex-direction: column;
+          gap: 6rem;
+          text-align: left;
+          flex: 1;
+
+          .stepLabel {
+            font-family: var(--font-family-base);
             font-size: 13rem;
+            font-weight: 700;
+            color: var(--color-text-eyebrow-section, #6f72af);
+            line-height: 1.2;
+            letter-spacing: 0.2px;
+          }
+
+          .stepValue {
+            font-family: var(--font-family-base);
+            font-size: 18rem;
+            font-weight: 700;
+            color: var(--color-text-primary, #000000);
+            line-height: 1.3;
+          }
+
+          .stepDesc {
+            font-family: var(--font-family-base);
+            font-size: 14rem;
+            line-height: 1.5;
+            color: var(--color-text-secondary, #5f6368);
+            margin: 0;
+            word-break: keep-all;
           }
         }
       }
     }
+  }
 
-    .integCardCenter .cardBody .compareFaces {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16rem;
+  .featureSection {
+    .featureSplit {
+      flex-direction: column;
+      gap: 24rem;
+      margin-top: 0;
+
+      .featureVisual {
+        order: -1;
+        width: 100%;
+        max-width: 100%;
+
+        .workspaceWindow {
+          padding: 12rem;
+          border-radius: 16rem;
+
+          .canvasArea {
+            border-radius: 8rem;
+          }
+        }
+      }
+
+      .featureTabs {
+        width: 100%;
+        max-width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 8rem;
+
+        .activeTabCard,
+        .inactiveTab {
+          /* Figma Masking Stepper/Mobile v2 2207:57747
+           * padding 16rem, radius 12rem, gap 12rem / text gap 4rem / all text MO Body 16rem/1.6 */
+          width: 100%;
+          max-width: 100%;
+          min-height: 88rem;
+          padding: 16rem;
+          border-radius: 12rem;
+          display: flex;
+          flex-direction: row;
+          align-items: flex-start;
+          gap: 12rem;
+          text-align: left;
+          border: none;
+          box-sizing: border-box;
+          transition: background-color 0.2s ease;
+
+          /* 번호·영문 라벨: PC text-body 상속 (MO 행간 1.6은 믹스인 내장) */
+          .tabText {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 4rem;
+
+            /* 제목: v2/MO/Body Bold */
+            .tabTitle {
+              @include text-body;
+              font-weight: var(--font-weight-bold);
+            }
+          }
+        }
+
+        .activeTabCard {
+          background-color: var(--color-surface-white, #ffffff) !important;
+          box-shadow: none !important;
+
+          .tabNumber {
+            color: var(--color-text-accent, #3b5bff) !important;
+          }
+
+          .tabText {
+            .tabEnglish {
+              color: var(--color-text-accent, #3b5bff) !important;
+            }
+
+            .tabTitle {
+              color: var(--color-text-black, #000000) !important;
+            }
+          }
+        }
+
+        .inactiveTab {
+          background-color: transparent !important;
+          box-shadow: none !important;
+
+          .tabNumber {
+            color: var(--color-text-gray-2, #5f6368) !important;
+          }
+
+          .tabText {
+            .tabEnglish {
+              color: var(--color-text-gray-2, #5f6368) !important;
+            }
+
+            .tabTitle {
+              color: var(--color-text-gray-2, #5f6368) !important;
+            }
+          }
+
+          &:hover {
+            background-color: rgba(255, 255, 255, 0.5) !important;
+          }
+        }
+      }
     }
   }
 
-  .featureVisual .uiMock .uiMockContent .floatingPanel {
-    transform: scale(0.85);
-    transform-origin: bottom right;
-    right: 8rem;
-    bottom: 8rem;
+  /* Solution Section (Figma Mobile 2156:30981)
+   * 카드 간격 12rem / 비식별 방식: padding 24rem, radius 12rem, 제목→샘플 16rem
+   * 샘플: 137×183rem, radius 8rem, 2열 gap 16rem 12rem, 사진→라벨 8rem
+   * 라벨: v2/MO/Body, 원본만 text/gray-2 · 나머지 text/black */
+  .solutionSection {
+    .solutionFormula {
+      gap: 12rem;
+    }
+
+    .methodCard {
+      padding: 24rem;
+      border-radius: 12rem;
+      background-color: var(--color-surface-gray, #f1f3f4);
+
+      .cardTitle {
+        margin-bottom: 16rem;
+      }
+
+      .methodContent {
+        display: grid;
+        grid-template-columns: repeat(2, 137rem);
+        justify-content: center;
+        gap: 16rem 12rem;
+      }
+
+      .methodArrow {
+        display: none;
+      }
+
+      .avatarItem {
+        width: 137rem;
+        gap: 8rem;
+
+        .avatarImgWrap {
+          width: 137rem;
+          height: 183rem;
+          border-radius: 8rem;
+        }
+
+        .avatarLabel {
+          @include text-body;
+          margin-top: 0;
+          color: var(--color-text-black, #000000);
+        }
+
+        &:first-child .avatarLabel {
+          color: var(--color-text-gray-2, #5f6368);
+        }
+      }
+    }
   }
+
+
 }

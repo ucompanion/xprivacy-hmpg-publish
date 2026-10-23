@@ -6,25 +6,25 @@ const useCases = [
     id: 'public',
     title: '공공시설',
     desc: 'CCTV 영상 반출 시 개인정보를 안전하게 비식별화하여 외부 유출을 방지합니다.',
-    image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1200'
+    image: '/images/main/usecase_office.jpg'
   },
   {
     id: 'retail',
     title: '도소매·서비스',
     desc: '매장 내 고객 행동 분석을 위한 영상 수집 시, 고객의 개인정보를 완벽하게 보호합니다.',
-    image: 'https://images.unsplash.com/photo-1556740714-a8395b3bf30f?auto=format&fit=crop&q=80&w=1200'
+    image: '/images/main/usecase_retail.jpg'
   },
   {
     id: 'medical',
     title: '의료기관',
     desc: '수술실 CCTV 의무화에 따른 환자 및 의료진의 영상 정보 보안 요구사항을 충족합니다.',
-    image: 'https://images.unsplash.com/photo-1538108149393-fbbd81895907?auto=format&fit=crop&q=80&w=1200'
+    image: '/images/main/usecase_hospital.jpg'
   },
   {
     id: 'startup',
     title: '스타트업·기업',
     desc: 'AI 모델 학습용 영상 데이터 구축 시 필수적인 비식별화 전처리를 지원합니다.',
-    image: 'https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&q=80&w=1200'
+    image: '/images/main/usecase_public.jpg'
   }
 ];
 

@@ -1,37 +1,439 @@
-@import '../../../assets/scss/variables';
-@import '../../../assets/scss/mixins';
+@use "@/assets/scss/variables" as *;
+@use "@/assets/scss/mixins" as *;
 
-.heroSection {
-  padding: 120rem 0 160rem 0;
-  background-color: var(--color-gray-900);
+.heroSectionWrap {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
   background-size: cover;
   background-position: center;
-  position: relative;
-  overflow: hidden;
+  background-repeat: no-repeat;
 
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: linear-gradient(to right, rgba(17, 24, 39, 0.9) 0%, rgba(17, 24, 39, 0.4) 100%);
-    z-index: 0;
+  /* ---------------------------------
+   * 1. 라이트 테마 (Figma v2 기본 스펙)
+   * 화사하고 밝은 소프트 스카이/아쿠아 그라데이션 및 3D 글래스 곡선 빛
+   * --------------------------------- */
+  &.theme_light {
+    background-color: #eaf5fc;
+
+    /* 실제 3D 글래스 렌더링 이미지(/images/common/heroSection_*.jpg) 적용에 따른 CSS 폴백 오버레이 숨김 */
+    .glassGlowOverlay,
+    .glassCurveEffect {
+      display: none;
+    }
+
+    /* Figma v2 Hero: eyebrow text/gray-1, title text/black, description text/black */
+    .heroHeader {
+      .heroEyebrow {
+        color: var(--color-text-gray-1, #3c4043) !important;
+      }
+
+      .heroTitle {
+        color: var(--color-text-black, #000000) !important;
+      }
+
+      .heroDescription {
+        color: var(--color-text-black, #000000) !important;
+      }
+    }
+
+    /* Keyword/v2 (Figma 2764:502): Glass Background(그라데이션 + 흰 림 + 그림자 + blur 5) */
+    .keywordChip {
+      background-image: linear-gradient(164deg, rgba(255, 255, 255, 0.56) 14.286%, rgba(255, 255, 255, 0.22) 51.429%, rgba(255, 255, 255, 0.38) 85.714%);
+      border: 1rem solid rgba(255, 255, 255, 0.95);
+      color: var(--color-text-button-secondary, #142b45);
+      box-shadow:
+        0 2rem 8rem -2rem rgba(20, 41, 64, 0.08),
+        inset 0 1rem 1rem rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(5px);
+    }
   }
 
-  :global(.container) {
-    position: relative;
-    z-index: 1;
+  /* ---------------------------------
+   * 2. 다크 테마 (예외적 다크 모드 지원용)
+   * --------------------------------- */
+  &.theme_dark {
+    background-color: #0b1120;
+
+    .glassGlowOverlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(59, 91, 255, 0.38) 0%, rgba(61, 183, 255, 0.25) 50%, rgba(34, 195, 215, 0.2) 100%);
+      mix-blend-mode: screen;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .heroHeader {
+      .heroEyebrow {
+        color: rgba(255, 255, 255, 0.7) !important;
+      }
+
+      .heroTitle {
+        color: #ffffff !important;
+      }
+
+      .heroDescription {
+        color: #c7d4db !important;
+      }
+    }
+
+    .keywordChip {
+      background: rgba(11, 20, 38, 0.55);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: var(--color-white);
+    }
   }
 
-  // 히어로 섹션 전용 타이포그래피 오버라이드
-  :global(.header) {
-    :global(.title) {
-      @include text-display-hero;
+  /* ---------------------------------
+   * 1. Full 타입 (대표 비주얼 · 제품소개 등)
+   * --------------------------------- */
+  &.full {
+    min-height: 100svh;
+    justify-content: center;
+    padding: calc(var(--header-height, 73rem) + 55rem) 0 72rem 0;
+    background-image: url('/images/common/heroSection_full.jpg');
+
+    .heroContentWrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--spacing-40, 40rem);
+    }
+
+    .fullHeader {
+      max-width: 658rem;
+      margin: 0 auto;
+      text-align: center;
+
+      .heroExtraWrap {
+        align-items: center;
+      }
+    }
+
+    @media (max-width: 768px) {
+      background-image: url('/images/common/heroSection_full_mo.jpg');
+      padding: calc(var(--header-height-mo, 60rem) + 36rem) 0 40rem 0;
+
+      .heroContentWrap {
+        gap: 32rem;
+      }
+    }
+  }
+
+  /* ---------------------------------
+   * 2. Compact 타입 (요금제 · 기술 상세 · 인증 및 특허 등)
+   * 불필요한 고정 높이 없이 상하 패딩과 컨텐츠 흐름에 따라 자연스럽게 높이 형성
+   * - 키워드 칩 포함 시(요금제 등): 158rem + 220rem + 102rem = 약 480rem
+   * - 키워드 칩 미포함 시(인증 및 특허 등 낮은 Hero): 158rem + 147rem + 102rem = 약 407rem
+   * --------------------------------- */
+  &.compact {
+    min-height: auto;
+    justify-content: flex-start;
+    padding: var(--hero-compact-padding-top-pc, 158rem) 0 var(--hero-compact-padding-bottom-pc, 102rem) 0;
+    background-image: url('/images/common/heroSection_compact.jpg');
+
+    .glassCurveEffect {
+      display: none;
+    }
+
+    .heroContentWrap {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .compactHeader {
+      max-width: 774rem;
+      text-align: left;
+
+      /* Figma v2 Compact Hero: 설명 폭 640 */
+      .heroDescription {
+        max-width: 640rem;
+      }
+
+      /* 설명-키워드 간격 24: 코어 Section .extra(margin-top 24)만 사용 */
+      .heroExtraWrap {
+        margin-top: 0;
+      }
+
+      .heroExtraWrap {
+        align-items: flex-start;
+      }
+    }
+
+    @media (max-width: 768px) {
+      min-height: auto;
+      background-image: url('/images/common/heroSection_compact_mo.jpg');
+      padding: var(--hero-compact-padding-top-mo, 96rem) 0 var(--hero-compact-padding-bottom-mo, 48rem) 0;
+    }
+  }
+
+  /* ---------------------------------
+   * 3. Alignment Styles (Left / Center)
+   * --------------------------------- */
+  &.align_left {
+    .heroContentWrap {
+      align-items: flex-start !important;
+    }
+
+    .fullHeader,
+    .compactHeader {
+      margin-left: 0 !important;
+      margin-right: auto !important;
+      text-align: left !important;
+      max-width: 1240rem;
+
+      .heroEyebrow,
+      .heroTitle,
+      .heroDescription {
+        text-align: left !important;
+      }
+
+      .heroDescription {
+        margin-left: 0 !important;
+        margin-right: auto !important;
+      }
+
+      .heroExtraWrap {
+        align-items: flex-start !important;
+      }
+    }
+  }
+
+  &.align_center {
+    .heroContentWrap {
+      align-items: center;
+    }
+
+    .fullHeader,
+    .compactHeader {
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
+
+      .heroEyebrow,
+      .heroTitle,
+      .heroDescription {
+        text-align: center;
+      }
+
+      .heroDescription {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .heroExtraWrap {
+        align-items: center;
+      }
     }
   }
 }
 
-@media (max-width: 768px) {
-  .heroSection {
-    padding: 80rem 0 120rem 0;
+/* 내부 Section 컨테이너 z-index 보장 */
+.heroInnerSection {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  padding: 0 !important;
+
+  /* 코어 Section의 기본 하단 마진(48rem)이 히어로에 침범하지 않도록 완전 초기화 */
+  :global(.sectionHeader),
+  .heroHeader {
+    margin-bottom: 0 !important;
+  }
+}
+
+/* ---------------------------------
+ * Hero Section Typography (Figma v2 Spec)
+ * Core Section의 .header .title (.title @include text-section [40rem])에 오버라이드 당하지 않도록
+ * .heroSectionWrap .heroHeader 레벨의 명시도 및 !important 보장
+ * --------------------------------- */
+.heroSectionWrap {
+  .heroHeader {
+    display: flex;
+    flex-direction: column;
+
+    .heroEyebrow {
+      @include text-eyebrow;
+      font-weight: var(--font-weight-regular); /* Figma v2 Hero Eyebrow: Regular */
+      display: inline-block;
+      margin-bottom: var(--spacing-16, 16rem) !important; /* Figma v2 Hero Group gap 16 (PC/MO) */
+      word-break: keep-all;
+    }
+
+    .heroTitle {
+      @include text-hero;
+      font-size: var(--font-size-hero, 50rem) !important;
+      line-height: var(--line-height-hero, 1.2) !important;
+      letter-spacing: -1.5px !important;
+      font-weight: var(--font-weight-bold, 700) !important;
+      margin: 0 !important;
+      word-break: keep-all;
+
+      @media (max-width: 768px) {
+        font-size: var(--font-size-hero-mo, 44rem) !important;
+        line-height: var(--line-height-hero, 1.2) !important;
+        letter-spacing: -1px !important;
+      }
+    }
+
+    .heroDescription {
+      @include text-body;
+      font-size: var(--font-size-body, 16rem) !important;
+      line-height: var(--line-height-body, 1.75) !important;
+      margin-top: var(--spacing-24, 24rem) !important;
+      margin-bottom: 0 !important;
+      word-break: keep-all;
+
+      @media (max-width: 768px) {
+        line-height: var(--line-height-body-mo, 1.6) !important;
+      }
+    }
+  }
+}
+
+/* 버튼 및 키워드 칩 래퍼 */
+.heroExtraWrap {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: var(--spacing-24, 24rem);
+}
+
+/* 버튼 영역 (Figma v2 Button/v2 Spec - Node 2241:378 / 2481:57066) */
+.buttonsWrap {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-12, 12rem);
+  align-items: center;
+
+  button,
+  a {
+    width: 200rem;
+    min-width: 200rem;
+    height: 56rem;
+    border-radius: 6rem;
+    font-family: var(--font-family-base);
+    font-size: 20rem;
+    font-weight: 700;
+    line-height: 1.4;
+    letter-spacing: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+  }
+
+  /* Solid / Primary button: brand/primary + 흰 글자 + 그림자 */
+  :global(.btn_solid),
+  :global(.variant-solid),
+  button:first-child:not(:only-child) {
+    background-color: var(--color-primary, #3b5bff) !important;
+    color: #ffffff !important;
+    border: none !important;
+    box-shadow: var(--shadow-button-primary, 0 4rem 6rem rgba(20, 43, 69, 0.1)) !important;
+
+    &:hover {
+      background-color: #2b4be6 !important;
+    }
+  }
+
+  /* Outline / Secondary button: surface/button-secondary(흰80%) + 남색 글자, 테두리 없음 */
+  :global(.btn_outline),
+  :global(.variant-outline),
+  button:last-child:not(:only-child) {
+    background-color: var(--surface-button-secondary, rgba(255, 255, 255, 0.8)) !important;
+    backdrop-filter: blur(8px);
+    color: var(--color-text-button-secondary, #142b45) !important;
+    border: none !important;
+    box-shadow: none !important;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.95) !important;
+    }
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: row;
+    justify-content: center;
+    gap: var(--spacing-8, 8rem);
+    width: 100%;
+    max-width: 350rem;
+    margin: 0 auto;
+
+    button,
+    a {
+      flex: 1;
+      width: 100% !important;
+      min-width: 0 !important;
+      height: 56rem !important;
+      font-size: 16rem !important;
+      line-height: 1.4 !important;
+      border-radius: 6rem !important;
+      padding: 0 8rem !important;
+      white-space: nowrap !important;
+    }
+  }
+}
+
+/* 키워드 칩 영역 (Compact 타입 전용) */
+.keywordsWrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-8, 8rem);
+  align-items: center;
+
+  /* Keyword/v2: 높이 40, 좌우 12(MO 13), Body 텍스트 */
+  .keywordChip {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 100rem;
+    padding: 0 var(--spacing-12, 12rem);
+    height: 40rem;
+    box-sizing: border-box;
+    @include text-body;
+    white-space: nowrap;
+
+    @media (max-width: 768px) {
+      padding: 0 13rem;
+    }
+  }
+}
+
+/* ---------------------------------
+ * 배경 프리셋 (bgPreset)
+ * technology: 흰 바탕 + Technology 이미지(opacity .7) + 브랜드 틴트(#3B5BFF→#3DB7FF→#22C3D7, mix-blend color)
+ *   → 배경 다중 레이어 [틴트(color 블렌드) / 흰 30%(이미지 opacity .7 대응) / 이미지]
+ *   Figma: PC 이미지 2000×1333 중앙·top -300, 틴트 1920×1080 / MO 이미지 1100×733 left -172·top -40
+ * 컴포넌트 기본(.compact/.full 배경) 뒤에 선언해 같은 명시도에서 덮어씀
+ * --------------------------------- */
+$tint-blue: #3b5bff;
+$tint-sky: #3db7ff;
+$tint-teal: #22c3d7;
+
+.heroSectionWrap.bg_technology {
+  background-color: var(--color-surface-white);
+  background-image:
+    linear-gradient(217deg, $tint-blue 14.286%, $tint-sky 53.571%, $tint-teal 85.714%),
+    linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3)),
+    url('/images/technology/hero_bg_tech.jpg');
+  background-blend-mode: color, normal, normal;
+  background-repeat: no-repeat;
+  background-size: 100% 1080rem, 100% 100%, max(2000rem, 104.2%) auto;
+  background-position: 0 0, 0 0, 50% -300rem;
+
+  @media (max-width: 768px) {
+    background-image:
+      linear-gradient(97.6deg, $tint-teal 10.145%, $tint-sky 56.072%, $tint-blue 137%),
+      linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3)),
+      url('/images/technology/hero_bg_tech.jpg');
+    background-size: 100% 100%, 100% 100%, 1100rem 733rem;
+    background-position: 0 0, 0 0, -172rem -40rem;
   }
 }

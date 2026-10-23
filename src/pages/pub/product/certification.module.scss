@@ -1,251 +1,177 @@
-@import '../../../assets/scss/variables';
+@use "@/assets/scss/variables" as *;
+@use "@/assets/scss/mixins" as *;
 
 .pageWrap {
   width: 100%;
 }
 
 /* --------------------------------------------------------------------------
-   Hero Section
--------------------------------------------------------------------------- */
-.certHero {
-  background-size: cover;
-  background-position: center;
+ * 특허 목록 (Figma PC 2159:14338 / Mobile 2159:14453)
+ * 행 간격 96(MO 56) / 행: 특허증 560×520 + 설명, gap 80 (MO 세로 스택 gap 24)
+ * 특허증 영역: surface-gray, radius 12 / 특허증 300×424(MO 200×283), radius 2, 그림자
+ * -------------------------------------------------------------------------- */
+.patentList {
+  display: flex;
+  flex-direction: column;
+  gap: 96rem;
+}
+
+.patent {
+  display: flex;
+  align-items: center;
+  gap: 80rem;
+}
+
+.certificate {
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 560rem;
+  height: 520rem;
+  padding: 48rem;
+  box-sizing: border-box;
   overflow: hidden;
+  border-radius: 12rem;
+  background-color: var(--color-surface-gray, #f1f3f4);
+}
 
-  :global(.header) {
-    :global(.title) {
-      font-size: 38rem;
-      font-weight: 700;
-      color: var(--color-white);
-      margin-bottom: 16rem;
-    }
+.certImg {
+  width: 300rem;
+  height: 424rem;
+  border-radius: 2rem;
+  object-fit: cover;
+  box-shadow: 0 6rem 16rem rgba(0, 0, 0, 0.12);
+}
 
-    :global(.description) {
-      font-size: 16rem;
-      line-height: 1.6;
-      color: rgba(255, 255, 255, 0.85);
-      word-break: keep-all;
-    }
+/* 2장 겹침: 뒤(해외) 좌 190 · 상 32 / 앞(국내) 좌 70 · 상 56 */
+.dual {
+  .certImg {
+    position: absolute;
+  }
+
+  .certBack {
+    left: 190rem;
+    top: 32rem;
+  }
+
+  .certFront {
+    left: 70rem;
+    top: 56rem;
+    box-shadow: 0 6rem 18rem rgba(0, 0, 0, 0.12);
+  }
+}
+
+.description {
+  flex: 1 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 32rem;
+  min-width: 0;
+}
+
+.shortTitle {
+  @include text-subheading;
+  margin: 0;
+  color: var(--color-text-black, #000000);
+}
+
+.officialName {
+  @include text-body;
+  margin: 0;
+  color: var(--color-text-gray-2, #5f6368);
+  word-break: keep-all;
+}
+
+.registration {
+  margin: 0;
+}
+
+/* 등록 정보 행: 상단 border, padding 14 0, gap 24, 라벨 96 */
+.regRow {
+  display: flex;
+  align-items: center;
+  gap: 24rem;
+  padding: 14rem 0;
+  border-top: 1rem solid var(--color-border-default, #e8eaed);
+
+  dt,
+  dd {
+    @include text-body;
+    margin: 0;
+  }
+
+  dt {
+    flex-shrink: 0;
+    width: 96rem;
+    color: var(--color-text-gray-2, #5f6368);
+  }
+
+  dd {
+    color: var(--color-text-black, #000000);
+    white-space: nowrap;
   }
 }
 
 /* --------------------------------------------------------------------------
-   Content Section
--------------------------------------------------------------------------- */
-.contentSection {
-  padding: 80rem 0 120rem 0;
-  background-color: var(--color-white);
-
-  .container {
-    max-width: 1200rem;
-    margin: 0 auto;
-    padding: 0 24rem;
-    display: flex;
+ * Responsive
+ * -------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .patent {
     flex-direction: column;
+    align-items: stretch;
+    gap: 40rem;
+  }
+
+  .certificate {
+    width: 100%;
+  }
+}
+
+/* 모바일 (Figma Mobile 2159:14453 · 390 기준) */
+@media (max-width: 768px) {
+  .patentList {
     gap: 56rem;
   }
-}
 
-/* 1. Certificates Gallery Card */
-.certGalleryCard {
-  background-color: #f3f5f8;
-  border-radius: 20rem;
-  padding: 48rem 40rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-shadow: 0 4rem 20rem rgba(0, 0, 0, 0.02);
+  .patent {
+    gap: 24rem;
+  }
 
-  .galleryInner {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
+  .certificate {
+    height: 347rem;
+    padding: 32rem;
+  }
+
+  .certImg {
+    width: 200rem;
+    height: 283rem;
+  }
+
+  /* 2장 겹침 (350 폭 기준): 뒤 좌 115 · 상 22 / 앞 좌 35 · 상 37 → 가운데 기준으로 배치 */
+  .dual {
+    .certBack {
+      left: calc(50% - 60rem);
+      top: 22rem;
+    }
+
+    .certFront {
+      left: calc(50% - 140rem);
+      top: 37rem;
+    }
+  }
+
+  .description {
+    gap: 20rem;
+  }
+
+  .regRow {
     gap: 16rem;
-    width: 100%;
+    padding: 12rem 0;
 
-    .galleryRowTop {
-      display: flex;
-      gap: 16rem;
-      flex: 4;
-    }
-
-    .galleryRowBottom {
-      display: flex;
-      gap: 16rem;
-      flex: 3;
-    }
-  }
-
-  .certItem {
-    flex: 1;
-    aspect-ratio: 1 / 1.414;
-    background-color: var(--color-white);
-    box-shadow: 0 4rem 14rem rgba(0, 0, 0, 0.08);
-    border-radius: 4rem;
-    overflow: hidden;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-
-    &:hover {
-      transform: translateY(-4rem);
-      box-shadow: 0 8rem 20rem rgba(0, 0, 0, 0.12);
-    }
-
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-  }
-}
-
-/* 2. Patents Grid */
-.patentGrid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24rem;
-
-  .patentCard {
-    background-color: var(--color-white);
-    border: 1px solid var(--color-gray-200);
-    border-radius: 16rem;
-    padding: 32rem 28rem;
-    display: flex;
-    flex-direction: column;
-    gap: 14rem;
-    transition: all 0.2s ease;
-
-    &:hover {
-      border-color: var(--color-primary-300);
-      box-shadow: 0 8rem 24rem rgba(0, 0, 0, 0.06);
-      transform: translateY(-2rem);
-    }
-
-    .num {
-      font-size: 14rem;
-      font-weight: 700;
-      color: var(--color-primary);
-      font-family: var(--font-family-mono);
-      line-height: 1;
-    }
-
-    h4 {
-      font-size: 16rem;
-      font-weight: 700;
-      color: var(--color-gray-900);
-      line-height: 1.5;
-      margin: 0;
-      word-break: keep-all;
-    }
-  }
-}
-
-/* --------------------------------------------------------------------------
-   Mobile Responsive
--------------------------------------------------------------------------- */
-@media (max-width: 1024px) {
-  .patentGrid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .certGalleryCard {
-    padding: 32rem 24rem;
-
-    .galleryInner {
-      gap: 10rem;
-
-      .galleryRowTop,
-      .galleryRowBottom {
-        gap: 10rem;
-      }
-    }
-  }
-}
-
-@media (max-width: 768px) {
-  .certHero {
-    :global(.header) {
-      :global(.title) {
-        font-size: 28rem;
-        margin-bottom: 12rem;
-      }
-
-      :global(.description) {
-        font-size: 14rem;
-        line-height: 1.55;
-      }
-    }
-  }
-
-  .contentSection {
-    padding: 40rem 0 60rem 0;
-
-    .container {
-      padding: 0 16rem;
-      gap: 36rem;
-    }
-  }
-
-  /* 모바일 갤러리 2단 분할 (상단 4개, 하단 3개) */
-  .certGalleryCard {
-    padding: 20rem 14rem;
-    border-radius: 16rem;
-
-    .galleryInner {
-      flex-direction: column;
-      gap: 10rem;
-      align-items: center;
-
-      .galleryRowTop {
-        width: 100%;
-        gap: 8rem;
-      }
-
-      .galleryRowBottom {
-        width: 100%;
-        gap: 8rem;
-      }
-    }
-
-    .certItem {
-      border-radius: 3rem;
-      box-shadow: 0 2rem 8rem rgba(0, 0, 0, 0.08);
-    }
-  }
-
-  /* 모바일 특허 리스트 (구분선 스타일) */
-  .patentGrid {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-
-    .patentCard {
-      background: transparent;
-      border: none;
-      border-radius: 0;
-      padding: 20rem 0;
-      border-bottom: 1px solid var(--color-gray-100);
-      gap: 8rem;
-
-      &:hover {
-        transform: none;
-        box-shadow: none;
-        border-color: var(--color-gray-100);
-      }
-
-      &:last-child {
-        border-bottom: none;
-      }
-
-      .num {
-        font-size: 13rem;
-      }
-
-      h4 {
-        font-size: 15rem;
-        line-height: 1.45;
-      }
+    dt {
+      width: 72rem;
     }
   }
 }

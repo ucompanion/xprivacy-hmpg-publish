@@ -182,8 +182,10 @@ try {
 
 // 6. TypeScript Compilation Check
 try {
-  console.log('\n⏳ Running TypeScript compilation check (tsc --noEmit)...');
-  execSync('npx tsc --noEmit', { cwd: ROOT_DIR, stdio: 'pipe' });
+  // 루트 tsconfig.json은 files: [] + references 구조라 `tsc --noEmit`은 아무 파일도 검사하지 않음
+  // → 빌드(npm run build)와 같은 `tsc -b`로 tsconfig.app.json · tsconfig.node.json을 모두 검사
+  console.log('\n⏳ Running TypeScript compilation check (tsc -b)...');
+  execSync('npx tsc -b', { cwd: ROOT_DIR, stdio: 'pipe' });
   report('Build', 'TypeScript type-check passes with 0 errors', true);
 } catch (e) {
   report('Build', 'TypeScript type-check passes with 0 errors', false, e.stdout ? e.stdout.toString() : e.message);

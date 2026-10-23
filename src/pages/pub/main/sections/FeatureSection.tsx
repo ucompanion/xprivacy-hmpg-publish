@@ -28,8 +28,8 @@ export const FeatureSection = () => {
 
         <div className={styles.content_grid}>
           <div className={styles.feature_list}>
-            {features.map((feat, idx) => (
-              <div className={styles.feature_item} key={idx}>
+            {features.map((feat) => (
+              <div className={styles.feature_item} key={feat.title}>
                 <div className={styles.bullet_square}></div>
                 <div className={styles.feat_text}>
                   <h3 className={styles.feat_title}>{feat.title}</h3>

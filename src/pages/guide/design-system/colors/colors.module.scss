@@ -1,63 +1,100 @@
-.color_block {
+.colorTable {
   display: flex;
   flex-direction: column;
-  gap: 8rem;
-  width: 80rem;
+  gap: 12rem;
+  width: 100%;
+}
 
-  .box {
-    width: 100%;
-    height: 60rem;
+.colorRow {
+  display: flex;
+  align-items: center;
+  gap: 24rem;
+  padding: 16rem 20rem;
+  background-color: var(--color-surface-white, #ffffff);
+  border: 1rem solid var(--color-border-default, #e8eaed);
+  border-radius: 8rem;
+  box-sizing: border-box;
+
+  &.bgDark {
+    background-color: #000000;
+    border-color: #222222;
+
+    .tokenName {
+      color: #ffffff;
+    }
+    .tokenSpec {
+      color: #9ea3a8;
+      code {
+        color: #ffffff;
+        background-color: #222222;
+      }
+    }
+    .usageText {
+      color: #dadce0;
+    }
+  }
+
+  .swatch {
+    width: 56rem;
+    height: 56rem;
     border-radius: 8rem;
-    border: 1rem solid var(--color-gray-200);
+    flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
+    border: 1rem solid var(--color-border-default, #e8eaed);
   }
 
-  .main_dot {
-    width: 8rem;
-    height: 8rem;
-    border-radius: 50%;
-    background-color: var(--color-gray-50);
-    box-shadow: 0 0 2rem rgba(0, 0, 0, 0.5);
-  }
-
-  .label {
-    margin: 0;
-    font-size: 14rem;
-    font-weight: 600;
-    color: var(--color-gray-900);
-  }
-
-  .hex {
-    margin: 0;
-    font-size: 12rem;
-    color: var(--color-gray-500);
-    font-family: var(--font-family-mono);
-  }
-}
-
-.header_desc {
-  color: var(--color-gray-600);
-  margin: 0;
-  font-size: 15rem;
-  line-height: 1.6;
-}
-
-.color_group {
-  margin-bottom: 40rem;
-
-  .group_title {
-    font-size: 18rem;
-    font-weight: 700;
-    color: var(--color-gray-900);
-    margin-bottom: 16rem;
-    text-transform: capitalize;
-  }
-
-  .color_grid {
+  .info {
+    width: 380rem;
+    flex-shrink: 0;
     display: flex;
-    flex-wrap: wrap;
-    gap: 16rem;
+    flex-direction: column;
+    gap: 4rem;
+
+    .tokenName {
+      margin: 0;
+      font-size: 18rem;
+      font-weight: 700;
+      color: var(--color-text-black, #000000);
+    }
+
+    .tokenSpec {
+      margin: 0;
+      font-size: 13rem;
+      color: var(--color-text-gray-2, #5f6368);
+      font-family: var(--font-family-mono);
+
+      code {
+        font-family: var(--font-family-mono);
+        padding: 2rem 6rem;
+        background-color: var(--color-surface-gray, #f1f3f4);
+        border-radius: 4rem;
+        color: var(--color-brand-primary, #3b5bff);
+      }
+    }
+  }
+
+  .usage {
+    flex: 1;
+
+    .usageText {
+      margin: 0;
+      font-size: 15rem;
+      color: var(--color-text-gray-1, #3c4043);
+      line-height: 1.5;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .colorRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12rem;
+
+    .info {
+      width: 100%;
+    }
   }
 }

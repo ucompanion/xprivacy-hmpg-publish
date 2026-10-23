@@ -14,7 +14,7 @@ export interface TabsProps {
 }
 
 export const Tabs: React.FC<TabsProps> = ({ items, defaultActiveId, className = '' }) => {
-  const [activeId, setActiveId] = useState<string>(defaultActiveId || items[0]?.id);
+  const [activeId, setActiveId] = useState<string>(defaultActiveId ?? items[0]?.id);
 
   return (
     <div className={`core-tabs ${className}`}>

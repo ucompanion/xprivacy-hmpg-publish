@@ -1,61 +1,51 @@
+@use "@/assets/scss/variables" as *;
+@use "@/assets/scss/mixins" as *;
+
 .footer {
-  background-color: #111111;
-  color: #888888;
-  padding: 80rem 40rem 60rem;
+  background-color: #0b1426; /* Figma: surface/navy (#0b1426) */
+  color: #9fadb6;
+  padding: 72rem 0;
   display: flex;
   justify-content: center;
+  box-sizing: border-box;
 }
 
 .container {
   width: 100%;
-  max-width: 1240rem;
+  max-width: var(--layout-container-max-width, 1280rem);
+  padding-left: var(--layout-gutter, 20rem);
+  padding-right: var(--layout-gutter, 20rem);
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
 }
 
 /* --- Top Section --- */
 .top_section {
   display: flex;
   flex-direction: column;
-  margin-bottom: 80rem;
+  margin-bottom: 56rem;
 }
 
 .logo {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 8rem;
   text-decoration: none;
-  color: #ffffff;
   margin-bottom: 24rem;
-}
 
-.logo_svg {
-  width: 28rem;
-  height: 28rem;
-}
-
-.logo_text {
-  font-size: 20rem;
-  display: flex;
-  align-items: center;
-  gap: 4rem;
-}
-
-.logo_text_bold {
-  font-weight: 700;
-  letter-spacing: 0.5rem;
-}
-
-.logo_text_regular {
-  font-weight: 400;
-  letter-spacing: 0.5rem;
+  .logo_img {
+    width: 141.6rem;
+    height: 30rem;
+    object-fit: contain;
+    display: block;
+  }
 }
 
 .description {
-  font-size: 14rem;
-  line-height: 1.6;
-  color: #888888;
+  @include text-body;
+  color: #9fadb6;
   margin: 0;
+  line-height: 1.75;
 }
 
 /* --- Navigation Grid --- */
@@ -63,34 +53,36 @@
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 20rem;
-  margin-bottom: 80rem;
+  margin-bottom: 56rem;
 }
 
 .nav_group {
   display: flex;
   flex-direction: column;
-  gap: 20rem;
+  gap: 16rem;
 }
 
 .nav_title {
-  font-size: 12rem;
+  @include text-subheading;
+  font-size: 20rem;
   font-weight: 700;
-  color: #ffffff;
-  text-transform: uppercase;
+  color: #dce6eb;
   margin: 0;
+  line-height: 1.4;
 }
 
 .nav_list {
   display: flex;
   flex-direction: column;
-  gap: 14rem;
+  gap: 10rem; /* 피그마 토큰: --footer/link-gap: 10 */
 }
 
 .nav_link {
-  color: #888888;
-  font-size: 14rem;
+  @include text-body;
+  color: #9fadb6;
   text-decoration: none;
   transition: color 0.2s;
+  line-height: 1.75;
 
   &:hover {
     color: #ffffff;
@@ -106,13 +98,13 @@
 
 .legal_links {
   display: flex;
-  gap: 12rem;
+  gap: 8rem; /* 피그마 토큰: --spacing/8: 8 */
   align-items: center;
 }
 
 .legal_link {
-  color: #888888;
-  font-size: 13rem;
+  @include text-body;
+  color: #9fadb6;
   text-decoration: none;
   transition: color 0.2s;
 
@@ -122,15 +114,15 @@
 }
 
 .separator {
-  color: #555555;
-  font-size: 12rem;
+  color: #273740;
+  font-size: 14rem;
 }
 
 /* --- Divider --- */
 .divider {
   width: 100%;
   height: 1rem;
-  background-color: #333333;
+  background-color: #273740; /* 피그마 토큰: --footer/border: #273740 */
   margin: 0;
   border: none;
 }
@@ -142,9 +134,9 @@
 }
 
 .company_details {
-  font-size: 12rem;
-  color: #666666;
-  line-height: 1.8;
+  @include text-note;
+  color: #9fadb6;
+  line-height: 1.75;
 
   p {
     margin: 0;
@@ -152,41 +144,44 @@
 }
 
 .copyright {
-  font-size: 12rem;
-  color: #666666;
+  @include text-note;
+  color: #9fadb6;
+}
+
+@media (max-width: 1024px) {
+  .nav_grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24rem 20rem;
+    margin-bottom: 40rem;
+  }
 }
 
 /* ==========================================================================
-   Mobile Responsive (1024px 이하)
+   Mobile Responsive (768px 이하)
    ========================================================================== */
-@media (max-width: 1024px) {
-  .container {
-    padding: 0 24rem;
+@media (max-width: 768px) {
+  .footer {
+    padding: 48rem 0 40rem;
   }
 
-  .footer {
-    padding: 60rem 24rem;
-    background-color: #000000;
+  .container {
+    padding-left: var(--layout-gutter-mobile, 16rem);
+    padding-right: var(--layout-gutter-mobile, 16rem);
   }
 
   .top_section {
-    flex-direction: column;
-    gap: 40rem;
-    margin-bottom: 60rem;
-  }
-
-  .logo {
-    margin-bottom: 0;
+    margin-bottom: 40rem;
   }
 
   .description {
-    display: none;
+    line-height: 1.6;
   }
 
+  /* 모바일 2열 카테고리 그리드 */
   .nav_grid {
-    display: flex;
-    flex-direction: column;
-    gap: 24rem;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32rem 20rem;
+    margin-bottom: 40rem;
   }
 
   .nav_group {
@@ -194,21 +189,25 @@
   }
 
   .nav_title {
-    font-size: 18rem;
-    text-transform: none; /* Mobile 타이틀은 시안대로 Product 등 대소문자 혼용 */
+    font-size: 20rem;
   }
 
   .nav_list {
-    display: none;
+    display: none; /* 피그마 모바일 시안: 카테고리 타이틀 2열 노출 */
   }
-  
+
+  .bottom_section {
+    gap: 20rem;
+  }
+
   .legal_links {
     flex-wrap: wrap;
+    gap: 8rem;
   }
 
   .company_info_wrap {
     flex-direction: column;
     align-items: flex-start;
-    gap: 24rem;
+    gap: 20rem;
   }
 }

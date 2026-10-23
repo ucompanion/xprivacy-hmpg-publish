@@ -2,15 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styles from './Footer.module.scss';
 
-// 시안 기반 임시 인라인 로고 (Header와 동일)
-const LogoIcon = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={styles.logo_svg}>
-    <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" fill="#2979FF"/>
-    <path d="M16.5 12C16.5 14.4853 14.4853 16.5 12 16.5C9.51472 16.5 7.5 14.4853 7.5 12C7.5 9.51472 9.51472 7.5 12 7.5L12 12H16.5Z" fill="#111111"/>
-    <circle cx="8.5" cy="12" r="5.5" fill="#00E5FF"/>
-  </svg>
-);
-
 export const Footer: React.FC = () => {
   return (
     <footer className={styles.footer}>
@@ -18,11 +9,7 @@ export const Footer: React.FC = () => {
         {/* Top Section: Logo & Description */}
         <div className={styles.top_section}>
           <Link to="/" className={styles.logo}>
-            <LogoIcon />
-            <div className={styles.logo_text}>
-              <span className={styles.logo_text_bold}>OFF:ON</span>
-              <span className={styles.logo_text_regular}>xPRIVACY</span>
-            </div>
+            <img src="/images/common/logo.png" alt="OFF:ON xPRIVACY" className={styles.logo_img} />
           </Link>
           <p className={styles.description}>
             AI 기반 정밀탐지로 개인정보 비식별화 및 관리 솔루션.<br />
@@ -34,7 +21,7 @@ export const Footer: React.FC = () => {
         {/* Navigation Grid (7 Columns) */}
         <div className={styles.nav_grid}>
           <div className={styles.nav_group}>
-            <h4 className={styles.nav_title}>PRODUCT</h4>
+            <h4 className={styles.nav_title}>Product</h4>
             <div className={styles.nav_list}>
               <Link to="/pub/product/intro" className={styles.nav_link}>제품소개</Link>
               <Link to="/pub/product/core-values" className={styles.nav_link}>핵심가치</Link>
@@ -45,7 +32,7 @@ export const Footer: React.FC = () => {
           </div>
           
           <div className={styles.nav_group}>
-            <h4 className={styles.nav_title}>TECHNOLOGY</h4>
+            <h4 className={styles.nav_title}>Technology</h4>
             <div className={styles.nav_list}>
               <Link to="/pub/technology/ai-detection" className={styles.nav_link}>AI Detection</Link>
               <Link to="/pub/technology/security" className={styles.nav_link}>Security</Link>
@@ -53,6 +40,7 @@ export const Footer: React.FC = () => {
               <Link to="/pub/technology/privacy-engine" className={styles.nav_link}>Privacy Engine</Link>
               <Link to="/pub/technology/virtual-face-ai" className={styles.nav_link}>Virtual Face AI</Link>
               <Link to="/pub/technology/smart-workflow" className={styles.nav_link}>Smart Workflow</Link>
+              <Link to="/pub/technology/ai-segmentation" className={styles.nav_link}>AI Segmentation</Link>
             </div>
           </div>
 
@@ -72,14 +60,14 @@ export const Footer: React.FC = () => {
           <div className={styles.nav_group}>
             <h4 className={styles.nav_title}>SOLUTIONS</h4>
             <div className={styles.nav_list}>
-              <Link to="/pub/solutions/broadcasting" className={styles.nav_link}>방송</Link>
-              <Link to="/pub/solutions/cctv" className={styles.nav_link}>CCTV</Link>
-              <Link to="/pub/solutions/smart-city" className={styles.nav_link}>Smart City</Link>
-              <Link to="/pub/solutions/public-institutions" className={styles.nav_link}>공공기관</Link>
-              <Link to="/pub/solutions/ai-data" className={styles.nav_link}>AI Data</Link>
-              <Link to="/pub/solutions/finance" className={styles.nav_link}>금융</Link>
-              <Link to="/pub/solutions/manufacturing" className={styles.nav_link}>제조</Link>
-              <Link to="/pub/solutions/medical" className={styles.nav_link}>의료</Link>
+              <Link to="/pub/solutions#broadcasting" className={styles.nav_link}>방송</Link>
+              <Link to="/pub/solutions#cctv" className={styles.nav_link}>CCTV</Link>
+              <Link to="/pub/solutions#smart-city" className={styles.nav_link}>Smart City</Link>
+              <Link to="/pub/solutions#public-institutions" className={styles.nav_link}>공공기관</Link>
+              <Link to="/pub/solutions#ai-data" className={styles.nav_link}>AI Data</Link>
+              <Link to="/pub/solutions#finance" className={styles.nav_link}>금융</Link>
+              <Link to="/pub/solutions#manufacturing" className={styles.nav_link}>제조</Link>
+              <Link to="/pub/solutions#medical" className={styles.nav_link}>의료</Link>
             </div>
           </div>
 

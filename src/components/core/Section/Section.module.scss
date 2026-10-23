@@ -1,4 +1,4 @@
-@import '../../../assets/scss/mixins';
+@use "@/assets/scss/mixins" as *;
 
 .section {
   width: 100%;
@@ -23,9 +23,11 @@
   position: relative;
 
   &.contained {
-    max-width: 1200rem;
+    max-width: var(--layout-container-max-width, 1280rem);
     margin: 0 auto;
-    padding: 0 24rem;
+    padding-left: var(--layout-gutter, 20rem);
+    padding-right: var(--layout-gutter, 20rem);
+    box-sizing: border-box;
   }
 }
 
@@ -35,28 +37,28 @@
 .header {
   display: flex;
   flex-direction: column;
+  width: 100%;
 
   .eyebrow {
-    @include text-label-eyebrow;
+    @include text-eyebrow;
     margin-bottom: 16rem;
     display: block;
-    letter-spacing: 0.05em;
   }
 
   .title {
-    @include text-heading-section;
-    margin-bottom: 16rem;
+    @include text-section;
+    margin-bottom: 0;
     word-break: keep-all;
-    line-height: 1.3;
   }
 
   .description {
-    @include text-body-lead;
+    @include text-body;
+    margin-top: 16rem;
     word-break: keep-all;
-    line-height: 1.6;
   }
 
   .extra {
+    width: 100%;
     margin-top: 24rem;
   }
 }
@@ -68,13 +70,13 @@
   &.header,
   .header {
     .eyebrow {
-      color: #888888;
+      color: var(--color-text-eyebrow-section, #6f72af);
     }
     .title {
-      color: #111111;
+      color: var(--color-text-black, #000000);
     }
     .description {
-      color: #666666;
+      color: var(--color-text-gray-2, #5f6368);
     }
   }
 }
@@ -83,13 +85,13 @@
   &.header,
   .header {
     .eyebrow {
-      color: #94a3b8;
+      color: var(--color-text-gray-2, #5f6368);
     }
     .title {
-      color: #ffffff;
+      color: var(--color-text-inverse, #ffffff);
     }
     .description {
-      color: #94a3b8;
+      color: rgba(255, 255, 255, 0.7);
     }
   }
 }
@@ -128,13 +130,24 @@
 .layout_vertical {
   display: flex;
   flex-direction: column;
+  gap: 60rem; /* Figma v2 section/content-gap: 60 */
 
   .sectionHeader {
-    margin-bottom: 48rem;
+    margin-bottom: 0;
+
+    /* 하위에 본문 컨텐츠(children)가 없거나 마지막 요소인 경우 불필요한 하단 마진 제거 */
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
 
   .content {
     width: 100%;
+
+    /* 컨텐츠 내부 첫 번째 요소의 개별 상단 여백으로 인해 간격이 60rem 이상 더 벌어지는 현상 원천 차단 */
+    > :first-child {
+      margin-top: 0 !important;
+    }
   }
 }
 
@@ -144,16 +157,20 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 60rem;
+  gap: 80rem;
 
   .sectionHeader {
     flex: 1;
-    max-width: 480rem;
+    max-width: 440rem;
+
+    .extra {
+      width: 100%;
+      margin-top: 40rem;
+    }
   }
 
   .content {
-    flex: 1.1;
-    max-width: 600rem;
+    flex: 1;
   }
 }
 
@@ -163,16 +180,20 @@
   flex-direction: row-reverse;
   align-items: center;
   justify-content: space-between;
-  gap: 60rem;
+  gap: 80rem;
 
   .sectionHeader {
     flex: 1;
-    max-width: 480rem;
+    max-width: 440rem;
+
+    .extra {
+      width: 100%;
+      margin-top: 40rem;
+    }
   }
 
   .content {
-    flex: 1.1;
-    max-width: 600rem;
+    flex: 1;
   }
 }
 
@@ -208,13 +229,16 @@
 
   .container {
     &.contained {
-      padding: 0 20rem;
+      padding-left: var(--layout-gutter, 16rem);
+      padding-right: var(--layout-gutter, 16rem);
     }
   }
 
   .layout_vertical {
+    gap: 40rem; /* Figma v2 layout/section/content-gap-mobile: 40 */
+
     .sectionHeader {
-      margin-bottom: 32rem;
+      margin-bottom: 0;
     }
   }
 }

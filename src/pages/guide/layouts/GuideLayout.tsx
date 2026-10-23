@@ -11,7 +11,7 @@ export default function GuideLayout({ children }: { children: React.ReactNode })
       {/* Global Header */}
       <header className="guide-header">
         <div className="header-inner">
-          <div className="logo" onClick={() => navigate('/guide/dashboard')}>
+          <div className="logo" onClick={() => void navigate('/guide/dashboard')}>
             <strong>xPrivacy</strong>
           </div>
           <nav className="header-nav">

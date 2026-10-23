@@ -1,7 +1,7 @@
 import { useLocation, Link } from 'react-router-dom';
 import GuideLayout from './GuideLayout';
 
-export const GUIDE_MENU = [
+const GUIDE_MENU = [
   {
     category: 'Overview',
     items: [
@@ -23,6 +23,7 @@ export const GUIDE_MENU = [
       { label: 'Accordion', path: '/guide/design-system/accordion' },
       { label: 'Badge', path: '/guide/design-system/badge' },
       { label: 'Button', path: '/guide/design-system/button' },
+      { label: 'Card', path: '/guide/design-system/card' },
       { label: 'Form', path: '/guide/design-system/form' },
       { label: 'Icon', path: '/guide/design-system/icon' },
       { label: 'Modal', path: '/guide/design-system/modal' },

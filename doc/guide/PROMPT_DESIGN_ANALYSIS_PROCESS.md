@@ -6,7 +6,7 @@
 
 ## ⚠️ 1. 왜 "원론적인 1:1 매칭" 지시만으로는 실패하는가? (The Failure Traps)
 
-LLM 및 개발자가 시안을 보고 작업할 때 흔히 저지르는 **4대 치명적 함정**:
+LLM 및 개발자가 시안을 보고 작업할 때 흔히 저지르는 **6대 치명적 함정**:
 
 1. **패턴 추론의 함정 (Pattern Assumption)**:
    * "기능 소개 섹션이니까 좌측에 타이틀, 우측에 이미지를 넣으면 되겠지"라며 자신이 학습한 전형적인 템플릿으로 지레짐작함.
@@ -22,6 +22,8 @@ LLM 및 개발자가 시안을 보고 작업할 때 흔히 저지르는 **4대 �
 5. **섹션 배경색 교차 패턴 실명 (Background Color Blindspot)**:
    * 순수 흰색(`#ffffff`)과 라이트 그레이(`#f1f3f4` / `#f8f9fa`)의 미세한 명도 차이(3~4%)를 LLM 비전 모델이 눈대중으로 보다가 '둘 다 밝은 배경'으로 뭉뚱그려 모두 흰색으로 칠해버림.
    * 섹션마다 흰색인지 회색인지 명시적으로 스포이드 추출하지 않아 리듬감 있는 교차 배경이 완전히 파괴됨.
+6. **토큰 매핑 누락 (Token Mapping Blindspot)**:
+   * 컬러는 토큰으로 바꾸면서 **텍스트 스타일은 숫자로 하드코딩**하는 누락이 잦음. 화면은 시안과 같아도 `_variables.scss`의 타이포 토큰을 바꿀 때 해당 화면만 따라 바뀌지 않는 유지보수 결함이 생김. (피그마 MCP 작업의 매핑 절차는 `figma-mcp-publish` 스킬 참조)
 
 ---
 
@@ -70,7 +72,7 @@ graph TD
      * 히어로 섹션처럼 타이틀은 좌측 끝, 설명문은 우측 끝에 수평 정렬되는가?
 2. **섹션 배경색(White vs Gray) 스포이드 전수 판별**:
    * ⚠️ **배경색 누락 방지 필수 규칙**:
-     * 각 섹션의 좌/우 외부 여백 픽셀을 스포이드로 확인하여 **순수 흰색(`bg="white"`, `#ffffff`)**인지, **라이트 그레이(`bg="gray"`, `#f1f3f4` / `var(--color-gray-100)`)**인지 전수 판별합니다.
+     * 각 섹션의 좌/우 외부 여백 픽셀을 스포이드로 확인하여 **순수 흰색(`bg="white"`, `#ffffff`)**인지, **라이트 그레이(`bg="gray"`, `#f1f3f4` / `var(--color-surface-gray)`)**인지 전수 판별합니다.
      * 섹션 내부 카드가 흰색이더라도, 섹션 바닥 배경이 회색인 경우가 많으므로 반드시 바닥 배경을 확인해야 합니다.
 3. **Content 내부 그리드 구조 판단**:
    * 본문 영역이 1열인가?
@@ -81,12 +83,22 @@ graph TD
 ---
 
 ### Step 3. 기존 아키텍처 & 매커니즘 매핑 (Architecture Mapping)
-새로운 HTML 태그나 컴포넌트를 무분별하게 생성하지 않고, **프로젝트에 이미 설계된 코어/도메인 컴포넌트 메커니즘**과 1:1로 결합합니다.
+새로운 HTML 태그나 임의의 섹션 래퍼를 무분별하게 신설하지 않고, **이미 완벽하게 설계된 코어/도메인 컴포넌트 메커니즘**과 1:1로 결합합니다.
 
-*   **컴포넌트 선택 기준**:
-    *   상단 글로벌 Hero: `<HeroSection>` 사용
-    *   일반 본문 섹션: `<BasicSection bg="white" | "gray">` 사용
-    *   하단 CTA 배너: `<ProductCta>` (또는 `<CtaSection>`) 사용
+*   **컴포넌트 선택 및 매핑 기준**:
+    *   **상단 Hero 섹션 (`<HeroSection>`)**:
+        *   **Full 타입** (`heroVariant="full"`): 서비스 인트로/메인 비주얼. 100svh, 기본 `align="center"`, 피그마 v2 화사한 라이트 글래스 림 조명, 블랙 타이틀(`var(--color-text-black)`), 액션 버튼(`buttons`), Before/After 비교 슬라이더 등 동적 인터랙션 UI(`children`) 결합.
+        *   **Compact 타입** (`heroVariant="compact"`): 서브 페이지/요금제/상세. 불필요한 고정 높이 없이 자연스러운 컨텐츠 높이(`min-height: auto`), 상하 패딩(PC: padding-top 158rem, bottom 102rem / MO: padding-top 96rem, bottom 48rem), 기본 `align="left"`, 피그마 v2 라이트 글래스 배경, 선택적 강조 키워드 필 칩 배열(`keywords={['...', ...]}`, 피그마 Keyword/v2 글래스 칩 · 높이 40). 키워드 칩 유무에 따라 자연스럽게 약 407rem ~ 480rem 높이를 형성. 텍스트 위계는 eyebrow `text/gray-1` → (16) → 타이틀 `text/black` → (24) → 설명 `text/black`(폭 640) → (24) → 키워드로 고정이며, 페이지마다 상하 여백이 다르면 컴포넌트를 고치지 않고 페이지 클래스에서 `--hero-compact-padding-{top|bottom}-{pc|mo}` 변수로 지정합니다. 기술 페이지처럼 여러 화면이 같은 배경(Technology 이미지 + 브랜드 틴트)을 쓰면 페이지 CSS로 만들지 않고 `bgPreset="technology"` 옵션을 사용합니다.
+    *   **일반 본문 섹션 (`<BasicSection bg="white" | "gray">`)**:
+        *   코어 `Section`의 모든 옵션(`layout`, `align`, `theme` 등)을 그대로 계승하며, `bg="white"`와 `bg="gray"`로 페이지 간 시각적 리듬을 형성.
+        *   상단 중앙 타이틀 + 2단 본문 구조는 반드시 `<BasicSection layout="vertical" align="center">`의 `children` 내부에 2열 그리드/플렉스를 배치.
+    *   **하단 CTA 배너 (`<CtaSection>` / `<ProductCta>`)**:
+        *   **Main 타입** (`variant="main"`): 전폭 소프트 글로우 배너, 중앙 정렬, 액션 버튼 2종.
+        *   **Sub 타입** (`variant="sub"`): 컴팩트 카드형 다크 배너, 단일/복합 액션 버튼.
+    *   **도입 효과 카드 (`<BenefitCardGroup>` / `<BenefitCard>`, `src/components/domain/Benefit`)**:
+        *   기술 소개 페이지마다 반복되는 도입 효과 카드는 날코딩하지 않고 도메인 컴포넌트를 사용합니다. 섹션은 페이지에서 `<BasicSection layout="vertical" align="left" eyebrow="BENEFITS" title="도입 효과" bg="...">`로 구성하고, 카드 그룹은 그 `children`으로만 넣습니다(도메인 컴포넌트가 섹션을 소유하지 않음).
+        *   카드는 Core `Card` + Core `IconSurface`(48 → MO 44) 조합이며 간격은 프리셋으로 고정됩니다. 시안별 차이는 카드 테두리 `bordered` 옵션으로만 표현하고, 카드 수에 따라 열 수가 자동으로 정해집니다.
+    *   **유리 아이콘 (`<IconSurface>`, Core)**: Figma `Process Icon/v2 · ClearSurface`는 페이지마다 레이어를 복제하지 않고 Core `IconSurface`(`size` 32 · 40 · 44 · 48 — 48 기준 비례, `tone` default(ClearSurface) · soft(LightBlueSurface), `glyphFit` center · fill)를 사용합니다. 피그마 인스턴스가 64 기준 값(반경 16 · 두께 4 · 글리프 64)으로 보여도 실제 렌더링은 인스턴스 크기(48 · 40)로 축소된 값이므로, 크기 옵션만 지정하고 내부 치수를 따로 맞추지 않습니다. 피그마는 반투명 채움 아래로 그림자색이 비쳐 연한 회청색을 띠므로, CSS에서는 그림자색을 채움 배경으로 깔아 재현합니다(Core에서 관리).
 *   **컴포넌트 속성 매핑 규칙**:
     *   배경색: `<BasicSection bg="white">` 또는 `<BasicSection bg="gray">` 명시
     *   타이틀이 상단 중앙에 위치하고 본문이 2분할인 경우:
@@ -96,8 +108,10 @@ graph TD
         *   ⭕ `<BasicSection layout="horizontal" bg="..." headerExtra={...}>` 활용.
 *   **디자인 토큰 엄격 준수**:
     *   폰트: `var(--font-family-base)` (Pretendard), `var(--font-family-mono)` (데이터/코드)
-    *   컬러: `var(--color-primary)`, `var(--color-gray-*)`, `var(--color-white)`
+    *   컬러: `var(--color-text-black)`, `var(--color-text-gray-1)`, `var(--color-text-gray-2)`, `var(--color-brand-primary)`, `var(--color-surface-*)`
+    *   타이포그래피: `@include text-hero | text-section | text-subheading | text-body | text-eyebrow | text-note` (`src/assets/scss/_mixins.scss`) 또는 `var(--font-size-*)`, `var(--line-height-*)`, `var(--font-weight-*)`. 모바일 행간 등 브레이크포인트 분기는 믹스인에 내장되어 있으므로 화면 SCSS에서 중복 선언하지 않음.
     *   단위: 모든 간격, 크기, 폰트는 `rem` 단위 (`1rem = 1px`) 사용. 모바일 뷰포트 높이는 `svh` 사용.
+*   **피그마 MCP URL 작업**: 변수 추출·토큰 매핑·측정·보고 절차는 `figma-mcp-publish` 스킬을 따릅니다.
 
 ---
 
@@ -124,7 +138,7 @@ PC 시안과 Mobile 시안을 나란히 두고 **뷰포트 축소 시 무엇이 
    * TypeScript 타입 에러 0건 및 아키텍처 규칙 통과 확인.
 2. **실제 브라우저 스크린샷 캡처**:
    * 데스크탑 (1440px) 풀페이지 캡처
-   * 모바일 (375px) 풀페이지 캡처
+   * 모바일 풀페이지 캡처 (시안 프레임 너비 기준: 360·375·390px 등. 너비가 다르면 여백·줄바꿈이 달라져 대조가 부정확해짐)
 3. **6대 필수 Self-Diff 체크리스트**:
    * [ ] **1. 텍스트 완전성**: 원본 시안에 있는 단어 중 누락되거나 임의로 바뀐 문구가 없는가?
    * [ ] **2. 배치 축 일치**: 헤더와 본문, 본문 내부 좌우 배치가 시안과 정확히 같은 방향인가?
@@ -132,6 +146,7 @@ PC 시안과 Mobile 시안을 나란히 두고 **뷰포트 축소 시 무엇이 
    * [ ] **4. 컴포넌트 룩앤필**: 박스 라운드값(`border-radius`), 그림자(`shadow`), 카드 배경색이 일치하는가?
    * [ ] **5. 인터랙션 상태 표기**: 라디오/체크박스의 선택된 아이템과 선택 안 된 아이템의 시각적 형태가 시안과 동일한가?
    * [ ] **6. 모바일 안전성**: 모바일 뷰포트에서 잘려 나가거나 레이아웃이 깨진 영역이 없는가?
+   * [ ] **7. 토큰 사용**: 컬러·타이포그래피가 숫자 하드코딩 없이 프로젝트 토큰·믹스인으로 작성되었는가?
 
 ---
 

@@ -1,4 +1,4 @@
-@import "../../../assets/scss/mixins";
+@use "@/assets/scss/mixins" as *;
 
 .wrapper {
   display: flex;
@@ -37,7 +37,12 @@
 
 .description {
   @include text-body-lead;
-  color: var(--color-gray-600);
+  color: var(--color-gray-700);
+}
+
+.text_muted {
+  @include text-body-lead;
+  color: var(--color-gray-700);
 }
 
 .section {

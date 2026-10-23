@@ -1,3 +1,5 @@
+@use "@/assets/scss/mixins" as *;
+
 .core-form-control {
   display: flex;
   flex-direction: column;
@@ -26,6 +28,103 @@
     &:disabled {
       background-color: var(--color-gray-100);
       cursor: not-allowed;
+    }
+  }
+
+  .core-input-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    .core-input {
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+  }
+
+  .core-input-toggle {
+    position: absolute;
+    right: 16rem;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--color-text-gray-2);
+    font-family: var(--font-family-base);
+    font-size: inherit;
+    cursor: pointer;
+  }
+
+  .core-input-helper,
+  .core-input-error {
+    margin: 6rem 0 0;
+    font-size: 13rem;
+    color: var(--color-text-gray-2);
+  }
+
+  .core-input-error {
+    color: var(--color-status-error);
+  }
+
+  &.is-error .core-input {
+    border-color: var(--color-status-error);
+  }
+
+  /* --------------------------------------------------------------
+   * size="lg" · Figma Text Field/v2 (2965:823)
+   * 라벨 Body SemiBold → 8 → 입력 52 (padding 0 16 · radius 8 · border unselected) → 8 → 도움말 Body
+   * -------------------------------------------------------------- */
+  &.size-lg {
+    gap: 8rem;
+    margin-bottom: 0;
+
+    label {
+      @include text-body;
+      margin: 0;
+      color: var(--color-text-black);
+      font-weight: var(--font-weight-semibold, 600);
+      line-height: 1.75; /* 시안: MO도 175% */
+    }
+
+    .core-input {
+      @include text-body;
+      height: 52rem;
+      padding: 0 16rem;
+      border-color: var(--color-border-unselected);
+      border-radius: 8rem;
+      background-color: var(--color-surface-white);
+      color: var(--color-text-black);
+
+      &::placeholder {
+        color: var(--color-text-gray-2);
+      }
+
+      &:focus {
+        border-color: var(--color-primary);
+      }
+    }
+
+    .core-input-wrap:has(.core-input-toggle) .core-input {
+      padding-right: 64rem;
+    }
+
+    .core-input-toggle {
+      @include text-body;
+    }
+
+    .core-input-helper,
+    .core-input-error {
+      @include text-body;
+      margin: 0;
+      line-height: 1.75; /* 시안: MO도 175% */
+      word-break: keep-all;
+    }
+
+    .core-input-helper {
+      color: var(--color-text-gray-2);
+    }
+
+    &.is-error .core-input {
+      border-color: var(--color-status-error);
     }
   }
 

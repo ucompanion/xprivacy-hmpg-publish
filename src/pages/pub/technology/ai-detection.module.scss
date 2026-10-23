@@ -1,383 +1,256 @@
-@import '../../../assets/scss/variables';
+@use "@/assets/scss/variables" as *;
+@use "@/assets/scss/mixins" as *;
+
+/* 탐지 영역 표시선: 피그마 #FF1010 (대응 토큰 없음 · --color-danger #ef4444와 다른 값) */
+$detect-line: #ff1010;
 
 .pageWrap {
   width: 100%;
 }
 
 /* --------------------------------------------------------------------------
-   Hero Section
--------------------------------------------------------------------------- */
+ * 1. Hero Section
+ * -------------------------------------------------------------------------- */
 .techHero {
-  background-size: cover;
-  background-position: right center;
-  position: relative;
+  /* Hero compact variant */
+}
+
+/* --------------------------------------------------------------------------
+ * 2. AI DATA (Figma PC 2165:6045 / Mobile 2165:6160)
+ * 설명 하단: 포인트 2개(상단 border, py 20, gap 6) → 40 → 타깃 카드 2개(gap 12)
+ * -------------------------------------------------------------------------- */
+/* 좌우 배치 간격: 시안 33 → 예외 케이스 규칙에 따라 40 (컴포넌트 기본 80) */
+.pageWrap .aiDataLayout {
+  gap: 40rem;
+}
+
+.copyBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 40rem;
+}
+
+.pointsList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pointItem {
+  display: flex;
+  flex-direction: column;
+  gap: 6rem;
+  padding: 20rem 0;
+  border-top: 1rem solid var(--color-border-default);
+}
+
+.pointTitle {
+  @include text-subheading;
+  margin: 0;
+  color: var(--color-text-black);
+}
+
+.pointDesc {
+  @include text-body;
+  margin: 0;
+  color: var(--color-text-gray-1);
+  word-break: keep-all;
+}
+
+.targetCards {
+  display: flex;
+  gap: 12rem;
+}
+
+/* 타깃 카드: white, border default, radius 12, padding 20 24, gap 6 */
+.targetCard {
+  flex: 1 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6rem;
+  min-width: 0;
+  padding: 20rem 24rem;
+  border: 1rem solid var(--color-border-default);
+  border-radius: 12rem;
+  background-color: var(--color-surface-white);
+}
+
+.targetTitle {
+  @include text-subheading;
+  margin: 0;
+  color: var(--color-text-black);
+  word-break: keep-all;
+}
+
+.targetDesc {
+  @include text-body;
+  margin: 0;
+  color: var(--color-text-gray-1);
+  word-break: keep-all;
+}
+
+/* 비교 비주얼: surface-gray, radius 12, padding 40 24, 행 간격 36 */
+.visual {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 36rem;
+  width: 100%;
+  padding: 40rem 24rem;
+  border-radius: 12rem;
+  background-color: var(--color-surface-gray);
   overflow: hidden;
 
-  :global(.header) {
-    :global(.title) {
-      font-size: 40rem;
-      font-weight: 700;
-      color: var(--color-white);
-      margin-bottom: 20rem;
-      line-height: 1.35;
-      word-break: keep-all;
-    }
-
-    :global(.description) {
-      font-size: 16rem;
-      line-height: 1.6;
-      color: rgba(255, 255, 255, 0.85);
-      word-break: keep-all;
-    }
+  figure {
+    margin: 0;
   }
 }
 
-/* --------------------------------------------------------------------------
-   AI DATA Section (Horizontal Layout)
--------------------------------------------------------------------------- */
-.aiDataSection {
-  padding-top: 100rem;
-  padding-bottom: 60rem;
+.faceRow {
+  display: flex;
+  align-items: center;
+  gap: 12rem;
+}
 
-  // 좌측 헤더 래퍼 확장
-  :global(.header) {
-    flex: 1;
-    max-width: 500rem;
+.bodyRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 24rem;
+}
 
-    :global(.eyebrow) {
-      font-size: 13rem;
-      font-weight: 700;
-      color: var(--color-primary);
-      letter-spacing: 0.1em;
-      margin-bottom: 12rem;
-    }
+/* 비교 카드: padding 8 8 10, radius 10, 사진-라벨 gap 10 */
+.faceCard,
+.bodyCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10rem;
+  padding: 8rem 8rem 10rem;
+  border-radius: 10rem;
+}
 
-    :global(.title) {
-      font-size: 36rem;
-      font-weight: 700;
-      color: var(--color-gray-900);
-      line-height: 1.35;
-      margin-bottom: 20rem;
-      word-break: keep-all;
-    }
+.featured {
+  background-color: var(--color-primary);
 
-    :global(.description) {
-      font-size: 16rem;
-      color: var(--color-gray-600);
-      line-height: 1.65;
-      margin-bottom: 32rem;
-      word-break: keep-all;
-    }
-  }
-
-  // 좌측 세부 블록 (객체 타겟팅 / 화면손실 최소화)
-  .featureList {
-    display: flex;
-    flex-direction: column;
-    gap: 24rem;
-
-    .featureItem {
-      h5 {
-        font-size: 16rem;
-        font-weight: 700;
-        color: var(--color-gray-900);
-        margin: 0 0 8rem 0;
-      }
-
-      p {
-        font-size: 14rem;
-        color: var(--color-gray-600);
-        line-height: 1.6;
-        margin: 0;
-        word-break: keep-all;
-      }
-    }
-  }
-
-  // 우측 비교 이미지 패널
-  .visualPanel {
-    flex: 1.1;
-    max-width: 580rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    img {
-      width: 100%;
-      height: auto;
-      display: block;
-      border-radius: 16rem;
-      box-shadow: 0 4rem 20rem rgba(0, 0, 0, 0.04);
-    }
+  .cardLabel {
+    color: var(--color-text-inverse);
   }
 }
 
-/* --------------------------------------------------------------------------
-   3 Recognition Cards
--------------------------------------------------------------------------- */
-.cardsSection {
-  padding: 0 0 100rem 0;
-  background-color: var(--color-white);
+.general {
+  border: 1rem solid var(--color-border-default);
+  background-color: var(--color-surface-white);
+}
 
-  .cardsContainer {
-    max-width: 1200rem;
-    margin: 0 auto;
-    padding: 0 24rem;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24rem;
-  }
+.facePhoto,
+.bodyPhoto {
+  position: relative;
+  overflow: hidden;
+  border-radius: 6rem;
 
-  .recCard {
-    background-color: var(--color-white);
-    border: 1px solid var(--color-gray-200);
-    border-radius: 16rem;
-    padding: 32rem 28rem;
-    display: flex;
-    flex-direction: column;
-    gap: 12rem;
-    transition: all 0.2s ease;
-
-    &:hover {
-      border-color: var(--color-primary-300);
-      box-shadow: 0 8rem 24rem rgba(0, 0, 0, 0.06);
-      transform: translateY(-2rem);
-    }
-
-    .num {
-      font-size: 14rem;
-      font-weight: 700;
-      color: var(--color-primary);
-      font-family: var(--font-family-mono);
-      line-height: 1;
-    }
-
-    h4 {
-      font-size: 18rem;
-      font-weight: 700;
-      color: var(--color-gray-900);
-      line-height: 1.4;
-      margin: 0;
-      word-break: keep-all;
-    }
-
-    p {
-      font-size: 14rem;
-      color: var(--color-gray-600);
-      line-height: 1.6;
-      margin: 0;
-      word-break: keep-all;
-    }
+  > img:first-child {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 }
 
-/* --------------------------------------------------------------------------
-   도입효과 Section (Effects Section)
--------------------------------------------------------------------------- */
-.effectsSection {
-  padding: 100rem 0 120rem 0;
-
-  :global(.header) {
-    margin-bottom: 48rem;
-
-    :global(.title) {
-      font-size: 36rem;
-      font-weight: 700;
-      color: var(--color-gray-900);
-      line-height: 1.3;
-    }
-  }
-
-  .effectsGrid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 32rem;
-
-    .effectItem {
-      display: flex;
-      flex-direction: column;
-      gap: 12rem;
-
-      .num {
-        font-size: 14rem;
-        font-weight: 700;
-        color: var(--color-primary);
-        font-family: var(--font-family-mono);
-        line-height: 1;
-      }
-
-      h4 {
-        font-size: 20rem;
-        font-weight: 700;
-        color: var(--color-gray-900);
-        line-height: 1.4;
-        margin: 0;
-        word-break: keep-all;
-      }
-
-      .subText {
-        font-size: 14rem;
-        color: var(--color-gray-500);
-        margin: 0;
-        line-height: 1.5;
-      }
-    }
-  }
+.facePhoto {
+  width: 170rem;
+  height: 215rem;
 }
 
-/* --------------------------------------------------------------------------
-   Mobile Responsive
--------------------------------------------------------------------------- */
-@media (max-width: 1024px) {
-  .aiDataSection {
-    padding-top: 60rem;
-    padding-bottom: 40rem;
-
-    :global(.header) {
-      max-width: 100%;
-    }
-
-    .visualPanel {
-      max-width: 100%;
-    }
-  }
-
-  .cardsSection {
-    padding-bottom: 60rem;
-
-    .cardsContainer {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  .effectsSection {
-    padding: 60rem 0 80rem 0;
-
-    .effectsGrid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 24rem;
-    }
-  }
+.bodyPhoto {
+  width: 282rem;
+  height: 187rem;
 }
 
+/* 자사: 이목구비 중심 타원 (170×215 기준 24.56, 43.44 / 99.17×130.33) */
+.ellipse {
+  position: absolute;
+  left: 14.45%;
+  top: 20.2%;
+  width: 58.33%;
+  height: 60.62%;
+}
+
+/* 타사: 사각 영역 (170×215 기준 13.22, 48.64 / 117.11×132.22) */
+.rect {
+  position: absolute;
+  left: 7.78%;
+  top: 22.62%;
+  width: 68.89%;
+  height: 61.5%;
+  border: 2rem solid $detect-line;
+}
+
+.cardLabel {
+  @include text-subheading;
+  color: var(--color-text-black);
+  text-align: center;
+  white-space: nowrap;
+}
+
+.arrow {
+  flex-shrink: 0;
+  width: 24rem;
+  height: 24rem;
+}
+
+/* 모바일 (Figma Mobile 2165:6152 · 390 기준) */
 @media (max-width: 768px) {
-  .techHero {
-    :global(.header) {
-      :global(.title) {
-        font-size: 28rem;
-        line-height: 1.35;
-        margin-bottom: 14rem;
-      }
-
-      :global(.description) {
-        font-size: 14rem;
-        line-height: 1.55;
-      }
-    }
+  .pcBr,
+  .arrow {
+    display: none;
   }
 
-  .aiDataSection {
-    padding-top: 48rem;
-    padding-bottom: 36rem;
-
-    :global(.header) {
-      :global(.title) {
-        font-size: 26rem;
-        margin-bottom: 14rem;
-      }
-
-      :global(.description) {
-        font-size: 14rem;
-        margin-bottom: 24rem;
-      }
-    }
-
-    .featureList {
-      gap: 18rem;
-      margin-bottom: 32rem;
-
-      .featureItem {
-        h5 {
-          font-size: 15rem;
-        }
-
-        p {
-          font-size: 13rem;
-        }
-      }
-    }
-
-    .visualPanel {
-      width: 100%;
-      margin-top: 12rem;
-
-      img {
-        border-radius: 12rem;
-      }
-    }
+  /* 타깃 카드: 2열 유지, padding 18, gap 4 */
+  .targetCard {
+    gap: 4rem;
+    padding: 18rem;
   }
 
-  .cardsSection {
-    padding-bottom: 48rem;
-
-    .cardsContainer {
-      display: flex;
-      flex-direction: column;
-      gap: 16rem;
-      padding: 0 20rem;
-    }
-
-    .recCard {
-      padding: 24rem 20rem;
-      border-radius: 14rem;
-
-      h4 {
-        font-size: 16rem;
-      }
-
-      p {
-        font-size: 13rem;
-      }
-    }
+  /* 비주얼: padding 20 12, 행 간격 20 / 카드 padding 5 5 7, radius 8, gap 6 */
+  .visual {
+    gap: 20rem;
+    padding: 20rem 12rem;
   }
 
-  .effectsSection {
-    padding: 48rem 0 60rem 0;
+  .faceRow,
+  .bodyRow {
+    gap: 8rem;
+  }
 
-    :global(.header) {
-      margin-bottom: 28rem;
+  .faceCard,
+  .bodyCard {
+    gap: 6rem;
+    padding: 5rem 5rem 7rem;
+    border-radius: 8rem;
+  }
 
-      :global(.title) {
-        font-size: 26rem;
-      }
-    }
+  .facePhoto,
+  .bodyPhoto {
+    border-radius: 4rem;
+  }
 
-    .effectsGrid {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
+  .facePhoto {
+    width: 92rem;
+    height: 116rem;
+  }
 
-      .effectItem {
-        padding: 20rem 0;
-        border-bottom: 1px solid var(--color-gray-200);
-        gap: 6rem;
+  .bodyPhoto {
+    width: 149rem;
+    height: 99rem;
+  }
 
-        &:last-child {
-          border-bottom: none;
-        }
+  .rect {
+    border-width: 1.5rem;
+  }
 
-        .num {
-          font-size: 13rem;
-        }
-
-        h4 {
-          font-size: 17rem;
-        }
-
-        .subText {
-          font-size: 13rem;
-        }
-      }
-    }
+  .cardLabel {
+    @include text-body;
+    color: var(--color-text-gray-2);
   }
 }

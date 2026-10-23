@@ -129,3 +129,20 @@
     display: inline-block !important;
   }
 }
+
+/* Responsive Line Break Utilities */
+.pcBr {
+  display: inline;
+
+  @media (max-width: 768px) {
+    display: none !important;
+  }
+}
+
+.mobileBr {
+  display: none !important;
+
+  @media (max-width: 768px) {
+    display: inline !important;
+  }
+}

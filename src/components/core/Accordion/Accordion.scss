@@ -1,3 +1,5 @@
+@use "@/assets/scss/mixins" as *;
+
 .core-accordion {
   border: 1rem solid var(--color-gray-300);
   border-radius: 8rem;
@@ -47,6 +49,87 @@
       font-size: 14rem;
       line-height: 1.6;
       border-top: 1rem solid var(--color-gray-300);
+    }
+  }
+
+  /* ---------------------------------
+   * LINE VARIANT (Figma FAQ Accordion 2156:30384)
+   * 상단 border + 항목 하단 border, padding 24 0(MO 20 0) / 제목 20 Bold, 답변 16 gray-2
+   * --------------------------------- */
+  &.variant-line {
+    border: none;
+    border-top: 1rem solid var(--color-border-default, #e8eaed);
+    border-radius: 0;
+
+    .accordion-item {
+      display: flex;
+      flex-direction: column;
+      gap: 12rem;
+      padding: 24rem 0;
+      border-bottom: 1rem solid var(--color-border-default, #e8eaed);
+
+      &:last-child {
+        border-bottom: 1rem solid var(--color-border-default, #e8eaed);
+      }
+
+      .accordion-header {
+        @include text-subheading;
+        align-items: flex-start;
+        justify-content: flex-start;
+        gap: 16rem;
+        padding: 0;
+        background: none;
+        color: var(--color-text-black, #000000);
+
+        &:hover {
+          background: none;
+        }
+
+        .prefix {
+          flex-shrink: 0;
+          color: var(--color-text-accent, #3b5bff);
+        }
+
+        .title {
+          flex: 1 0 0;
+          min-width: 0;
+          word-break: keep-all;
+        }
+
+        .chevron {
+          flex-shrink: 0;
+          color: var(--color-text-gray-2, #5f6368);
+          transition: transform 0.2s;
+        }
+
+        &.open .chevron {
+          transform: rotate(180deg);
+        }
+      }
+
+      .accordion-content {
+        @include text-body;
+        padding: 0 40rem 0 0;
+        border-top: none;
+        background: none;
+        color: var(--color-text-gray-2, #5f6368);
+        word-break: keep-all;
+      }
+    }
+
+    /* 표식이 있으면 답변을 제목 시작선에 맞춤 (표식 16 + 간격 16) */
+    &.has-prefix .accordion-item .accordion-content {
+      padding-left: 32rem;
+    }
+
+    @media (max-width: 768px) {
+      .accordion-item {
+        padding: 20rem 0;
+      }
+
+      &.has-prefix .accordion-item .accordion-content {
+        padding-left: 28rem;
+      }
     }
   }
 }

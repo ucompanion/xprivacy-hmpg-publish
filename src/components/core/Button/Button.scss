@@ -20,6 +20,18 @@
     padding: 12rem 24rem;
     font-size: 16rem;
   }
+  &.size-xl {
+    height: var(--btn-height, 56rem);
+    padding: 0 28rem;
+    font-size: 20rem;
+    font-weight: 700;
+    border-radius: var(--btn-radius, 6rem);
+
+    @media (max-width: 768px) {
+      font-size: 16rem;
+      padding: 0 20rem;
+    }
+  }
 
   /* COLOR THEMES */
   /* primary */
@@ -90,11 +102,34 @@
       &:hover { background-color: var(--color-gray-300); }
     }
     &.variant-outline {
-      background-color: transparent;
-      color: var(--color-gray-800);
-      border-color: var(--color-gray-300);
-      &:hover { background-color: var(--color-gray-100); }
+      background-color: var(--color-surface-white, #ffffff);
+      color: var(--color-text-black, #000000);
+      border-color: var(--color-border-strong, #80868b);
+      &:hover { background-color: var(--color-surface-gray, #f1f3f4); }
     }
+  }
+
+  /* Figma Button/v2 Primary (56 높이) 그림자 */
+  &.size-xl.variant-solid.color-primary {
+    box-shadow: var(--shadow-button-primary, 0 4rem 6rem rgba(20, 43, 69, 0.1));
+
+    /* Figma Button/v2 Disabled: 회색 배경 + 회색 글자 (흐림 처리 대신) */
+    &:disabled {
+      background-color: var(--color-surface-disabled, #e8eaed);
+      color: var(--color-text-disabled, #80868b);
+      opacity: 1;
+    }
+  }
+
+  /* SUBTLE VARIANT (Figma Button/v2 Secondary · 색상 무관): 흰 80% 배경 + 남색 글자, 테두리 없음 */
+  &.variant-subtle {
+    background-color: var(--surface-button-secondary, rgba(255, 255, 255, 0.8));
+    color: var(--color-text-button-secondary, #142b45);
+    border-color: transparent;
+    &:hover { background-color: var(--color-surface-white, #ffffff); }
+
+    /* bordered: 밝은 카드 위 Secondary (Figma 3064:37404 · 1px #C8D2DF) */
+    &.is-bordered { border-color: var(--color-border-button-secondary, #c8d2df); }
   }
 
   /* GHOST VARIANT (Color independent, usually uses text color) */
