@@ -109,8 +109,8 @@
 }
 
 .eyebrow {
-  @include text-body;
-  color: var(--color-text-gray-2);
+  @include text-eyebrow-section; /* 섹션 공통 Eyebrow (Figma v2 Eyebrow-Section 2730:31257) */
+  color: var(--color-text-eyebrow-section, #6f72af);
 }
 
 .heading {

@@ -25,13 +25,9 @@
     }
 
     .ctaEyebrow {
+      @include text-eyebrow-section; /* Figma v2 Eyebrow-Section (2528:61316) */
       display: inline-block;
-      font-family: var(--font-family-base);
-      font-size: 16rem;
-      font-weight: 700;
-      color: #6f72af;
-      line-height: 1.75;
-      letter-spacing: 0;
+      color: var(--color-text-eyebrow-section, #6f72af);
       margin-bottom: 16rem;
     }
 
@@ -86,12 +82,9 @@
     }
 
     .ctaEyebrow {
+      @include text-eyebrow-section;
       display: inline-block;
-      font-size: 14rem;
-      font-weight: 700;
-      color: #3db7ff;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
+      color: var(--color-secondary, #3db7ff); /* 어두운 카드 위: 색만 유지 */
       margin-bottom: 10rem;
     }
 
@@ -119,11 +112,12 @@
 /* ---------------------------------
  * Buttons & Extra
  * --------------------------------- */
+/* 설명 → 버튼 40 (Figma CTA/v2) = 코어 Section extra 상단 24 + 16 */
 .ctaExtraWrap {
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin-top: 40rem;
+  margin-top: 16rem;
 }
 
 .buttonsWrap {
@@ -184,7 +178,7 @@
 @media (max-width: 768px) {
   .ctaSection {
     &.variant_main {
-      padding: 80rem 20rem;
+      padding: 80rem 0; /* 좌우 여백은 컨테이너 거터가 담당 → 본문 폭 350 (Figma MO 2528:61337) */
       background-image: url('/images/common/ctaSection_mo.jpg');
 
       .ctaHeader {
@@ -192,10 +186,6 @@
       }
 
       .ctaEyebrow {
-        font-size: 16rem;
-        font-weight: 700;
-        line-height: 1.6;
-        letter-spacing: 0;
         margin-bottom: 12rem;
       }
 
@@ -223,9 +213,6 @@
     }
   }
 
-  .ctaExtraWrap {
-    margin-top: 40rem;
-  }
 
   .buttonsWrap {
     flex-direction: column;

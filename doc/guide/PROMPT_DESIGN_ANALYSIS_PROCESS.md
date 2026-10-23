@@ -92,8 +92,8 @@ graph TD
     *   **일반 본문 섹션 (`<BasicSection bg="white" | "gray">`)**:
         *   코어 `Section`의 모든 옵션(`layout`, `align`, `theme` 등)을 그대로 계승하며, `bg="white"`와 `bg="gray"`로 페이지 간 시각적 리듬을 형성.
         *   상단 중앙 타이틀 + 2단 본문 구조는 반드시 `<BasicSection layout="vertical" align="center">`의 `children` 내부에 2열 그리드/플렉스를 배치.
-    *   **하단 CTA 배너 (`<CtaSection>` / `<ProductCta>`)**:
-        *   **Main 타입** (`variant="main"`): 전폭 소프트 글로우 배너, 중앙 정렬, 액션 버튼 2종.
+    *   **하단 CTA 배너 (`<CtaSection>`, `src/components/domain/Section`)**: 서비스 전체의 하단 CTA는 이 컴포넌트 하나로 통일합니다(과거 제품 폴더의 `ProductCta`는 폐기·통합).
+        *   **Main 타입** (`variant="main"`): Figma CTA/v2(2528:61316) 전폭 소프트 글로우 배너, 중앙 정렬. 버튼은 `primaryLabel`·`primaryHref`(Button/v2 Primary)와 `secondaryLabel`·`secondaryHref`(Button/v2 Secondary)로 지정하고, 특수한 버튼 구성이 필요할 때만 `buttons`로 직접 넣습니다.
         *   **Sub 타입** (`variant="sub"`): 컴팩트 카드형 다크 배너, 단일/복합 액션 버튼.
     *   **도입 효과 카드 (`<BenefitCardGroup>` / `<BenefitCard>`, `src/components/domain/Benefit`)**:
         *   기술 소개 페이지마다 반복되는 도입 효과 카드는 날코딩하지 않고 도메인 컴포넌트를 사용합니다. 섹션은 페이지에서 `<BasicSection layout="vertical" align="left" eyebrow="BENEFITS" title="도입 효과" bg="...">`로 구성하고, 카드 그룹은 그 `children`으로만 넣습니다(도메인 컴포넌트가 섹션을 소유하지 않음).
@@ -109,7 +109,8 @@ graph TD
 *   **디자인 토큰 엄격 준수**:
     *   폰트: `var(--font-family-base)` (Pretendard), `var(--font-family-mono)` (데이터/코드)
     *   컬러: `var(--color-text-black)`, `var(--color-text-gray-1)`, `var(--color-text-gray-2)`, `var(--color-brand-primary)`, `var(--color-surface-*)`
-    *   타이포그래피: `@include text-hero | text-section | text-subheading | text-body | text-eyebrow | text-note` (`src/assets/scss/_mixins.scss`) 또는 `var(--font-size-*)`, `var(--line-height-*)`, `var(--font-weight-*)`. 모바일 행간 등 브레이크포인트 분기는 믹스인에 내장되어 있으므로 화면 SCSS에서 중복 선언하지 않음.
+    *   타이포그래피: `@include text-hero | text-section | text-subheading | text-body | text-eyebrow | text-eyebrow-section | text-note` (`src/assets/scss/_mixins.scss`) 또는 `var(--font-size-*)`, `var(--line-height-*)`, `var(--font-weight-*)`. 모바일 행간 등 브레이크포인트 분기는 믹스인에 내장되어 있으므로 화면 SCSS에서 중복 선언하지 않음.
+    *   섹션 Eyebrow(HeroSection · BasicSection · CtaSection)는 피그마 `v2/PC·MO/Eyebrow-Section` 하나로 통일되어 각 컴포넌트가 `text-eyebrow-section`을 내장합니다. 화면에서 eyebrow 글꼴을 다시 지정하지 말고, 문구는 시안 대소문자 그대로 입력합니다(대문자 자동 변환 없음).
     *   단위: 모든 간격, 크기, 폰트는 `rem` 단위 (`1rem = 1px`) 사용. 모바일 뷰포트 높이는 `svh` 사용.
 *   **피그마 MCP URL 작업**: 변수 추출·토큰 매핑·측정·보고 절차는 `figma-mcp-publish` 스킬을 따릅니다.
 

@@ -1,6 +1,5 @@
 import FrontLayout from '../layouts/FrontLayout';
-import { HeroSection, BasicSection } from '../../../components/domain/Section';
-import { ProductCta } from './sections/ProductCta';
+import { HeroSection, BasicSection, CtaSection } from '../../../components/domain/Section';
 import styles from './certification.module.scss';
 
 const IMG = '/images/product/certification';
@@ -168,7 +167,7 @@ export default function PubSubProductCertification() {
         </BasicSection>
 
         {/* 3. Section CTA */}
-        <ProductCta
+        <CtaSection
           eyebrow="GET STARTED"
           title={
             <>
@@ -177,8 +176,8 @@ export default function PubSubProductCertification() {
             </>
           }
           description="무료 체험으로 제품을 먼저 확인해보고 지금 바로 비즈니스에 맞는 도입 방식을 선택할 수 있습니다."
-          solidButtonText="도입 문의하기"
-          outlineButtonText="데모 체험하기"
+          primaryLabel="도입 문의하기"
+          secondaryLabel="데모 체험하기"
         />
 
       </div>

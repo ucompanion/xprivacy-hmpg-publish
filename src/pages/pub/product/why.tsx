@@ -1,7 +1,6 @@
 import type { CSSProperties } from 'react';
 import FrontLayout from '../layouts/FrontLayout';
-import { HeroSection, BasicSection } from '../../../components/domain/Section';
-import { ProductCta } from './sections/ProductCta';
+import { HeroSection, BasicSection, CtaSection } from '../../../components/domain/Section';
 import styles from './why.module.scss';
 
 const IMG = '/images/product/why';
@@ -356,7 +355,7 @@ export default function PubSubProductWhy() {
         </BasicSection>
 
         {/* 6. CTA (Node 2159:14573) */}
-        <ProductCta
+        <CtaSection
           eyebrow="GET STARTED"
           title={
             <>
@@ -365,8 +364,8 @@ export default function PubSubProductWhy() {
             </>
           }
           description="무료 체험으로 제품을 먼저 확인하거나 기관·기업 환경에 맞는 도입 방식을 상담할 수 있습니다."
-          solidButtonText="도입 문의하기"
-          outlineButtonText="데모 체험하기"
+          primaryLabel="도입 문의하기"
+          secondaryLabel="데모 체험하기"
         />
       </div>
     </FrontLayout>

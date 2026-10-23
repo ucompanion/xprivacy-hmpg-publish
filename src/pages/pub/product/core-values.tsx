@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import FrontLayout from '../layouts/FrontLayout';
-import { HeroSection, BasicSection } from '../../../components/domain/Section';
-import { ProductCta } from './sections/ProductCta';
+import { HeroSection, BasicSection, CtaSection } from '../../../components/domain/Section';
 import { Badge } from '../../../components/core/Badge/Badge';
 import styles from './core-values.module.scss';
 
@@ -296,7 +295,7 @@ export default function PubSubProductCoreValues() {
         </BasicSection>
 
         {/* 5. Cta Section (Section - CTA · v2 - Node 2159:13639) */}
-        <ProductCta
+        <CtaSection
           eyebrow="GET STARTED"
           title={
             <>
@@ -305,8 +304,8 @@ export default function PubSubProductCoreValues() {
             </>
           }
           description="무료 체험으로 제품을 먼저 확인하거나 기관·기업 환경에 맞는 도입 방식을 상담할 수 있습니다."
-          solidButtonText="도입 문의하기"
-          outlineButtonText="데모 체험하기"
+          primaryLabel="도입 문의하기"
+          secondaryLabel="데모 체험하기"
         />
       </div>
     </FrontLayout>

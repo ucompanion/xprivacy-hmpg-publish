@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import FrontLayout from '../layouts/FrontLayout';
-import { HeroSection, BasicSection } from '../../../components/domain/Section';
-import { ProductCta } from './sections/ProductCta';
+import { HeroSection, BasicSection, CtaSection } from '../../../components/domain/Section';
 import { Button } from '../../../components/core/Button/Button';
 import styles from './intro.module.scss';
 
@@ -562,7 +561,7 @@ export default function PubProductIntro() {
         </BasicSection>
 
         {/* 5. Cta Section */}
-        <ProductCta
+        <CtaSection
           eyebrow="GET STARTED"
           title={
             <>
@@ -571,8 +570,8 @@ export default function PubProductIntro() {
             </>
           }
           description="무료 체험으로 직관적인 UI 확인하거나 기술 지원 전문가와 맞춤 도입 방안을 상담할 수 있습니다."
-          solidButtonText="도입 문의하기"
-          outlineButtonText="데모 체험하기"
+          primaryLabel="도입 문의하기"
+          secondaryLabel="데모 체험하기"
         />
       </div>
     </FrontLayout>

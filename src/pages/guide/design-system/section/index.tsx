@@ -406,10 +406,22 @@ export default function SectionGuidePage() {
                     <td>CTA 변형 (Main: 전폭 소프트 글로우 배너 / Sub: 다크 카드 배너)</td>
                   </tr>
                   <tr>
+                    <td><code>primaryLabel</code> / <code>primaryHref</code></td>
+                    <td><code>string</code></td>
+                    <td>-</td>
+                    <td>주 버튼(Button/v2 Primary) 문구 · 이동 경로</td>
+                  </tr>
+                  <tr>
+                    <td><code>secondaryLabel</code> / <code>secondaryHref</code></td>
+                    <td><code>string</code></td>
+                    <td>-</td>
+                    <td>보조 버튼(Button/v2 Secondary · 흰 80%) 문구 · 이동 경로</td>
+                  </tr>
+                  <tr>
                     <td><code>buttons</code></td>
                     <td><code>ReactNode</code></td>
                     <td>-</td>
-                    <td>하단 버튼 액션 그룹</td>
+                    <td>버튼 그룹 직접 구성 (지정하면 primary/secondary 버튼 대신 사용)</td>
                   </tr>
                 </tbody>
               </table>
@@ -420,31 +432,23 @@ export default function SectionGuidePage() {
               <CtaSection
                 variant="main"
                 eyebrow="GET STARTED"
-                title={<>업무 환경에 맞는 xPrivacy를<br />직접 확인해보세요</>}
+                title={<>업무 환경에 맞는 서비스를<br />직접 확인해보세요</>}
                 description="무료 체험으로 제품을 먼저 확인하거나 기관·기업 환경에 맞는 도입 방식을 상담할 수 있습니다."
-                buttons={
-                  <>
-                    <Button variant="solid" color="primary" size="xl">
-                      도입 문의하기
-                    </Button>
-                    <Button variant="outline" color="neutral" size="xl">
-                      데모 체험하기
-                    </Button>
-                  </>
-                }
+                primaryLabel="도입 문의하기"
+                primaryHref="/pub/contact/inquiry"
+                secondaryLabel="데모 체험하기"
+                secondaryHref="/pub/demo/demo"
               />
             </div>
             <CodeBlock code={`<CtaSection
   variant="main"
   eyebrow="GET STARTED"
-  title={<>업무 환경에 맞는 xPrivacy를<br />직접 확인해보세요</>}
+  title={<>업무 환경에 맞는 서비스를<br />직접 확인해보세요</>}
   description="무료 체험으로 제품을 먼저 확인하거나 기관·기업 환경에 맞는 도입 방식을 상담할 수 있습니다."
-  buttons={
-    <>
-      <Button variant="solid" color="primary" size="xl">도입 문의하기</Button>
-      <Button variant="outline" color="neutral" size="xl">데모 체험하기</Button>
-    </>
-  }
+  primaryLabel="도입 문의하기"
+  primaryHref="/pub/contact/inquiry"
+  secondaryLabel="데모 체험하기"
+  secondaryHref="/pub/demo/demo"
 />`} />
 
             <h3 style={{ fontSize: '18rem', fontWeight: 700, margin: '32rem 0 12rem' }}>2.3. Usage - Sub Type (카드형 다크 배너)</h3>

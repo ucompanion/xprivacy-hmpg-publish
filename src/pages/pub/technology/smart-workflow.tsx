@@ -1,8 +1,7 @@
 import FrontLayout from '../layouts/FrontLayout';
-import { HeroSection, BasicSection } from '../../../components/domain/Section';
+import { HeroSection, BasicSection, CtaSection } from '../../../components/domain/Section';
 import { IconSurface } from '../../../components/core/Icon/IconSurface';
 import { BenefitCardGroup } from '../../../components/domain/Benefit/BenefitCards';
-import { ProductCta } from '../product/sections/ProductCta';
 import styles from './smart-workflow.module.scss';
 
 const IMG = '/images/technology/smart-workflow';
@@ -189,7 +188,7 @@ export default function PubTechnologySmartWorkflow() {
         </BasicSection>
 
         {/* 5. CTA */}
-        <ProductCta
+        <CtaSection
           eyebrow="GET STARTED"
           title={
             <>
@@ -198,10 +197,10 @@ export default function PubTechnologySmartWorkflow() {
             </>
           }
           description="무료 체험으로 제품을 먼저 확인하거나 기관·기업 환경에 맞는 도입 방식을 상담할 수 있습니다."
-          solidButtonText="도입 문의하기"
-          outlineButtonText="데모 체험하기"
-          solidButtonHref="/pub/contact/inquiry"
-          outlineButtonHref="/pub/demo/image"
+          primaryLabel="도입 문의하기"
+          secondaryLabel="데모 체험하기"
+          primaryHref="/pub/contact/inquiry"
+          secondaryHref="/pub/demo/image"
         />
       </div>
     </FrontLayout>

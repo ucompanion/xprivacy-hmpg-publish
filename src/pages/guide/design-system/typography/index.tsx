@@ -108,6 +108,14 @@ const TypographyGuidePage = () => {
               role="상단 소제목, 카테고리 영문 라벨 (공통 토큰)"
             />
             <TypeCard
+              name="Eyebrow-Section"
+              mixinName="text-eyebrow-section"
+              pcSpec="Bold 16px · 175% · 0px (입력 그대로)"
+              moSpec="Bold 16px · 160% · 0px (입력 그대로)"
+              sample="PRODUCT"
+              role="히어로 · 베이직 · CTA 섹션 공통 Eyebrow (색: --color-text-eyebrow-section)"
+            />
+            <TypeCard
               name="Note (공통)"
               mixinName="text-note"
               pcSpec="Regular 12px · 175% · 0px"

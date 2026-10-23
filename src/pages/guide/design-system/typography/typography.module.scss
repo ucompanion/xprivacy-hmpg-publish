@@ -116,6 +116,10 @@
       @include text-eyebrow;
       color: var(--color-text-gray-1, #3c4043);
     }
+    &.text-eyebrow-section {
+      @include text-eyebrow-section;
+      color: var(--color-text-eyebrow-section, #6f72af);
+    }
     &.text-note {
       @include text-note;
       color: var(--color-text-gray-2, #5f6368);

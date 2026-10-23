@@ -47,12 +47,8 @@
     border-radius: 9999rem;
   }
 
+  /* 글꼴·색은 BasicSection 공통 Eyebrow(Eyebrow-Section)를 그대로 상속 */
   .heroEyebrow {
-    @include text-eyebrow;
-    font-weight: var(--font-weight-bold);
-    color: var(--color-primary);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
     display: block;
     margin-bottom: 8rem;
   }

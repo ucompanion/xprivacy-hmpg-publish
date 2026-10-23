@@ -94,6 +94,23 @@
   }
 }
 
+/* 5-1. Eyebrow-Section: 히어로 · 베이직 · CTA 섹션 공통 Eyebrow
+ * Figma v2/PC/Eyebrow-Section · v2/MO/Eyebrow-Section (2156:29964 · 2730:31257 · 2528:61316)
+ * Bold 16 · 175%(MO 160%) · 자간 0 · 대소문자 변환 없음(입력 그대로)
+ * 색은 포함하지 않음 → 사용처에서 var(--color-text-eyebrow-section) 지정 */
+@mixin text-eyebrow-section {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-eyebrow, 16rem);
+  font-weight: var(--font-weight-bold, 700);
+  line-height: var(--line-height-eyebrow, 1.75);
+  letter-spacing: 0;
+  text-transform: none;
+
+  @media (max-width: 768px) {
+    line-height: var(--line-height-eyebrow-mo, 1.6);
+  }
+}
+
 /* 6. Note: 주석 · 출처 · 법적 고지 · 조건 각주 전용 (공통 12) */
 @mixin text-note {
   font-family: var(--font-family-base);

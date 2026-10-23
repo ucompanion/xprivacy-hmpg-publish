@@ -25,10 +25,10 @@
       display: none;
     }
 
-    /* Figma v2 Hero: eyebrow text/gray-1, title text/black, description text/black */
+    /* Figma v2 Hero: eyebrow text/eyebrow-section (2156:29964), title text/black, description text/black */
     .heroHeader {
       .heroEyebrow {
-        color: var(--color-text-gray-1, #3c4043) !important;
+        color: var(--color-text-eyebrow-section, #6f72af) !important;
       }
 
       .heroTitle {
@@ -258,9 +258,9 @@
     flex-direction: column;
 
     .heroEyebrow {
-      @include text-eyebrow;
-      font-weight: var(--font-weight-regular); /* Figma v2 Hero Eyebrow: Regular */
+      @include text-eyebrow-section; /* Figma v2 Eyebrow-Section (2156:29964) */
       display: inline-block;
+      color: var(--color-text-eyebrow-section, #6f72af);
       margin-bottom: var(--spacing-16, 16rem) !important; /* Figma v2 Hero Group gap 16 (PC/MO) */
       word-break: keep-all;
     }
