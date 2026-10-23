@@ -1,99 +1,504 @@
+@use "@/assets/scss/mixins" as *;
+@use "./main" as *;
+
+/* ==========================================================================
+   메인 비주얼 슬라이더 (Figma 1785:218)
+   화면 높이를 채우고(100svh), 사진은 cover 방식으로 확대합니다.
+   시안 프레임(PC 1920×980 · MO 390×676) 구도를 배율 --k(화면을 덮는 최소 배율)로 키워
+   프레임 중앙 기준으로 배치하므로 화면 비율이 달라도 구도와 탐지 박스 위치가 유지됩니다.
+   ========================================================================== */
 .hero {
+  --fw: 1920;
+  --fh: 980;
+
   position: relative;
   width: 100%;
-  height: 600rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #222222; /* Fallback */
-  
-  /* Placeholder background image with overlay */
-  background-image: 
-    linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)),
-    url('/images/main/hero_bg.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  text-align: center;
-  color: #ffffff;
+  height: 100svh;
+  min-height: 640rem;
+  overflow: hidden;
+  container-type: size;
+  background-color: var(--color-surface-white, #ffffff);
+  touch-action: pan-y;
+
+  @media (max-width: 768px) {
+    --fw: 390;
+    --fh: 676;
+
+    min-height: 600rem;
+  }
 }
 
-.container {
-  width: 100%;
+.pcBr {
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+.moBr {
+  display: none;
+
+  @media (max-width: 768px) {
+    display: inline;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Slide (크로스페이드)
+-------------------------------------------------------------------------- */
+/* 전환: 새 슬라이드가 위(z 2)에서 페이드인되고, 이전 슬라이드는 아래(z 1)에서 그대로 보이며
+   글자만 먼저 사라집니다. 이전 슬라이드는 덮인 뒤에 상태를 초기화하므로 끊김이 보이지 않습니다. */
+.slide {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0s 0.9s, visibility 0s 0.9s;
+
+  &.active {
+    z-index: 2;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.9s ease, visibility 0s;
+  }
+
+  &.leaving {
+    z-index: 1;
+    opacity: 1;
+    visibility: visible;
+    /* 빠르게 연속 이동해 페이드인 도중에 떠나게 돼도 남은 페이드인을 이어감 */
+    transition: opacity 0.9s ease, visibility 0s;
+  }
+}
+
+.media {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+/* 시안 좌표(--x/--y: 프레임 중앙 기준 · --w/--h, 단위 없는 시안 px) × 배율 --k */
+.photo {
+  --k: max(100cqw / var(--fw), 100cqh / var(--fh));
+
+  position: absolute;
+  left: calc(50% + var(--x) * var(--k));
+  top: calc(50% + var(--y) * var(--k));
+  width: calc(var(--w) * var(--k));
+  height: calc(var(--h) * var(--k));
+  background-image: var(--photo);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  transform: scale(1.06);
+  transform-origin: 50% 40%;
+  /* 비활성: 이전 슬라이드가 완전히 가려진 뒤(0.9s) 시작 배율로 되돌림 */
+  transition: transform 0s 0.9s;
+
+  /* 활성 · 떠나는 중: 같은 줌을 끊김 없이 이어감 (클래스가 바뀌어도 전환이 다시 시작되지 않음) */
+  .active &,
+  .leaving & {
+    transform: scale(1);
+    transition: transform 7s ease-out;
+  }
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* 01 · 기존 (PC 1785:219 · MO 1785:302) — 사진 좌우 반전 · 20%(MO 30%) 어둡게 + 오버레이 그라데이션 */
+.slide_detect {
+  --photo: linear-gradient(rgba(0, 0, 0, var(--dim)), rgba(0, 0, 0, var(--dim))), url('/images/main/hero_slide_01.jpg');
+  --dim: 0.2;
+  --x: -1360;
+  --y: -710;
+  --w: 2356;
+  --h: 1202;
+  --d: 1;
+
+  .photo::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6) 1.9%, rgba(255, 255, 255, 0.6) 90.9%);
+    mix-blend-mode: overlay;
+  }
+
+  .overlay {
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0));
+  }
+
+  @media (max-width: 768px) {
+    --dim: 0.3;
+    --x: -960;
+    --y: -338;
+    --w: 1924;
+    --h: 981;
+    --d: 0.815;
+  }
+}
+
+/* 추적 프레임 (점선 + 모서리 핸들) */
+.trackFrame {
+  position: absolute;
+  z-index: 1;
+  left: 78.61%;
+  top: 45.59%;
+  width: 12.73%;
+  height: 50.33%;
+  border: calc(4 * var(--d) * var(--k)) dashed var(--color-secondary, #3db7ff);
+  background-color: rgba(255, 255, 255, 0.1);
+
+  i {
+    position: absolute;
+    width: calc(20 * var(--d) * var(--k));
+    height: calc(20 * var(--d) * var(--k));
+    background-color: var(--color-secondary, #3db7ff);
+
+    &:nth-child(1) { left: calc(-11 * var(--d) * var(--k)); top: calc(-11 * var(--d) * var(--k)); }
+    &:nth-child(2) { right: calc(-11 * var(--d) * var(--k)); top: calc(-11 * var(--d) * var(--k)); }
+    &:nth-child(3) { left: calc(-11 * var(--d) * var(--k)); bottom: calc(-11 * var(--d) * var(--k)); }
+    &:nth-child(4) { right: calc(-11 * var(--d) * var(--k)); bottom: calc(-11 * var(--d) * var(--k)); }
+  }
+}
+
+/* 비식별 영역 (얼굴 · 번호판 블러) */
+.glass {
+  position: absolute;
+  z-index: 1;
+  border-radius: calc(10 * var(--d) * var(--k));
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(calc(6 * var(--d) * var(--k)));
+  -webkit-backdrop-filter: blur(calc(6 * var(--d) * var(--k)));
+}
+
+.glassFace {
+  left: 55.11%;
+  top: 45.35%;
+  width: 2.9%;
+  height: 6.53%;
+}
+
+.glassPlate {
+  left: 25.89%;
+  top: 66.07%;
+  width: 7.82%;
+  height: 5.96%;
+}
+
+/* 02 · 영상작업흐름 (PC 1785:441 · MO 1785:495) */
+.slide_workflow {
+  --photo: url('/images/main/hero_slide_02.jpg');
+  --x: -1064;
+  --y: -791;
+  --w: 2811;
+  --h: 1582;
+  --d: 1;
+
+  @media (max-width: 768px) {
+    --x: -696;
+    --y: -562;
+    --w: 1687;
+    --h: 949;
+    --d: 0.6;
+  }
+}
+
+.detectBox {
+  position: absolute;
+  z-index: 1;
+  width: 3.54%;
+  height: 16.06%;
+  border: calc(4.6 * var(--d) * var(--k)) solid $accent-teal;
+  border-radius: calc(9.3 * var(--d) * var(--k));
+}
+
+.detectBoxActive {
+  left: 58.24%;
+  top: 39%;
+  background-color: rgba(34, 195, 215, 0.08);
+}
+
+.detectBoxProcessed {
+  left: 50.8%;
+  top: 50.44%;
+  background-color: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(calc(9.3 * var(--d) * var(--k)));
+  -webkit-backdrop-filter: blur(calc(9.3 * var(--d) * var(--k)));
+}
+
+/* 03 · 가상얼굴 (PC 1785:522 · MO 1785:576) — 브랜드 블루 톤 + 중앙 어둡게(가독성) */
+.slide_virtual {
+  --photo: url('/images/main/hero_slide_03.jpg');
+  --x: -1084;
+  --y: -615;
+  --w: 2120;
+  --h: 1193;
+  --tint: 0.2;
+  --spot: 34% 32%;
+
+  .overlay {
+    background:
+      radial-gradient(var(--spot) at 50% 50%, rgba(10, 15, 26, 0.55) 0%, rgba(10, 15, 26, 0.32) 55%, rgba(10, 15, 26, 0) 100%),
+      linear-gradient(to bottom, rgba(0, 0, 0, var(--tint)), rgba(0, 0, 0, var(--tint)));
+  }
+
+  .overlay::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: var(--tint);
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 65%, rgba(214, 228, 255, 0.35) 100%);
+  }
+
+  @media (max-width: 768px) {
+    --x: -646;
+    --y: -348;
+    --w: 1291;
+    --h: 726;
+    --tint: 0.3;
+    --spot: 62% 42%;
+  }
+}
+
+/* 04 · 도입방식 (PC 1785:603 · MO 1785:657) — 밝게 + 중앙 흰 스포트(가독성) */
+.slide_deploy {
+  --photo: url('/images/main/hero_slide_04.jpg');
+  --x: -960;
+  --y: -2100;
+  --w: 2521;
+  --h: 3782;
+  --spot: 34% 32%;
+  --wash: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0));
+
+  .media::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: rgba(255, 255, 255, 0.2);
+    mix-blend-mode: overlay;
+  }
+
+  .overlay {
+    background:
+      radial-gradient(var(--spot) at 50% 50%, rgba(255, 255, 255, 0.82) 0%, rgba(255, 255, 255, 0.55) 60%, rgba(255, 255, 255, 0) 100%),
+      var(--wash);
+  }
+
+  @media (max-width: 768px) {
+    --x: -568;
+    --y: -1331;
+    --w: 1486;
+    --h: 2229;
+    --spot: 62% 42%;
+    --wash: linear-gradient(to bottom, rgba(255, 255, 255, 0.64) 0%, rgba(255, 255, 255, 0.52) 55%, rgba(255, 255, 255, 0) 85%);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Content
+-------------------------------------------------------------------------- */
+.content {
+  position: relative;
+  z-index: 1;
+  height: 100%;
   max-width: var(--layout-container-max-width, 1280rem);
   margin: 0 auto;
-  padding-left: var(--layout-gutter, 20rem);
-  padding-right: var(--layout-gutter, 20rem);
-  box-sizing: border-box;
+  padding: 0 var(--layout-gutter, 20rem);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 24rem;
+  justify-content: center;
+  gap: 48rem;
+  text-align: center;
+  box-sizing: border-box;
+
+  @media (max-width: 768px) {
+    padding: 72rem 20rem;
+    gap: 40rem;
+  }
+}
+
+.heading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12rem;
+  word-break: keep-all;
 }
 
 .title {
-  font-size: 48rem;
-  font-weight: 700;
-  line-height: 1.3;
-  letter-spacing: -0.5rem;
+  @include hero-display;
+  margin: 0;
 }
 
-.subtitle {
-  font-size: 18rem;
-  font-weight: 400;
-  line-height: 1.5;
-  color: #dddddd;
-  margin-bottom: 16rem;
+.titleRegular {
+  @include title-regular;
 }
 
-.button_group {
+.description {
+  @include hero-lead;
+  margin: 0;
+}
+
+.tone_dark {
+  .title,
+  .description {
+    color: var(--color-text-inverse, #ffffff);
+  }
+}
+
+.tone_light {
+  .title {
+    color: var(--color-text-black, #000000);
+  }
+
+  .description {
+    color: var(--color-text-gray-2, #5f6368);
+  }
+}
+
+/* 04는 설명도 검정 (Figma 1786:530) */
+.slide_deploy .description {
+  color: var(--color-text-black, #000000);
+}
+
+.actions {
   display: flex;
+  gap: 24rem;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 12rem;
+    width: 100%;
+  }
+}
+
+.actionButton.actionButton {
+  width: 200rem;
+  padding: 0 24rem;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+}
+
+/* 떠나는 슬라이드: 글자만 먼저 사라져 새 슬라이드 글자와 겹치지 않음 */
+.leaving .content {
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+/* 활성 슬라이드 텍스트 등장 */
+.active .heading,
+.active .actions {
+  animation: heroFadeUp 0.8s ease both;
+}
+
+.active .actions {
+  animation-delay: 0.15s;
+}
+
+@keyframes heroFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(16rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Slider Controls (176×40 · 하단 60 / MO 32)
+-------------------------------------------------------------------------- */
+.controls {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  bottom: 60rem;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
   gap: 12rem;
+
+  @media (max-width: 768px) {
+    bottom: 32rem;
+  }
 }
 
-.btn_inquiry {
-  width: 160rem;
-}
-
-.btn_trial {
-  width: 160rem;
-  background-color: #000000 !important;
-  color: #ffffff !important;
-  border: none !important;
+.arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40rem;
+  height: 40rem;
+  padding: 0;
+  border: none;
+  border-radius: 20rem;
+  background: transparent;
+  color: var(--color-text-gray-1, #3c4043);
+  cursor: pointer;
+  transition: background-color 0.2s;
 
   &:hover {
-    background-color: #333333 !important;
+    background-color: rgba(255, 255, 255, 0.6);
+  }
+
+  &:focus-visible {
+    outline: 2rem solid var(--color-primary, #3b5bff);
+    outline-offset: 2rem;
   }
 }
 
-/* ==========================================================================
-   Mobile Responsive (1024px 이하)
-   ========================================================================== */
-@media (max-width: 1024px) {
-  .container {
-    padding: 0 24rem;
+.dots {
+  display: flex;
+  align-items: center;
+  gap: 8rem;
+}
+
+.dot {
+  width: 8rem;
+  height: 8rem;
+  padding: 0;
+  border: 1rem solid $text-muted;
+  border-radius: 4rem;
+  background-color: var(--color-border-default, #e8eaed);
+  cursor: pointer;
+  transition: width 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+
+  &:focus-visible {
+    outline: 2rem solid var(--color-primary, #3b5bff);
+    outline-offset: 2rem;
+  }
+}
+
+.dotActive {
+  width: 24rem;
+  border-color: var(--color-primary, #3b5bff);
+  background-color: var(--color-primary, #3b5bff);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slide,
+  .slide.active,
+  .photo,
+  .active .photo,
+  .leaving .photo {
+    transition: none;
   }
 
-  .hero {
-    height: 500rem;
+  .photo,
+  .active .photo,
+  .leaving .photo {
+    transform: none;
   }
 
-  .title {
-    font-size: 32rem;
-  }
-
-  .subtitle {
-    font-size: 15rem;
-  }
-
-  .button_group {
-    width: 100%;
-    flex-direction: column;
-  }
-
-  .btn_inquiry,
-  .btn_trial {
-    width: 100%;
-    height: 52rem;
+  .active .heading,
+  .active .actions {
+    animation: none;
   }
 }

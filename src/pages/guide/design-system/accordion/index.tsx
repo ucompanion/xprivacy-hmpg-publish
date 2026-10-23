@@ -50,9 +50,9 @@ export default function AccordionGuidePage() {
                 </tr>
                 <tr>
                   <td><code>variant</code></td>
-                  <td><code>'boxed' | 'line'</code></td>
+                  <td><code>'boxed' | 'line' | 'panel'</code></td>
                   <td><code>'boxed'</code></td>
-                  <td>line: 상하 구분선형 FAQ 스타일(제목 20 Bold, 답변 16, 화살표 아이콘)</td>
+                  <td>line: 상하 구분선형 FAQ 스타일(제목 20 Bold, 답변 16, 화살표 아이콘) / panel: 펼친 항목만 연회색 면, 화살표 없음 (메인 FAQ)</td>
                 </tr>
                 <tr>
                   <td><code>prefix</code></td>
@@ -105,6 +105,16 @@ export default function AccordionGuidePage() {
             <Accordion variant="line" prefix="Q" defaultOpenIds={['1']} items={sampleItems} />
           </div>
           <CodeBlock code={`<Accordion variant="line" prefix="Q" defaultOpenIds={['1']} items={sampleItems} />`} />
+        </GuideSection>
+
+        <GuideSection title="5. Panel Variant (메인 FAQ)" defaultOpen={false}>
+          <p className={styles.description}>
+            펼친 항목만 연회색 면으로 강조하는 경우 `variant="panel"`을 사용합니다. 상단 2px 구분선, 화살표 없이 제목 클릭으로 펼칩니다.
+          </p>
+          <div className={styles.preview}>
+            <Accordion variant="panel" defaultOpenIds={['1']} items={sampleItems} />
+          </div>
+          <CodeBlock code={`<Accordion variant="panel" defaultOpenIds={['1']} items={sampleItems} />`} />
         </GuideSection>
       </div>
     </DesignSystemLayout>

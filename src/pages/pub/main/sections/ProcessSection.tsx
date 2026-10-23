@@ -1,152 +1,117 @@
+import React, { useEffect, useRef, useState } from 'react';
+import { BasicSection } from '../../../../components/domain/Section';
 import styles from './ProcessSection.module.scss';
 
-const features = [
-  {
-    text: '개인정보를 자동으로 찾습니다.',
-    icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M3 7V5a2 2 0 0 1 2-2h2"></path>
-        <path d="M17 3h2a2 2 0 0 1 2 2v2"></path>
-        <path d="M21 17v2a2 2 0 0 1-2 2h-2"></path>
-        <path d="M7 21H5a2 2 0 0 1-2-2v-2"></path>
-      </svg>
-    )
-  },
-  {
-    text: '선택한 방식으로 보호합니다.',
-    icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-      </svg>
-    )
-  },
-  {
-    text: '처리 결과를 한눈에 보여줍니다.',
-    icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-        <circle cx="12" cy="12" r="3"></circle>
-      </svg>
-    )
-  },
-  {
-    text: '작업 내역을 이어서 관리합니다.',
-    icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <line x1="8" y1="6" x2="21" y2="6"></line>
-        <line x1="8" y1="12" x2="21" y2="12"></line>
-        <line x1="8" y1="18" x2="21" y2="18"></line>
-        <line x1="3" y1="6" x2="3.01" y2="6"></line>
-        <line x1="3" y1="12" x2="3.01" y2="12"></line>
-        <line x1="3" y1="18" x2="3.01" y2="18"></line>
-      </svg>
-    )
-  }
+const POINTS = [
+  { icon: 'process_point_detect', text: '개인정보를 자동으로 찾습니다.' },
+  { icon: 'process_point_protect', text: '선택한 방식으로 보호합니다.' },
+  { icon: 'process_point_result', text: '처리 결과를 한눈에 보여줍니다.' },
+  { icon: 'process_point_manage', text: '작업 내역을 이어서 관리합니다.' },
 ];
 
-const processes = [
-  {
-    id: 'step1',
-    title: '업로드',
-    desc: '영상·이미지 작업 대상 등록',
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
-        <polyline points="2 12 12 17 22 12"></polyline>
-        <polyline points="2 17 12 22 22 17"></polyline>
-      </svg>
-    )
-  },
-  {
-    id: 'step2',
-    title: 'AI 탐지',
-    desc: '얼굴·사람·번호판 등 개인정보 대상 탐지',
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M3 7V5a2 2 0 0 1 2-2h2"></path>
-        <path d="M17 3h2a2 2 0 0 1 2 2v2"></path>
-        <path d="M21 17v2a2 2 0 0 1-2 2h-2"></path>
-        <path d="M7 21H5a2 2 0 0 1-2-2v-2"></path>
-      </svg>
-    )
-  },
-  {
-    id: 'step3',
-    title: '비식별 처리',
-    desc: '대상과 정책에 맞는 보호 방식 적용',
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-      </svg>
-    )
-  },
-  {
-    id: 'step4',
-    title: '검수',
-    desc: '필요한 대상만 확인·조정',
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-        <circle cx="12" cy="12" r="3"></circle>
-      </svg>
-    )
-  },
-  {
-    id: 'step5',
-    title: '결과 관리',
-    desc: '처리 결과와 이력을 확인·관리',
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
-        <line x1="8" y1="21" x2="16" y2="21"></line>
-        <line x1="12" y1="17" x2="12" y2="21"></line>
-      </svg>
-    )
-  },
+const STEPS = [
+  { icon: 'process_upload', title: '업로드', desc: '영상·이미지 작업 대상 등록' },
+  { icon: 'process_detect', title: 'AI 탐지', desc: '얼굴·사람·번호판 등 개인정보 대상 탐지' },
+  { icon: 'process_deid', title: '비식별 처리', desc: '대상과 정책에 맞는 보호 방식 적용' },
+  { icon: 'process_review', title: '검수', desc: '필요한 대상만 확인·조정' },
+  { icon: 'process_manage', title: '결과 관리', desc: '처리 결과와 이력을 확인·관리' },
 ];
 
+const STEP_MS = 2200;
+
+/**
+ * AI 탐지 → 사용자 검수 흐름 (Figma PC 1928:611 · MO 1928:1127)
+ * 화면에 들어오면 단계가 차례로 진행되고(연결선 채움), 단계에 마우스를 올리거나 누르면 그 단계로 이동합니다.
+ */
 export const ProcessSection = () => {
+  const [active, setActive] = useState(0);
+  const [running, setRunning] = useState(false);
+  const cardRef = useRef<HTMLOListElement>(null);
+
+  // 카드가 화면에 보일 때만 진행
+  useEffect(() => {
+    const el = cardRef.current;
+    if (!el) return undefined;
+    const observer = new IntersectionObserver(([entry]) => setRunning(entry.isIntersecting), { threshold: 0.4 });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!running) return undefined;
+    const timer = window.setTimeout(() => setActive((prev) => (prev + 1) % STEPS.length), STEP_MS);
+    return () => window.clearTimeout(timer);
+  }, [active, running]);
+
   return (
-    <section className={styles.process}>
-      <div className={styles.container}>
-        <div className={styles.text_content}>
-          <h2 className={styles.title}>AI가 먼저 탐지하고<br />사용자가 최종 검수합니다</h2>
-          <p className={styles.subtitle}>
-            반복적인 대상 탐지는 AI가 먼저 수행합니다.<br />
-            탐지 결과를 확인하고 필요한 영역을 검수 및 조정하세요.
-          </p>
-
-          <ul className={styles.feature_list}>
-            {features.map((feat) => (
-              <li key={feat.text} className={styles.feature_item}>
-                <div className={styles.feature_icon}>
-                  {feat.icon}
-                </div>
-                <span className={styles.feature_text}>{feat.text}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div className={styles.timeline_wrapper}>
-          <div className={styles.timeline_card}>
-            <div className={styles.timeline_line}></div>
-            <div className={styles.timeline}>
-              {processes.map((item) => (
-                <div className={styles.timeline_item} key={item.id}>
-                  <div className={styles.icon_wrapper}>
-                    <div className={styles.icon}>{item.icon}</div>
-                  </div>
-                  <div className={styles.content}>
-                    <h3 className={styles.item_title}>{item.title}</h3>
-                    <p className={styles.item_desc}>{item.desc}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+    <BasicSection
+      bg="white"
+      layout="horizontal"
+      className={styles.section}
+      contentClassName={styles.layout}
+      headerClassName={styles.header}
+      descriptionClassName={styles.description}
+      title={
+        <>
+          <span className={styles.titleRegular}>AI가 먼저 탐지하고</span>
+          <br />
+          사용자가 최종 검수합니다
+        </>
+      }
+      description={
+        <>
+          반복적인 대상 탐지는 AI가 먼저 수행합니다.
+          <br className={styles.pcBr} /> 탐지 결과를 확인하고 필요한 영역을 검수 및 조정하세요.
+        </>
+      }
+      headerExtra={
+        <ul className={styles.points}>
+          {POINTS.map((point) => (
+            <li key={point.text} className={styles.point}>
+              <span className={styles.pointIcon}>
+                <img src={`/images/main/icons/${point.icon}.svg`} alt="" width={20} height={20} />
+              </span>
+              {point.text}
+            </li>
+          ))}
+        </ul>
+      }
+    >
+      <ol
+        ref={cardRef}
+        className={`${styles.card} ${running ? styles.running : ''}`}
+        style={{ '--step-ms': `${STEP_MS}ms` } as React.CSSProperties}
+        aria-label="처리 단계"
+      >
+        {STEPS.map((step, index) => (
+          <li
+            key={step.title}
+            className={`${styles.step} ${index === active ? styles.stepActive : ''} ${index < active ? styles.stepDone : ''}`}
+          >
+            <button
+              type="button"
+              className={styles.stepButton}
+              aria-current={index === active ? 'step' : undefined}
+              onClick={() => setActive(index)}
+              onMouseEnter={() => setActive(index)}
+              onFocus={() => setActive(index)}
+            >
+              <span className={styles.stepIcon}>
+                <img src={`/images/main/icons/${step.icon}.svg`} alt="" width={20} height={20} />
+              </span>
+              <span className={styles.stepText}>
+                <strong className={styles.stepTitle}>{step.title}</strong>
+                <span className={styles.stepDesc}>{step.desc}</span>
+              </span>
+            </button>
+            {index < STEPS.length - 1 && (
+              <span className={styles.connector} aria-hidden="true">
+                <span className={styles.connectorFill} />
+              </span>
+            )}
+          </li>
+        ))}
+      </ol>
+    </BasicSection>
   );
 };

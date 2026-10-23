@@ -1,198 +1,360 @@
-.comparison {
-  padding: 100rem 0;
-  background-color: #ffffff;
+@use "@/assets/scss/mixins" as *;
+@use "./main" as *;
+
+/* ==========================================================================
+   기능별 적용 결과 (Figma PC 1928:521 · MO 1928:1037)
+   ========================================================================== */
+.section.section {
+  @include main-section;
 }
 
-.container {
-  width: 100%;
-  max-width: var(--layout-container-max-width, 1280rem);
-  margin: 0 auto;
-  padding-left: var(--layout-gutter, 20rem);
-  padding-right: var(--layout-gutter, 20rem);
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.description.description {
+  @include main-description;
 }
 
-.header {
-  text-align: center;
-  margin-bottom: 40rem;
+.titleRegular {
+  @include title-regular;
 }
 
-.title {
-  font-size: 36rem;
-  font-weight: 700;
-  line-height: 1.4;
-  margin-bottom: 16rem;
-  letter-spacing: -0.5rem;
+.pcBr {
+  @media (max-width: 768px) {
+    display: none;
+  }
 }
 
-.subtitle {
-  font-size: 16rem;
-  color: #666666;
-  line-height: 1.6;
+.moBr {
+  display: none;
+
+  @media (max-width: 768px) {
+    display: inline;
+  }
 }
 
-.tabs {
-  display: flex;
-  gap: 8rem;
-  margin-bottom: 40rem;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.tab_btn {
-  padding: 12rem 32rem;
-  border-radius: 40rem;
-  background-color: #ffffff;
-  border: 1rem solid #e5e7eb;
-  color: #4b5563;
-  font-size: 16rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s;
-
-  &:hover {
-    background-color: #f9fafb;
-    color: #111827;
+/* MO: 타이틀 · 설명 왼쪽 정렬 (Figma 1928:1042) */
+@media (max-width: 768px) {
+  .header.header {
+    align-items: flex-start;
+    text-align: left;
   }
 
-  &.active {
-    background-color: var(--color-primary-500);
-    border-color: var(--color-primary-500);
-    color: #ffffff;
+  .title.title,
+  .description.description {
+    text-align: left;
+  }
+}
 
-    &:hover {
-      background-color: var(--color-primary-600);
-      color: #ffffff;
+.demo {
+  display: flex;
+  flex-direction: column;
+  gap: 24rem;
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.1), 0 1rem 2rem -1rem rgba(0, 0, 0, 0.1);
+
+  @media (max-width: 768px) {
+    gap: 12rem;
+    box-shadow: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Tabs (pill 5등분 · MO 내용 폭)
+-------------------------------------------------------------------------- */
+.tabList {
+  display: flex;
+  gap: 24rem;
+
+  @media (max-width: 768px) {
+    gap: 4rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
     }
   }
 }
 
-.image_container {
-  width: 100%;
-  max-width: 1000rem;
+.tab {
+  @include text-body;
+  flex: 1 0 0;
+  min-width: 0;
+  padding: 12rem;
+  border: 1rem solid var(--color-border-default, #e8eaed);
+  border-radius: 999rem;
+  background-color: var(--color-surface-white, #ffffff);
+  color: var(--color-text-gray-2, #5f6368);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+
+  &:hover {
+    border-color: var(--color-primary, #3b5bff);
+    color: var(--color-primary, #3b5bff);
+  }
+
+  &:focus-visible {
+    outline: 2rem solid var(--color-primary, #3b5bff);
+    outline-offset: 2rem;
+  }
+
+  @media (max-width: 768px) {
+    flex: 0 0 auto;
+    padding: 3rem 8rem;
+  }
 }
 
-.slider_wrapper {
+.tabActive.tabActive {
+  border-color: var(--color-primary, #3b5bff);
+  background-color: var(--color-primary, #3b5bff);
+  color: var(--color-text-inverse, #ffffff);
+  font-weight: var(--font-weight-bold);
+}
+
+/* --------------------------------------------------------------------------
+   Panel (사진 스테이지 1242×777 원본 크기 배치)
+   PC: 시안 컨테이너 569 고정에 잘려 패널 495만 노출 · MO 522
+-------------------------------------------------------------------------- */
+.panel {
+  --stage-x: 0rem;
+
   position: relative;
-  width: 100%;
-  height: 500rem;
-  border-radius: 12rem;
+  height: 495rem;
   overflow: hidden;
-  box-shadow: 0 10rem 25rem rgba(0, 0, 0, 0.1);
+  background-color: var(--color-surface-gray, #f1f3f4);
+  user-select: none;
+
+  @media (max-width: 768px) {
+    --stage-x: -210rem;
+    height: 522rem;
+  }
 }
 
-.image_layer {
+.layer {
   position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  inset: 0;
+  overflow: hidden;
 }
 
-/* Base original image */
-.image_after {
-  width: 100%;
-  background-image: url('/images/main/comparison_sample.jpg');
-  /* Simulate processing (e.g. blur) */
-  filter: blur(4px) brightness(0.9);
+.layerOriginal {
+  clip-path: inset(0 calc(100% - var(--split)) 0 0);
 }
 
-/* Clipped original image */
-.image_before {
-  background-image: url('/images/main/comparison_sample.jpg');
-  border-right: 1rem solid rgba(255, 255, 255, 0.5);
-  /* subtle edge */
-}
-
-/* Invisible Range Input for Dragging */
-.slider_input {
+.stage {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  cursor: ew-resize;
-  z-index: 10;
-  margin: 0;
+  left: var(--stage-x);
+  top: -85.87rem;
+  width: 1242.76rem;
+  height: 777.31rem;
+  background: url('/images/main/result_parking.jpg') center / cover no-repeat;
 }
 
-/* Visual Split Line and Handle */
-.slider_line {
+/* 원본 쪽 기준선 그림자 (Figma 1928:605 · 305 폭 multiply 20%) */
+.originalShade {
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 2rem;
-  background-color: #ffffff;
-  transform: translateX(-50%);
-  z-index: 5;
-  pointer-events: none;
-  display: flex;
+  left: calc(var(--split) - 305rem);
+  width: 305rem;
+  background: linear-gradient(to right, var(--color-surface-white, #ffffff) 50%, var(--color-text-black, #000000));
+  mix-blend-mode: multiply;
+  opacity: 0.2;
+}
+
+.stateTag {
+  @include text-body;
+  position: absolute;
+  top: 20rem;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-}
-
-.slider_thumb {
-  width: 36rem;
-  height: 36rem;
-  background-color: #ffffff;
-  border-radius: 50%;
-  box-shadow: 0 4rem 10rem rgba(0, 0, 0, 0.3);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 4rem;
-  color: var(--color-primary-500);
-}
-
-.before_tag,
-.after_tag {
-  position: absolute;
-  top: 24rem;
-  padding: 6rem 16rem;
-  border-radius: 20rem;
-  background-color: rgba(0, 0, 0, 0.5);
-  color: #ffffff;
-  font-size: 14rem;
-  font-weight: 500;
-  z-index: 2;
+  height: 30rem;
+  border-radius: 999rem;
+  color: var(--color-text-inverse, #ffffff);
   white-space: nowrap;
 }
 
-.before_tag {
-  left: 24rem;
+.stateAfter {
+  right: 20rem;
+  width: 64rem;
+  background-color: rgba(0, 0, 0, 0.4);
 }
 
-.after_tag {
-  right: 24rem;
+.stateOriginal {
+  left: 20rem;
+  width: 60rem;
+  background-color: rgba(0, 0, 0, 0.2);
 }
 
-/* ==========================================================================
-   Mobile Responsive (1024px 이하)
-   ========================================================================== */
-@media (max-width: 1024px) {
-  .container {
-    padding: 0 24rem;
+/* 탐지 박스 */
+.box {
+  position: absolute;
+  border: 2.54rem solid var(--color-secondary, #3db7ff);
+  transition: background-color 0.3s, backdrop-filter 0.3s;
+}
+
+.boxPerson {
+  left: 409.57rem;
+  top: 218.47rem;
+  width: 107rem;
+  height: 240.83rem;
+}
+
+.boxFace {
+  left: 287rem;
+  top: 191.87rem;
+  width: 59rem;
+  height: 59rem;
+}
+
+.boxPlate {
+  left: 829.18rem;
+  top: 468.14rem;
+  width: 143.62rem;
+  height: 46.16rem;
+}
+
+.boxTag {
+  @include mono-tag;
+  position: absolute;
+  left: -2.54rem;
+  bottom: 100%;
+  margin-bottom: 2.54rem;
+  padding: 4rem 6rem;
+  background-color: var(--color-secondary, #3db7ff);
+  color: var(--color-text-inverse, #ffffff);
+}
+
+/* 처리 방식별 박스 표현 (시안은 블러만 제공 → 나머지는 같은 박스에 효과만 바꿔 표현) */
+.effect_detect .box {
+  background-color: rgba(61, 183, 255, 0.1);
+}
+
+.effect_blur .box {
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5rem);
+  -webkit-backdrop-filter: blur(5rem);
+}
+
+.effect_mosaic .box {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.12) 1rem, transparent 1rem),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.12) 1rem, transparent 1rem);
+  background-size: 10rem 10rem;
+  backdrop-filter: blur(4rem) contrast(1.1);
+  -webkit-backdrop-filter: blur(4rem) contrast(1.1);
+}
+
+.effect_masking .box {
+  background-color: $surface-dark;
+}
+
+.effect_virtual .box {
+  background-color: rgba(214, 228, 255, 0.35);
+  backdrop-filter: blur(3rem) saturate(1.3) hue-rotate(-12deg);
+  -webkit-backdrop-filter: blur(3rem) saturate(1.3) hue-rotate(-12deg);
+}
+
+/* Targets 패널 (Figma 1928:544) */
+.targets {
+  position: absolute;
+  z-index: 1;
+  left: 16rem;
+  top: 16rem;
+  width: 160.6rem;
+  padding: 12rem;
+  display: flex;
+  flex-direction: column;
+  gap: 8rem;
+  background-color: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(8rem);
+  -webkit-backdrop-filter: blur(8rem);
+  pointer-events: none;
+}
+
+.targetsHead {
+  @include mono-caption;
+  display: flex;
+  align-items: center;
+  gap: 6rem;
+  margin: 0;
+  color: $text-label;
+}
+
+.targetsList {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  margin: 0;
+}
+
+.targetsRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  dt {
+    @include mono-caption;
+    color: $text-label;
   }
 
-  .comparison {
-    padding: 60rem 0;
+  dd {
+    @include panel-value;
+    margin: 0;
+    color: var(--color-text-inverse, #ffffff);
+    font-weight: var(--font-weight-semibold, 600);
+  }
+}
+
+/* 기준선 · 핸들 */
+.divider {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--split);
+  width: 2rem;
+  margin-left: -2rem;
+  background-color: var(--color-surface-white, #ffffff);
+  pointer-events: none;
+}
+
+.handle {
+  position: absolute;
+  top: 50%;
+  left: var(--split);
+  width: 40rem;
+  height: 40rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999rem;
+  background-color: var(--color-surface-white, #ffffff);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  transition: transform 0.2s;
+
+  img {
+    width: 24rem;
+    height: 24rem;
+    margin: 0 -4rem;
+  }
+}
+
+.range {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: ew-resize;
+  touch-action: pan-y;
+
+  &:active ~ .handle {
+    transform: translate(-50%, -50%) scale(1.1);
   }
 
-  .title {
-    font-size: 28rem;
-  }
-
-  .subtitle {
-    font-size: 14rem;
-  }
-
-  .image_placeholder {
-    height: 300rem;
+  &:focus-visible ~ .handle {
+    outline: 2rem solid var(--color-primary, #3b5bff);
+    outline-offset: 2rem;
   }
 }

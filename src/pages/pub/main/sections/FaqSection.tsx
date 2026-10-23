@@ -1,5 +1,6 @@
-import styles from './FaqSection.module.scss';
+import { BasicSection } from '../../../../components/domain/Section';
 import { Accordion } from '../../../../components/core/Accordion/Accordion';
+import styles from './FaqSection.module.scss';
 
 const faqItems = [
   {
@@ -34,16 +35,23 @@ const faqItems = [
   }
 ];
 
+/**
+ * 자주 묻는 질문 (Figma PC 1928:956 · MO 1928:1462)
+ * 첫 항목 펼침 · 한 번에 한 항목만 펼침
+ */
 export const FaqSection = () => {
   return (
-    <section className={styles.faq}>
-      <div className={styles.container}>
-        <h2 className={styles.title}>자주 묻는 질문</h2>
-        
-        <div className={styles.accordion_wrapper}>
-          <Accordion items={faqItems} />
-        </div>
+    <BasicSection
+      bg="white"
+      align="center"
+      title="자주 묻는 질문"
+      className={styles.section}
+      headerClassName={styles.header}
+      titleClassName={styles.title}
+    >
+      <div className={styles.list}>
+        <Accordion variant="panel" items={faqItems} defaultOpenIds={['faq1']} />
       </div>
-    </section>
+    </BasicSection>
   );
 };

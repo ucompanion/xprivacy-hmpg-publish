@@ -1,174 +1,242 @@
-.pricing {
-  padding: 100rem 0;
-  background-color: #ffffff;
+@use "@/assets/scss/mixins" as *;
+@use "./main" as *;
+
+/* ==========================================================================
+   도입 방식 선택 (Figma PC 1928:879 · MO 1928:1387)
+   600 카드 2개 · 간격 40 / MO 세로 쌓기 · 간격 20 · 카드 설명 숨김
+   ========================================================================== */
+.section.section {
+  @include main-section;
+  border-top-color: var(--color-border-unselected, #dadce0);
 }
 
-.container {
-  width: 100%;
-  max-width: var(--layout-container-max-width, 1280rem);
-  margin: 0 auto;
-  padding-left: var(--layout-gutter, 20rem);
-  padding-right: var(--layout-gutter, 20rem);
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.description.description {
+  @include main-description;
 }
 
-.header {
-  text-align: center;
-  margin-bottom: 60rem;
+.titleRegular {
+  @include title-regular;
 }
 
-.title {
-  font-size: 36rem;
-  font-weight: 700;
-  line-height: 1.4;
-  margin-bottom: 16rem;
-  letter-spacing: -0.5rem;
-  color: #111827;
+.moBr {
+  display: none;
+
+  @media (max-width: 768px) {
+    display: inline;
+  }
 }
 
-.subtitle {
-  font-size: 16rem;
-  color: #666666;
-  line-height: 1.6;
+@media (max-width: 768px) {
+  .header.header {
+    align-items: flex-start;
+  }
+
+  .title.title,
+  .description.description {
+    text-align: left;
+  }
 }
 
 .cards {
   display: flex;
-  gap: 32rem;
-  width: 100%;
-  max-width: 900rem;
+  gap: 40rem;
+  margin: 0;
+  padding: 0;
+  border: none;
+  min-inline-size: 0;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 20rem;
+  }
+}
+
+.legend {
+  @include visually-hidden;
+}
+
+.input {
+  @include visually-hidden;
 }
 
 .card {
-  flex: 1;
-  border: 1rem solid #e5e7eb;
-  border-radius: 16rem;
-  padding: 32rem;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  background-color: #ffffff;
-
-  &:hover {
-    box-shadow: 0 10rem 15rem -3rem rgba(0, 0, 0, 0.05);
-  }
-
-  &.active {
-    border-color: var(--color-primary-500);
-    box-shadow: 0 0 0 4rem rgba(37, 99, 235, 0.1);
-    background-color: #f8fafc;
-  }
-}
-
-.card_header {
-  display: flex;
-  align-items: center;
-  gap: 16rem;
-  margin-bottom: 32rem;
-}
-
-.icon_wrapper_cloud {
-  width: 48rem;
-  height: 48rem;
-  border-radius: 50%;
-  background-color: var(--color-primary-500);
-  color: #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.icon_wrapper_onpremise {
-  width: 48rem;
-  height: 48rem;
-  border-radius: 50%;
-  background-color: #f3f4f6;
-  color: #6b7280;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.card_title_area {
-  flex: 1;
-}
-
-.card_title {
-  font-size: 20rem;
-  font-weight: 700;
-  color: #111827;
-  margin-bottom: 4rem;
-}
-
-.card_desc {
-  font-size: 14rem;
-  color: #6b7280;
-}
-
-.radio_circle {
-  width: 24rem;
-  height: 24rem;
-  border-radius: 50%;
-  border: 2rem solid #d1d5db;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.active .radio_circle {
-  border-color: var(--color-primary-500);
-}
-
-.radio_inner {
-  width: 12rem;
-  height: 12rem;
-  border-radius: 50%;
-  background-color: var(--color-primary-500);
-}
-
-.feature_list {
+  position: relative;
+  flex: 1 0 0;
+  min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 16rem;
-  list-style: none;
-  padding: 0;
-  margin: 0;
+  gap: 12rem;
+  padding: 32rem 40rem;
+  border: 2rem solid var(--color-border-default, #e8eaed);
+  border-radius: 12rem;
+  background-color: var(--color-surface-white, #ffffff);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.2s, background-color 0.2s, box-shadow 0.2s;
 
-  li {
-    display: flex;
-    align-items: flex-start;
-    gap: 12rem;
-    font-size: 15rem;
-    color: #4b5563;
-    line-height: 1.5;
+  &:hover {
+    border-color: var(--color-border-unselected, #dadce0);
+  }
 
-    svg {
-      flex-shrink: 0;
-      margin-top: 2rem;
+  &:has(.input:focus-visible) {
+    outline: 2rem solid var(--color-primary, #3b5bff);
+    outline-offset: 2rem;
+  }
+
+  @media (max-width: 768px) {
+    flex: none;
+    padding: 30rem;
+  }
+}
+
+.cardChecked.cardChecked {
+  border-color: var(--color-primary, #3b5bff);
+  background-color: rgba(59, 91, 255, 0.05);
+  box-shadow: 5rem 5rem 20rem rgba(0, 0, 0, 0.05);
+}
+
+/* 라디오 (PC 제목 줄 오른쪽 · MO 우상단 18) */
+.radio {
+  position: absolute;
+  top: 40rem;
+  right: 40rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24rem;
+  height: 24rem;
+  border: 2rem solid var(--color-border-unselected, #dadce0);
+  border-radius: 50%;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+
+  &::after {
+    content: '';
+    width: 12rem;
+    height: 12rem;
+    border-radius: 50%;
+    background-color: var(--color-primary, #3b5bff);
+    transform: scale(0);
+    transition: transform 0.2s ease;
+  }
+
+  .cardChecked & {
+    border-color: var(--color-primary, #3b5bff);
+
+    &::after {
+      transform: scale(1);
+    }
+  }
+
+  @media (max-width: 768px) {
+    top: 18rem;
+    right: 18rem;
+  }
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  gap: 20rem;
+  padding-right: 32rem;
+
+  /* MO: 라디오가 카드 우상단(18)에 있어 제목 줄 여백 불필요 */
+  @media (max-width: 768px) {
+    padding-right: 0;
+  }
+}
+
+/* 아이콘: 선택 시 파란 원 + 흰 아이콘 / 미선택 회색 원 + 회색 아이콘 (SVG 마스크) */
+.icon {
+  position: relative;
+  flex-shrink: 0;
+  width: 56rem;
+  height: 56rem;
+  border-radius: 50%;
+  background-color: var(--color-border-default, #e8eaed);
+  transition: background-color 0.2s;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 14rem;
+    background-color: $text-label;
+    mask: var(--icon) center / contain no-repeat;
+    -webkit-mask: var(--icon) center / contain no-repeat;
+    transition: background-color 0.2s;
+  }
+
+  .cardChecked & {
+    background-color: var(--color-primary, #3b5bff);
+
+    &::after {
+      background-color: var(--color-text-inverse, #ffffff);
     }
   }
 }
 
-/* ==========================================================================
-   Mobile Responsive (1024px 이하)
-   ========================================================================== */
-@media (max-width: 1024px) {
-  .container {
-    padding: 0 24rem;
-  }
+.icon_cloud {
+  --icon: url('/images/main/icons/plan_cloud.svg');
+}
 
-  .pricing {
-    padding: 60rem 0;
-  }
+.icon_onpremise {
+  --icon: url('/images/main/icons/plan_onpremise.svg');
+}
 
-  .title {
-    font-size: 28rem;
-  }
+/* 제목 40 · 요약 34(MO 32) 박스 높이 (Figma 1928:901/903) */
+.headText {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
 
-  .cards {
-    flex-direction: column;
+.cardTitle {
+  @include text-subheading;
+  padding-bottom: 12rem;
+  color: var(--color-text-black, #000000);
+}
+
+.cardSummary {
+  padding: 3rem 0;
+}
+
+.cardSummary,
+.cardDesc,
+.point {
+  @include text-body;
+  color: var(--color-text-gray-2, #5f6368);
+  word-break: keep-all;
+}
+
+.cardDesc {
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+.points {
+  display: flex;
+  flex-direction: column;
+  gap: 12rem;
+  margin-top: 12rem;
+}
+
+.point {
+  display: flex;
+  align-items: flex-start;
+  gap: 4rem;
+}
+
+.check {
+  flex-shrink: 0;
+  width: 24rem;
+  height: 24rem;
+  background-color: $text-muted;
+  mask: url('/images/main/icons/plan_check_on.svg') center / contain no-repeat;
+  -webkit-mask: url('/images/main/icons/plan_check_on.svg') center / contain no-repeat;
+  transition: background-color 0.2s;
+
+  .cardChecked & {
+    background-color: var(--color-primary, #3b5bff);
   }
 }

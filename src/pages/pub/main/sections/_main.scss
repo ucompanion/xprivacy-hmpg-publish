@@ -1,0 +1,87 @@
+@use "@/assets/scss/mixins" as *;
+
+/* 메인 페이지 공통 값 (Figma PC 1928:484 · MO 1928:997)
+ * 미매핑 피그마 토큰 (프로젝트 토큰 없음 → 시안 값 사용)
+ * - Neutral/Gray-50 #f8f9fa · Gray-400 #bdc1c6 · Gray-600 #80868b(라벨) · Gray-900 #202124
+ * - 탐지 박스 강조 #22c3d7 (히어로 02)
+ * - 히어로 타이틀 64/45 · 리드 20/18 (텍스트 스타일 미지정) */
+$surface-subtle: #f8f9fa;
+$text-muted: #bdc1c6;
+$text-label: #80868b;
+$surface-dark: #202124;
+$accent-teal: #22c3d7;
+
+/* 본문 섹션 공통: 상단 구분선 + 상하 140 (MO 100) */
+@mixin main-section {
+  padding: 140rem 0;
+  border-top: 1rem solid var(--color-border-default, #e8eaed);
+
+  @media (max-width: 768px) {
+    padding: 100rem 0;
+  }
+}
+
+/* 섹션 타이틀-설명 간격 12 (코어 기본 16) */
+@mixin main-description {
+  margin-top: 12rem;
+}
+
+/* 타이틀 중 일반 굵기 줄 */
+@mixin title-regular {
+  font-weight: var(--font-weight-regular, 400);
+}
+
+/* 히어로 타이틀 (PC 64 · MO 45 · 행간 1.2) */
+@mixin hero-display {
+  font-family: var(--font-family-base);
+  font-size: 64rem;
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-hero, 1.2);
+  letter-spacing: -1.5px; /* 실측: 시안 굵은 줄 627 폭 일치 */
+
+  @media (max-width: 768px) {
+    font-size: 45rem;
+    letter-spacing: -1px;
+  }
+}
+
+/* 히어로 설명 (PC 20 · MO 18 · 행간 1.4) */
+@mixin hero-lead {
+  @include text-subheading;
+  font-weight: var(--font-weight-regular, 400);
+
+  @media (max-width: 768px) {
+    font-size: 18rem;
+  }
+}
+
+/* 탐지 라벨 (Consolas Bold 10 · 행간 15 · 자간 0.5 · 대문자) */
+@mixin mono-tag {
+  font-family: var(--font-family-mono);
+  font-size: 10rem;
+  font-weight: var(--font-weight-bold);
+  line-height: 15rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* 상태 패널 라벨 (Consolas 12 · 행간 16.5 · 자간 0.55 · 대문자) */
+@mixin mono-caption {
+  font-family: var(--font-family-mono);
+  font-size: 12rem;
+  font-weight: var(--font-weight-regular, 400);
+  line-height: 16.5rem;
+  letter-spacing: 0.55px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* 상태 패널 값 (Pretendard 12 · 행간 18) */
+@mixin panel-value {
+  font-family: var(--font-family-base);
+  font-size: 12rem;
+  font-weight: var(--font-weight-medium, 500);
+  line-height: 18rem;
+  white-space: nowrap;
+}

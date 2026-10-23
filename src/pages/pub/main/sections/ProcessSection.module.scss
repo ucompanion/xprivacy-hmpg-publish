@@ -1,172 +1,228 @@
-.process {
-  padding: 120rem 0;
-  background-color: #ffffff;
+@use "@/assets/scss/mixins" as *;
+@use "./main" as *;
+
+/* ==========================================================================
+   AI 탐지 → 사용자 검수 (Figma PC 1928:611 · MO 1928:1127)
+   좌 620(타이틀 + 포인트) · 우 620(단계 카드) · 간격 0 / 하단 여백 없음 (다음 섹션과 이어짐)
+   ========================================================================== */
+.section.section {
+  @include main-section;
+  padding-bottom: 0;
+
+  @media (max-width: 768px) {
+    padding-bottom: 0;
+  }
 }
 
-.container {
-  width: 100%;
-  max-width: var(--layout-container-max-width, 1280rem);
-  margin: 0 auto;
-  padding-left: var(--layout-gutter, 20rem);
-  padding-right: var(--layout-gutter, 20rem);
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 80rem;
+.layout.layout {
+  align-items: flex-start;
+  gap: 0;
+
+  @media (max-width: 1024px) {
+    gap: 40rem;
+  }
 }
 
-.text_content {
-  flex: 1;
+.header.header {
+  max-width: none;
+
+  /* MO: 포인트 목록(headerExtra) 래퍼까지 숨겨 여백 제거 */
+  @media (max-width: 768px) {
+    > :last-child {
+      display: none;
+    }
+  }
 }
 
-.title {
-  font-size: 38rem;
-  font-weight: 700;
-  line-height: 1.3;
-  margin-bottom: 16rem;
-  letter-spacing: -0.5rem;
-  color: #111827;
+.description.description {
+  @include main-description;
 }
 
-.subtitle {
-  font-size: 16rem;
-  color: #6b7280;
-  line-height: 1.6;
-  margin-bottom: 40rem;
+.titleRegular {
+  @include title-regular;
 }
 
-.feature_list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+.pcBr {
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+/* 포인트 목록 (MO 시안에 없음) */
+.points {
   display: flex;
   flex-direction: column;
-  gap: 20rem;
+  gap: 24rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
 }
 
-.feature_item {
+.point {
+  @include text-body;
   display: flex;
   align-items: center;
-  gap: 12rem;
+  gap: 8rem;
+  color: var(--color-text-gray-1, #3c4043);
 }
 
-.feature_icon {
-  color: var(--color-primary-500);
-  display: flex;
+.pointIcon {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-}
-
-.feature_text {
-  font-size: 16rem;
-  color: #4b5563;
-  font-weight: 500;
-}
-
-.timeline_wrapper {
-  flex: 1;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.timeline_card {
-  width: 100%;
-  max-width: 500rem;
-  background-color: #fafafa;
-  border: 1rem solid #f3f4f6;
-  border-radius: 12rem;
-  padding: 40rem;
-  box-shadow: 0 4rem 20rem rgba(0, 0, 0, 0.02);
-  position: relative;
-}
-
-.timeline_line {
-  position: absolute;
-  top: 60rem;
-  bottom: 60rem;
-  left: 64rem; /* 40rem padding + 24rem half of icon */
-  width: 2rem;
-  background-color: #d1d5db;
-  z-index: 1;
-}
-
-.timeline {
-  display: flex;
-  flex-direction: column;
-  gap: 40rem;
-  position: relative;
-  z-index: 2;
-}
-
-.timeline_item {
-  display: flex;
-  gap: 24rem;
-  align-items: center;
-}
-
-.icon_wrapper {
   flex-shrink: 0;
+  width: 32rem;
+  height: 32rem;
+  border-radius: 50%;
+  background-color: var(--color-surface-white, #ffffff);
+
+  img {
+    width: 20rem;
+    height: 20rem;
+  }
 }
 
-.icon {
+/* --------------------------------------------------------------------------
+   단계 카드
+-------------------------------------------------------------------------- */
+.card {
+  margin: 0;
+  padding: 40rem;
+  list-style: none;
+  border: 1rem solid var(--color-border-default, #e8eaed);
+  border-radius: 12rem;
+  background-color: $surface-subtle;
+  box-shadow: 0 5rem 10rem rgba(0, 0, 0, 0.1);
+
+  @media (max-width: 768px) {
+    padding: 20rem;
+    box-shadow: none;
+  }
+}
+
+.step {
+  position: relative;
+  height: 100rem;
+
+  &:last-child {
+    height: auto;
+  }
+}
+
+.stepButton {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-start;
+  gap: 24rem;
+  width: calc(100% + 16rem);
+  margin: 0 -8rem;
+  padding: 8rem;
+  border: none;
+  border-radius: 12rem;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: 2rem solid var(--color-primary, #3b5bff);
+    outline-offset: -2rem;
+  }
+}
+
+.stepIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
   width: 48rem;
   height: 48rem;
   border-radius: 50%;
-  background-color: var(--color-primary-500);
-  color: #ffffff;
+  background-color: var(--color-primary, #3b5bff);
+  transition: box-shadow 0.3s, transform 0.3s;
+
+  img {
+    width: 20rem;
+    height: 20rem;
+  }
+}
+
+.stepText {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2rem 8rem rgba(37, 99, 235, 0.3);
+  flex-direction: column;
+  gap: 6rem;
+  min-width: 0;
+  padding-top: 8rem;
 }
 
-.content {
-  flex: 1;
+.stepTitle {
+  @include text-subheading;
+  color: var(--color-text-gray-1, #3c4043);
+  transition: color 0.3s;
 }
 
-.item_title {
-  font-size: 18rem;
-  font-weight: 700;
-  color: #111827;
-  margin-bottom: 6rem;
+.stepDesc {
+  @include text-body;
+  color: var(--color-text-gray-2, #5f6368);
+  word-break: keep-all;
 }
 
-.item_desc {
-  font-size: 14rem;
-  color: #6b7280;
-  line-height: 1.4;
+/* 현재 단계: 아이콘 발광 (Figma 1928:667 drop-shadow) */
+.stepActive {
+  .stepIcon {
+    box-shadow: 0 0 10rem rgba(53, 182, 243, 0.2), 0 0 0 4rem rgba(59, 91, 255, 0.12);
+    transform: scale(1.04);
+  }
+
+  .stepTitle {
+    color: var(--color-text-black, #000000);
+  }
 }
 
-/* ==========================================================================
-   Mobile Responsive (1024px 이하)
-   ========================================================================== */
-@media (max-width: 1024px) {
-  .container {
-    padding: 0 24rem;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 60rem;
-  }
+/* 연결선 (회색 바탕 + 파란 채움) */
+.connector {
+  position: absolute;
+  left: 23rem;
+  top: 54rem;
+  width: 2rem;
+  height: 74rem;
+  overflow: hidden;
+  background-color: var(--color-border-unselected, #dadce0);
+}
 
-  .process {
-    padding: 80rem 0;
-  }
+.connectorFill {
+  position: absolute;
+  inset: 0;
+  background-color: var(--color-primary, #3b5bff);
+  transform: scaleY(0);
+  transform-origin: top;
+}
 
-  .title {
-    font-size: 32rem;
-  }
+.stepDone .connectorFill {
+  transform: scaleY(1);
+  transition: transform 0.3s ease;
+}
 
-  .timeline_wrapper {
-    width: 100%;
-    justify-content: flex-start;
-  }
+/* 진행 중이 아니면 현재 단계 연결선을 채워 둠 (시안 기본 상태) */
+.stepActive .connectorFill {
+  transform: scaleY(1);
+}
 
-  .timeline_card {
-    padding: 24rem;
-  }
+.running .stepActive .connectorFill {
+  animation: connectorFill var(--step-ms, 2200ms) linear both;
+}
 
-  .timeline_line {
-    left: 48rem; /* 24rem padding + 24rem half of icon */
+@keyframes connectorFill {
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .running .stepActive .connectorFill {
+    animation: none;
   }
 }

@@ -1,94 +1,89 @@
 import { useState } from 'react';
+import { BasicSection } from '../../../../components/domain/Section';
 import styles from './PricingSection.module.scss';
 
+type PlanId = 'cloud' | 'onpremise';
+
+const PLANS: { id: PlanId; title: string; summary: string; desc: string; points: string[] }[] = [
+  {
+    id: 'cloud',
+    title: '클라우드형',
+    summary: '빠른 도입 · 유연한 운영',
+    desc: '별도의 구축 부담을 줄이고 빠르게 xPrivacy를 시작할 수 있습니다.',
+    points: ['별도 인프라 구축 부담을 줄인 빠른 도입', '서비스 업데이트를 통한 지속적인 기능 개선', '사용 환경에 따라 유연한 운영'],
+  },
+  {
+    id: 'onpremise',
+    title: '구축형',
+    summary: '전용 환경 · 조직 정책에 맞춘 구성',
+    desc: '조직의 인프라와 보안 정책에 맞춰 전용 환경으로 구축할 수 있습니다.',
+    points: ['내부 인프라 및 보안 정책에 맞춘 구축', '사내 시스템과의 연동 구성 지원', '조직의 운영 정책에 맞춘 데이터 관리'],
+  },
+];
+
+/**
+ * 도입 방식 선택 (Figma PC 1928:879 · MO 1928:1387)
+ * 라디오 카드: 카드 어디를 눌러도 선택되며 키보드 방향키로도 전환됩니다.
+ */
 export const PricingSection = () => {
-  const [activePlan, setActivePlan] = useState<'cloud' | 'onpremise'>('cloud');
+  const [plan, setPlan] = useState<PlanId>('cloud');
 
   return (
-    <section className={styles.pricing}>
-      <div className={styles.container}>
-        <div className={styles.header}>
-          <h2 className={styles.title}>운영 환경에 맞는<br />도입 방식을 선택하세요</h2>
-          <p className={styles.subtitle}>
-            고객의 IT 인프라와 보안 정책에 최적화된 두 가지 솔루션 모델을 제공합니다.
-          </p>
-        </div>
-
-        <div className={styles.cards}>
-          {/* 클라우드형 카드 */}
-          <div 
-            className={`${styles.card} ${activePlan === 'cloud' ? styles.active : ''}`}
-            onClick={() => setActivePlan('cloud')}
-          >
-            <div className={styles.card_header}>
-              <div className={styles.icon_wrapper_cloud}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                  <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </div>
-              <div className={styles.card_title_area}>
-                <h3 className={styles.card_title}>클라우드형</h3>
-                <p className={styles.card_desc}>초기 비용 없이 간편하게 시작</p>
-              </div>
-              <div className={styles.radio_circle}>
-                {activePlan === 'cloud' && <div className={styles.radio_inner}></div>}
-              </div>
-            </div>
-            
-            <ul className={styles.feature_list}>
-              <li>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary-500)"><path d="M20 6L9 17L4 12" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                초기 인프라 구축 비용 최소화
-              </li>
-              <li>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary-500)"><path d="M20 6L9 17L4 12" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                항상 최신 AI 모델 자동 업데이트
-              </li>
-              <li>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary-500)"><path d="M20 6L9 17L4 12" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                사용한 만큼 과금되는 합리적 요금
-              </li>
-            </ul>
-          </div>
-
-          {/* 구축형 카드 */}
-          <div 
-            className={`${styles.card} ${activePlan === 'onpremise' ? styles.active : ''}`}
-            onClick={() => setActivePlan('onpremise')}
-          >
-            <div className={styles.card_header}>
-              <div className={styles.icon_wrapper_onpremise}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M22 6l-10 7L2 6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </div>
-              <div className={styles.card_title_area}>
-                <h3 className={styles.card_title}>구축형</h3>
-                <p className={styles.card_desc}>강력한 내부 보안 정책 준수</p>
-              </div>
-              <div className={styles.radio_circle}>
-                {activePlan === 'onpremise' && <div className={styles.radio_inner}></div>}
-              </div>
-            </div>
-            
-            <ul className={styles.feature_list}>
-              <li>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6b7280"><path d="M20 6L9 17L4 12" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                완벽한 내부 망 분리 환경 지원
-              </li>
-              <li>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6b7280"><path d="M20 6L9 17L4 12" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                기존 시스템 연동 및 맞춤 커스터마이징
-              </li>
-              <li>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6b7280"><path d="M20 6L9 17L4 12" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                고정 비용으로 무제한 영상 처리
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
+    <BasicSection
+      bg="white"
+      align="center"
+      className={styles.section}
+      headerClassName={styles.header}
+      titleClassName={styles.title}
+      descriptionClassName={styles.description}
+      title={
+        <>
+          <span className={styles.titleRegular}>운영 환경에 맞는</span>
+          <br className={styles.moBr} /> 도입 방식을 선택하세요
+        </>
+      }
+      description={
+        <>
+          조직의 인프라와 보안 정책에 따라 클라우드형<br className={styles.moBr} /> 또는 구축형 방식으로 도입할 수
+          있습니다.
+        </>
+      }
+    >
+      <fieldset className={styles.cards}>
+        <legend className={styles.legend}>도입 방식</legend>
+        {PLANS.map((item) => {
+          const checked = plan === item.id;
+          return (
+            <label key={item.id} className={`${styles.card} ${checked ? styles.cardChecked : ''}`}>
+              <input
+                type="radio"
+                name="main-plan"
+                value={item.id}
+                checked={checked}
+                onChange={() => setPlan(item.id)}
+                className={styles.input}
+              />
+              <span className={styles.radio} aria-hidden="true" />
+              <span className={styles.head}>
+                <span className={`${styles.icon} ${styles[`icon_${item.id}`]}`} aria-hidden="true" />
+                <span className={styles.headText}>
+                  <strong className={styles.cardTitle}>{item.title}</strong>
+                  <span className={styles.cardSummary}>{item.summary}</span>
+                </span>
+              </span>
+              <span className={styles.cardDesc}>{item.desc}</span>
+              <span className={styles.points}>
+                {item.points.map((point) => (
+                  <span key={point} className={styles.point}>
+                    <span className={styles.check} aria-hidden="true" />
+                    {point}
+                  </span>
+                ))}
+              </span>
+            </label>
+          );
+        })}
+      </fieldset>
+    </BasicSection>
   );
 };

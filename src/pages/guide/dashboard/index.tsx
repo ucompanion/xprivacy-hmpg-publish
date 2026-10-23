@@ -5,6 +5,7 @@ import GuideLayout from '../layouts/GuideLayout';
 const HISTORY_DATA: Record<string, { date: string; tag: string; content: string }[]> = {
   '사용자 메인 (Header/Layout/Footer)': [
     { date: '2026.10.06', tag: '[진행중]', content: '페이지 최초 작업' },
+    { date: '2026.10.23', tag: '[수정]', content: '피그마 v2 반영 (메인 비주얼 슬라이드 4종·기능별 결과 비교·처리 단계·활용 환경·도입 방식·FAQ·CTA, PC·MO)' },
   ],
   '제품소개': [
     { date: '2026.10.06', tag: '[진행중]', content: '페이지 최초 작업' },
@@ -380,14 +381,14 @@ export default function PubIndex() {
 
             <div className="status-summary">
               <div className="progress-bar">
-                <div className="progress-fill" style={{ width: '74%' }}></div>
+                <div className="progress-fill" style={{ width: '81%' }}></div>
               </div>
               <div className="status-counts">
-                <span>전체 <strong>39</strong></span>
-                <span>대기 <strong>10</strong></span>
-                <span>진행중 <strong className="text-ing">0</strong></span>
+                <span>전체 <strong>36</strong></span>
+                <span>대기 <strong>3</strong></span>
+                <span>진행중 <strong className="text-ing">4</strong></span>
                 <span>완료 <strong className="text-done">29</strong></span>
-                <span>진행률 <strong className="text-primary">74%</strong></span>
+                <span>진행률 <strong className="text-primary">81%</strong></span>
               </div>
             </div>
           </header>
@@ -659,12 +660,13 @@ export default function PubIndex() {
                   <td>Demo</td>
                   <td><a href="/pub/demo/demo" target="_blank" rel="noreferrer">/pub/demo/demo</a></td>
                   <td>조찬기</td>
-                  <td><span className="status done">완료</span></td>
+                  <td><span className="status ing">진행중</span></td>
                   <td>2026.10.22</td>
                   <td>
                     <button type="button" className="btn-history" onClick={() => openHistoryPopup('Demo')}>수정내역</button>
                   </td>
                 </tr>
+                {/* 나중에 필요 시 사용하기 위해 임시 숨김 처리
                 <tr>
                   <td>22</td>
                   <td>이미지 체험</td>
@@ -692,34 +694,35 @@ export default function PubIndex() {
                   <td>-</td>
                   <td>-</td>
                 </tr>
+                */}
 
                 <tr className="category">
                   <td colSpan={7}>▶ Contact</td>
                 </tr>
                 <tr>
-                  <td>25</td>
+                  <td>22</td>
                   <td>Brochure</td>
                   <td><a href="/pub/contact/brochure" target="_blank" rel="noreferrer">/pub/contact/brochure</a></td>
                   <td>조찬기</td>
-                  <td><span className="status done">완료</span></td>
+                  <td><span className="status ing">진행중</span></td>
                   <td>2026.10.22</td>
                   <td>
                     <button type="button" className="btn-history" onClick={() => openHistoryPopup('Brochure')}>수정내역</button>
                   </td>
                 </tr>
                 <tr>
-                  <td>26</td>
+                  <td>23</td>
                   <td>Pseudonymization Guide</td>
                   <td><a href="/pub/contact/pseudonymization-guide" target="_blank" rel="noreferrer">/pub/contact/pseudonymization-guide</a></td>
                   <td>조찬기</td>
-                  <td><span className="status done">완료</span></td>
+                  <td><span className="status ing">진행중</span></td>
                   <td>2026.10.22</td>
                   <td>
                     <button type="button" className="btn-history" onClick={() => openHistoryPopup('Pseudonymization Guide')}>수정내역</button>
                   </td>
                 </tr>
                 <tr>
-                  <td>27</td>
+                  <td>24</td>
                   <td>문의</td>
                   <td><a href="/pub/contact/inquiry" target="_blank" rel="noreferrer">/pub/contact/inquiry</a></td>
                   <td>조찬기</td>
@@ -730,7 +733,7 @@ export default function PubIndex() {
                   </td>
                 </tr>
                 <tr>
-                  <td>28</td>
+                  <td>25</td>
                   <td>FAQ</td>
                   <td><a href="/pub/contact/faq" target="_blank" rel="noreferrer">/pub/contact/faq</a></td>
                   <td>조찬기</td>
@@ -741,11 +744,11 @@ export default function PubIndex() {
                   </td>
                 </tr>
                 <tr>
-                  <td>29</td>
+                  <td>26</td>
                   <td>Company</td>
                   <td><a href="/pub/contact/company" target="_blank" rel="noreferrer">/pub/contact/company</a></td>
                   <td>조찬기</td>
-                  <td><span className="status done">완료</span></td>
+                  <td><span className="status ing">진행중</span></td>
                   <td>2026.10.22</td>
                   <td>
                     <button type="button" className="btn-history" onClick={() => openHistoryPopup('Company')}>수정내역</button>
@@ -755,7 +758,7 @@ export default function PubIndex() {
                   <td colSpan={7}>▶ Blog</td>
                 </tr>
                 <tr>
-                  <td>30</td>
+                  <td>27</td>
                   <td>Blog 목록</td>
                   <td><a href="/pub/blog" target="_blank" rel="noreferrer">/pub/blog</a></td>
                   <td>조찬기</td>
@@ -766,7 +769,7 @@ export default function PubIndex() {
                   </td>
                 </tr>
                 <tr>
-                  <td>31</td>
+                  <td>28</td>
                   <td>Blog 상세</td>
                   <td>
                     <div>
@@ -791,7 +794,7 @@ export default function PubIndex() {
                   <td colSpan={7}>▶ Login</td>
                 </tr>
                 <tr>
-                  <td>32</td>
+                  <td>29</td>
                   <td>로그인</td>
                   <td>
                     <div>
@@ -817,7 +820,7 @@ export default function PubIndex() {
                   </td>
                 </tr>
                 <tr>
-                  <td>33</td>
+                  <td>30</td>
                   <td>회원가입</td>
                   <td>
                     <div>
@@ -842,7 +845,7 @@ export default function PubIndex() {
                   </td>
                 </tr>
                 <tr>
-                  <td>34</td>
+                  <td>31</td>
                   <td>패스워드 찾기</td>
                   <td>
                     <div>
@@ -867,7 +870,7 @@ export default function PubIndex() {
                   </td>
                 </tr>
                 <tr>
-                  <td>35</td>
+                  <td>32</td>
                   <td>비밀번호 재설정</td>
                   <td>
                     <div>
@@ -893,7 +896,7 @@ export default function PubIndex() {
                   </td>
                 </tr>
                 <tr>
-                  <td>36</td>
+                  <td>33</td>
                   <td>약관동의</td>
                   <td><a href="/pub/login/terms" target="_blank" rel="noreferrer">/pub/login/terms</a></td>
                   <td>조찬기</td>
@@ -910,7 +913,7 @@ export default function PubIndex() {
                   </td>
                 </tr>
                 <tr>
-                  <td>37</td>
+                  <td>34</td>
                   <td>가입완료</td>
                   <td><a href="/pub/login/signup-complete" target="_blank" rel="noreferrer">/pub/login/signup-complete</a></td>
                   <td>조찬기</td>
@@ -927,7 +930,7 @@ export default function PubIndex() {
                   </td>
                 </tr>
                 <tr>
-                  <td>38</td>
+                  <td>35</td>
                   <td>탈퇴하기</td>
                   <td>
                     <div>
@@ -946,7 +949,7 @@ export default function PubIndex() {
                   </td>
                 </tr>
                 <tr>
-                  <td>39</td>
+                  <td>36</td>
                   <td>탈퇴완료</td>
                   <td><a href="/pub/login/withdraw-complete" target="_blank" rel="noreferrer">/pub/login/withdraw-complete</a></td>
                   <td>조찬기</td>

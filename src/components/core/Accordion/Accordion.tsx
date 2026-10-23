@@ -10,8 +10,8 @@ export interface AccordionItemData {
 export interface AccordionProps {
   items: AccordionItemData[];
   allowMultiple?: boolean;
-  /** boxed: 테두리 박스형(기본) / line: 상하 구분선형 (Figma FAQ Accordion) */
-  variant?: 'boxed' | 'line';
+  /** boxed: 테두리 박스형(기본) / line: 상하 구분선형 (Figma FAQ Accordion) / panel: 펼친 항목만 연회색 면 (Figma 메인 FAQ) */
+  variant?: 'boxed' | 'line' | 'panel';
   /** 제목 앞 표식 (예: 'Q') */
   prefix?: React.ReactNode;
   /** 처음 열려 있을 항목 id 목록 */
