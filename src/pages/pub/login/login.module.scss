@@ -1,0 +1,126 @@
+@use "@/assets/scss/variables" as *;
+@use "@/assets/scss/mixins" as *;
+
+/* 로그인 (Figma PC 2966:2505 · 공통 카드는 components/auth.module.scss) */
+
+/* 카드 안 폼: 본문 → 40 (MO 32) → 버튼 영역 */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 40rem;
+
+  @media (max-width: 768px) {
+    gap: 32rem;
+  }
+}
+
+/* 비밀번호 찾기 링크: 오른쪽 정렬 · Body primary */
+.forgot {
+  @include text-body;
+  align-self: flex-end;
+  color: var(--color-text-accent);
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+/* 비밀번호 조건 (Figma 2966:2586 Password rules): 항목 사이 6 · Body 초록 */
+.rules {
+  display: flex;
+  flex-direction: column;
+  gap: 6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    @include text-body;
+    color: var(--color-status-success);
+  }
+}
+
+/* --------------------------------------------------------------------------
+ * 약관 동의 (Figma 2966:5641 Agreements): 항목 사이 16 · 전체 동의 → 구분선 → 개별 약관
+ * 개별 약관: 체크박스 줄 → 12 → 본문 상자(회색 · radius 6 · padding 16 · 높이 140 스크롤)
+ * -------------------------------------------------------------------------- */
+.agreements {
+  display: flex;
+  flex-direction: column;
+  gap: 16rem;
+}
+
+.agreeDivider {
+  width: 100%;
+  height: 1rem;
+  margin: 0;
+  border: 0;
+  background-color: var(--color-border-default);
+}
+
+.agreeRow {
+  display: flex;
+  flex-direction: column;
+  gap: 12rem;
+}
+
+.agreeHead {
+  display: flex;
+  align-items: center;
+  gap: 10rem;
+}
+
+.agreeToggle {
+  @include text-body;
+  flex-shrink: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-text-gray-2);
+  line-height: 1.75;
+  cursor: pointer;
+}
+
+.agreeContent {
+  @include text-body;
+  height: 140rem;
+  padding: 16rem;
+  overflow-y: auto;
+  border-radius: 6rem;
+  background-color: var(--color-surface-gray);
+  color: var(--color-text-gray-2);
+  line-height: 1.75;
+  white-space: pre-line;
+}
+
+/* 인증 메일 안내 (Figma 2966:5697): Body 검정 */
+.mailText {
+  @include text-body;
+  margin: 0;
+  color: var(--color-text-black);
+  word-break: keep-all;
+}
+
+/* 탈퇴 확인 사항 (초안): 항목 사이 6 · "•" Body gray-2 */
+.notices {
+  display: flex;
+  flex-direction: column;
+  gap: 6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    @include text-body;
+    display: flex;
+    gap: 8rem;
+    color: var(--color-text-gray-2);
+    word-break: keep-all;
+
+    &::before {
+      content: "•";
+      flex-shrink: 0;
+    }
+  }
+}

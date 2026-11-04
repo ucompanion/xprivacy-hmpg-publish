@@ -1,0 +1,462 @@
+@use "@/assets/scss/variables" as *;
+@use "@/assets/scss/mixins" as *;
+
+/* 미매핑 피그마 값 (프로젝트 토큰 없음 → 시안 값 사용)
+ * - accent/detection #3DB7FF (selected) · 흰색(detected): 탐지 박스 테두리·모서리·라벨
+ * - 얼굴 블러 backdrop-blur 4.5 / 3.5 · 히어로 모자이크 blur 7 · 타임라인 구간 #22C3D7
+ * - 히어로 사진 그림자 0 24 60 rgba(27,42,107,.12) / 칩·썸네일 레일 rgba(255,255,255,.92)
+ * - 탐지 라벨 Label/Eyebrow 12 ExtraBold · 자간 1.54 / 칩 16 SemiBold · 타임라인 13 SemiBold */
+$detect-color: #3db7ff;
+$timeline-color: #22c3d7;
+$arrow-color: #80878c; /* 가상 얼굴 화살표 (대응 토큰 없음) */
+
+/* 비주얼 내부 치수: 시안 px × --u (컨테이너 폭 ÷ 시안 프레임 폭) */
+@function u($px) {
+  @return calc(#{$px} * var(--u));
+}
+
+.pageWrap {
+  width: 100%;
+}
+
+/* --------------------------------------------------------------------------
+ * 1. Hero (Figma PC 2280:2796 / Mobile 2286:64089)
+ * 가운데 정렬 · 위아래 120 (MO 80) · 문구 → 48 → 처리 예시 사진 1240×560 (MO 350×240)
+ * -------------------------------------------------------------------------- */
+.videoHero {
+  --hero-compact-padding-top-pc: 120rem;
+  --hero-compact-padding-bottom-pc: 120rem;
+  --hero-compact-padding-top-mo: 80rem;
+  --hero-compact-padding-bottom-mo: 80rem;
+}
+
+/* 설명 폭: 시안 900 (컴포넌트 기본 640) */
+.pageWrap > .videoHero.videoHero h2 + p {
+  max-width: 900rem !important;
+}
+
+/* 헤더 묶음 폭: 컴포넌트 기본 774 → 설명 900이 들어가도록 1240 */
+.pageWrap > .videoHero.videoHero div:has(> h2 + p) {
+  max-width: 1240rem !important;
+}
+
+.heroPhoto {
+  --u: calc(100cqw / 1240);
+
+  position: relative;
+  width: 100%;
+  max-width: 1240rem;
+  margin: -12rem auto 0; /* 섹션 콘텐츠 간격 60 → 시안 48 */
+  aspect-ratio: 1240 / 560;
+  overflow: hidden;
+  border-radius: 12rem;
+  box-shadow: 0 24rem 60rem rgba(27, 42, 107, 0.12);
+  container-type: inline-size;
+}
+
+/* 원본 비율(1152×928) 캔버스를 폭에 맞춰 세로 가운데 배치 → 오버레이를 사진 좌표에 고정 */
+.heroCanvas {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  aspect-ratio: 1152 / 928;
+  transform: translateY(-50%);
+
+  > img {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+}
+
+.heroMosaic {
+  position: absolute;
+  border-radius: u(6);
+  background-color: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(u(7));
+}
+
+/* 칩: 24,24 · padding 10 16 · gap 8 · 16 SemiBold (MO 12,12 · padding 5 8 · 12) */
+.heroChip {
+  position: absolute;
+  top: 24rem;
+  left: 24rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 8rem;
+  padding: 10rem 16rem;
+  border-radius: 999rem;
+  background-color: rgba(255, 255, 255, 0.92);
+  color: var(--color-text-black);
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-body, 16rem);
+  font-weight: var(--font-weight-semibold, 600);
+  line-height: normal;
+  white-space: nowrap;
+
+  img {
+    width: 8rem;
+    height: 8rem;
+  }
+}
+
+/* --------------------------------------------------------------------------
+ * 2~6. 좌우 분할 섹션 (비주얼 560×490 · 텍스트 열 flex 1 · 사이 100 · 위 정렬)
+ * DOM은 비주얼 → 글 (MO 순서), PC 2·4번째는 row-reverse로 비주얼 오른쪽
+ * -------------------------------------------------------------------------- */
+.split {
+  display: flex;
+  align-items: flex-start;
+  gap: 100rem;
+}
+
+.reverse {
+  flex-direction: row-reverse;
+}
+
+.copy {
+  flex: 1 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24rem;
+  min-width: 0;
+}
+
+.intro {
+  display: flex;
+  flex-direction: column;
+}
+
+.eyebrow {
+  @include text-eyebrow-section; /* 섹션 공통 Eyebrow (Figma v2 Eyebrow-Section 2730:31257) */
+  color: var(--color-text-eyebrow-section, #6f72af);
+}
+
+.heading {
+  @include text-section;
+  margin: 12rem 0 0;
+  color: var(--color-text-black);
+}
+
+.lead {
+  @include text-body;
+  margin: 24rem 0 0;
+  color: var(--color-text-gray-1);
+  word-break: keep-all;
+}
+
+/* List Item (Number): 상단 border · padding 24 0 · 번호 → 40 → 제목/설명(gap 6) */
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.listItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 40rem;
+  padding: 24rem 0;
+  border-top: 1rem solid var(--color-border-default);
+}
+
+.listNum {
+  @include text-body;
+  flex-shrink: 0;
+  color: var(--color-text-gray-2);
+}
+
+.listText {
+  display: flex;
+  flex: 1 0 0;
+  flex-direction: column;
+  gap: 6rem;
+  min-width: 0;
+}
+
+.listTitle {
+  @include text-subheading;
+  margin: 0;
+  color: var(--color-text-black);
+}
+
+.listDesc {
+  @include text-body;
+  margin: 0;
+  color: var(--color-text-gray-1);
+  word-break: keep-all;
+}
+
+.note {
+  @include text-note;
+  margin: 0;
+  color: var(--color-text-gray-2);
+}
+
+/* 비주얼 프레임 560×490 · radius 12 */
+.visual {
+  --u: calc(100cqw / 560);
+
+  position: relative;
+  flex-shrink: 0;
+  width: 560rem;
+  aspect-ratio: 560 / 490;
+  overflow: hidden;
+  border-radius: 12rem;
+  container-type: inline-size;
+}
+
+.cover {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.faceBlur {
+  position: absolute;
+  border-radius: u(4);
+  background-color: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(u(4.5));
+}
+
+.faceBlurSoft {
+  backdrop-filter: blur(u(3.5));
+}
+
+.plateMask {
+  position: absolute;
+  border-radius: u(3);
+  background-color: var(--color-text-gray-2);
+}
+
+/* Detection Box: 테두리 1 + 모서리 14 (선 3) + 라벨(기본 left -1 · top -25) */
+.detectionBox {
+  --tone: #{$detect-color};
+
+  position: absolute;
+  border: u(1) solid var(--tone);
+}
+
+.toneDetected {
+  --tone: var(--color-surface-white);
+}
+
+.corner {
+  position: absolute;
+  width: u(14);
+  height: u(14);
+  border: 0 solid var(--tone);
+
+  &:nth-child(1) {
+    top: u(-2);
+    left: u(-2);
+    border-top-width: u(3);
+    border-left-width: u(3);
+  }
+
+  &:nth-child(2) {
+    top: u(-2);
+    right: u(-2);
+    border-top-width: u(3);
+    border-right-width: u(3);
+  }
+
+  &:nth-child(3) {
+    bottom: u(-2);
+    left: u(-2);
+    border-bottom-width: u(3);
+    border-left-width: u(3);
+  }
+
+  &:nth-child(4) {
+    right: u(-2);
+    bottom: u(-2);
+    border-right-width: u(3);
+    border-bottom-width: u(3);
+  }
+}
+
+.detectionLabel {
+  position: absolute;
+  top: calc(var(--label-y, -25) * var(--u));
+  left: calc(var(--label-x, -1) * var(--u));
+  padding: u(3) u(6);
+  background-color: var(--tone);
+  color: var(--color-text-black);
+  font-family: var(--font-family-base);
+  font-size: u(12);
+  font-weight: 800;
+  line-height: normal;
+  letter-spacing: u(1.54);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* 가상 얼굴: 회색 패널 · 사진 232×290 radius 12 · 라벨 Note 12 · 화살표 20 Bold */
+.facePanel {
+  background-color: var(--color-surface-gray);
+}
+
+.facePhoto {
+  position: absolute;
+  overflow: hidden;
+  border-radius: u(12);
+
+  img {
+    position: absolute;
+    max-width: none;
+  }
+}
+
+.faceLabel {
+  position: absolute;
+  color: var(--color-text-gray-2);
+  font-family: var(--font-family-base);
+  font-size: u(12);
+  line-height: 1.75;
+  text-align: center;
+}
+
+.faceLabelAccent {
+  color: var(--color-primary);
+}
+
+.faceArrow {
+  position: absolute;
+  color: $arrow-color;
+  font-family: var(--font-family-base);
+  font-size: u(20);
+  font-weight: var(--font-weight-bold);
+  line-height: normal;
+  text-align: center;
+}
+
+/* 등장인물 썸네일 레일: 304,418 · padding 8 · gap 6 · radius 8 / 썸네일 40 radius 6 (선택 2px primary) */
+.peopleRail {
+  position: absolute;
+  top: u(418);
+  left: u(304);
+  display: flex;
+  gap: u(6);
+  padding: u(8);
+  border-radius: u(8);
+  background-color: rgba(255, 255, 255, 0.92);
+}
+
+.thumb {
+  position: relative;
+  width: u(40);
+  height: u(40);
+  overflow: hidden;
+  border-radius: u(6);
+
+  img {
+    position: absolute;
+    max-width: none;
+  }
+}
+
+.thumbActive::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: u(2) solid var(--color-primary);
+  border-radius: inherit;
+}
+
+/* 타임라인 검수: 16,425 · 검정 60% · padding 10 14 · gap 8 · 막대 500×8 */
+.timeline {
+  position: absolute;
+  top: u(425);
+  left: u(16);
+  display: flex;
+  flex-direction: column;
+  gap: u(8);
+  padding: u(10) u(14);
+  border-radius: u(8);
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.timelineTitle {
+  color: var(--color-text-inverse);
+  font-family: var(--font-family-base);
+  font-size: u(13);
+  font-weight: var(--font-weight-semibold, 600);
+  line-height: normal;
+  white-space: nowrap;
+}
+
+.timelineBar {
+  position: relative;
+  width: u(500);
+  height: u(8);
+  border-radius: u(4);
+  background-color: rgba(255, 255, 255, 0.25);
+
+  > span {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    border-radius: u(4);
+    background-color: $timeline-color;
+  }
+
+  .playhead {
+    top: u(-5);
+    left: 66%;
+    width: u(2);
+    height: u(18);
+    border-radius: 0;
+    background-color: var(--color-surface-white);
+  }
+}
+
+/* --------------------------------------------------------------------------
+ * Responsive
+ * -------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .split,
+  .reverse {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 40rem;
+  }
+
+  .visual {
+    width: 100%;
+  }
+}
+
+/* 모바일 (Figma Mobile 2286:3761 · 390 기준) */
+@media (max-width: 768px) {
+  /* 히어로 사진 350×240 · 탐지 박스 선은 시안 MO 0.45 배율 */
+  .heroPhoto {
+    --u: 0.45px;
+
+    margin-top: 0; /* MO 섹션 콘텐츠 간격 40 = 시안 */
+    aspect-ratio: 350 / 240;
+    box-shadow: 0 6.774rem 16.935rem rgba(27, 42, 107, 0.12);
+  }
+
+  .heroMosaic {
+    border-radius: 1.694rem;
+    backdrop-filter: blur(1.976rem);
+  }
+
+  .heroChip {
+    top: 12rem;
+    left: 12rem;
+    gap: 4rem;
+    padding: 5rem 8rem;
+    font-size: 12rem;
+
+    img {
+      width: 4rem;
+      height: 4rem;
+    }
+  }
+}

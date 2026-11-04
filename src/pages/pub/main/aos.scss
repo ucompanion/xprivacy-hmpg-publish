@@ -1,0 +1,5 @@
+// 메인 전용: AOS 기본 이동 거리(100px)를 줄여 컨텐츠가 슬며시 올라오게 한다.
+// 올라온 뒤 상태(.aos-animate)는 AOS 기본 규칙이 우선하므로 여기서는 시작 위치만 지정한다.
+[data-aos='fade-up'] {
+  transform: translate3d(0, 24rem, 0);
+}

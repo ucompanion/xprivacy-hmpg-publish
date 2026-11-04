@@ -1,0 +1,110 @@
+/* Core IconSurface — Figma Process Icon/v2 (ClearSurface · LightBlueSurface)
+ * - 모든 치수는 48 기준값 × 배율(--k)로 계산: 52 → 1.0833 · 48 → 1 · 44 → .9167 · 40 → .8333 · 32 → .6667
+ *   (반경 12 · 두께 띠 3 · 림 .75 · 글리프 24 · 반사광 크레센트 52.5×38.25, 단 32의 글리프는 시안상 18)
+ * - default 채움: 흰 그라데이션(.88 → .42 → .62) 아래로 그림자색이 비쳐 연한 회청색을 띱니다.
+ *   (피그마는 반투명 채움 아래로 그림자가 보이지만 CSS box-shadow는 박스 안쪽에 그려지지 않으므로
+ *    그림자색 rgba(20,40,122,.08)을 배경색으로 깔아 재현)
+ * - soft 채움: 대각 블루 그라데이션 (LightBlueSurface · 요금제 · Core Technology 카드)
+ * 미매핑 값: 유리 효과 그라데이션 · 그림자 (프로젝트 토큰 없음 → 시안 값) */
+
+.core-icon-surface {
+  --k: 1;
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: calc(48rem * var(--k));
+  height: calc(48rem * var(--k));
+  border-radius: calc(12rem * var(--k));
+
+  > span {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+  }
+
+  .surface-fill {
+    background-color: rgba(20, 40, 122, 0.08);
+    background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.88) 0%, rgba(255, 255, 255, 0.42) 55%, rgba(255, 255, 255, 0.62) 100%);
+    box-shadow:
+      0 calc(2rem * var(--k)) calc(3rem * var(--k)) rgba(0, 0, 0, 0.06),
+      0 calc(14rem * var(--k)) calc(30rem * var(--k)) calc(-8rem * var(--k)) rgba(20, 40, 122, 0.14),
+      inset 0 calc(-2rem * var(--k)) calc(4rem * var(--k)) rgba(13, 20, 64, 0.08),
+      inset 0 calc(1rem * var(--k)) 0 rgba(255, 255, 255, 0.95);
+    mix-blend-mode: multiply;
+  }
+
+  .surface-band {
+    border: calc(3rem * var(--k)) solid rgba(255, 255, 255, 0.95);
+    opacity: 0.65;
+  }
+
+  /* 반사광: 크레센트 52.5×38.25 (left -16.5 · top -20.25, 블러 여백 포함) */
+  .surface-specular {
+    overflow: hidden;
+    opacity: 0.8;
+
+    img {
+      position: absolute;
+      left: -36.72%;
+      top: -44.53%;
+      width: 114.06%;
+      height: 84.38%;
+      max-width: none;
+    }
+  }
+
+  .surface-rim {
+    border: calc(0.75rem * var(--k)) solid rgba(255, 255, 255, 0.95);
+  }
+
+  .surface-glyph {
+    position: relative;
+    width: calc(24rem * var(--k));
+    height: calc(24rem * var(--k));
+  }
+
+  /* fill: 글리프 SVG가 자체 여백 포함(48 뷰박스) → 아이콘 전체를 덮음 */
+  &.glyph-fill .surface-glyph {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* soft (LightBlueSurface): 대각 블루 그라데이션 · 얕은 그림자 */
+  &.tone-soft .surface-fill {
+    background-color: transparent;
+    background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 14.286%, rgba(204, 229, 255, 0.6) 53.571%, rgba(235, 247, 255, 0.85) 85.714%);
+    box-shadow:
+      0 calc(0.75rem * var(--k)) calc(1.5rem * var(--k)) rgba(20, 41, 64, 0.04),
+      0 calc(6rem * var(--k)) calc(15rem * var(--k)) rgba(31, 71, 148, 0.11),
+      inset 0 calc(-1.125rem * var(--k)) calc(2.25rem * var(--k)) rgba(20, 41, 87, 0.06),
+      inset 0 calc(0.75rem * var(--k)) 0 rgba(255, 255, 255, 0.95);
+  }
+}
+
+/* 크기 배율 */
+.core-icon-surface.size-52 { --k: 1.08333; }
+.core-icon-surface.size-44 { --k: 0.9167; }
+.core-icon-surface.size-40 { --k: 0.83333; }
+.core-icon-surface.size-32 { --k: 0.6667; }
+
+/* 32는 시안상 글리프 18 (비례값 16보다 큼) */
+.core-icon-surface.glyph-center.size-32 .surface-glyph {
+  width: 18rem;
+  height: 18rem;
+}
+
+@media (max-width: 768px) {
+  .core-icon-surface.mo-size-52 { --k: 1.08333; }
+  .core-icon-surface.mo-size-48 { --k: 1; }
+  .core-icon-surface.mo-size-44 { --k: 0.9167; }
+  .core-icon-surface.mo-size-40 { --k: 0.83333; }
+  .core-icon-surface.mo-size-32 { --k: 0.6667; }
+
+  .core-icon-surface.glyph-center.mo-size-32 .surface-glyph {
+    width: 18rem;
+    height: 18rem;
+  }
+}

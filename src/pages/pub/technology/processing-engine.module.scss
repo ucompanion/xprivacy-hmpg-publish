@@ -1,0 +1,553 @@
+@use "@/assets/scss/variables" as *;
+@use "@/assets/scss/mixins" as *;
+
+/* 미매핑 피그마 값 (프로젝트 토큰 없음 → 시안 값 사용)
+ * - text/inverse-subtle #F1F3F4 → 같은 값의 surface-gray 사용
+ * - 콜아웃 그림자 0 12 32 rgba(13,26,102,.28) / 재생 버튼 rgba(0,0,0,.45)
+ * - 아이콘 유리 효과는 Core IconSurface에서 관리 */
+
+.pageWrap {
+  width: 100%;
+}
+
+/* --------------------------------------------------------------------------
+ * 1. Hero (Figma PC 2165:7508 / Mobile 2165:7733)
+ * PC 480 (copy top 154.5) / MO 560 (copy top 142 · bottom 70)
+ * -------------------------------------------------------------------------- */
+.engineHero {
+  --hero-compact-padding-top-pc: 155rem;
+  --hero-compact-padding-bottom-pc: 81rem;
+  --hero-compact-padding-top-mo: 142rem;
+  --hero-compact-padding-bottom-mo: 70rem;
+}
+
+/* MO: 타이틀-설명 간격 16 (컴포넌트 기본 24) */
+@media (max-width: 768px) {
+  .pageWrap > .engineHero.engineHero h2 + p {
+    margin-top: 16rem !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+ * 2. Privacy & Processing Engine (Figma PC 2165:7515 / Mobile 2165:7740)
+ * 카드 2열 gap 24: white, border default, radius 12, padding 40 36, gap 24
+ * 단계: surface-gray, radius 8, padding 14 20, gap 16 (번호 accent · 라벨 gray-2)
+ * -------------------------------------------------------------------------- */
+.engines {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24rem;
+}
+
+.engineCard {
+  display: flex;
+  flex-direction: column;
+  gap: 24rem;
+  padding: 40rem 36rem;
+  border: 1rem solid var(--color-border-default);
+  border-radius: 12rem;
+  background-color: var(--color-surface-white);
+}
+
+.engineHead {
+  display: flex;
+  flex-direction: column;
+  gap: 8rem;
+}
+
+.engineTag {
+  @include text-body;
+  color: var(--color-text-gray-2);
+}
+
+.engineTitle {
+  @include text-subheading;
+  margin: 0;
+  color: var(--color-text-black);
+}
+
+.engineDesc {
+  @include text-body;
+  margin: 0;
+  color: var(--color-text-gray-1);
+  word-break: keep-all;
+}
+
+.flow {
+  display: flex;
+  flex-direction: column;
+  gap: 8rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.flowStep {
+  @include text-body;
+  display: flex;
+  align-items: center;
+  gap: 16rem;
+  padding: 14rem 20rem;
+  border-radius: 8rem;
+  background-color: var(--color-surface-gray);
+}
+
+.flowNum {
+  flex-shrink: 0;
+  color: var(--color-text-accent);
+}
+
+.flowLabel {
+  color: var(--color-text-gray-2);
+}
+
+.engineNote {
+  @include text-note;
+  margin: 0;
+  color: var(--color-text-gray-2);
+}
+
+/* --------------------------------------------------------------------------
+ * 3. Detection & Tracking (Figma PC 2165:7560 / Mobile 2165:7785)
+ * 비교 비주얼 → 80 → [인트로 + 테스트 환경 | 표 640] gap 80
+ * -------------------------------------------------------------------------- */
+.performance {
+  display: flex;
+  flex-direction: column;
+  gap: 80rem;
+}
+
+/* 비교: 사진 560×400 radius 12 · 사이 120 · 라벨 14 아래 · 콜아웃 가운데 */
+.compare {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  gap: 120rem;
+}
+
+.video {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14rem;
+  max-width: 560rem;
+  margin: 0;
+}
+
+.videoFrame {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 560 / 400;
+  border-radius: 12rem;
+
+  > img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.playButton {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 72rem;
+  height: 72rem;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.45);
+  transform: translate(-50%, -50%);
+
+  svg {
+    width: 28rem;
+    height: 28rem;
+  }
+}
+
+.videoLabel {
+  @include text-body;
+  color: var(--color-text-gray-2);
+  text-align: center;
+}
+
+/* 콜아웃: primary, padding 24 28 24 32, gap 20, radius 12 · 사진 세로 가운데 */
+.callout {
+  position: absolute;
+  top: calc(50% - 21rem);
+  left: 50%;
+  display: flex;
+  align-items: center;
+  gap: 20rem;
+  padding: 24rem 28rem 24rem 32rem;
+  border-radius: 12rem;
+  background-color: var(--color-primary);
+  box-shadow: 0 12rem 32rem rgba(13, 26, 102, 0.28);
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+}
+
+.calloutText {
+  display: flex;
+  flex-direction: column;
+  gap: 6rem;
+}
+
+.calloutTitle {
+  @include text-subheading;
+  color: var(--color-text-inverse);
+}
+
+.calloutSub {
+  @include text-body;
+  color: var(--color-surface-gray);
+}
+
+.calloutArrow {
+  flex-shrink: 0;
+  width: 28rem;
+  height: 28rem;
+}
+
+/* 하단: 왼쪽(인트로 · 테스트 환경) / 오른쪽(표 640) */
+.perfBody {
+  display: grid;
+  grid-template-columns: 1fr 640rem;
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    "intro bench"
+    "env bench";
+  gap: 24rem 80rem;
+}
+
+.perfIntro {
+  grid-area: intro;
+  display: flex;
+  flex-direction: column;
+}
+
+.perfEyebrow {
+  @include text-eyebrow-section; /* 섹션 공통 Eyebrow (Figma v2 Eyebrow-Section 2730:31257) */
+  color: var(--color-text-eyebrow-section, #6f72af);
+}
+
+.perfHeading {
+  @include text-section;
+  margin: 12rem 0 0;
+  color: var(--color-text-black);
+}
+
+.perfLead {
+  @include text-body;
+  margin: 24rem 0 0;
+  color: var(--color-text-gray-1);
+  word-break: keep-all;
+}
+
+/* 테스트 환경: surface-gray, radius 12, padding 20 24, gap 14 / 항목 3개 가로 gap 8 */
+.testEnv {
+  grid-area: env;
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  gap: 14rem;
+  padding: 20rem 24rem;
+  border-radius: 12rem;
+  background-color: var(--color-surface-gray);
+}
+
+.testEnvTitle {
+  @include text-subheading;
+  margin: 0;
+  color: var(--color-text-black);
+}
+
+.testItems {
+  display: flex;
+  gap: 8rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* 항목: white, radius 12, padding 14 12 · 아이콘 32 → 10 → [라벨(Note) / 값(Body)] */
+.testItem {
+  flex: 1 1 0;
+  display: grid;
+  grid-template-columns: 32rem 1fr;
+  grid-template-areas:
+    "icon label"
+    "icon value";
+  align-items: center;
+  column-gap: 10rem;
+  min-width: 0;
+  padding: 14rem 12rem;
+  border-radius: 12rem;
+  background-color: var(--color-surface-white);
+}
+
+.testIcon {
+  grid-area: icon;
+}
+
+.testLabel {
+  @include text-note;
+  grid-area: label;
+  color: var(--color-text-gray-2);
+}
+
+.testValue {
+  @include text-body;
+  grid-area: value;
+  color: var(--color-text-gray-2);
+  white-space: nowrap;
+}
+
+.testNote {
+  @include text-note;
+  margin: 0;
+  color: var(--color-text-gray-2);
+}
+
+/* 표: white, border default, radius 12 / 헤드 blue-soft / 셀 padding 12 · 가운데 */
+.benchmark {
+  grid-area: bench;
+  display: flex;
+  flex-direction: column;
+  gap: 16rem;
+  min-width: 0;
+}
+
+.table {
+  width: 100%;
+  overflow: hidden;
+  border: 1rem solid var(--color-border-default);
+  border-radius: 12rem;
+  border-collapse: separate;
+  border-spacing: 0;
+  background-color: var(--color-surface-white);
+
+  th,
+  td {
+    @include text-body;
+    padding: 12rem 0;
+    border-bottom: 1rem solid var(--color-border-default);
+    color: var(--color-text-gray-1);
+    text-align: center;
+  }
+
+  thead th {
+    background-color: var(--color-surface-blue-soft);
+    color: var(--color-text-gray-2);
+  }
+
+  tbody tr:last-child > * {
+    border-bottom: 0;
+  }
+}
+
+.tablePc {
+  thead th:nth-child(1) {
+    width: 150rem;
+  }
+
+  thead th:nth-child(2) {
+    width: 190rem;
+  }
+
+  thead th:nth-child(3) {
+    width: 150rem;
+  }
+
+  .groupInfo {
+    border-right: 1rem solid var(--color-border-default);
+    font-weight: var(--font-weight-regular);
+  }
+
+  .lastGroup {
+    border-bottom: 0;
+  }
+}
+
+.tableMo {
+  display: none;
+}
+
+.tableNote {
+  @include text-note;
+  margin: 0;
+  color: var(--color-text-gray-2);
+}
+
+/* --------------------------------------------------------------------------
+ * Responsive
+ * -------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .engines {
+    grid-template-columns: 1fr;
+  }
+
+  .compare {
+    gap: 40rem;
+  }
+
+  .perfBody {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+    grid-template-areas:
+      "intro"
+      "bench"
+      "env";
+    gap: 40rem;
+  }
+}
+
+/* 모바일 (Figma Mobile 2165:7732 · 390 기준) */
+@media (max-width: 768px) {
+  /* 엔진 카드: gap 12 / padding 28 20, gap 20 / 단계 padding 12 16, gap 12 */
+  .engines {
+    gap: 12rem;
+  }
+
+  .engineCard {
+    gap: 20rem;
+    padding: 28rem 20rem;
+  }
+
+  .flowStep {
+    gap: 12rem;
+    padding: 12rem 16rem;
+  }
+
+  .performance {
+    gap: 40rem;
+  }
+
+  /* 비교: 세로 스택 gap 12 · 사진 높이 206 radius 10 · 라벨 8 아래 · 콜아웃 흐름 배치 */
+  .compare {
+    flex-direction: column;
+    gap: 12rem;
+  }
+
+  .video {
+    max-width: none;
+    gap: 8rem;
+  }
+
+  .videoFrame {
+    aspect-ratio: 350 / 206;
+    border-radius: 10rem;
+  }
+
+  .playButton {
+    width: 56rem;
+    height: 56rem;
+
+    svg {
+      width: 20rem;
+      height: 20rem;
+    }
+  }
+
+  .callout {
+    position: static;
+    gap: 12rem;
+    padding: 16rem 16rem 16rem 20rem;
+    box-shadow: none;
+    transform: none;
+    white-space: normal;
+  }
+
+  .calloutText {
+    flex: 1 0 0;
+    gap: 4rem;
+  }
+
+  .calloutArrow {
+    width: 22rem;
+    height: 22rem;
+  }
+
+  .perfHeading {
+    margin-top: 12rem;
+  }
+
+  .perfLead {
+    margin-top: 16rem;
+  }
+
+  /* 테스트 환경: padding 20, gap 12 / 항목 목록 white radius 12 padding 4 14 · 행 상단 border */
+  .testEnv {
+    gap: 12rem;
+    padding: 20rem;
+  }
+
+  .testItems {
+    flex-direction: column;
+    gap: 0;
+    padding: 4rem 14rem;
+    border-radius: 12rem;
+    background-color: var(--color-surface-white);
+  }
+
+  .testItem {
+    grid-template-columns: 32rem 1fr auto;
+    grid-template-areas: "icon label value";
+    column-gap: 12rem;
+    padding: 10rem 0;
+    border-radius: 0;
+    background-color: transparent;
+
+    & + & {
+      border-top: 1rem solid var(--color-border-default);
+    }
+  }
+
+  .testLabel {
+    @include text-body;
+    color: var(--color-text-gray-1);
+  }
+
+  /* 표: 그룹 라벨 행 + 3열 (비식별 방식 왼쪽 정렬 · 속도 90 · 시간 70) */
+  .benchmark {
+    gap: 12rem;
+  }
+
+  .tablePc {
+    display: none;
+  }
+
+  .tableMo {
+    display: table;
+
+    th,
+    td {
+      padding: 10rem 8rem;
+      white-space: nowrap;
+    }
+
+    th:first-child,
+    td:first-child {
+      padding-left: 16rem;
+      text-align: left;
+    }
+
+    thead th:nth-child(2) {
+      width: 90rem;
+    }
+
+    thead th:nth-child(3) {
+      width: 70rem;
+    }
+
+    .groupLabel th {
+      @include text-note;
+      padding: 8rem 16rem;
+      background-color: var(--color-surface-gray);
+      color: var(--color-text-gray-2);
+      text-align: left;
+    }
+  }
+}

@@ -1,0 +1,220 @@
+@use "@/assets/scss/mixins" as *;
+@use "./main" as *;
+
+/* ==========================================================================
+   도입 방식 선택 (Figma PC 1928:879 · MO 1928:1387)
+   600 카드 2개 · 간격 40 / MO 세로 쌓기 · 간격 20 · 카드 설명 숨김
+   ========================================================================== */
+.section.section {
+  @include main-section;
+  border-top-color: var(--color-border-unselected, #dadce0);
+}
+
+.description.description {
+  @include main-description;
+}
+
+.titleRegular {
+  @include title-regular;
+}
+
+.moBr {
+  display: none;
+
+  @media (max-width: 768px) {
+    display: inline;
+  }
+}
+
+@media (max-width: 768px) {
+  .header.header {
+    align-items: flex-start;
+  }
+
+  .title.title,
+  .description.description {
+    text-align: left;
+  }
+}
+
+.cards {
+  display: flex;
+  gap: 40rem;
+  margin: 0;
+  padding: 0;
+  border: none;
+  min-inline-size: 0;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 20rem;
+  }
+}
+
+.legend {
+  @include visually-hidden;
+}
+
+.input {
+  @include visually-hidden;
+}
+
+/* Core Card(as="label", 라운드 12 · 흰 배경) + 2px 테두리 · 선택 스타일은 여기서 지정 */
+.card {
+  position: relative;
+  flex: 1 0 0;
+  min-width: 0;
+  gap: 12rem;
+  padding: 32rem 40rem;
+  border: 2rem solid var(--color-border-default, #e8eaed);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.2s, background-color 0.2s, box-shadow 0.2s;
+
+  &:hover {
+    border-color: var(--color-border-unselected, #dadce0);
+  }
+
+  &:has(.input:focus-visible) {
+    outline: 2rem solid var(--color-primary, #3b5bff);
+    outline-offset: 2rem;
+  }
+
+  @media (max-width: 768px) {
+    flex: none;
+    padding: 30rem;
+  }
+}
+
+/* Core Card가 붙이는 is-selected (배경은 Core .bg-white보다 우선하도록 클래스 중첩) */
+.card.card:global(.is-selected) {
+  border-color: var(--color-primary, #3b5bff);
+  background-color: rgba(59, 91, 255, 0.05);
+  box-shadow: 5rem 5rem 20rem rgba(0, 0, 0, 0.05);
+}
+
+/* 라디오 (PC 제목 줄 오른쪽 · MO 우상단 18) */
+.radio {
+  position: absolute;
+  top: 40rem;
+  right: 40rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24rem;
+  height: 24rem;
+  border: 2rem solid var(--color-border-unselected, #dadce0);
+  border-radius: 50%;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+
+  &::after {
+    content: '';
+    width: 12rem;
+    height: 12rem;
+    border-radius: 50%;
+    background-color: var(--color-primary, #3b5bff);
+    transform: scale(0);
+    transition: transform 0.2s ease;
+  }
+
+  .card:global(.is-selected) & {
+    border-color: var(--color-primary, #3b5bff);
+
+    &::after {
+      transform: scale(1);
+    }
+  }
+
+  @media (max-width: 768px) {
+    top: 18rem;
+    right: 18rem;
+  }
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  gap: 20rem;
+  padding-right: 32rem;
+
+  /* MO: 라디오가 카드 우상단(18)에 있어 제목 줄 여백 불필요 */
+  @media (max-width: 768px) {
+    padding-right: 0;
+  }
+}
+
+/* 아이콘: 선택 시 파란 원 + 흰 아이콘 / 미선택 회색 원 + 회색 아이콘 (SVG 마스크) */
+/* 아이콘: 선택 시 파란 원 + 흰 아이콘 / 미선택 회색 원 + 회색 아이콘 (스프라이트 Icon · currentColor) */
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 56rem;
+  height: 56rem;
+  border-radius: 50%;
+  background-color: var(--color-border-default, #e8eaed);
+  color: $text-label;
+  transition: background-color 0.2s, color 0.2s;
+
+  .card:global(.is-selected) & {
+    background-color: var(--color-primary, #3b5bff);
+    color: var(--color-text-inverse, #ffffff);
+  }
+}
+
+/* 제목 40 · 요약 34(MO 32) 박스 높이 (Figma 1928:901/903) */
+.headText {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.cardTitle {
+  @include text-subheading;
+  padding-bottom: 12rem;
+  color: var(--color-text-black, #000000);
+}
+
+.cardSummary {
+  padding: 3rem 0;
+}
+
+.cardSummary,
+.cardDesc,
+.point {
+  @include text-body;
+  color: var(--color-text-gray-2, #5f6368);
+  word-break: keep-all;
+}
+
+.cardDesc {
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+.points {
+  display: flex;
+  flex-direction: column;
+  gap: 12rem;
+  margin-top: 12rem;
+}
+
+.point {
+  display: flex;
+  align-items: flex-start;
+  gap: 4rem;
+}
+
+.check {
+  width: 24rem;
+  height: 24rem;
+  color: $text-muted;
+  transition: color 0.2s;
+
+  .card:global(.is-selected) & {
+    color: var(--color-primary, #3b5bff);
+  }
+}

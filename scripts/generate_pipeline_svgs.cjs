@@ -1,0 +1,115 @@
+const fs = require('fs');
+const path = require('path');
+
+const outDir = '/Users/jochangi/Desktop/Workspaces/Ucomp/xPrivacy/월드버텍/xprivacy_hmpg/public/images/product/intro';
+
+function getGlassBase(glyphContent) {
+  return `<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Icon Container Squircle Clip -->
+    <clipPath id="squircleClip">
+      <rect x="0" y="0" width="64" height="64" rx="16"/>
+    </clipPath>
+
+    <!-- Glass Surface Gradient -->
+    <linearGradient id="glassBg" x1="32" y1="0" x2="32" y2="64" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.88"/>
+      <stop offset="0.55" stop-color="#FFFFFF" stop-opacity="0.42"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0.62"/>
+    </linearGradient>
+
+    <!-- Specular Crescent Gradient -->
+    <linearGradient id="crescentGrad" x1="19" y1="14.25" x2="43.2728" y2="47.5656" gradientUnits="userSpaceOnUse">
+      <stop stop-color="white" stop-opacity="0.85"/>
+      <stop offset="0.6" stop-color="white" stop-opacity="0.15"/>
+      <stop offset="1" stop-color="white" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- Crescent Blur -->
+    <filter id="crescentBlur" x="-10" y="-10" width="93" height="74" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="0.75"/>
+    </filter>
+
+    <!-- Reflection Dot Blur -->
+    <filter id="reflBlur" x="35" y="45" width="30" height="25" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="1.5"/>
+    </filter>
+
+    <!-- Thickness Band Blur -->
+    <filter id="thickBlur" x="-5" y="-5" width="74" height="74" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="0.5"/>
+    </filter>
+
+    <!-- Glyph Drop Shadow (Figma: drop shadow 0 2px 3px rgba(59, 92, 255, 0.28)) -->
+    <filter id="glyphShadow" x="0" y="0" width="64" height="64" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="2" stdDeviation="1.5" flood-color="#3B5CFF" flood-opacity="0.28"/>
+    </filter>
+  </defs>
+
+  <!-- Masked Glass Background & Reflections -->
+  <g clip-path="url(#squircleClip)">
+    <!-- Base Surface Fill -->
+    <rect width="64" height="64" rx="16" fill="url(#glassBg)"/>
+
+    <!-- Thickness Band (Figma: border 4px rgba(255,255,255,0.95) blur 1px) -->
+    <rect x="2" y="2" width="60" height="60" rx="14" fill="none" stroke="rgba(255,255,255,0.95)" stroke-width="4" filter="url(#thickBlur)"/>
+
+    <!-- Dispersion Edge (Figma: border 1px rgba(140,229,255,0.55) opacity 0.85) -->
+    <rect x="0.5" y="0.5" width="63" height="63" rx="15.5" fill="none" stroke="rgba(140,229,255,0.55)" stroke-width="1" opacity="0.85"/>
+
+    <!-- Specular Crescent (Figma: left -22, top -27, size 70x51) -->
+    <g transform="translate(-22, -27)" filter="url(#crescentBlur)">
+      <ellipse cx="36.5" cy="27" rx="35" ry="25.5" fill="url(#crescentGrad)"/>
+    </g>
+
+    <!-- Specular Reflection Dot (Figma: left 41, top 51, size 14x6) -->
+    <g transform="translate(41, 51)" filter="url(#reflBlur)">
+      <ellipse cx="7" cy="3" rx="7" ry="3" fill="white" fill-opacity="0.5"/>
+    </g>
+
+    <!-- Glass Rim (Figma: 1px border white) -->
+    <rect x="0.5" y="0.5" width="63" height="63" rx="15.5" fill="none" stroke="#FFFFFF" stroke-width="1"/>
+  </g>
+
+  <!-- Glyph Layer with Shadow -->
+  <g filter="url(#glyphShadow)">
+${glyphContent}
+  </g>
+</svg>`;
+}
+
+// 1. Detection
+const detectGlyph = `    <!-- Detection Bracket Corners & Center Dot -->
+    <path d="M16 25V16H25M39 16H48V25M48 39V48H39M25 48H16V39" stroke="#3B5BFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="32" cy="32" r="5" fill="#3B5BFF"/>`;
+
+// 2. Tracking
+const trackGlyph = `    <!-- Tracking Points & Dashed Connector -->
+    <rect x="13.25" y="39.25" width="11.5" height="11.5" rx="1.75" stroke="#3B5BFF" stroke-width="2.5" fill="none"/>
+    <rect x="38" y="12" width="14" height="14" rx="3" fill="#3B5BFF"/>
+    <path d="M24.9834 38.957L25.9728 37.9785M38.835 25.2578L37.8456 26.2363M28.6112 35.3691L30.59 33.4121M33.2284 30.8027L35.2072 28.8457" stroke="#3B5BFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>`;
+
+// 3. Privacy
+const privacyGlyph = `    <!-- Privacy 3x3 Grid -->
+    <rect x="17" y="17" width="9" height="9" rx="2" fill="#3B5BFF"/>
+    <rect x="28" y="17" width="9" height="9" rx="2" fill="#3B5BFF"/>
+    <rect x="39" y="17" width="9" height="9" rx="2" fill="#3B5BFF"/>
+    <rect x="17" y="28" width="9" height="9" rx="2" fill="#3B5BFF"/>
+    <rect x="28" y="28" width="9" height="9" rx="2" fill="#3B5BFF"/>
+    <rect x="39" y="28" width="9" height="9" rx="2" fill="#3B5BFF"/>
+    <rect x="17" y="39" width="9" height="9" rx="2" fill="#3B5BFF"/>
+    <rect x="28" y="39" width="9" height="9" rx="2" fill="#3B5BFF"/>
+    <rect x="39" y="39" width="9" height="9" rx="2" fill="#3B5BFF"/>`;
+
+// 4. Security
+const securityGlyph = `    <!-- Security Lock -->
+    <rect x="19" y="28" width="26" height="20" rx="5" fill="#3B5BFF"/>
+    <path d="M24 27.875V23.875C24 13.375 40 13.375 40 23.875V27.875" stroke="#3B5BFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="32" cy="37.5" r="2.5" fill="white"/>`;
+
+fs.writeFileSync(path.join(outDir, 'icon_pipeline_detection.svg'), getGlassBase(detectGlyph));
+fs.writeFileSync(path.join(outDir, 'icon_pipeline_tracking.svg'), getGlassBase(trackGlyph));
+fs.writeFileSync(path.join(outDir, 'icon_pipeline_privacy.svg'), getGlassBase(privacyGlyph));
+fs.writeFileSync(path.join(outDir, 'icon_pipeline_security.svg'), getGlassBase(securityGlyph));
+
+console.log('SVGs successfully created in:', outDir);

@@ -1,0 +1,23 @@
+/* Core Card: radius 12 · 배경 3종 · 선택적 테두리 (Figma v2 radius/box 12) */
+.core-card {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  border-radius: 12rem; /* Figma v2 radius/box */
+
+  &.bg-white {
+    background-color: var(--color-surface-white);
+  }
+
+  &.bg-gray {
+    background-color: var(--color-surface-gray);
+  }
+
+  &.bg-blue-soft {
+    background-color: var(--color-surface-blue-soft);
+  }
+
+  &.is-bordered {
+    border: 1rem solid var(--color-border-default);
+  }
+}

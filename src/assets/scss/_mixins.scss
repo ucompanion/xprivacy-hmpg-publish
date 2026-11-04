@@ -1,0 +1,164 @@
+/* ==========================================================================
+ * [TEMPORARY MIGRATION FORWARD]
+ * 기존 모듈 SCSS에서 @use '@/assets/scss/mixins' as * 호출 시 빌드 에러 방지
+ * 추후 마이그레이션 완료 시 아래 한 줄만 삭제하면 레거시가 완전히 단절됩니다.
+ * ========================================================================== */
+@forward 'deprecated';
+
+/* ---------------------------------
+ * Design System v2 Typography Mixins
+ * (Pretendard Regular 400 · Bold 700 / 색상은 스타일에 묶지 않고 변수로 분리 적용)
+ * --------------------------------- */
+
+/* 1. Hero: 메인 Hero 최상위 제목 (PC 50 / MO 44) */
+@mixin text-hero {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-hero, 50rem);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-hero, 1.2);
+  letter-spacing: -1.5px;
+
+  @media (max-width: 768px) {
+    font-size: var(--font-size-hero-mo, 44rem);
+    line-height: var(--line-height-hero, 1.2);
+    letter-spacing: -1px;
+  }
+}
+
+/* 2. Section: 섹션 대표 타이틀 (PC 40 / MO 32) */
+@mixin text-section {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-section, 40rem);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-section, 1.3);
+  letter-spacing: -1px;
+
+  @media (max-width: 768px) {
+    font-size: var(--font-size-section-mo, 32rem);
+    line-height: var(--line-height-section, 1.3);
+    letter-spacing: -0.5px;
+  }
+}
+
+/* 2-1. Section Mobile 전용 단독 믹스인 (MO 32) */
+@mixin text-section-mo {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-section-mo, 32rem);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-section, 1.3);
+  letter-spacing: -0.5px;
+}
+
+/* 1-1. Hero Mobile 전용 단독 믹스인 (MO 44) */
+@mixin text-hero-mo {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-hero-mo, 44rem);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-hero, 1.2);
+  letter-spacing: -1px;
+}
+
+/* 3. Subheading: 소제목, 카드 타이틀, 강조 라벨 (PC 20 / MO 20) */
+@mixin text-subheading {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-subheading, 20rem);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-subheading, 1.4);
+  letter-spacing: 0;
+}
+
+/* 4. Body: 일반 본문, 설명 문구 (PC 16 · 175% / MO 16 · 160%) */
+@mixin text-body {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-body, 16rem);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-body, 1.75);
+  letter-spacing: 0;
+
+  @media (max-width: 768px) {
+    line-height: var(--line-height-body-mo, 1.6);
+  }
+}
+
+/* 5. Eyebrow: 상단 소제목 · 카테고리 영문 라벨 (PC 16 · 175% / MO 16 · 160% · Bold 700) */
+@mixin text-eyebrow {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-eyebrow, 16rem);
+  font-weight: var(--font-weight-bold, 700);
+  line-height: var(--line-height-eyebrow, 1.75);
+  letter-spacing: 0;
+  text-transform: uppercase;
+
+  @media (max-width: 768px) {
+    line-height: var(--line-height-eyebrow-mo, 1.6);
+  }
+}
+
+/* 5-1. Eyebrow-Section: 히어로 · 베이직 · CTA 섹션 공통 Eyebrow
+ * Figma v2/PC/Eyebrow-Section · v2/MO/Eyebrow-Section (2156:29964 · 2730:31257 · 2528:61316)
+ * Bold 16 · 175%(MO 160%) · 자간 0 · 대소문자 변환 없음(입력 그대로)
+ * 색은 포함하지 않음 → 사용처에서 var(--color-text-eyebrow-section) 지정 */
+@mixin text-eyebrow-section {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-eyebrow, 16rem);
+  font-weight: var(--font-weight-bold, 700);
+  line-height: var(--line-height-eyebrow, 1.75);
+  letter-spacing: 0;
+  text-transform: none;
+
+  @media (max-width: 768px) {
+    line-height: var(--line-height-eyebrow-mo, 1.6);
+  }
+}
+
+/* 6. Note: 주석 · 출처 · 법적 고지 · 조건 각주 전용 (공통 12) */
+@mixin text-note {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-note, 12rem);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-note, 1.75);
+  letter-spacing: 0;
+}
+
+/* ---------------------------------
+ * Layout & Common Mixins
+ * --------------------------------- */
+
+@mixin container-base {
+  width: 100%;
+  max-width: var(--layout-container-max-width, 1280rem);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--layout-gutter, 20rem);
+  padding-right: var(--layout-gutter, 20rem);
+  box-sizing: border-box;
+}
+
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin visually-hidden {
+  position: absolute;
+  width: 1rem;
+  height: 1rem;
+  padding: 0;
+  margin: -1rem;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

@@ -1,0 +1,213 @@
+@use "@/assets/scss/variables" as *;
+@use "@/assets/scss/mixins" as *;
+
+.footer {
+  background-color: #0b1426; /* Figma: surface/navy (#0b1426) */
+  color: #9fadb6;
+  padding: 72rem 0;
+  display: flex;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--layout-container-max-width, 1280rem);
+  padding-left: var(--layout-gutter, 20rem);
+  padding-right: var(--layout-gutter, 20rem);
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+/* --- Top Section --- */
+.top_section {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 56rem;
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  margin-bottom: 24rem;
+
+  .logo_img {
+    width: 141.6rem;
+    height: 30rem;
+    object-fit: contain;
+    display: block;
+  }
+}
+
+.description {
+  @include text-body;
+  color: #9fadb6;
+  margin: 0;
+  line-height: 1.75;
+}
+
+/* --- Navigation Grid --- */
+.nav_grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 20rem;
+  margin-bottom: 56rem;
+}
+
+.nav_group {
+  display: flex;
+  flex-direction: column;
+  gap: 16rem;
+}
+
+.nav_title {
+  @include text-subheading;
+  font-size: 20rem;
+  font-weight: 700;
+  color: #dce6eb;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.nav_list {
+  display: flex;
+  flex-direction: column;
+  gap: 10rem; /* 피그마 토큰: --footer/link-gap: 10 */
+}
+
+.nav_link {
+  @include text-body;
+  color: #9fadb6;
+  text-decoration: none;
+  transition: color 0.2s;
+  line-height: 1.75;
+
+  &:hover {
+    color: #ffffff;
+  }
+}
+
+/* --- Bottom Section --- */
+.bottom_section {
+  display: flex;
+  flex-direction: column;
+  gap: 24rem;
+}
+
+.legal_links {
+  display: flex;
+  gap: 8rem; /* 피그마 토큰: --spacing/8: 8 */
+  align-items: center;
+}
+
+.legal_link {
+  @include text-body;
+  color: #9fadb6;
+  text-decoration: none;
+  transition: color 0.2s;
+
+  &:hover {
+    color: #ffffff;
+  }
+}
+
+.separator {
+  color: #273740;
+  font-size: 14rem;
+}
+
+/* --- Divider --- */
+.divider {
+  width: 100%;
+  height: 1rem;
+  background-color: #273740; /* 피그마 토큰: --footer/border: #273740 */
+  margin: 0;
+  border: none;
+}
+
+.company_info_wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.company_details {
+  @include text-note;
+  color: #9fadb6;
+  line-height: 1.75;
+
+  p {
+    margin: 0;
+  }
+}
+
+.copyright {
+  @include text-note;
+  color: #9fadb6;
+}
+
+@media (max-width: 1024px) {
+  .nav_grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24rem 20rem;
+    margin-bottom: 40rem;
+  }
+}
+
+/* ==========================================================================
+   Mobile Responsive (768px 이하)
+   ========================================================================== */
+@media (max-width: 768px) {
+  .footer {
+    padding: 48rem 0 40rem;
+  }
+
+  .container {
+    padding-left: var(--layout-gutter-mobile, 16rem);
+    padding-right: var(--layout-gutter-mobile, 16rem);
+  }
+
+  .top_section {
+    margin-bottom: 40rem;
+  }
+
+  .description {
+    line-height: 1.6;
+  }
+
+  /* 모바일 2열 카테고리 그리드 */
+  .nav_grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32rem 20rem;
+    margin-bottom: 40rem;
+  }
+
+  .nav_group {
+    gap: 0;
+  }
+
+  .nav_title {
+    font-size: 20rem;
+  }
+
+  .nav_list {
+    display: none; /* 피그마 모바일 시안: 카테고리 타이틀 2열 노출 */
+  }
+
+  .bottom_section {
+    gap: 20rem;
+  }
+
+  .legal_links {
+    flex-wrap: wrap;
+    gap: 8rem;
+  }
+
+  .company_info_wrap {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20rem;
+  }
+}

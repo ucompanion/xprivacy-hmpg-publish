@@ -1,0 +1,685 @@
+@use "@/assets/scss/variables" as *;
+@use "@/assets/scss/mixins" as *;
+
+/* 미매핑 피그마 토큰 (프로젝트 토큰 없음 → 시안 값 사용)
+ * - accent/detection #3db7ff · surface/muted #e8eaed · text/disabled #80868b · text/inverse-subtle #f1f3f4
+ * - Label/Eyebrow 12 ExtraBold · 자간 1.54 / Body/Caption 12 · 자간 0.96
+ * - Heading/Item-Small 16 Bold / Body/Small 14 · 1.75 · 자간 -0.08 / Label/Field 14 SemiBold */
+$accent-detection: #3db7ff;
+$surface-muted: #e8eaed;
+$text-disabled: #80868b;
+$text-inverse-subtle: #f1f3f4;
+
+@mixin label-eyebrow {
+  font-family: var(--font-family-base);
+  font-size: 12rem;
+  font-weight: var(--font-weight-extrabold, 800);
+  line-height: normal;
+  letter-spacing: 1.54px;
+  text-transform: uppercase;
+}
+
+@mixin body-caption {
+  font-family: var(--font-family-base);
+  font-size: 12rem;
+  font-weight: var(--font-weight-regular, 400);
+  line-height: normal;
+  letter-spacing: 0.96px;
+}
+
+@mixin body-small {
+  font-family: var(--font-family-base);
+  font-size: 14rem;
+  font-weight: var(--font-weight-regular, 400);
+  line-height: 1.75;
+  letter-spacing: -0.08px;
+}
+
+.pageWrap {
+  width: 100%;
+}
+
+/* PC 전용 줄바꿈 (모바일은 자연 줄바꿈) */
+.pcBr {
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+ * 1. Hero 가치 패널 (Figma PC 2159:13868 / Mobile 2159:14102)
+ * 흰색 90% 패널, radius 12, padding 32 · gap 20 (MO padding 20 · 세로 gap 24)
+ * -------------------------------------------------------------------------- */
+/* 공통 Section은 본문 첫 요소 margin-top을 0으로 초기화하므로 padding으로 간격 보정
+ * (Section 본문 간격 60 + 40 = 시안 Copy→패널 100 / 모바일은 Section 간격 40 = 시안 40) */
+.heroValues {
+  width: 100%;
+  padding-top: 40rem;
+
+  @media (max-width: 768px) {
+    padding-top: 0;
+  }
+}
+
+.valuePanel {
+  display: flex;
+  gap: 20rem;
+  width: 100%;
+  padding: 32rem;
+  box-sizing: border-box;
+  border-radius: 12rem;
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+.valueItem {
+  flex: 1 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8rem;
+  min-width: 0;
+
+  .valueTitle {
+    @include text-subheading;
+    margin: 0;
+    color: var(--color-text-black, #000000);
+  }
+
+  .valueDesc {
+    @include text-body;
+    margin: 0;
+    color: var(--color-text-gray-1, #3c4043);
+    word-break: keep-all;
+  }
+}
+
+/* --------------------------------------------------------------------------
+ * 탐지 박스 공통 (Figma Detection Box 1320:386)
+ * 1px 테두리 + 네 모서리 강조 svg(14px, -1px 위치) / 라벨: 상단 -25, padding 3 6
+ * -------------------------------------------------------------------------- */
+.detectBox {
+  position: absolute;
+  box-sizing: border-box;
+  border: 1px solid $accent-detection;
+
+  .corner {
+    position: absolute;
+    width: 17rem;
+    height: 17rem;
+  }
+
+  .tl { top: -2.5rem; left: -2.5rem; }
+  .tr { top: -2.5rem; right: -2.5rem; }
+  .bl { bottom: -2.5rem; left: -2.5rem; }
+  .br { bottom: -2.5rem; right: -2.5rem; }
+
+  .detectLabel {
+    @include label-eyebrow;
+    position: absolute;
+    top: -25rem;
+    left: -1rem;
+    padding: 3rem 6rem;
+    background-color: $accent-detection;
+    color: var(--color-text-black, #000000);
+    white-space: nowrap;
+  }
+
+  &.toneWhite {
+    border-color: var(--color-border-inverse, #ffffff);
+
+    .detectLabel {
+      background-color: var(--color-surface-white, #ffffff);
+    }
+  }
+}
+
+/* --------------------------------------------------------------------------
+ * 2. 정밀 AI 탐지 (Figma PC 2159:13878 / Mobile 2159:14112)
+ * -------------------------------------------------------------------------- */
+/* 시안 Main 간격 40 (기존 페이지 설정 유지) */
+.detectionContainer {
+  align-items: center;
+  gap: 40rem;
+
+  > [class*="sectionHeader"] {
+    flex: 0 0 440rem;
+    width: 440rem;
+    max-width: 440rem;
+  }
+
+  > [class*="content"] {
+    flex: 1;
+    max-width: none;
+  }
+
+  @media (max-width: 1024px) {
+    > [class*="sectionHeader"],
+    > [class*="content"] {
+      width: 100%;
+      max-width: 100%;
+      flex: 1 1 auto;
+    }
+  }
+}
+
+/* 좌측 탐지 대상 목록 (Figma 2159:13886): 항목 상단 border, padding 20 0, 제목→설명 4 */
+.featureBlockList {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  .fBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+    padding: 20rem 0;
+    border-top: 1rem solid var(--color-border-default, #e8eaed);
+  }
+
+  .fTitle {
+    margin: 0;
+    font-family: var(--font-family-base);
+    font-size: 16rem;
+    font-weight: var(--font-weight-bold, 700);
+    line-height: normal;
+    color: var(--color-text-black, #000000);
+  }
+
+  .fDesc {
+    @include body-small;
+    margin: 0;
+    color: var(--color-text-gray-2, #5f6368);
+    word-break: keep-all;
+  }
+}
+
+/* 가상 얼굴 Points (Figma 2159:14036): 제목→설명 6 */
+.featureBlockList.points .fBlock {
+  gap: 6rem;
+}
+
+/* PC 처리 예시: 760×520, radius 12, 캡션 gap 12 */
+.detectVisualPc {
+  display: flex;
+  flex-direction: column;
+  gap: 12rem;
+  margin: 0;
+}
+
+.detectPhoto {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12rem;
+  aspect-ratio: 760 / 520;
+}
+
+.detectImgPc,
+.detectImgMo {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 122.64%;
+  max-width: none;
+  object-fit: cover;
+}
+
+.detectImgPc {
+  left: -7.81%;
+}
+
+.detectImgMo {
+  left: -22.28%;
+}
+
+.faceBlur,
+.faceMosaic,
+.plateMask {
+  position: absolute;
+}
+
+.faceBlur {
+  border-radius: 4rem;
+  background-color: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.faceMosaic {
+  background-color: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(2.5px);
+  -webkit-backdrop-filter: blur(2.5px);
+}
+
+.plateMask {
+  border-radius: 2rem;
+  background-color: var(--color-text-gray-2, #5f6368);
+}
+
+.detectCaption {
+  @include text-body;
+  color: var(--color-text-gray-1, #3c4043);
+}
+
+.detectVisualMo {
+  display: none;
+}
+
+/* Mobile Privacy Options 패널: 검정 배경, padding 20 16, gap 16 */
+.privacyPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 16rem;
+  padding: 20rem 16rem;
+  background-color: var(--color-text-black, #000000);
+  color: var(--color-text-inverse, #ffffff);
+}
+
+.privacyTitle {
+  margin: 0;
+  font-family: var(--font-family-base);
+  font-size: 14rem;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.privacyGroups {
+  display: grid;
+  grid-template-columns: 114fr 102fr 102fr;
+}
+
+.privacyGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8rem;
+  padding: 0 12rem;
+  border-left: 1rem solid rgba(255, 255, 255, 0.2);
+
+  &:first-child {
+    padding-left: 0;
+    border-left: none;
+  }
+
+  &:last-child {
+    padding-right: 0;
+  }
+}
+
+.privacyGroupName {
+  @include label-eyebrow;
+}
+
+.privacyOption {
+  @include body-small;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: $text-inverse-subtle;
+  white-space: nowrap;
+
+  &.optionSelected {
+    color: $accent-detection;
+
+    > span:first-child {
+      font-weight: 600;
+    }
+  }
+}
+
+/* --------------------------------------------------------------------------
+ * 3. 작은·원거리 얼굴 (Figma PC 2159:13953 / Mobile 2159:14187)
+ * 장면 1240×560 radius 12 / 확대 영역: 2.5px 점선 brand / 인셋: 2px brand 테두리, radius 8
+ * -------------------------------------------------------------------------- */
+.distantVisualPc {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12rem;
+  aspect-ratio: 1240 / 560;
+}
+
+.distantImg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.zoomLine {
+  position: absolute;
+  pointer-events: none;
+}
+
+.zoomArea {
+  position: absolute;
+  box-sizing: border-box;
+  border: 2.5px dashed var(--color-brand-primary, #3b5bff);
+}
+
+.zoomInset {
+  position: absolute;
+  overflow: hidden;
+  box-sizing: border-box;
+  border: 2px solid var(--color-brand-primary, #3b5bff);
+  border-radius: 8rem;
+  background-color: var(--color-surface-white, #ffffff);
+}
+
+.zoomImg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.zoomLabel {
+  @include body-caption;
+  position: absolute;
+  left: 6rem;
+  bottom: 10rem;
+  padding: 4rem 8rem;
+  border-radius: 4rem;
+  background-color: rgba(0, 0, 0, 0.65);
+  color: var(--color-text-inverse, #ffffff);
+}
+
+.distantVisualMo {
+  display: none;
+}
+
+/* --------------------------------------------------------------------------
+ * 4. 가상 얼굴 비교 (Figma PC 2159:14043 / Mobile 2159:14270)
+ * 카드 gap 20(MO 8), 이미지 327×418 radius 12, 이미지→라벨 12 / 화살표 28 Bold, 세로 가운데
+ * -------------------------------------------------------------------------- */
+.virtualCompare {
+  display: flex;
+  align-items: center;
+  gap: 20rem;
+  width: 100%;
+}
+
+.virtualCard {
+  flex: 1 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12rem;
+  min-width: 0;
+}
+
+.virtualImg {
+  width: 100%;
+  aspect-ratio: 327 / 418;
+  border-radius: 12rem;
+  object-fit: cover;
+}
+
+.virtualLabel {
+  @include label-eyebrow;
+  padding: 6rem 10rem;
+  border-radius: 6rem;
+  white-space: nowrap;
+}
+
+.labelOriginal {
+  background-color: $surface-muted;
+  color: var(--color-text-gray-2, #5f6368);
+}
+
+.labelVirtual {
+  background-color: var(--color-brand-primary, #3b5bff);
+  color: var(--color-text-inverse, #ffffff);
+}
+
+.virtualArrow {
+  flex-shrink: 0;
+  font-family: var(--font-family-base);
+  font-size: 28rem;
+  font-weight: var(--font-weight-bold, 700);
+  line-height: normal;
+  color: $text-disabled;
+}
+
+/* --------------------------------------------------------------------------
+ * 5. 처리 속도 (Figma PC 2159:14060 / Mobile 2159:14287)
+ * 카드 padding 8 32, radius 12 / 열 200 · 가변 · 120 · 120, gap 32 / 막대 12(MO 8)
+ * -------------------------------------------------------------------------- */
+.speedWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 48rem;
+  width: 100%;
+}
+
+.speedList {
+  padding: 8rem 32rem;
+  border: 1rem solid var(--color-border-default, #e8eaed);
+  border-radius: 12rem;
+  background-color: var(--color-surface-white, #ffffff);
+}
+
+.speedHeader,
+.speedRow {
+  display: grid;
+  grid-template-columns: 200rem 1fr 120rem 120rem;
+  column-gap: 32rem;
+  align-items: center;
+}
+
+.speedHeader {
+  @include text-body;
+  padding: 16rem 0 12rem;
+  color: var(--color-text-gray-2, #5f6368);
+}
+
+.alignRight {
+  text-align: right;
+}
+
+.speedRow {
+  padding: 20rem 0;
+  border-top: 1rem solid var(--color-border-default, #e8eaed);
+}
+
+.speedMethod {
+  font-family: var(--font-family-base);
+  font-size: 16rem;
+  font-weight: var(--font-weight-bold, 700);
+  line-height: normal;
+  color: var(--color-text-black, #000000);
+}
+
+.speedTrack {
+  position: relative;
+  height: 12rem;
+  overflow: hidden;
+  border-radius: 6rem;
+  background-color: $surface-muted;
+}
+
+.speedFill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: 6rem;
+  background-color: var(--color-brand-primary, #3b5bff);
+}
+
+.speedTime {
+  font-family: var(--font-family-base);
+  font-size: 16rem;
+  font-weight: var(--font-weight-bold, 700);
+  line-height: normal;
+  color: var(--color-text-accent, #3b5bff);
+  text-align: right;
+}
+
+.speedFps {
+  @include text-body;
+  color: var(--color-text-gray-2, #5f6368);
+  text-align: right;
+}
+
+.moOnly,
+.speedMeta {
+  display: none;
+}
+
+.speedFootnote {
+  @include body-caption;
+  margin: 0;
+  color: var(--color-text-gray-2, #5f6368);
+}
+
+/* --------------------------------------------------------------------------
+ * Responsive
+ * -------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .speedList {
+    padding: 8rem 20rem;
+  }
+
+  .speedHeader,
+  .speedRow {
+    grid-template-columns: 140rem 1fr 90rem 100rem;
+    column-gap: 16rem;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Hero 가치 패널: 세로 스택 */
+  .valuePanel {
+    flex-direction: column;
+    gap: 24rem;
+    padding: 20rem;
+  }
+
+  /* 정밀 AI 탐지: PC 이미지+캡션 → 탐지 결과 + Privacy Options */
+  .detectVisualPc {
+    display: none;
+  }
+
+  .detectVisualMo {
+    display: block;
+    overflow: hidden;
+    border-radius: 12rem;
+
+    .detectPhoto {
+      aspect-ratio: 350 / 239;
+      border-radius: 0;
+    }
+  }
+
+  /* 작은·원거리 얼굴: 장면 350×280 + gap 12 + 인셋 350×123, 연결선이 둘을 잇는 구조 */
+  .distantVisualPc {
+    display: none;
+  }
+
+  .distantVisualMo {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 12rem;
+  }
+
+  .distantPhotoMo {
+    position: relative;
+    overflow: hidden;
+    border-radius: 12rem;
+    aspect-ratio: 350 / 280;
+
+    .distantImg {
+      object-position: bottom;
+    }
+  }
+
+  .sceneChip {
+    position: absolute;
+    top: 8rem;
+    left: 8rem;
+    padding: 5rem 10rem;
+    border-radius: 6rem;
+    background-color: rgba(0, 0, 0, 0.6);
+    font-family: var(--font-family-base);
+    font-size: 12rem;
+    font-weight: 600;
+    line-height: normal;
+    color: var(--color-text-inverse, #ffffff);
+  }
+
+  .zoomInsetMo {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 350 / 123;
+    box-sizing: border-box;
+    border: 2px solid var(--color-brand-primary, #3b5bff);
+    border-radius: 8rem;
+    background-color: var(--color-surface-white, #ffffff);
+  }
+
+  /* 가상 얼굴 비교: gap 8 */
+  .virtualCompare {
+    gap: 8rem;
+  }
+
+  /* 처리 속도: 카드 padding 4 20, 행은 [방식·시간] / 막대 / [라벨·속도] 3줄 */
+  .speedWrap {
+    gap: 32rem;
+  }
+
+  .speedList {
+    padding: 4rem 20rem;
+  }
+
+  .speedHeader {
+    display: none;
+  }
+
+  .speedRow {
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "method time"
+      "track track"
+      "meta fps";
+    gap: 10rem 0;
+    padding: 18rem 0;
+
+    &:nth-child(2) {
+      border-top: none;
+    }
+  }
+
+  .speedMethod { grid-area: method; }
+
+  .speedTime {
+    grid-area: time;
+    font-size: 20rem;
+  }
+
+  .speedTrack {
+    grid-area: track;
+    height: 8rem;
+    border-radius: 4rem;
+  }
+
+  .speedFill {
+    border-radius: 4rem;
+  }
+
+  .speedMeta,
+  .speedFps {
+    @include body-caption;
+    color: var(--color-text-gray-2, #5f6368);
+  }
+
+  .speedMeta {
+    grid-area: meta;
+    display: block;
+  }
+
+  .speedFps {
+    grid-area: fps;
+  }
+
+  .moOnly {
+    display: inline;
+  }
+}

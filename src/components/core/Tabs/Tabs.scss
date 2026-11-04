@@ -1,0 +1,37 @@
+.core-tabs {
+  display: flex;
+  flex-direction: column;
+
+  .tabs-header {
+    display: flex;
+    border-bottom: 1rem solid var(--color-gray-300);
+    gap: 16rem;
+
+    .tab-btn {
+      padding: 12rem 16rem;
+      font-size: 15rem;
+      font-weight: 500;
+      color: var(--color-gray-500);
+      background: none;
+      border: none;
+      cursor: pointer;
+      border-bottom: 2rem solid transparent;
+      margin-bottom: -1rem;
+      transition: all 0.2s;
+
+      &:hover {
+        color: var(--color-gray-800);
+      }
+      
+      &.active {
+        color: var(--color-primary-500);
+        border-bottom-color: var(--color-primary-500);
+        font-weight: 600;
+      }
+    }
+  }
+
+  .tabs-content {
+    padding: 20rem 0;
+  }
+}

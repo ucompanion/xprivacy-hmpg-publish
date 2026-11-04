@@ -1,0 +1,59 @@
+@use "@/assets/scss/mixins" as *;
+
+/* 도입 효과 카드 그룹: 카드 수만큼 열 · gap 24 */
+.group {
+  display: grid;
+  grid-template-columns: repeat(var(--benefit-columns, 4), 1fr);
+  gap: 24rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* 카드: padding 28 28 32 · gap 8 */
+.card {
+  align-items: flex-start;
+  gap: 8rem;
+  padding: 28rem 28rem 32rem;
+}
+
+/* 아이콘 아래: gap 8 + Spacer 12 + gap 8 → 28 */
+.icon {
+  margin-bottom: 20rem;
+}
+
+.title {
+  @include text-subheading;
+  margin: 0;
+  color: var(--color-text-black);
+}
+
+.desc {
+  @include text-body;
+  margin: 0;
+  color: var(--color-text-gray-1);
+  word-break: keep-all;
+}
+
+@media (max-width: 1024px) {
+  .group {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* MO: 세로 스택 gap 12 / padding 24 20 28 · gap 6 · 아이콘 아래 6 + 8 + 6 → 20 */
+@media (max-width: 768px) {
+  .group {
+    grid-template-columns: 1fr;
+    gap: 12rem;
+  }
+
+  .card {
+    gap: 6rem;
+    padding: 24rem 20rem 28rem;
+  }
+
+  .icon {
+    margin-bottom: 14rem;
+  }
+}

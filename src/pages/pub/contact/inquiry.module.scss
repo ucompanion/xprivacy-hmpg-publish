@@ -1,0 +1,532 @@
+@use "@/assets/scss/variables" as *;
+@use "@/assets/scss/mixins" as *;
+
+/* 미매핑 피그마 값 (프로젝트 토큰 없음 → 시안 값 사용)
+ * - 입력·칩·체크박스 테두리 #DADCE0 (border-default #E8EAED보다 진함) */
+$field-border: #dadce0;
+
+.inquiryPage {
+  width: 100%;
+}
+
+/* --------------------------------------------------------------------------
+ * 1. Hero (Figma PC 2415:1681 / Mobile 2422:1862)
+ * 가운데 정렬 Compact · PC 높이 407 / MO 416 · 문구 묶음 세로 가운데 (헤더 포함 높이)
+ * -------------------------------------------------------------------------- */
+.inquiryHero {
+  --hero-compact-padding-top-pc: 126rem;
+  --hero-compact-padding-bottom-pc: 125rem;
+  --hero-compact-padding-top-mo: 123rem;
+  --hero-compact-padding-bottom-mo: 123rem;
+}
+
+/* --------------------------------------------------------------------------
+ * 2. 문의 폼 + 연락·바로가기 (Figma PC 2415:1706)
+ * 폼 800 → 80 → 사이드 360 · 위 정렬
+ * -------------------------------------------------------------------------- */
+.twoColumn {
+  display: flex;
+  align-items: flex-start;
+  gap: 80rem;
+}
+
+/* 폼: 그룹 사이 48 */
+.form {
+  display: flex;
+  flex: 1 1 800rem;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 48rem;
+  min-width: 0;
+  max-width: 800rem;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 16rem;
+  width: 100%;
+}
+
+.groupContact {
+  gap: 20rem;
+}
+
+.groupReview {
+  gap: 24rem;
+}
+
+.groupHead {
+  display: flex;
+  align-items: center;
+  gap: 8rem;
+}
+
+.groupTitle {
+  @include text-subheading;
+  margin: 0;
+  color: var(--color-text-black);
+}
+
+.optional {
+  @include text-body;
+  color: var(--color-text-gray-2);
+}
+
+.notice {
+  @include text-body;
+  margin: 0;
+  color: var(--color-text-gray-1);
+}
+
+/* 라벨: Body SemiBold · 필수 표시 primary (사이 4) */
+.label {
+  @include text-body;
+  display: inline-flex;
+  align-items: center;
+  gap: 4rem;
+  color: var(--color-text-black);
+  font-weight: var(--font-weight-semibold, 600);
+}
+
+.required {
+  color: var(--color-text-accent);
+}
+
+/* 칩: padding 12 20 · 완전 둥근 모서리 · 사이 8 / 선택: 파란 배경 + primary 테두리·글자 SemiBold */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8rem;
+}
+
+.chip {
+  @include text-body;
+  padding: 12rem 20rem;
+  border: 1rem solid $field-border;
+  border-radius: 999rem;
+  background-color: var(--color-surface-white);
+  color: var(--color-text-gray-1);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: border-color 0.2s, background-color 0.2s;
+
+  &:hover {
+    border-color: var(--color-primary);
+  }
+}
+
+.chipSelected {
+  border-color: var(--color-primary);
+  background-color: var(--color-surface-blue-subtle);
+  color: var(--color-text-accent);
+  font-weight: var(--font-weight-semibold, 600);
+}
+
+/* 입력 2열 (각 390 · 사이 20) */
+.fieldGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8rem;
+  width: 100%;
+  min-width: 0;
+}
+
+.fieldChips {
+  gap: 12rem;
+}
+
+/* 입력: 높이 52 · padding 0 16 · radius 8 · placeholder gray-2 */
+.input,
+.textarea {
+  @include text-body;
+  width: 100%;
+  padding: 0 16rem;
+  border: 1rem solid $field-border;
+  border-radius: 8rem;
+  background-color: var(--color-surface-white);
+  color: var(--color-text-black);
+  outline: none;
+  transition: border-color 0.2s;
+
+  &::placeholder {
+    color: var(--color-text-gray-2);
+  }
+
+  &:focus {
+    border-color: var(--color-primary);
+  }
+}
+
+.input {
+  height: 52rem;
+}
+
+.textarea {
+  display: block;
+  height: 200rem;
+  padding: 14rem 16rem;
+  resize: vertical;
+}
+
+.helper {
+  @include text-note;
+  margin: 0;
+  color: var(--color-text-gray-2);
+}
+
+/* 개인정보 동의: 체크박스 22 → 12 → 문구 · (필수) primary · 오른쪽 끝 "내용 보기" 밑줄 */
+.consent {
+  display: flex;
+  align-items: center;
+  gap: 12rem;
+  width: 100%;
+}
+
+.checkbox {
+  flex-shrink: 0;
+  width: 22rem;
+  height: 22rem;
+  margin: 0;
+  border: 1rem solid $field-border;
+  border-radius: 4rem;
+  background-color: var(--color-surface-white);
+  appearance: none;
+  cursor: pointer;
+
+  &:checked {
+    border-color: var(--color-primary);
+    background: var(--color-primary) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22' fill='none'%3E%3Cpath d='M6 11.5l3.2 3L16 8' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 100% no-repeat;
+  }
+}
+
+.consentText {
+  display: flex;
+  flex: 1 0 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12rem;
+  min-width: 0;
+}
+
+.consentLabel {
+  @include text-body;
+  color: var(--color-text-black);
+  cursor: pointer;
+}
+
+.consentRequired {
+  color: var(--color-text-accent);
+}
+
+.consentView {
+  @include text-body;
+  flex-shrink: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-text-gray-2);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* 제출: Button Primary Large 200 × 60 · SemiBold (코어 xl은 높이 56 · Bold라 시안 값 지정) */
+.submit.submit {
+  --btn-height: 60rem;
+
+  width: 200rem;
+  font-weight: var(--font-weight-semibold, 600);
+}
+
+/* 사이드 360: 카드 사이 20 */
+.side {
+  display: flex;
+  flex: 0 0 360rem;
+  flex-direction: column;
+  gap: 20rem;
+}
+
+.cardTitle {
+  @include text-subheading;
+  margin: 0;
+  color: var(--color-text-black);
+}
+
+/* 바로 연락하기: 회색 · padding 32 · 사이 20 / 연락처 아이콘 40 → 14 → [Note gray-2 / Body SemiBold] */
+.contactCard {
+  display: flex;
+  flex-direction: column;
+  gap: 20rem;
+  padding: 32rem;
+  border-radius: 12rem;
+  background-color: var(--color-surface-gray);
+}
+
+.contact {
+  display: inline-flex;
+  align-items: center;
+  gap: 14rem;
+  color: inherit;
+  text-decoration: none;
+}
+
+.contactText {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.contactLabel {
+  @include text-note;
+  color: var(--color-text-gray-2);
+}
+
+.contactValue {
+  @include text-body;
+  color: var(--color-text-black);
+  font-weight: var(--font-weight-semibold, 600);
+}
+
+/* 문의 전에 확인해 보세요: 흰 카드 테두리 · padding 32 32 24 · 링크 padding 14 0 · 구분선 */
+.checkCard {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  padding: 32rem 32rem 24rem;
+  border: 1rem solid var(--color-border-default);
+  border-radius: 12rem;
+  background-color: var(--color-surface-white);
+}
+
+.checkLinks {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+}
+
+.checkLink {
+  @include text-body;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8rem;
+  padding: 14rem 0;
+  border-bottom: 1rem solid var(--color-border-default);
+  color: var(--color-text-gray-1);
+  text-decoration: none;
+
+  &:last-child {
+    border-bottom: 0;
+  }
+
+  &:hover {
+    color: var(--color-text-accent);
+  }
+
+  img {
+    width: 18rem;
+    height: 18rem;
+  }
+}
+
+/* --------------------------------------------------------------------------
+ * 3. 개인정보 수집·이용 안내 모달
+ * -------------------------------------------------------------------------- */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20rem;
+  backdrop-filter: blur(4px);
+}
+
+.modalCard {
+  width: 100%;
+  max-width: 520rem;
+  background-color: var(--color-surface-white);
+  border-radius: 16rem;
+  overflow: hidden;
+  box-shadow: 0 16rem 40rem rgba(0, 0, 0, 0.2);
+  animation: modalScale 0.2s ease-out;
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20rem 24rem;
+  border-bottom: 1px solid var(--color-border-default);
+}
+
+.modalTitle {
+  @include text-subheading;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-black);
+  margin: 0;
+}
+
+.modalCloseBtn {
+  background: none;
+  border: none;
+  font-size: 26rem;
+  color: var(--color-text-gray-2);
+  cursor: pointer;
+  line-height: 1;
+
+  &:hover {
+    color: var(--color-text-gray-1);
+  }
+}
+
+.modalBody {
+  padding: 24rem;
+  @include text-note;
+  line-height: 1.7;
+  color: var(--color-text-gray-1);
+
+  p {
+    margin: 0 0 12rem;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.modalFooter {
+  padding: 16rem 24rem;
+  border-top: 1px solid var(--color-border-default);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.modalConfirmBtn {
+  padding: 10rem 20rem;
+  background-color: var(--color-primary);
+  color: var(--color-surface-white);
+  border: none;
+  border-radius: 6rem;
+  @include text-note;
+  font-weight: 600;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--color-primary);
+  }
+}
+
+@keyframes modalScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* --------------------------------------------------------------------------
+ * Responsive
+ * -------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .twoColumn {
+    flex-direction: column;
+    gap: 64rem;
+  }
+
+  .form {
+    flex: none;
+    width: 100%;
+    max-width: none;
+  }
+
+  .side {
+    flex: none;
+    width: 100%;
+  }
+}
+
+/* 모바일 (Figma Mobile 2422:1861 · 390 기준) */
+@media (max-width: 768px) {
+  /* 섹션 위아래 64 */
+  .inquiryPage > .formSection.formSection {
+    padding-top: 64rem;
+    padding-bottom: 64rem;
+  }
+
+  .form {
+    gap: 40rem;
+  }
+
+  .group {
+    gap: 12rem;
+  }
+
+  .groupContact,
+  .groupReview {
+    gap: 16rem;
+  }
+
+  .fieldGrid {
+    grid-template-columns: 1fr;
+    gap: 16rem;
+  }
+
+  /* 칩 높이 48 (테두리 포함) */
+  .chip {
+    padding: 10rem 16rem;
+  }
+
+  .textarea {
+    height: 180rem;
+  }
+
+  /* 동의: 체크박스 위 정렬 · 문구 아래 "내용 보기" */
+  .consent {
+    align-items: flex-start;
+    gap: 10rem;
+  }
+
+  .consentText {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4rem;
+  }
+
+  .submit.submit {
+    width: 100%;
+  }
+
+  .side {
+    gap: 16rem;
+  }
+
+  .contactCard {
+    gap: 16rem;
+    padding: 24rem;
+  }
+
+  .contact {
+    gap: 12rem;
+  }
+
+  .checkCard {
+    padding: 24rem 24rem 12rem;
+  }
+
+  /* MO: 링크 문구 바로 옆 화살표 */
+  .checkLink {
+    justify-content: flex-start;
+  }
+}

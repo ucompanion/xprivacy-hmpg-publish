@@ -1,0 +1,16 @@
+@use "./main" as *;
+
+/* 자주 묻는 질문 (Figma PC 1928:956 · MO 1928:1462) — 목록은 도메인 FaqAccordion */
+.section.section {
+  @include main-section;
+}
+
+@media (max-width: 768px) {
+  .header.header {
+    align-items: flex-start;
+  }
+
+  .title.title {
+    text-align: left;
+  }
+}

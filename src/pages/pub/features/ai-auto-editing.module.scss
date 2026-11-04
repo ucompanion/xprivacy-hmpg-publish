@@ -1,0 +1,257 @@
+@use "@/assets/scss/variables" as *;
+@use "@/assets/scss/mixins" as *;
+
+/* 미매핑 피그마 값 (프로젝트 토큰 없음 → 시안 값 사용)
+ * - 히어로 단계 연결선 rgba(59,91,255,.3) 103.75×2
+ * - 설명용 도식은 시안 렌더링 이미지(그림자 여백 포함: PC 좌우 40 · 위 25 · 아래 55 / MO 좌우 20 · 위 15 · 아래 36) */
+
+.pageWrap {
+  width: 100%;
+  overflow-x: clip; /* 도식 이미지 그림자 여백이 MO 화면 밖으로 나가 가로 스크롤 생기는 것 방지 */
+}
+
+/* --------------------------------------------------------------------------
+ * 1. Hero (Figma PC 2304:4170 / Mobile 2304:4284)
+ * 가운데 정렬 · 위아래 120 (MO 80) · 문구 → 48 → 처리 흐름 3단계
+ * -------------------------------------------------------------------------- */
+.editHero {
+  --hero-compact-padding-top-pc: 120rem;
+  --hero-compact-padding-bottom-pc: 120rem;
+  --hero-compact-padding-top-mo: 80rem;
+  --hero-compact-padding-bottom-mo: 80rem;
+}
+
+/* 설명 폭: 시안 900 (컴포넌트 기본 640) */
+.pageWrap > .editHero.editHero h2 + p {
+  max-width: 900rem !important;
+}
+
+/* 헤더 묶음 폭: 컴포넌트 기본 774 → 설명 900이 들어가도록 1240 */
+.pageWrap > .editHero.editHero div:has(> h2 + p) {
+  max-width: 1240rem !important;
+}
+
+/* 단계: 아이콘 52 → 16 → [STEP Note primary / 제목 Subheading / 설명 Body] · 단계 사이 연결선 103.75×2 (gap 24) */
+.heroSteps {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24rem;
+  margin: -12rem 0 0; /* 섹션 콘텐츠 간격 60 → 시안 48 */
+  padding: 0;
+  list-style: none;
+}
+
+.heroStep {
+  display: flex;
+  align-items: center;
+  gap: 16rem;
+
+  & + &::before {
+    content: '';
+    width: 103.75rem;
+    height: 2rem;
+    margin-right: 8rem; /* 연결선 양옆 24: gap 24 + (이 요소 gap 16 + 8) */
+    border-radius: 1rem;
+    background-color: rgba(59, 91, 255, 0.3);
+  }
+}
+
+.heroStepText {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  text-align: left;
+}
+
+.heroStepLabel {
+  @include text-note;
+  color: var(--color-text-accent);
+}
+
+.heroStepTitle {
+  @include text-subheading;
+  color: var(--color-text-black);
+  white-space: nowrap;
+}
+
+.heroStepDesc {
+  @include text-body;
+  color: var(--color-text-gray-1);
+  white-space: nowrap;
+}
+
+/* --------------------------------------------------------------------------
+ * 2~4. 좌우 분할 섹션 (도식 560×490 · 텍스트 열 flex 1 · 사이 100 · 위 정렬)
+ * DOM은 도식 → 글 (MO 순서), PC 2번째는 row-reverse로 도식 오른쪽
+ * -------------------------------------------------------------------------- */
+.split {
+  display: flex;
+  align-items: flex-start;
+  gap: 100rem;
+}
+
+.reverse {
+  flex-direction: row-reverse;
+}
+
+.copy {
+  flex: 1 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24rem;
+  min-width: 0;
+}
+
+.intro {
+  display: flex;
+  flex-direction: column;
+}
+
+.eyebrow {
+  @include text-eyebrow-section; /* 섹션 공통 Eyebrow (Figma v2 Eyebrow-Section 2730:31257) */
+  color: var(--color-text-eyebrow-section, #6f72af);
+}
+
+.heading {
+  @include text-section;
+  margin: 12rem 0 0;
+  color: var(--color-text-black);
+}
+
+.lead {
+  @include text-body;
+  margin: 24rem 0 0;
+  color: var(--color-text-gray-1);
+  word-break: keep-all;
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.listItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 40rem;
+  padding: 24rem 0;
+  border-top: 1rem solid var(--color-border-default);
+}
+
+.listNum {
+  @include text-body;
+  flex-shrink: 0;
+  color: var(--color-text-gray-2);
+}
+
+.listText {
+  display: flex;
+  flex: 1 0 0;
+  flex-direction: column;
+  gap: 6rem;
+  min-width: 0;
+}
+
+.listTitle {
+  @include text-subheading;
+  margin: 0;
+  color: var(--color-text-black);
+}
+
+.listDesc {
+  @include text-body;
+  margin: 0;
+  color: var(--color-text-gray-1);
+  word-break: keep-all;
+}
+
+/* 도식: 카드 영역 560 폭 · 이미지(640×570)는 그림자 여백만큼 바깥으로 */
+.diagram {
+  flex-shrink: 0;
+  width: 560rem;
+  margin: 0;
+
+  img {
+    display: block;
+    width: calc(100% * 640 / 560);
+    max-width: none;
+    height: auto;
+    margin: calc(-25 / 560 * 100%) 0 calc(-55 / 560 * 100%) calc(-40 / 560 * 100%);
+  }
+}
+
+/* --------------------------------------------------------------------------
+ * Responsive
+ * -------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .split,
+  .reverse {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 40rem;
+  }
+
+  .diagram {
+    width: 100%;
+    max-width: 560rem;
+  }
+}
+
+/* 모바일 (Figma Mobile 2286:4677 · 390 기준) */
+@media (max-width: 768px) {
+  /* 단계: 아이콘 위 · 제목 아래 · STEP 라벨/설명 숨김 · 아이콘 사이 연결선 */
+  .heroSteps {
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0;
+    margin-top: 0; /* MO 섹션 콘텐츠 간격 40 = 시안 */
+  }
+
+  .heroStep {
+    position: relative;
+    flex: 1 1 0;
+    flex-direction: column;
+    gap: 12rem;
+
+    & + &::before {
+      position: absolute;
+      top: 21rem;
+      right: calc(50% + 30rem);
+      width: calc(100% - 60rem);
+      margin: 0;
+    }
+  }
+
+  .heroStepText {
+    align-items: center;
+    text-align: center;
+  }
+
+  /* MO 시안: 한 줄 유지 (자간 -1.28) */
+  .headingOneLine {
+    letter-spacing: -1.28rem;
+    white-space: nowrap;
+  }
+
+  .heroStepLabel,
+  .heroStepDesc {
+    display: none;
+  }
+
+  .heroStepTitle {
+    @include text-body;
+    font-weight: var(--font-weight-bold);
+  }
+
+  /* 도식 MO 이미지(390 폭)는 카드 350 + 좌우 20 */
+  .diagram {
+    max-width: none;
+
+    img {
+      width: calc(100% * 390 / 350);
+      margin: calc(-15 / 350 * 100%) 0 calc(-36 / 350 * 100%) calc(-20 / 350 * 100%);
+    }
+  }
+}

@@ -1,0 +1,57 @@
+@use "@/assets/scss/mixins" as *;
+
+/* ---------------------------------
+ * FaqAccordion: 서비스 공통 FAQ 모양 하나 (Figma 2408:1437 · MO 2408:2194)
+ * 2px 상단선 · 항목 padding 28 24 · Q.(accent) → 12 → 제목(Subheading) → 12 → 화살표 20
+ * 질문 → 12 → 답변 Body gray-1 (왼쪽 32 · MO 24)
+ * --------------------------------- */
+.faq {
+  text-align: left;
+  border-top: 2rem solid var(--color-border-default, #e8eaed);
+
+  :global(.accordion-item) {
+    display: flex;
+    flex-direction: column;
+    gap: 12rem;
+    padding: 28rem 24rem;
+    border-bottom: 1rem solid var(--color-border-default, #e8eaed);
+  }
+
+  :global(.accordion-header) {
+    @include text-subheading;
+    align-items: flex-start;
+    gap: 12rem;
+    padding: 0;
+    color: var(--color-text-black, #000000);
+  }
+
+  :global(.prefix) {
+    flex-shrink: 0;
+    color: var(--color-text-accent, #3b5bff);
+  }
+
+  :global(.title) {
+    flex: 1 0 0;
+    min-width: 0;
+    word-break: keep-all;
+  }
+
+  :global(.chevron) {
+    width: 20rem;
+    height: 20rem;
+    color: var(--color-text-gray-2, #5f6368);
+  }
+
+  :global(.accordion-content) {
+    @include text-body;
+    padding-left: 32rem;
+    color: var(--color-text-gray-1, #3c4043);
+    word-break: keep-all;
+  }
+
+  @media (max-width: 768px) {
+    :global(.accordion-content) {
+      padding-left: 24rem;
+    }
+  }
+}

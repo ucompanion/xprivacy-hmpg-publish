@@ -1,0 +1,75 @@
+@use "@/assets/scss/mixins" as *;
+
+/* 공통 구조: 헤더 버튼 초기화 · 펼침 아이콘 회전 */
+.core-accordion {
+  .accordion-header {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    border: none;
+    background: none;
+    text-align: left;
+    cursor: pointer;
+
+    .icon,
+    .chevron {
+      flex-shrink: 0;
+      transition: transform 0.2s;
+    }
+
+    &.open .icon,
+    &.open .chevron {
+      transform: rotate(180deg);
+    }
+  }
+
+  /* ---------------------------------
+   * BOXED VARIANT (기본 · 테두리 박스형)
+   * --------------------------------- */
+  &.variant-boxed {
+    border: 1rem solid var(--color-gray-300);
+    border-radius: 8rem;
+    overflow: hidden;
+
+    .accordion-item {
+      border-bottom: 1rem solid var(--color-gray-300);
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      .accordion-header {
+        justify-content: space-between;
+        padding: 16rem 20rem;
+        background: #ffffff;
+        font-size: 16rem;
+        font-weight: 500;
+        color: var(--color-gray-800);
+        transition: background-color 0.2s;
+
+        &:hover {
+          background: var(--color-gray-100);
+        }
+
+        .icon {
+          font-size: 12rem;
+          color: var(--color-gray-500);
+        }
+      }
+
+      .accordion-content {
+        padding: 16rem 20rem;
+        background: var(--color-gray-50);
+        color: var(--color-gray-500);
+        font-size: 14rem;
+        line-height: 1.6;
+        border-top: 1rem solid var(--color-gray-300);
+      }
+    }
+  }
+
+  /* ---------------------------------
+   * PLAIN VARIANT: 모양 없이 구조만 제공
+   * 스타일은 감싸는 도메인 컴포넌트가 className으로 지정 (예: domain/Faq/FaqAccordion)
+   * --------------------------------- */
+}
