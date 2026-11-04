@@ -71,7 +71,7 @@ AI 어시스턴트는 이 워크스페이스에서 수행되는 **모든 작업(
         *   **`<HeroSection heroVariant="full" | "compact">`**: 페이지 최상단 히어로
         *   **`<BasicSection bg="white" | "gray">`**: 일반 본문 섹션. 상단 타이틀 + 2단 본문은 `children` 내부에 2열 배치
         *   **`<CtaSection variant="main" | "sub">`**: 하단 CTA 배너 (서비스 공통 단일 컴포넌트, 버튼은 `primaryLabel`/`secondaryLabel` + `*Href`)
-    *   토큰·단위는 Gate 4를 따릅니다. 피그마 MCP URL 작업의 세부 절차(변수 추출·토큰 매핑·측정·보고)는 `figma-mcp-publish` 스킬을 따릅니다.
+    *   토큰·단위는 Gate 4를 따릅니다. 피그마 MCP URL 작업은 계정 공통 스킬 `figma-mcp-publish`(시안 재현 규칙)와 프로젝트 스킬 `.claude/skills/xprivacy-figma-publish`(이 프로젝트의 매핑·컴포넌트·CSS 규칙)를 함께 따릅니다.
 4.  **Step 4. PC vs Mobile 반응형 크로스 매핑 (Responsive Cross-Mapping)**:
     *   모바일 뷰포트에서 상하 스택(`column`)될 요소와 나란히 유지(`row`)되어야 하는 비교 UI(예: 비포/애프터 프레임, 트래킹 이미지 내 패널)를 사전에 분리하여 반응형 스타일을 작성합니다.
 5.  **Step 5. 시각적 렌더링 캡처 및 Self-Diff 검증 (Visual Capture & Diff)**:
