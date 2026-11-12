@@ -6,16 +6,27 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: var(--header-height, 72rem);
+  height: var(--header-height, 73rem);
   background: var(--color-surface-header, rgba(11, 20, 38, 0.4));
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(var(--header-backdrop-blur, 12rem));
+  -webkit-backdrop-filter: blur(var(--header-backdrop-blur, 12rem));
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
-  align-items: center;
+  align-items: flex-start; /* container 가 높이를 상속(73)하므로 위에서부터 배치 */
   justify-content: center;
   z-index: var(--zindex-layout, 100);
-  transition: background-color 0.25s ease, border-color 0.25s ease;
+  transition: transform 0.3s ease, background-color 0.25s ease, border-color 0.25s ease;
+
+  /* 스크롤 다운 시 숨김 · 스크롤 업 시 노출 (Header.tsx 스크롤 방향 감지) */
+  &.is_hidden {
+    transform: translateY(-100%);
+  }
+
+  /* GNB 메뉴(PC 메가 메뉴 · 모바일 전체 메뉴) 노출 시 헤더 불투명 (Figma Header/v2 #0B1426 100%) */
+  &.is_opaque {
+    background: var(--color-surface-header-opaque, #0b1426);
+    border-bottom-color: rgba(11, 20, 38, 0.1);
+  }
 
   @media (max-width: 768px) {
     height: var(--header-height-mo, 60rem);
@@ -24,6 +35,7 @@
 
 .container {
   width: 100%;
+  height: inherit; /* 헤더 콘텐츠 높이(72)를 그대로 상속 */
   max-width: var(--layout-container-max-width, 1280rem);
   padding-left: var(--spacing-20, 20rem);
   padding-right: var(--spacing-20, 20rem);
@@ -49,79 +61,218 @@
 
 /* --------------------------------------------------------------------------
    GNB Navigation (PC)
+   대메뉴 호버(또는 키보드 포커스) 시 전폭 메가 메뉴 노출 · 현재 메뉴는 Bold + 하단 흰 인디케이터(76×3)
 -------------------------------------------------------------------------- */
 .nav {
   display: flex;
-  align-items: center;
+  align-items: stretch;
+  align-self: stretch;
   gap: var(--spacing-40, 40rem); /* Figma: spacing/40 */
 }
 
 .nav_item {
   position: relative;
-  
-  &:hover {
-    .depth2 {
-      display: flex;
-    }
-  }
+  display: flex;
 }
 
 .nav_link {
   @include text-body; /* Figma: v2/PC/Body (Pretendard 16px, 400, LH 1.75) */
+  position: relative;
+  display: flex;
+  align-items: center;
   color: var(--color-text-inverse, #ffffff);
   text-decoration: none;
-  transition: opacity 0.2s;
-  padding: 22rem 0;
   white-space: nowrap;
 
-  &:hover {
-    opacity: 0.8;
+  &.is_active {
+    font-weight: var(--font-weight-bold, 700);
+
+    &::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      height: 3rem;
+      background-color: var(--color-text-inverse, #ffffff);
+    }
   }
 }
 
-.depth2 {
-  display: none;
+/* Dim: 헤더 아래 화면 전체를 어둡게 (Figma Dim #000 50%) */
+.dim {
+  position: fixed;
+  top: var(--header-height, 73rem);
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: calc(var(--zindex-layout, 100) - 1);
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* 메가 메뉴 (Figma Mega Menu · Product 3971:28967): 흰 배경 · 아래 border · 위아래 40
+   제목 240 → 40 → 항목 2열(각 296 · gap 8 = 600) → 40 → 프로모 320 */
+.mega {
   position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
+  top: 100%; /* 헤더 하단 border를 덮으며 시작 */
+  left: 0;
+  width: 100%;
+  padding: var(--spacing-40, 40rem) 0;
+  box-sizing: border-box;
   background-color: var(--color-surface-white, #ffffff);
-  flex-direction: column;
-  min-width: 160rem;
-  box-shadow: 0 4rem 16rem rgba(0, 0, 0, 0.12);
-  border-radius: var(--btn-radius, 6rem);
-  padding: var(--spacing-8, 8rem) 0;
+  border-bottom: 1px solid var(--color-border-default, #e8eaed);
+}
+
+.mega_container {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-40, 40rem);
+  width: 100%;
+  max-width: var(--layout-container-max-width, 1280rem);
+  margin: 0 auto;
+  padding: 0 var(--spacing-20, 20rem);
+  box-sizing: border-box;
+}
+
+.mega_title {
+  @include text-subheading;
+  flex: 0 0 240rem;
+  width: 240rem;
   margin: 0;
-  z-index: 100;
-  
-  &::before {
-    content: '';
-    position: absolute;
-    top: -10rem;
-    left: 0;
-    width: 100%;
-    height: 10rem;
+  padding-top: 16rem;
+  color: var(--color-text-black, #000000);
+}
+
+.mega_items {
+  display: grid;
+  grid-template-columns: repeat(2, 296rem);
+  gap: var(--spacing-8, 8rem);
+  flex: 0 0 600rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* 항목: padding 16 20 · radius 6 · 라벨 Bold 16 + 화살표 16 / hover: surface-gray / 현재 페이지: brand-soft */
+.mega_item {
+  @include text-body;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-16, 16rem) var(--spacing-20, 20rem);
+  border-radius: var(--btn-radius, 6rem);
+  color: var(--color-text-black, #000000);
+  font-weight: var(--font-weight-bold, 700);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 0.2s;
+
+  &:hover,
+  &:focus-visible {
+    background-color: var(--color-surface-gray, #f1f3f4);
   }
 
-  li {
-    list-style: none;
+  &.is_current {
+    background-color: var(--color-brand-soft, rgba(86, 114, 255, 0.18));
   }
-  
-  a {
+}
+
+/* 프로모(도입 문의 배너): 320×196 · primary · radius 12 · padding 28 · 배너 전체가 링크 */
+.promo {
+  position: relative;
+  display: flex;
+  flex: 0 0 320rem;
+  flex-direction: column;
+  gap: var(--spacing-12, 12rem);
+  width: 320rem;
+  height: 196rem;
+  padding: 28rem;
+  overflow: hidden;
+  box-sizing: border-box;
+  border-radius: var(--radius-box, 12rem);
+  background-color: var(--color-primary, #3b5bff);
+  color: var(--color-text-inverse, #ffffff);
+  text-decoration: none;
+}
+
+/* 장식(Figma BG · 도입 문의 배너 장식): 시안 좌표 그대로 */
+.promo_art {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+
+  i {
+    position: absolute;
     display: block;
-    padding: 10rem var(--spacing-20, 20rem);
-    color: var(--color-text-gray-1, #3c4043);
-    font-size: 14rem;
-    text-decoration: none;
-    white-space: nowrap;
-    text-align: center;
-    transition: background-color 0.2s, color 0.2s;
-    
-    &:hover {
-      background-color: var(--color-surface-gray, #f1f3f4);
-      color: var(--color-primary, #3b5bff);
-    }
   }
+}
+
+.promo_glow {
+  left: 215rem;
+  top: 125rem;
+  width: 200rem;
+  height: 150rem;
+  background-color: rgba(61, 183, 255, 0.85);
+  filter: blur(60rem);
+}
+
+.promo_bubble_a {
+  left: 196rem;
+  top: 30rem;
+  width: 96rem;
+  height: 40rem;
+  border-radius: 20rem;
+  background-color: rgba(255, 255, 255, 0.16);
+}
+
+.promo_bubble_b {
+  left: 236rem;
+  top: 80rem;
+  width: 60rem;
+  height: 30rem;
+  border-radius: 15rem;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.promo_dots {
+  left: 228rem;
+  top: 47rem;
+  display: flex !important;
+  gap: 7rem;
+
+  b {
+    display: block;
+    width: 6rem;
+    height: 6rem;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.35);
+  }
+}
+
+.promo_eyebrow {
+  @include text-body;
+  position: relative;
+  font-weight: var(--font-weight-bold, 700);
+}
+
+.promo_title {
+  @include text-subheading;
+  position: relative;
+}
+
+.promo_arrow {
+  @include text-body;
+  position: absolute;
+  right: 28rem;
+  bottom: 28rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40rem;
+  height: 40rem;
+  border-radius: 20rem;
+  background-color: var(--color-surface-white, #ffffff);
+  color: var(--color-primary, #3b5bff);
 }
 
 /* --------------------------------------------------------------------------
@@ -134,6 +285,10 @@
 }
 
 .login_link {
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
   @include text-body; /* Figma: v2/PC/Body */
   color: var(--color-text-inverse, #ffffff);
   text-decoration: none;
@@ -220,94 +375,136 @@
   }
 }
 
-.mobile_menu_overlay {
-  position: fixed;
-  inset: 0;
-  background-color: var(--color-text-black, #000000);
-  z-index: 1000;
-  display: flex;
-  flex-direction: column;
+/* 모바일 전체 메뉴 (Figma HD-MO_v2.4 메뉴열림 3971:29035)
+   헤더 아래로 펼쳐지는 흰 패널(높이는 화면에서 헤더를 뺀 만큼 스크롤) · 행 사이는 border/default 1px 구분선 */
+.mobile_panel {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  max-height: calc(100svh - var(--header-height-mo, 60rem));
   overflow-y: auto;
-}
-
-.mobile_menu_header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 18rem var(--spacing-24, 24rem);
-}
-
-.btn_close {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 4rem;
-}
-
-.mobile_menu_body {
-  flex: 1;
-  padding: 32rem var(--spacing-24, 24rem);
+  background-color: var(--color-surface-white, #ffffff);
 }
 
 .mobile_nav {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-20, 20rem);
 }
 
-.mobile_nav_link {
-  @include text-subheading;
-  color: var(--color-text-inverse, #ffffff);
+.m_group {
+  position: relative;
+  border-bottom: 1px solid var(--color-border-default, #e8eaed);
+
+  /* 현재 섹션 표시: 왼쪽 2px primary 막대 (펼침 여부와 무관하게 유지) */
+  &.is_current_section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 2rem;
+    background-color: var(--color-primary, #3b5bff);
+  }
+}
+
+/* 행: padding 20 · 라벨 Bold 16(MO 1.6) · 오른쪽 chevron 16 / 펼침: 라벨·화살표 accent */
+.m_row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: var(--spacing-20, 20rem);
+  box-sizing: border-box;
+  border: 0;
+  background: none;
+  color: var(--color-text-black, #000000);
+  text-align: left;
   text-decoration: none;
+  cursor: pointer;
+
+  &.is_expanded {
+    color: var(--color-text-accent, #3b5bff);
+  }
 }
 
-.mobile_menu_footer {
-  padding: var(--spacing-24, 24rem);
+.m_label {
+  @include text-body;
+  font-weight: var(--font-weight-bold, 700);
+}
+
+.m_chevron {
+  color: var(--color-text-gray-1, #3c4043);
+
+  .is_expanded & {
+    color: var(--color-text-accent, #3b5bff);
+  }
+}
+
+.chevron_open {
+  transform: rotate(180deg);
+}
+
+.m_caret {
+  @include text-body;
+  color: var(--color-text-gray-2, #5f6368);
+}
+
+/* 하위 메뉴: 회색 배경 · padding 12 20 12 32 · Regular / 현재 페이지: brand-soft + Bold */
+.m_sub {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background-color: var(--color-surface-gray, #f1f3f4);
+}
+
+.m_sub_item {
+  @include text-body;
+  display: block;
+  padding: var(--spacing-12, 12rem) var(--spacing-20, 20rem) var(--spacing-12, 12rem) var(--spacing-32, 32rem);
+  color: var(--color-text-black, #000000);
+  text-decoration: none;
+
+  &.is_current {
+    background-color: var(--color-brand-soft, rgba(86, 114, 255, 0.18));
+    font-weight: var(--font-weight-bold, 700);
+  }
+}
+
+/* 하단 액션: padding 32 20 40 · 버튼 56 사이 12 · 로그인 gray-2 */
+.mobile_actions {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: var(--spacing-12, 12rem);
-  border-top: 1px solid #222222;
+  padding: var(--spacing-32, 32rem) var(--spacing-20, 20rem) var(--spacing-40, 40rem);
 }
 
-.btn_mobile_inquiry {
-  @include text-body;
-  font-weight: var(--font-weight-bold);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 48rem;
-  background-color: var(--color-surface-white, #ffffff);
-  color: var(--color-text-black, #000000);
-  border-radius: var(--btn-radius, 6rem);
-  text-decoration: none;
+.m_button.m_button {
+  width: 100%;
 }
 
-.btn_mobile_trial {
-  @include text-body;
-  font-weight: var(--font-weight-bold);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 48rem;
-  background-color: transparent;
-  color: var(--color-text-inverse, #ffffff);
-  border: 2px solid var(--color-border-inverse, #ffffff);
-  border-radius: var(--btn-radius, 6rem);
-  cursor: pointer;
+/* Secondary: 테두리 border/default #E8EAED · 남색 글자 (Core bordered 기본 #C8D2DF보다 연함 → 클래스 3회로 Core 선택자를 이김) */
+.m_button_secondary.m_button_secondary.m_button_secondary {
+  border-color: var(--color-border-default, #e8eaed);
 }
 
 .mobile_login_link {
-  @include text-note;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  @include text-body;
   color: var(--color-text-gray-2, #5f6368);
   text-decoration: none;
-  margin-top: var(--spacing-8, 8rem);
 }
 
 /* --------------------------------------------------------------------------
    Responsive Media Queries
 -------------------------------------------------------------------------- */
 @media (max-width: 1024px) {
-  .nav {
+  .nav,
+  .mega {
     display: none;
   }
 
@@ -317,5 +514,13 @@
 
   .hamburger {
     display: flex;
+  }
+}
+
+/* 모바일 메뉴가 열린 채 PC 폭(1025px 이상)이 되면 모바일 패널 · 모바일 Dim 숨김 (JS 닫힘과 별개로 보장) */
+@media (min-width: 1025px) {
+  .mobile_panel,
+  .dim_mobile {
+    display: none;
   }
 }

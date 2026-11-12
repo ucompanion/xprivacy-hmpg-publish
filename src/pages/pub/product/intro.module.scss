@@ -15,10 +15,11 @@
   }
 }
 
+/* 모바일 시안 줄바꿈: 폰 폭(480px 이하)에서만 강제 · 481~768px은 자연 줄바꿈 (AGENTS.md Gate 5 Step 4) */
 .mobileBr {
   display: none;
 
-  @media (max-width: 768px) {
+  @media (max-width: 480px) {
     display: block;
   }
 }
@@ -383,16 +384,16 @@
 /* ---------------------------------
  * 3. Masking Workflow Section (Figma PC 2156:30050 / Mobile 2156:30974)
  * Background: #f1f3f4 (surface/subtle), 1240rem container, gap: 40rem
- * Steps (340rem): 4 cards with number, uppercase english label, title
- * Workspace Window (860rem): white container, radius 16rem, padding 24rem,
- * Canvas aspect ratio: 2436 / 1360 with radius 12rem
+ * Steps (340rem): 4 cards with number, uppercase english label, title (창 상단 기준 정렬)
+ * Workspace Window (860rem): white, border 1rem border/default, radius 12rem, padding 24rem (그림자 없음)
+ * Canvas aspect ratio: 2436 / 1360 with radius 8rem
  * --------------------------------- */
 .featureSection {
   background-color: var(--color-surface-gray, #f1f3f4);
 
   .featureSplit {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
     gap: 40rem;
     max-width: 1240rem;
@@ -498,17 +499,23 @@
       .workspaceWindow {
         width: 100%;
         background-color: var(--color-surface-white, #ffffff);
-        border-radius: 16rem;
+        border: 1rem solid var(--color-border-default, #e8eaed);
+        border-radius: 12rem;
         padding: 24rem;
         box-sizing: border-box;
-        box-shadow: 0 10rem 30rem rgba(20, 43, 69, 0.06);
 
         .canvasArea {
           width: 100%;
           aspect-ratio: 2436 / 1360; /* 812 / 453.2 */
-          border-radius: 12rem;
+          border-radius: 8rem;
           overflow: hidden;
-          background-color: #000000;
+          background-color: var(--color-surface-white, #ffffff);
+
+          .workflowPicture {
+            display: block;
+            width: 100%;
+            height: 100%;
+          }
 
           .workflowImage {
             width: 100%;
@@ -1092,7 +1099,7 @@
 
         .workspaceWindow {
           padding: 12rem;
-          border-radius: 16rem;
+          border-radius: 12rem;
 
           .canvasArea {
             border-radius: 8rem;

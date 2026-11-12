@@ -117,6 +117,7 @@ export default function PubFeaturesAiAutoEditing() {
       <div className={styles.pageWrap}>
         {/* 1. Hero (Figma PC 2304:4170 / Mobile 2304:4284 · 가운데 정렬 + 처리 흐름 3단계) */}
         <HeroSection
+          category="features"
           heroVariant="compact"
           align="center"
           className={styles.editHero}
@@ -124,9 +125,9 @@ export default function PubFeaturesAiAutoEditing() {
           title={
             <>
               스마트한 추적과
-              <br className="mobileBr" /> 구간 자동 매핑으로
+              <br className="heroMoBr" /> 구간 자동 매핑으로
               <br /> 빠르고 정확한
-              <br className="mobileBr" /> 비식별 워크플로우
+              <br className="heroMoBr" /> 비식별 워크플로우
             </>
           }
           description="대상 인식부터 효과 적용까지 연결된 AI 편집 파이프라인으로 관공서 대용량 영상도 단 몇 번의 클릭으로 신속하게 가공합니다."
@@ -183,9 +184,9 @@ export default function PubFeaturesAiAutoEditing() {
               heading={
                 <>
                   영상 구간과 객체 특성에
-                  <br className="mobileBr" /> 최적화된
-                  <br className="pcBr" /> 비식별 효과
-                  <br className="mobileBr" /> 자동 매핑
+                  <br className="heroMoBr" /> 최적화된
+                  <br className="splitPcBr" /> 비식별 효과
+                  <br className="heroMoBr" /> 자동 매핑
                 </>
               }
               lead="수동 타임라인 작업 없이, AI가 비식별 영역의 이동 경로나 배경 변화에 따라 모자이크, 블러, 가상 얼굴 등 지정된 보안 효과와 가공 구간을 자동으로 매칭·적용합니다."

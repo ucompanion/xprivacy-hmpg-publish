@@ -161,9 +161,9 @@ export default function PubContactFaq() {
       <div className={styles.faqPage}>
         {/* 1. Hero (Figma PC 2408:1774 / Mobile 2408:2460 · 가운데 정렬 Compact) */}
         <HeroSection
+          category="contact"
           heroVariant="compact"
           align="center"
-          className={styles.faqHero}
           eyebrow="FAQ"
           title="자주 묻는 질문"
           description="xPrivacy의 도입 방식, 비식별 기능, 결과 검수와 이용 방법을 확인해 보세요."
@@ -172,7 +172,7 @@ export default function PubContactFaq() {
         {/* 2. FAQ 목록 (Figma PC 2408:1433 / Mobile 2408:2194) */}
         <BasicSection bg="white" layout="vertical" align="left">
           <div className={styles.faqGroups}>
-            {FAQ_CATEGORIES.map((cat) => (
+            {FAQ_CATEGORIES.map((cat, catIndex) => (
               <section key={cat.title} className={styles.faqGroup}>
                 <div className={styles.groupHead}>
                   <IconSurface src={cat.glyph} size={48} sizeMo={40} glyphFit="fill" />
@@ -180,7 +180,7 @@ export default function PubContactFaq() {
                   <span className={styles.groupCount}>질문 {cat.items.length}개</span>
                 </div>
 
-                <FaqAccordion items={cat.items} />
+                <FaqAccordion items={cat.items} defaultOpenIds={catIndex === 0 ? [cat.items[0].id] : []} />
               </section>
             ))}
           </div>

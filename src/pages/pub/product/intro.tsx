@@ -161,31 +161,35 @@ export default function PubProductIntro() {
   const tabList = [
     {
       num: '01',
-      eng: 'PERSON THUMBNAIL',
-      title: '인물별 썸네일 자동 생성',
+      eng: 'AUTO BLUR',
+      title: '비식별 썸네일 자동 생성',
       img: '/images/product/intro/group_photo_01.jpg',
-      alt: '01 PERSON THUMBNAIL - 인물별 썸네일 자동 생성',
+      imgMo: '/images/product/intro/group_photo_01_mo.jpg',
+      alt: '01 AUTO BLUR - 비식별 썸네일 자동 생성',
     },
     {
       num: '02',
       eng: 'SELECT PERSON',
       title: '특정 인물 선택',
       img: '/images/product/intro/group_photo_02.jpg',
+      imgMo: '/images/product/intro/group_photo_02_mo.jpg',
       alt: '02 SELECT PERSON - 특정 인물 선택',
     },
     {
       num: '03',
-      eng: 'APPLY TO ALL',
-      title: '선택 인물 일괄 처리',
+      eng: 'UNBLUR SELECTED',
+      title: '선택 인물 비식별 해제',
       img: '/images/product/intro/group_photo_03.jpg',
-      alt: '03 APPLY TO ALL - 선택 인물 일괄 처리',
+      imgMo: '/images/product/intro/group_photo_03_mo.jpg',
+      alt: '03 UNBLUR SELECTED - 선택 인물 비식별 해제',
     },
     {
       num: '04',
       eng: 'AREA SETTING',
-      title: '처리 영역 직접 조정',
+      title: '비식별영역 크기 조정',
       img: '/images/product/intro/group_photo_04.jpg',
-      alt: '04 AREA SETTING - 처리 영역 직접 조정',
+      imgMo: '/images/product/intro/group_photo_04_mo.jpg',
+      alt: '04 AREA SETTING - 비식별영역 크기 조정',
     },
   ];
 
@@ -334,7 +338,7 @@ export default function PubProductIntro() {
                   <h4 className={styles.stepValue}>High-resolution</h4>
                   <p className={styles.stepDesc}>
                     고해상도 영상에서 멀리 있는<br className={styles.pcBr} /> 작은 <br className={styles.mobileBr} />
-                    얼굴까지 찾아냅니다
+                    얼굴까지 찾아냅니다.
                   </p>
                 </div>
               </div>
@@ -356,7 +360,7 @@ export default function PubProductIntro() {
                   <h4 className={styles.stepValue}>Re-ID</h4>
                   <p className={styles.stepDesc}>
                     가려졌다 다시 나타난 인물도<br className={styles.pcBr} /> 같은 <br className={styles.mobileBr} />
-                    사람으로 이어서 추적합니다
+                    사람으로 이어서 추적합니다.
                   </p>
                 </div>
               </div>
@@ -378,7 +382,7 @@ export default function PubProductIntro() {
                   <h4 className={styles.stepValue}>Blur / Mosaic / Mask</h4>
                   <p className={styles.stepDesc}>
                     블러·모자이크·마스킹 중<br className={styles.pcBr} /> 용도에 맞는 <br className={styles.mobileBr} />
-                    방식을 선택합니다
+                    방식을 선택합니다.
                   </p>
                 </div>
               </div>
@@ -400,7 +404,7 @@ export default function PubProductIntro() {
                   <h4 className={styles.stepValue}>On-Premise / Audit</h4>
                   <p className={styles.stepDesc}>
                     외부 전송 없이 내부망에서<br className={styles.pcBr} /> 처리하고 <br className={styles.mobileBr} />
-                    작업 이력을 남깁니다
+                    작업 이력을 남깁니다.
                   </p>
                 </div>
               </div>
@@ -415,7 +419,7 @@ export default function PubProductIntro() {
           title={
             <>
               AI가 먼저 처리하고 <br className={styles.mobileBr} />
-              필요한 부분만 직접 조정합니다
+              필요한 부분만 직접 조정합니다.
             </>
           }
           description="인물별 썸네일을 확인하고 특정 인물을 선택하거나 처리 영역을 직접 조정해 최종 결과를 검수할 수 있습니다."
@@ -464,12 +468,15 @@ export default function PubProductIntro() {
             >
               <div className={styles.workspaceWindow}>
                 <div className={styles.canvasArea}>
-                  <img
-                    key={tabList[activeTab].img}
-                    src={tabList[activeTab].img}
-                    alt={tabList[activeTab].alt}
-                    className={styles.workflowImage}
-                  />
+                  {/* 모바일(768px 이하)은 시안 모바일 캔버스(상태 라벨 포함) 이미지를 사용 */}
+                  <picture key={tabList[activeTab].img} className={styles.workflowPicture}>
+                    <source media="(max-width: 768px)" srcSet={tabList[activeTab].imgMo} />
+                    <img
+                      src={tabList[activeTab].img}
+                      alt={tabList[activeTab].alt}
+                      className={styles.workflowImage}
+                    />
+                  </picture>
                 </div>
               </div>
             </div>

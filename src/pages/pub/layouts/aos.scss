@@ -1,0 +1,31 @@
+// AOS 기본 이동 거리(100px)를 줄여 컨텐츠가 슬며시 올라오게 한다.
+// 거리 값은 aos.config.ts(distance)에서 --aos-distance 로 주입된다.
+// 올라온 뒤 상태(.aos-animate)는 AOS 기본 규칙이 우선하므로 여기서는 시작 위치만 지정한다.
+[data-aos='fade-up'] {
+  transform: translate3d(0, var(--aos-distance, 24rem), 0);
+}
+
+// 첫 섹션(히어로) 로드 시 등장 효과 — 메인 히어로 슬라이더의 heroFadeUp 과 동일한 연출.
+// 값은 aos.config.ts(hero)에서 --hero-* 변수로 주입된다.
+@keyframes aosHeroFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(var(--hero-distance, 16rem));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-fade-up {
+  animation: aosHeroFadeUp var(--hero-duration, 800ms) ease both;
+
+  &--late {
+    animation-delay: var(--hero-delay, 150ms);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}

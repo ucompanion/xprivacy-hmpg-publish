@@ -31,7 +31,7 @@ export const DemoHeader: React.FC = () => {
       <div className={styles.container}>
         {/* Left Group: Logo + Navigation */}
         <div className={styles.left_group}>
-          <Link to="/" className={styles.logo} onClick={closeMobileMenu}>
+          <Link to="/pub/main" className={styles.logo} onClick={closeMobileMenu}>
             xPrivacy
           </Link>
 
@@ -77,9 +77,9 @@ export const DemoHeader: React.FC = () => {
 
         {/* Right Group: Login + Action Buttons */}
         <div className={styles.right_group}>
-          <Link to="/pub/login" className={styles.login_link}>
+          <button type="button" className={styles.login_link}>
             로그인
-          </Link>
+          </button>
           <Link to="/pub/contact/inquiry" className={styles.btn_capsule}>
             도입 문의
           </Link>
@@ -150,9 +150,9 @@ export const DemoHeader: React.FC = () => {
           </nav>
 
           <div className={styles.mobile_utils}>
-            <Link to="/pub/login" className={styles.mobile_login} onClick={closeMobileMenu}>
+            <button type="button" className={styles.mobile_login} onClick={closeMobileMenu}>
               로그인
-            </Link>
+            </button>
             <div className={styles.mobile_btn_group}>
               <Link to="/pub/contact/inquiry" className={styles.btn_capsule} onClick={closeMobileMenu}>
                 도입 문의

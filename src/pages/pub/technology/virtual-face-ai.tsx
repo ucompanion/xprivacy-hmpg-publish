@@ -75,13 +75,13 @@ export default function PubSubTechnologyVirtualFaceAi() {
         {/* 1. Hero (Figma PC 2165:9246 / Mobile 2165:9383) */}
         <HeroSection
           heroVariant="compact"
-          bgPreset="technology"
+          category="technology"
           className={styles.vfaHero}
           eyebrow="VIRTUAL FACE AI"
           title={
             <>
-              초상권 걱정 없이<br className="mobileBr" /> 영상의 몰입감과<br />
-              미관을 살리는<br className="mobileBr" /> 생성형 AI 비식별화
+              초상권 걱정 없이<br className="heroMoBr" /> 영상의 몰입감과<br />
+              미관을 살리는<br className="heroMoBr" /> 생성형 AI 비식별화
             </>
           }
           description="답답한 모자이크 대신 한국인 데이터셋 기반 생성형 AI로 이질감 없는 가상 얼굴을 합성하여 홍보 및 행정 영상의 몰입도를 높입니다."
@@ -96,7 +96,7 @@ export default function PubSubTechnologyVirtualFaceAi() {
                   <span className={styles.eyebrow}>IDENTITY PROTECTION</span>
                   <h3 className={styles.heading}>
                     신원은 보호하고 자연스러운<br />
-                    얼굴 표현은 유지합니다
+                    얼굴 표현은 유지합니다.
                   </h3>
                 </div>
                 <p className={styles.lead}>

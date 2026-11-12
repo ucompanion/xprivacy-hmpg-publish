@@ -1,7 +1,7 @@
 import React from 'react';
 import './IconSurface.scss';
 
-export type IconSurfaceSize = 32 | 40 | 44 | 48 | 52;
+export type IconSurfaceSize = 32 | 40 | 44 | 48 | 52 | 64;
 
 export interface IconSurfaceProps extends React.HTMLAttributes<HTMLSpanElement> {
   /** 글리프 SVG 경로 */

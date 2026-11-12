@@ -55,14 +55,14 @@ export const ProcessSection = () => {
       title={
         <>
           <span className={styles.titleRegular}>AI가 먼저 탐지하고</span>
-          <br />
-          사용자가 최종 검수합니다
+          <br className="splitBr" />
+          사용자가 최종 검수합니다.
         </>
       }
       description={
         <>
           반복적인 대상 탐지는 AI가 먼저 수행합니다.
-          <br className={styles.pcBr} /> 탐지 결과를 확인하고 필요한 영역을 검수 및 조정하세요.
+          <br className="splitPcBr" /> 탐지 결과를 확인하고 필요한 영역을 검수 및 조정하세요.
         </>
       }
       headerExtra={

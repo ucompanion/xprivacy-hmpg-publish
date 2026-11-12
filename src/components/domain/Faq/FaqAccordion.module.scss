@@ -12,7 +12,6 @@
   :global(.accordion-item) {
     display: flex;
     flex-direction: column;
-    gap: 12rem;
     padding: 28rem 24rem;
     border-bottom: 1rem solid var(--color-border-default, #e8eaed);
   }
@@ -25,6 +24,13 @@
     color: var(--color-text-black, #000000);
   }
 
+  /* hover: 질문 제목을 accent로 (터치 기기에서는 hover 상태가 남지 않도록 제외) */
+  @media (hover: hover) {
+    :global(.accordion-header):hover :global(.title) {
+      color: var(--color-text-accent, #3b5bff);
+    }
+  }
+
   :global(.prefix) {
     flex-shrink: 0;
     color: var(--color-text-accent, #3b5bff);
@@ -34,6 +40,7 @@
     flex: 1 0 0;
     min-width: 0;
     word-break: keep-all;
+    transition: color 0.2s;
   }
 
   :global(.chevron) {
@@ -42,8 +49,10 @@
     color: var(--color-text-gray-2, #5f6368);
   }
 
+  /* 질문 → 12 → 답변: 접힌 상태에 간격이 남지 않도록 gap 대신 답변 위 여백으로 처리 */
   :global(.accordion-content) {
     @include text-body;
+    padding-top: 12rem;
     padding-left: 32rem;
     color: var(--color-text-gray-1, #3c4043);
     word-break: keep-all;

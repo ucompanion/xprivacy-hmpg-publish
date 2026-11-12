@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './Modal.scss';
+
+/** 닫힘 애니메이션 시간(ms). Modal.scss 의 --modal-exit-duration 과 같은 값 */
+const EXIT_MS = 200;
 
 export interface ModalProps {
   isOpen: boolean;
@@ -10,11 +13,20 @@ export interface ModalProps {
   className?: string;
   children: React.ReactNode;
   footer?: React.ReactNode;
+  /** 접근성 역할 (확인이 필요한 알림은 'alertdialog') */
+  role?: 'dialog' | 'alertdialog';
+  /** 제목 요소 id 연결 */
+  'aria-labelledby'?: string;
+  /** 설명 요소 id 연결 */
+  'aria-describedby'?: string;
+  /** Esc 키로 닫기 (기본 true) */
+  closeOnEsc?: boolean;
 }
 
 /**
  * Core Modal
  * 어떠한 비즈니스 로직이나 고정된 형태도 가지지 않는 순수 모달 뼈대
+ * 열릴 때와 닫힐 때 같은 길이의 페이드로 전환됩니다. (prefers-reduced-motion 에서는 전환 없음)
  */
 export const Modal: React.FC<ModalProps> = ({
   isOpen,
@@ -24,14 +36,43 @@ export const Modal: React.FC<ModalProps> = ({
   hideHeader = false,
   className = '',
   children,
-  footer
+  footer,
+  role = 'dialog',
+  'aria-labelledby': ariaLabelledby,
+  'aria-describedby': ariaDescribedby,
+  closeOnEsc = true,
 }) => {
-  if (!isOpen) return null;
+  // 닫힘 애니메이션이 끝날 때까지 DOM 에 남겨 둔다
+  const [mounted, setMounted] = useState(isOpen);
+
+  useEffect(() => {
+    if (isOpen) {
+      setMounted(true);
+      return undefined;
+    }
+    const timer = window.setTimeout(() => setMounted(false), EXIT_MS);
+    return () => window.clearTimeout(timer);
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (!isOpen || !closeOnEsc) return undefined;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [isOpen, closeOnEsc, onClose]);
+
+  if (!isOpen && !mounted) return null;
 
   return (
-    <div className="core-modal-overlay" onClick={onClose}>
-      <div 
-        className={`core-modal size-${size} ${className}`} 
+    <div className={`core-modal-overlay${isOpen ? '' : ' is-closing'}`} onClick={onClose}>
+      <div
+        className={`core-modal size-${size} ${className}`}
+        role={role}
+        aria-modal="true"
+        aria-labelledby={ariaLabelledby}
+        aria-describedby={ariaDescribedby}
         onClick={(e) => e.stopPropagation()}
       >
         {!hideHeader && (

@@ -74,6 +74,7 @@ export default function PubFeaturesImageDeid() {
       <div className={styles.pageWrap}>
         {/* 1. Hero (Figma PC 2262:2976 / Mobile 2286:63931 · 가운데 정렬 Compact) */}
         <HeroSection
+          category="features"
           heroVariant="compact"
           align="center"
           className={styles.featureHero}
@@ -96,11 +97,11 @@ export default function PubFeaturesImageDeid() {
                 <span className={styles.eyebrow}>IRREVERSIBLE</span>
                 <h2 className={styles.heading}>
                   복원불가! 재식별 여지를
-                  <br />
+                  <br className="splitBr" />
                   남기지 않습니다.
                 </h2>
                 <p className={styles.lead}>
-                  약한 블러·가역적 처리는 재식별 여지가 남습니다.<br className="mobileBr" /> 가명·익명처리 요건을 충족했다고
+                  약한 블러·가역적 처리는 재식별 여지가 남습니다.<br className="heroMoBr" /> 가명·익명처리 요건을 충족했다고
                   입증하기 어렵습니다.
                 </p>
               </div>
@@ -124,7 +125,7 @@ export default function PubFeaturesImageDeid() {
                 <span className={styles.eyebrow}>DETECTION</span>
                 <h2 className={styles.heading}>
                   AI가 사소한 식별 요소까지
-                  <br />
+                  <br className="splitBr" />
                   알아서 찾아줍니다.
                 </h2>
                 <p className={styles.lead}>

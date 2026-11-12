@@ -2,43 +2,276 @@
 @use "@/assets/scss/mixins" as *;
 
 /* 미매핑 피그마 값 (프로젝트 토큰 없음 → 시안 값 사용)
- * - 입력·칩·체크박스 테두리 #DADCE0 (border-default #E8EAED보다 진함) */
+ * - 입력·칩·체크박스 테두리 #DADCE0 (border-default #E8EAED보다 진함)
+ * - 함께 확인하면 좋은 정보 카드 테두리 #E3E7EE */
 $field-border: #dadce0;
+$card-border: #e3e7ee;
 
 .inquiryPage {
   width: 100%;
 }
 
 /* --------------------------------------------------------------------------
- * 1. Hero (Figma PC 2415:1681 / Mobile 2422:1862)
- * 가운데 정렬 Compact · PC 높이 407 / MO 416 · 문구 묶음 세로 가운데 (헤더 포함 높이)
+ * 1. 히어로: contact 카테고리 공통(HeroSection) · 여기서 스타일 지정하지 않음
  * -------------------------------------------------------------------------- */
-.inquiryHero {
-  --hero-compact-padding-top-pc: 126rem;
-  --hero-compact-padding-bottom-pc: 125rem;
-  --hero-compact-padding-top-mo: 123rem;
-  --hero-compact-padding-bottom-mo: 123rem;
+
+/* --------------------------------------------------------------------------
+ * 2. 브로셔 안내 (Figma PC 3572:3645 / MO 3572:3981)
+ * 회색 박스 1240 · padding 24 · radius 12 / PC 가로(표지 240×135 → 24 → 문구 → 24 → 버튼 240)
+ * 섹션 위 56(MO 40) · 아래 0 (바로 아래 문의 섹션 위 패딩과 이어짐)
+ * -------------------------------------------------------------------------- */
+.inquiryPage > .brochureSection.brochureSection {
+  padding-top: 56rem;
+  padding-bottom: 0;
+}
+
+.brochureBox {
+  display: flex;
+  align-items: center;
+  gap: 24rem;
+  width: 100%;
+  padding: 24rem;
+  box-sizing: border-box;
+  border-radius: 12rem;
+  background-color: var(--color-surface-gray);
+}
+
+.brochureMain {
+  display: flex;
+  flex: 0 1 auto;
+  align-items: center;
+  gap: 24rem;
+  min-width: 0;
+}
+
+/* 원본 표지 미리보기: 240×135 기준으로 그린 뒤 MO에서 112×63으로 축소 */
+.coverFrame {
+  position: relative;
+  flex-shrink: 0;
+  width: 240rem;
+  height: 135rem;
+  overflow: hidden;
+  border: 1rem solid var(--color-border-default);
+  border-radius: 12rem;
+  box-sizing: border-box;
+  background-color: var(--color-primary);
+}
+
+.cover {
+  position: absolute;
+  top: -1rem;
+  left: -1rem;
+  width: 240rem;
+  height: 135rem;
+  transform-origin: top left;
+}
+
+/* 표지 안 장식 문구: 표지 이미지의 일부(5·3rem)라 타이포 믹스인을 쓰지 않습니다 */
+.coverLogo {
+  position: absolute;
+  top: 46rem;
+  left: 15rem;
+  width: 188.75rem;
+  height: 40rem;
+}
+
+.coverTag,
+.coverSub {
+  position: absolute;
+  color: var(--color-text-inverse);
+  font-family: var(--font-family-base);
+  white-space: nowrap;
+}
+
+.coverTag {
+  top: 15rem;
+  left: 15rem;
+  font-size: 3rem;
+  line-height: 4rem;
+  letter-spacing: -0.12rem;
+}
+
+.coverSub {
+  top: 84rem;
+  left: 49rem;
+  font-size: 5rem;
+  line-height: 7.5rem;
+  letter-spacing: -0.2rem;
+}
+
+.coverMaker {
+  position: absolute;
+  top: 15rem;
+  left: 184rem;
+  width: 40.319rem;
+  height: 6.25rem;
+}
+
+.brochureCopy {
+  display: flex;
+  flex: 0 1 648rem;
+  width: 648rem;
+  flex-direction: column;
+  gap: 12rem;
+  min-width: 0;
+}
+
+.brochureEyebrow {
+  @include text-eyebrow-section;
+  margin: 0;
+  color: var(--color-primary);
+}
+
+.brochureTitle {
+  @include text-subheading;
+  margin: 0;
+  color: var(--color-text-black);
+}
+
+.brochureDesc {
+  @include text-body;
+  margin: 0;
+  color: var(--color-text-gray-1);
+}
+
+.brochureButton.brochureButton {
+  flex-shrink: 0;
+  width: 240rem;
+}
+
+/* Figma Button/v2 Secondary: 테두리 border/default #E8EAED (Core bordered 기본 #C8D2DF보다 연함) · Core 선택자(3중)를 이기기 위해 클래스 3회 */
+.brochureButton.brochureButton.brochureButton {
+  border-color: var(--color-border-default);
 }
 
 /* --------------------------------------------------------------------------
- * 2. 문의 폼 + 연락·바로가기 (Figma PC 2415:1706)
- * 폼 800 → 80 → 사이드 360 · 위 정렬
+ * 3. 문의 폼 (Figma PC 3572:3206 / MO 3572:3744 · 3572:3825)
+ * 섹션 위·아래 80(MO 위 56 · 아래 80) / 소개 → 40 → 폼 → 80(MO 56) → 함께 확인 카드
  * -------------------------------------------------------------------------- */
-.twoColumn {
-  display: flex;
-  align-items: flex-start;
-  gap: 80rem;
+.inquiryPage > .formSection.formSection {
+  padding-top: 80rem;
+  padding-bottom: 80rem;
 }
 
-/* 폼: 그룹 사이 48 */
+.formIntro {
+  display: flex;
+  flex-direction: column;
+  gap: 8rem;
+  width: 100%;
+  margin-bottom: 40rem;
+}
+
+.formIntroRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24rem;
+}
+
+.formTitle {
+  @include text-section;
+  margin: 0;
+  color: var(--color-text-black);
+  white-space: nowrap;
+}
+
+.formNote {
+  @include text-body;
+  margin: 0;
+  color: var(--color-text-gray-2);
+}
+
+/* 바로 연락하기: 전화·이메일 한 줄 (gap 24) · 아이콘 24 → 8 → [라벨 gray-2 / 값 SemiBold] */
+.contactCard {
+  display: flex;
+  align-items: flex-start;
+  gap: 24rem;
+}
+
+.contact {
+  display: inline-flex;
+  align-items: center;
+  gap: 8rem;
+  height: 44rem;
+  color: inherit;
+  text-decoration: none;
+}
+
+@media (hover: hover) {
+  .contact:hover .contactValue {
+    color: var(--color-text-accent);
+    text-decoration: underline;
+  }
+
+  .extraToggle:hover .extraLabel {
+    text-decoration: underline;
+  }
+
+  .consentView:hover {
+    color: var(--color-text-black);
+  }
+}
+
+.contactIcon {
+  position: relative;
+  flex-shrink: 0;
+  width: 24rem;
+  height: 24rem;
+
+  img {
+    position: absolute;
+    display: block;
+    max-width: none;
+  }
+}
+
+/* 시안 글리프(12×12 박스 + 여백 비율) 그대로 배치 */
+.contactGlyphPhone {
+  top: 6rem;
+  left: 5.43rem;
+  width: 13.2rem;
+  height: 13.34rem;
+}
+
+.contactGlyphMail {
+  top: 6rem;
+  left: 5.38rem;
+  width: 13.25rem;
+  height: 12.37rem;
+}
+
+.contactText {
+  display: inline-flex;
+  align-items: center;
+  gap: 8rem;
+  white-space: nowrap;
+}
+
+.contactLabel {
+  @include text-body;
+  color: var(--color-text-gray-2);
+}
+
+.contactValue {
+  @include text-body;
+  color: var(--color-text-black);
+  font-weight: var(--font-weight-semibold, 600);
+}
+
+.formWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 80rem;
+  width: 100%;
+}
+
+/* 폼: 그룹 사이 40 */
 .form {
   display: flex;
-  flex: 1 1 800rem;
   flex-direction: column;
   align-items: flex-start;
-  gap: 48rem;
-  min-width: 0;
-  max-width: 800rem;
+  gap: 40rem;
+  width: 100%;
 }
 
 .group {
@@ -52,34 +285,13 @@ $field-border: #dadce0;
   gap: 20rem;
 }
 
-.groupReview {
-  gap: 24rem;
-}
-
-.groupHead {
-  display: flex;
-  align-items: center;
-  gap: 8rem;
-}
-
 .groupTitle {
   @include text-subheading;
   margin: 0;
   color: var(--color-text-black);
 }
 
-.optional {
-  @include text-body;
-  color: var(--color-text-gray-2);
-}
-
-.notice {
-  @include text-body;
-  margin: 0;
-  color: var(--color-text-gray-1);
-}
-
-/* 라벨: Body SemiBold · 필수 표시 primary (사이 4) */
+/* 라벨: Body SemiBold · 필수 표시 primary (사이 4) / 선택 항목은 Regular */
 .label {
   @include text-body;
   display: inline-flex;
@@ -89,11 +301,27 @@ $field-border: #dadce0;
   font-weight: var(--font-weight-semibold, 600);
 }
 
+.labelPlain {
+  font-weight: var(--font-weight-regular, 400);
+}
+
 .required {
   color: var(--color-text-accent);
 }
 
-/* 칩: padding 12 20 · 완전 둥근 모서리 · 사이 8 / 선택: 파란 배경 + primary 테두리·글자 SemiBold */
+.labelRow {
+  display: flex;
+  align-items: center;
+  gap: 8rem;
+}
+
+.hint {
+  @include text-body;
+  color: var(--color-text-gray-2);
+}
+
+/* 칩(라디오): 높이 54(MO 48) · 완전 둥근 모서리 · 사이 8 · 라디오 16 → 8 → 문구
+ * 선택: 파란 배경 + primary 테두리 · Bold 글자 (PC는 좌우 20) */
 .chips {
   display: flex;
   flex-wrap: wrap;
@@ -102,8 +330,14 @@ $field-border: #dadce0;
 
 .chip {
   @include text-body;
-  padding: 12rem 20rem;
-  border: 1rem solid $field-border;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8rem;
+  height: 54rem;
+  padding: 0 16rem;
+  box-sizing: border-box;
+  border: 1rem solid var(--color-border-default);
   border-radius: 999rem;
   background-color: var(--color-surface-white);
   color: var(--color-text-gray-1);
@@ -114,19 +348,53 @@ $field-border: #dadce0;
   &:hover {
     border-color: var(--color-primary);
   }
+
+  &:has(.chipInput:focus-visible) {
+    outline: 2rem solid var(--color-primary);
+    outline-offset: 2rem;
+  }
+}
+
+.chipInput {
+  position: absolute;
+  width: 1rem;
+  height: 1rem;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.radio {
+  position: relative;
+  flex-shrink: 0;
+  width: 16rem;
+  height: 16rem;
+  box-sizing: border-box;
+  border: 1rem solid var(--color-text-gray-2);
+  border-radius: 50%;
 }
 
 .chipSelected {
   border-color: var(--color-primary);
   background-color: var(--color-surface-blue-subtle);
   color: var(--color-text-accent);
-  font-weight: var(--font-weight-semibold, 600);
+  font-weight: var(--font-weight-bold, 700);
+
+  .radio::after {
+    content: "";
+    position: absolute;
+    top: 3rem;
+    left: 3rem;
+    width: 8rem;
+    height: 8rem;
+    border-radius: 50%;
+    background-color: var(--color-primary);
+  }
 }
 
-/* 입력 2열 (각 390 · 사이 20) */
+/* 입력 2열 (각 610 · 사이 20) */
 .fieldGrid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 20rem;
 }
 
@@ -138,16 +406,13 @@ $field-border: #dadce0;
   min-width: 0;
 }
 
-.fieldChips {
-  gap: 12rem;
-}
-
 /* 입력: 높이 52 · padding 0 16 · radius 8 · placeholder gray-2 */
 .input,
 .textarea {
   @include text-body;
   width: 100%;
   padding: 0 16rem;
+  box-sizing: border-box;
   border: 1rem solid $field-border;
   border-radius: 8rem;
   background-color: var(--color-surface-white);
@@ -170,31 +435,91 @@ $field-border: #dadce0;
 
 .textarea {
   display: block;
-  height: 200rem;
-  padding: 14rem 16rem;
+  height: 320rem;
+  padding: 16rem;
   resize: vertical;
 }
 
 .helper {
-  @include text-note;
+  @include text-body;
   margin: 0;
   color: var(--color-text-gray-2);
 }
 
-/* 개인정보 동의: 체크박스 22 → 12 → 문구 · (필수) primary · 오른쪽 끝 "내용 보기" 밑줄 */
-.consent {
+/* 추가 정보: 회색 박스 · padding 24 · 토글 높이 44 / 펼침 시 항목 사이 24 */
+.submitArea {
+  display: flex;
+  flex-direction: column;
+  gap: 20rem;
+  width: 100%;
+}
+
+.extra {
+  display: flex;
+  flex-direction: column;
+  gap: 24rem;
+  padding: 24rem;
+  box-sizing: border-box;
+  border-radius: 12rem;
+  background-color: var(--color-surface-gray);
+}
+
+.extraToggle {
   display: flex;
   align-items: center;
   gap: 12rem;
   width: 100%;
+  height: 44rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: left;
+  cursor: pointer;
 }
 
+.extraHead {
+  display: flex;
+  align-items: center;
+  gap: 8rem;
+}
+
+.extraTitle {
+  @include text-subheading;
+  color: var(--color-text-black);
+}
+
+.extraOptional {
+  @include text-body;
+  color: var(--color-text-gray-2);
+}
+
+.extraLabel {
+  @include text-body;
+  min-width: 70rem;
+  margin-left: auto;
+  color: var(--color-primary);
+  text-align: right;
+}
+
+.extraFields {
+  display: flex;
+  flex-direction: column;
+  gap: 24rem;
+}
+
+.extraNotice {
+  @include text-body;
+  margin: 0;
+  color: var(--color-text-gray-2);
+}
+
+/* 체크박스: 22 · 테두리 gray-2 · radius 4 */
 .checkbox {
   flex-shrink: 0;
   width: 22rem;
   height: 22rem;
   margin: 0;
-  border: 1rem solid $field-border;
+  border: 1rem solid var(--color-text-gray-2);
   border-radius: 4rem;
   background-color: var(--color-surface-white);
   appearance: none;
@@ -206,19 +531,46 @@ $field-border: #dadce0;
   }
 }
 
+.checkRow {
+  @include text-body;
+  display: flex;
+  align-items: center;
+  gap: 12rem;
+  min-height: 44rem;
+  color: var(--color-text-gray-1);
+  cursor: pointer;
+}
+
+/* 개인정보 동의: 터치 영역 44 → 8 → 문구 · (필수) primary · 밑줄 링크 */
+.consent {
+  display: flex;
+  align-items: center;
+  gap: 8rem;
+  min-height: 44rem;
+  width: 100%;
+}
+
+.consentTouch {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 44rem;
+  height: 44rem;
+  cursor: pointer;
+}
+
 .consentText {
   display: flex;
-  flex: 1 0 0;
+  flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
-  gap: 12rem;
+  gap: 8rem;
   min-width: 0;
 }
 
 .consentLabel {
   @include text-body;
   color: var(--color-text-black);
-  cursor: pointer;
 }
 
 .consentRequired {
@@ -227,81 +579,36 @@ $field-border: #dadce0;
 
 .consentView {
   @include text-body;
-  flex-shrink: 0;
   padding: 0;
   border: 0;
   background: none;
   color: var(--color-text-gray-2);
   text-decoration: underline;
+  text-underline-position: from-font;
   cursor: pointer;
 }
 
-/* 제출: Button Primary Large 200 × 60 · SemiBold (코어 xl은 높이 56 · Bold라 시안 값 지정) */
+/* 제출: 폼 폭 전체 · 높이 56 (코어 Button xl 기본) */
 .submit.submit {
-  --btn-height: 60rem;
-
-  width: 200rem;
-  font-weight: var(--font-weight-semibold, 600);
+  width: 100%;
 }
 
-/* 사이드 360: 카드 사이 20 */
-.side {
+/* 함께 확인하면 좋은 정보: 흰 카드 테두리 · padding 32 32 24 · 링크 padding 14 0 · 구분선 */
+.checkCard {
   display: flex;
-  flex: 0 0 360rem;
   flex-direction: column;
-  gap: 20rem;
+  gap: 16rem;
+  padding: 32rem 32rem 24rem;
+  box-sizing: border-box;
+  border: 1rem solid $card-border;
+  border-radius: 12rem;
+  background-color: var(--color-surface-white);
 }
 
 .cardTitle {
   @include text-subheading;
   margin: 0;
   color: var(--color-text-black);
-}
-
-/* 바로 연락하기: 회색 · padding 32 · 사이 20 / 연락처 아이콘 40 → 14 → [Note gray-2 / Body SemiBold] */
-.contactCard {
-  display: flex;
-  flex-direction: column;
-  gap: 20rem;
-  padding: 32rem;
-  border-radius: 12rem;
-  background-color: var(--color-surface-gray);
-}
-
-.contact {
-  display: inline-flex;
-  align-items: center;
-  gap: 14rem;
-  color: inherit;
-  text-decoration: none;
-}
-
-.contactText {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-}
-
-.contactLabel {
-  @include text-note;
-  color: var(--color-text-gray-2);
-}
-
-.contactValue {
-  @include text-body;
-  color: var(--color-text-black);
-  font-weight: var(--font-weight-semibold, 600);
-}
-
-/* 문의 전에 확인해 보세요: 흰 카드 테두리 · padding 32 32 24 · 링크 padding 14 0 · 구분선 */
-.checkCard {
-  display: flex;
-  flex-direction: column;
-  gap: 4rem;
-  padding: 32rem 32rem 24rem;
-  border: 1rem solid var(--color-border-default);
-  border-radius: 12rem;
-  background-color: var(--color-surface-white);
 }
 
 .checkLinks {
@@ -328,15 +635,14 @@ $field-border: #dadce0;
   &:hover {
     color: var(--color-text-accent);
   }
+}
 
-  img {
-    width: 18rem;
-    height: 18rem;
-  }
+.pcOnly {
+  display: inline;
 }
 
 /* --------------------------------------------------------------------------
- * 3. 개인정보 수집·이용 안내 모달
+ * 5. 개인정보 수집·이용 안내 모달 (시안 없음 · 기존 유지)
  * -------------------------------------------------------------------------- */
 .modalOverlay {
   position: fixed;
@@ -437,44 +743,100 @@ $field-border: #dadce0;
 }
 
 /* --------------------------------------------------------------------------
- * Responsive
+ * Responsive · 모바일 (Figma MO 390 기준 · 좌우 20)
  * -------------------------------------------------------------------------- */
-@media (max-width: 1024px) {
-  .twoColumn {
-    flex-direction: column;
-    gap: 64rem;
-  }
-
-  .form {
-    flex: none;
-    width: 100%;
-    max-width: none;
-  }
-
-  .side {
-    flex: none;
-    width: 100%;
-  }
-}
-
-/* 모바일 (Figma Mobile 2422:1861 · 390 기준) */
 @media (max-width: 768px) {
-  /* 섹션 위아래 64 */
+  /* 브로셔 안내: 세로 · padding 24 · 사이 16 / 표지 112×63 → 24 → 제목·설명 / 버튼 전폭 */
+  .inquiryPage > .brochureSection.brochureSection {
+    padding-top: 40rem;
+  }
+
+  .brochureBox {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16rem;
+  }
+
+  .brochureMain {
+    align-items: flex-start;
+    flex: none;
+  }
+
+  .brochureCopy {
+    flex: 1 1 0;
+    width: auto;
+  }
+
+  .coverFrame {
+    width: 112rem;
+    height: 63rem;
+  }
+
+  .cover {
+    transform: scale(0.4667);
+  }
+
+  /* MO 시안에는 Eyebrow가 없고 설명에 "브로셔에서"가 빠집니다 */
+  .brochureEyebrow,
+  .pcOnly {
+    display: none;
+  }
+
+  .brochureCopy {
+    gap: 0;
+  }
+
+  .brochureButton.brochureButton {
+    width: 100%;
+  }
+
+  /* 문의 폼 */
   .inquiryPage > .formSection.formSection {
-    padding-top: 64rem;
-    padding-bottom: 64rem;
+    padding-top: 56rem;
+    padding-bottom: 80rem;
+  }
+
+  .formIntro {
+    gap: 12rem;
+    margin-bottom: 32rem;
+  }
+
+  .formIntroRow {
+    display: contents;
+  }
+
+  .formTitle {
+    order: 0;
+  }
+
+  .formNote {
+    order: 1;
+  }
+
+  .contactCard {
+    order: 2;
+    flex-direction: column;
+    gap: 0;
+    width: 100%;
+  }
+
+  .contact {
+    width: 100%;
+  }
+
+  .formWrap {
+    gap: 56rem;
   }
 
   .form {
-    gap: 40rem;
+    gap: 32rem;
   }
 
   .group {
     gap: 12rem;
   }
 
-  .groupContact,
-  .groupReview {
+  .groupContact {
     gap: 16rem;
   }
 
@@ -483,50 +845,44 @@ $field-border: #dadce0;
     gap: 16rem;
   }
 
-  /* 칩 높이 48 (테두리 포함) */
   .chip {
-    padding: 10rem 16rem;
+    height: 48rem;
+    padding: 0 12rem;
   }
 
   .textarea {
-    height: 180rem;
+    height: 260rem;
+  }
+
+  /* MO: 추가 정보 → 동의 → 버튼 사이 32 */
+  .submitArea {
+    gap: 32rem;
+  }
+
+  .extra {
+    gap: 20rem;
+    padding: 20rem;
   }
 
   /* 동의: 체크박스 위 정렬 · 문구 아래 "내용 보기" */
   .consent {
     align-items: flex-start;
-    gap: 10rem;
+  }
+
+  .consentTouch {
+    align-items: flex-start;
+    padding-top: 2rem;
+    box-sizing: border-box;
   }
 
   .consentText {
     flex-direction: column;
+    flex-wrap: nowrap;
     align-items: flex-start;
     gap: 4rem;
   }
 
-  .submit.submit {
-    width: 100%;
-  }
-
-  .side {
-    gap: 16rem;
-  }
-
-  .contactCard {
-    gap: 16rem;
-    padding: 24rem;
-  }
-
-  .contact {
-    gap: 12rem;
-  }
-
   .checkCard {
-    padding: 24rem 24rem 12rem;
-  }
-
-  /* MO: 링크 문구 바로 옆 화살표 */
-  .checkLink {
-    justify-content: flex-start;
+    padding: 24rem;
   }
 }

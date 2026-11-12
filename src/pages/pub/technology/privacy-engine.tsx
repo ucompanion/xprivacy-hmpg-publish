@@ -1,5 +1,3 @@
-import { useState } from 'react';
-import type { CSSProperties } from 'react';
 import FrontLayout from '../layouts/FrontLayout';
 import { HeroSection, BasicSection, CtaSection } from '../../../components/domain/Section';
 import { BenefitCardGroup } from '../../../components/domain/Benefit/BenefitCards';
@@ -7,7 +5,7 @@ import styles from './privacy-engine.module.scss';
 
 const IMG = '/images/technology/privacy-engine';
 
-// 4종 비식별 옵션 (Figma PC 2165:8468 / Mobile 2165:8603)
+// 4종 비식별 옵션 (Figma PC 3869:28443 / Mobile 3869:28665)
 // 샘플 가림 효과는 원본 사진 위에 CSS로 표현 (Masking · Mosaic · Gaussian Blur)
 type SampleEffect = 'none' | 'masking' | 'mosaic' | 'blur';
 
@@ -49,14 +47,8 @@ const DEID_OPTIONS: {
   },
 ];
 
-// 모자이크 격자: 6열 × 9행
-const MOSAIC_CELLS = Array.from({ length: 54 }, (_, i) => `cell-${i}`);
-
-const MATRIX_ROWS = [
-  { category: '얼굴', chips: ['Mosaic', 'Masking', 'Gaussian Blur', 'Virtual Face'] },
-  { category: '신체', chips: ['Mosaic', 'Masking', 'Gaussian Blur'] },
-  { category: '번호판', chips: ['Mosaic', 'Masking', 'Gaussian Blur'] },
-];
+// 모자이크 격자: 5열 × 5행 (얼굴 영역 · 눈썹 포함)
+const MOSAIC_CELLS = Array.from({ length: 25 }, (_, i) => `cell-${i}`);
 
 // 도입 효과 (Figma PC 2165:8553 / Mobile 2165:8691)
 const BENEFITS = [
@@ -77,6 +69,10 @@ const BENEFITS = [
   },
 ];
 
+// 시안 통이미지 대체 텍스트: 이미지 안의 설정 UI 내용을 함께 전달
+const VISION_ALT =
+  '버스 정류장 도로 사진에 대상별 비식별 방식과 강도가 적용된 예시 화면. 1 얼굴 Gaussian Blur, 2 신체 Masking, 3 번호판 Mosaic, 4 텍스트(상호, 로고) Gaussian Blur이 선택되어 있고 모자이크 픽셀 크기와 블러 강도 슬라이더가 표시됩니다.';
+
 function SampleOverlay({ effect }: { effect: SampleEffect }) {
   if (effect === 'masking') return <span className={styles.maskShape} aria-hidden="true" />;
   if (effect === 'blur') return <span className={styles.blurShape} aria-hidden="true" />;
@@ -92,63 +88,43 @@ function SampleOverlay({ effect }: { effect: SampleEffect }) {
   return null;
 }
 
-function StrengthSlider({
-  label,
-  value,
-  onChange,
-}: {
-  label: string;
-  value: number;
-  onChange: (value: number) => void;
-}) {
-  return (
-    <label className={styles.sliderField}>
-      <span className={styles.sliderLabel}>{label}</span>
-      <input
-        type="range"
-        min={0}
-        max={100}
-        value={value}
-        onChange={(e) => onChange(Number(e.target.value))}
-        className={styles.rangeInput}
-        style={{ '--fill': `${value}%` } as CSSProperties}
-      />
-    </label>
-  );
-}
-
 export default function PubSubTechnologyPrivacyEngine() {
-  // 시안 초기 위치: 모자이크 194/486(40%) · 블러 316/486(65%)
-  const [mosaicSize, setMosaicSize] = useState(40);
-  const [blurStrength, setBlurStrength] = useState(65);
-
   return (
     <FrontLayout>
       <div className={styles.pageWrap}>
         {/* 1. Hero (Figma PC 2165:8461 / Mobile 2165:8596) */}
         <HeroSection
           heroVariant="compact"
-          bgPreset="technology"
+          category="technology"
           className={styles.techHero}
           eyebrow="PRIVACY ENGINE"
           title={
             <>
-              사용 목적과<br className="mobileBr" /> 가이드라인에<br className="pcBr" /> 맞춘
-              <br className="mobileBr" /> 최적의 비식별<br className="mobileBr" /> 스타일 제공
+              사용 목적과<br className="heroMoBr" /> 가이드라인에<br className="pcBr" /> 맞춘
+              <br className="heroMoBr" /> 최적의 비식별<br className="heroMoBr" /> 스타일 제공
             </>
           }
           description="목적에 맞춰 단순 모자이크, 가우시안 블러, 마스킹 등 다양한 비식별화 방식을 간편하게 선택·적용할 수 있습니다."
         />
 
-        {/* 2. 4종 비식별 옵션 */}
-        <BasicSection
-          bg="white"
-          layout="vertical"
-          align="left"
-          eyebrow="DE-IDENTIFICATION OPTIONS"
-          title="객체 크기에 맞춘 일관된 강도, 적정성을 고려한 4종 비식별 옵션"
-          description="객체 크기에 맞춰 블러 강도를 자동으로 조절하고, 4종 가공 방식 중 목적에 맞는 방식을 적용해 과도한 처리를 막고 일관된 보안 수준을 유지합니다."
-        >
+        {/* 2. 4종 비식별 옵션 (Figma PC 3869:28443 / Mobile 3869:28665) */}
+        <BasicSection bg="white" layout="vertical" align="left" className={styles.optionsSection}>
+          <div className={styles.intro}>
+            <div className={styles.introHead}>
+              <p className={styles.introEyebrow}>DE-IDENTIFICATION OPTIONS</p>
+              <h2 className={styles.introTitle}>
+                객체 크기에 맞춘 일관된
+                <br className="heroMoBr" /> 강도, 적정성을 고려한 4종
+                <br className="heroMoBr" /> 비식별 옵션
+              </h2>
+            </div>
+            <p className={styles.introLead}>
+              객체 크기에 맞춰 블러 강도를 자동으로 조절하고,
+              <br className="heroMoBr" /> 4종 가공 방식 중 목적에 맞는 방식을 적용해 과도한
+              <br className="heroMoBr" /> 처리를 막고 일관된 보안 수준을 유지합니다.
+            </p>
+          </div>
+
           <ul className={styles.optionList}>
             {DEID_OPTIONS.map((opt) => (
               <li key={opt.id} className={styles.option}>
@@ -161,7 +137,7 @@ export default function PubSubTechnologyPrivacyEngine() {
                   {opt.desc && (
                     <p className={styles.optionDesc}>
                       {opt.desc[0]}
-                      <br className="pcBr" /> {opt.desc[1]}
+                      <br className={styles.fitBrOption} /> {opt.desc[1]}
                     </p>
                   )}
                 </div>
@@ -170,52 +146,48 @@ export default function PubSubTechnologyPrivacyEngine() {
           </ul>
         </BasicSection>
 
-        {/* 3. Our Vision (Figma PC 2165:8499 / Mobile 2165:8634) */}
-        <BasicSection
-          bg="gray"
-          layout="vertical"
-          align="left"
-          eyebrow="OUR VISION"
-          title="별도 툴 없이, 하나의 솔루션에서 끝내는 원스톱 비식별 가공"
-        >
-          <div className={styles.visionCards}>
-            <div className={styles.visionCard}>
-              <div className={styles.visionHead}>
-                <h3 className={styles.visionTitle}>4가지 방식 × 대상별 조합, 총 10가지 옵션</h3>
-                <p className={styles.visionDesc}>
-                  모자이크 · 마스킹 · 블러 · 가상 얼굴 4가지 방식을 대상별로 조합해 총 10가지 옵션을
-                  제공합니다. (얼굴 4 · 신체 3 · 번호판 3) 활용 목적과 보안 수위에 따라 최적의 방식을
-                  선택합니다.
-                </p>
-              </div>
-              <div className={styles.visionVisual}>
-                {MATRIX_ROWS.map((row) => (
-                  <div key={row.category} className={styles.matrixRow}>
-                    <span className={styles.rowLabel}>{row.category}</span>
-                    <div className={styles.chipGroup}>
-                      {row.chips.map((chip) => (
-                        <span key={chip} className={styles.chip}>
-                          {chip}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
+        {/* 3. Our Vision (Figma PC 4036:136 / Mobile 4037:2)
+            예시 화면(사진 + 대상×방식 선택값 + 강도 슬라이더 UI)은 코드로 만들지 않고 시안 통이미지로 사용합니다. */}
+        <BasicSection bg="gray" layout="vertical" align="left" className={styles.visionSection}>
+          <div className={styles.intro}>
+            <div className={styles.introHead}>
+              <p className={styles.introEyebrow}>OUR VISION</p>
+              <h2 className={styles.introTitle}>
+                별도 툴 없이, 하나의
+                <br className="heroMoBr" /> 솔루션에서 끝내는
+                <br className="heroMoBr" /> 원스톱 비식별 가공
+              </h2>
             </div>
+          </div>
 
-            <div className={styles.visionCard}>
-              <div className={styles.visionHead}>
-                <h3 className={styles.visionTitle}>비식별 강도 조절</h3>
-                <p className={styles.visionDesc}>
-                  모자이크 픽셀 크기, 블러 강도 등을 슬라이더로 즉시 조정할 수 있습니다.
-                  <br className="pcBr" /> 복잡한 수치 입력 없이 원하는 수준의 비식별 강도를 직관적으로 조절합니다.
-                </p>
-              </div>
-              <div className={styles.visionVisual}>
-                <StrengthSlider label="모자이크 픽셀 크기" value={mosaicSize} onChange={setMosaicSize} />
-                <StrengthSlider label="블러 강도" value={blurStrength} onChange={setBlurStrength} />
-              </div>
+          <div className={styles.visionDemo}>
+            {/* PC: 사진 + 설정 패널 통이미지 1240×680 */}
+            <img src={`${IMG}/vision_demo.jpg`} alt={VISION_ALT} className={styles.visionDemoPc} width={1240} height={680} loading="lazy" />
+            {/* MO: 사진(확대 포함) / 설정 패널 2장을 세로로 */}
+            <div className={styles.visionDemoMo}>
+              <img src={`${IMG}/vision_demo_mo_photo.jpg`} alt={VISION_ALT} width={350} height={366} loading="lazy" />
+              <img src={`${IMG}/vision_demo_mo_panel.png`} alt="" aria-hidden="true" className={styles.visionPanel} width={350} height={642} loading="lazy" />
+            </div>
+          </div>
+
+          <div className={styles.visionDescs}>
+            <div className={styles.visionDesc}>
+              <h3 className={styles.visionDescTitle}>4가지 방식 × 대상별 조합, 총 13가지 옵션</h3>
+              <p className={`${styles.visionDescText} ${styles.visionDescTight}`}>
+                모자이크 · 마스킹 · 블러 · 가상 얼굴 4가지 방식을
+                <br className="heroMoBr" /> 대상별로 조합해 총 13가지 옵션을 제공합니다.
+                <br className={styles.fitBrDesc} /> (얼굴 4 · 신체 3 · 번호판 3 · 텍스트 3) 활용 목적과
+                <br className="heroMoBr" /> 보안 수위에 따라 최적의 방식을 선택합니다.
+              </p>
+            </div>
+            <div className={styles.visionDesc}>
+              <h3 className={styles.visionDescTitle}>비식별 강도 조절</h3>
+              <p className={styles.visionDescText}>
+                모자이크 픽셀 크기, 블러 강도 등을 슬라이더로 즉시
+                <br className="heroMoBr" /> 조정할 수 있습니다.
+                <br className={styles.fitBrDesc} /> 복잡한 수치 입력 없이 원하는
+                <br className="heroMoBr" /> 수준의 비식별 강도를 직관적으로 조절합니다.
+              </p>
             </div>
           </div>
         </BasicSection>

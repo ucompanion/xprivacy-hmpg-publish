@@ -101,6 +101,7 @@
   flex-direction: column;
   gap: 24rem;
   min-width: 0;
+  @include split-col(580);
 }
 
 .intro {
@@ -172,6 +173,7 @@
   flex-shrink: 0;
   width: 560rem;
   margin: 0;
+  @include split-col(560, 560rem);
 
   img {
     display: block;

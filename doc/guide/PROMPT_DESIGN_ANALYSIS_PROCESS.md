@@ -88,7 +88,7 @@ graph TD
 *   **컴포넌트 선택 및 매핑 기준**:
     *   **상단 Hero 섹션 (`<HeroSection>`)**:
         *   **Full 타입** (`heroVariant="full"`): 서비스 인트로/메인 비주얼. 100svh, 기본 `align="center"`, 피그마 v2 화사한 라이트 글래스 림 조명, 블랙 타이틀(`var(--color-text-black)`), 액션 버튼(`buttons`), Before/After 비교 슬라이더 등 동적 인터랙션 UI(`children`) 결합.
-        *   **Compact 타입** (`heroVariant="compact"`): 서브 페이지/요금제/상세. 불필요한 고정 높이 없이 자연스러운 컨텐츠 높이(`min-height: auto`), 상하 패딩(PC: padding-top 158rem, bottom 102rem / MO: padding-top 96rem, bottom 48rem), 기본 `align="left"`, 피그마 v2 라이트 글래스 배경, 선택적 강조 키워드 필 칩 배열(`keywords={['...', ...]}`, 피그마 Keyword/v2 글래스 칩 · 높이 40). 키워드 칩 유무에 따라 자연스럽게 약 407rem ~ 480rem 높이를 형성. 텍스트 위계는 eyebrow `text/gray-1` → (16) → 타이틀 `text/black` → (24) → 설명 `text/black`(폭 640) → (24) → 키워드로 고정이며, 페이지마다 상하 여백이 다르면 컴포넌트를 고치지 않고 페이지 클래스에서 `--hero-compact-padding-{top|bottom}-{pc|mo}` 변수로 지정합니다. 기술 페이지처럼 여러 화면이 같은 배경(Technology 이미지 + 브랜드 틴트)을 쓰면 페이지 CSS로 만들지 않고 `bgPreset="technology"` 옵션을 사용합니다.
+        *   **Compact 타입** (`heroVariant="compact"`): 서브 페이지/요금제/상세. 불필요한 고정 높이 없이 자연스러운 컨텐츠 높이(`min-height: auto`), 상하 패딩(PC: padding-top 158rem, bottom 102rem / MO: padding-top 96rem, bottom 48rem), 기본 `align="left"`, 피그마 v2 라이트 글래스 배경, 선택적 강조 키워드 필 칩 배열(`keywords={['...', ...]}`, 피그마 Keyword/v2 글래스 칩 · 높이 40). 키워드 칩 유무에 따라 자연스럽게 약 407rem ~ 480rem 높이를 형성. 텍스트 위계는 eyebrow `text/gray-1` → (16) → 타이틀 `text/black` → (24) → 설명 `text/black`(폭 640) → (24) → 키워드로 고정이며, 페이지마다 상하 여백이 다르면 컴포넌트를 고치지 않고 페이지 클래스에서 `--hero-compact-padding-{top|bottom}-{pc|mo}` 변수로 지정합니다. 카테고리별 히어로 배경은 페이지 CSS로 만들지 않고 `category` 옵션(`technology`·`features`·`solutions`·`blog`·`contact`)으로 지정합니다. Product(생략 시 기본)만 `heroVariant`별(full/compact) PC·MO 이미지 4장을 쓰고, 나머지 카테고리는 타입 구분 없이 `public/images/common/hero/{category}.jpg`·`{category}_mo.jpg` 한 쌍을 공용합니다. 틴트·베일은 이미지에 포함되어 있으므로 CSS로 덧입히지 않습니다.
     *   **일반 본문 섹션 (`<BasicSection bg="white" | "gray">`)**:
         *   코어 `Section`의 모든 옵션(`layout`, `align`, `theme` 등)을 그대로 계승하며, `bg="white"`와 `bg="gray"`로 페이지 간 시각적 리듬을 형성.
         *   상단 중앙 타이틀 + 2단 본문 구조는 반드시 `<BasicSection layout="vertical" align="center">`의 `children` 내부에 2열 그리드/플렉스를 배치.
@@ -101,7 +101,7 @@ graph TD
         *   기술 소개 페이지마다 반복되는 도입 효과 카드는 날코딩하지 않고 도메인 컴포넌트를 사용합니다. 섹션은 페이지에서 `<BasicSection layout="vertical" align="left" eyebrow="BENEFITS" title="도입 효과" bg="...">`로 구성하고, 카드 그룹은 그 `children`으로만 넣습니다(도메인 컴포넌트가 섹션을 소유하지 않음).
         *   카드는 Core `Card` + Core `IconSurface`(48 → MO 44) 조합이며 간격은 프리셋으로 고정됩니다. 시안별 차이는 카드 테두리 `bordered` 옵션으로만 표현하고, 카드 수에 따라 열 수가 자동으로 정해집니다.
     *   **단색 UI 아이콘 (`<Icon name>`, Core · `public/icons/sprite.svg`)**: 화살표·꺾쇠·체크·닫기처럼 한 가지 색으로 그려지는 아이콘은 SVG 파일을 `img`로 넣거나 TSX에 `<svg>`를 직접 쓰지 않고 스프라이트에 `symbol`로 등록해 `<Icon name="..." />`로 씁니다. 스프라이트는 24 격자·선 두께 2·`currentColor` 규격이며, 크기·색·선 두께는 `size`·`color`(토큰)·`strokeWidth`로 지정합니다. 여러 색·그라데이션이 들어간 글리프·일러스트·다이어그램은 스프라이트에 넣지 않습니다.
-    *   **유리 아이콘 (`<IconSurface>`, Core)**: Figma `Process Icon/v2 · ClearSurface`는 페이지마다 레이어를 복제하지 않고 Core `IconSurface`(`size` 32 · 40 · 44 · 48 — 48 기준 비례, `tone` default(ClearSurface) · soft(LightBlueSurface), `glyphFit` center · fill)를 사용합니다. 피그마 인스턴스가 64 기준 값(반경 16 · 두께 4 · 글리프 64)으로 보여도 실제 렌더링은 인스턴스 크기(48 · 40)로 축소된 값이므로, 크기 옵션만 지정하고 내부 치수를 따로 맞추지 않습니다. 피그마는 반투명 채움 아래로 그림자색이 비쳐 연한 회청색을 띠므로, CSS에서는 그림자색을 채움 배경으로 깔아 재현합니다(Core에서 관리).
+    *   **유리 아이콘 (`<IconSurface>`, Core)**: Figma `Process Icon/v2 · ClearSurface`는 페이지마다 레이어를 복제하지 않고 Core `IconSurface`(`size` 32 · 40 · 44 · 48 · 52 · 64 — 48 기준 비례, `tone` default(ClearSurface) · soft(LightBlueSurface), `glyphFit` center · fill)를 사용합니다. 피그마 인스턴스가 64 기준 값(반경 16 · 두께 4 · 글리프 64)으로 보여도 실제 렌더링은 인스턴스 크기(48 · 40)로 축소된 값이므로, 크기 옵션만 지정하고 내부 치수를 따로 맞추지 않습니다. 피그마는 반투명 채움 아래로 그림자색이 비쳐 연한 회청색을 띠므로, CSS에서는 그림자색을 채움 배경으로 깔아 재현합니다(Core에서 관리).
 *   **컴포넌트 속성 매핑 규칙**:
     *   배경색: `<BasicSection bg="white">` 또는 `<BasicSection bg="gray">` 명시
     *   타이틀이 상단 중앙에 위치하고 본문이 2분할인 경우:
@@ -129,6 +129,8 @@ PC 시안과 Mobile 시안을 나란히 두고 **뷰포트 축소 시 무엇이 
 | **본문 그리드** | 2열/3열 가로 배치 | 기본 1열 스택 (`column`) | `.splitContentWrap` 세로 정렬 |
 | **디바이스/비교 UI** | 나란히 비교 (`row`) | **나란히 비교 유지 (`row`)** ⚠️ | 모바일에서도 가로 대조가 필수적인 UI(비포/애프터 등)는 강제 세로 변환 금지! |
 | **플로팅 컨트롤** | 우측 고정 플로팅 | 비주얼 내 최적 비율 유지 | 텍스트/라디오 크기 스케일다운(`11rem` 등) |
+
+*   **모바일 시안 줄바꿈 (전반 규칙, 히어로 타이틀 포함)**: 시안의 모바일 줄바꿈(390폭)은 사이트 모바일 분기점(768px)이 아니라 **폰 폭(480px 이하)** 에서만 강제합니다. 전용 유틸리티 `<br className="heroMoBr" />`(`src/assets/scss/_utilities.scss`)를 쓰고, PC 전용 줄바꿈은 `pcBr`, PC·모바일 공통 줄바꿈은 일반 `<br />`로 둡니다. 481~768px(태블릿)은 `keep-all` 자연 줄바꿈이 따르고, 360px대에서는 시안 줄 중 가장 긴 것(약 354rem)이 한 줄에 못 들어가는 일부 타이틀만 자연 줄바꿈이 추가됩니다.
 
 ---
 

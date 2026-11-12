@@ -110,6 +110,7 @@ export default function PubBlogDetail() {
       <div className={styles.blogDetail}>
         {/* 1. 글 머리 (Figma PC 2435:4288 · 왼쪽 정렬 · 카테고리 → 16 → 제목) */}
         <HeroSection
+          category="blog"
           heroVariant="compact"
           align="left"
           className={styles.articleHero}

@@ -327,9 +327,6 @@ flowchart TD
 | | | 답변 본문 패널 | 답변 본문 (PC) | `14.5rem` / W400 / 1.7| `.answerText` | 14rem과 16rem 사이의 본문 |
 | | | | 답변 본문 (모바일 축소) | `13.5rem` / W400 / - | `.answerText` | 모바일 화면 내 답변 폰트 |
 | | 하단 문의 배너 | 1:1 문의 유도 카드 | 배너 헤드라인 | `17rem` / W700 / - | `.bannerTitle` | FAQ 하단 배너 타이틀 |
-| **가명정보 처리 가이드**| 법률 가이드 본문 | 6단계 절차도 | 단계별 가이드 카드 제목 | `18rem` / W700 / 1.4 | `.cardTitle` | 법적 처리 단계별 헤더 |
-| (`pseudonymization-`| | | 법률 출처 및 참고 문헌 | `13rem` / W400 / - | `.sourceLink`, `.processSource`| KISA 가이드라인 출처 링크 |
-| `guide`) | | 하단 법적 고지 | 면책 조항 및 개정일 | `13rem` / W400 / 1.6 | `.disclaimerText`, `.updateDate`| 법률적 책임 면책 공지 |
 | **회사 소개** | 비전 및 연혁 | 연혁 타임라인 | 연혁 연도 및 하이라이트 | `24rem` / W800 / 1 | `.cardNumber` | "2026", "2025" 연혁 강조 |
 | (`company`) | | | 연혁 주요 성과 타이틀 | `18rem` / W700 / 1.4 | `.cardTitle` | 시리즈 투자 유치 등 타이틀 |
 | | 오피스 위치 안내 | 지도 카드 사이드바 | 주소 및 연락처 서브설명 | `13rem` / W400 / 1.5 | `.cardDescSub`, `.actionNote`| 교통편/주차 안내 텍스트 |

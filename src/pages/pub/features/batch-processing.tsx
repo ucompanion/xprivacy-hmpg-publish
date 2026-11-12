@@ -122,6 +122,7 @@ export default function PubFeaturesBatchProcessing() {
       <div className={styles.pageWrap}>
         {/* 1. Hero (Figma PC 2291:4476 / Mobile 2291:4516 · 가운데 정렬 + 처리 흐름 3단계) */}
         <HeroSection
+          category="features"
           heroVariant="compact"
           align="center"
           className={styles.batchHero}
@@ -129,10 +130,9 @@ export default function PubFeaturesBatchProcessing() {
           title={
             <>
               대량의 이미지·영상
-              <br className="mobileBr" /> 데이터,
+              <br className="heroMoBr" /> 데이터,
               <br className="pcBr" /> 한 번에
-              <br className="mobileBr" /> 등록하고
-              <br className="mobileBr" /> 병렬로 가공
+              <br className="heroMoBr" /> 등록하고 병렬로 가공
             </>
           }
           description="반복적이고 소모적인 개별 가공 작업 없이, 다수의 이미지와 영상을 한꺼번에 등록하여 탐지부터 비식별 처리까지 한 번에 완료합니다."

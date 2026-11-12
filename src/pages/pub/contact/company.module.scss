@@ -3,215 +3,421 @@
 
 .companyPage {
   width: 100%;
-  position: relative;
-  background-color: var(--color-white);
 }
 
-/* ---------------------------------
- * 1. Hero Section Badges & Eyebrow
- * --------------------------------- */
-.heroBadges {
-  display: flex;
-  align-items: center;
-  gap: 8rem;
-  margin-bottom: 14rem;
-  flex-wrap: wrap;
-}
-
-.badgeDraft {
-  display: inline-flex;
-  align-items: center;
-  height: 24rem;
-  padding: 0 10rem;
-  background-color: var(--color-primary-light, #eff6ff);
-  color: var(--color-primary);
-  @include text-note;
-  font-weight: 600;
-  border-radius: 4rem;
-  border: 1px solid #bfdbfe;
-  letter-spacing: -0.01em;
-}
-
-/* 글꼴·색은 BasicSection 공통 Eyebrow(Eyebrow-Section)를 그대로 상속 */
-.heroEyebrow {
-  display: block;
-  margin-bottom: 8rem;
-}
-
-
-/* 미매핑 피그마 값 (초안 v1 텍스트 스타일 · 프로젝트 v2 토큰 없음 → 시안 값 사용)
- * - Heading/Card 28 Bold · Body/Small 14 (자간 -0.08) · Caption 12 (자간 0.96)
- * - 회사 소개 자리 점선 #BDC1C6 */
-$font-size-card: 28rem;
-$font-size-small: 14rem;
-$slot-border: #bdc1c6;
-
-@mixin text-small {
-  font-family: var(--font-family-base);
-  font-size: $font-size-small;
-  line-height: 1.75;
-  letter-spacing: -0.08rem;
-}
-
-/* ---------------------------------
- * 2. 운영 주체·연락·주소 (Figma PC 1034:582)
- * 카드 3개 (사이 20) · 테두리 · padding 32 · 번호 28 primary → 12 → 제목 28 → 12 → 설명 Small
- * → 60 → 버튼 줄 (Primary 200 × 60 → 16 → 안내 Caption)
- * --------------------------------- */
-.operatorBody {
+/* --------------------------------------------------------------------------
+ * 공통 문구 블록 (Figma Section intro)
+ * Eyebrow(Bold 16 · eyebrow-section 색) → 16 → Heading(Section 40 / MO 32)
+ * -------------------------------------------------------------------------- */
+.intro {
   display: flex;
   flex-direction: column;
-  gap: 60rem;
+  gap: 16rem;
+  width: 100%;
 }
 
-.infoCards {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.infoCard {
-  display: flex;
-  flex-direction: column;
+.introWide {
   gap: 12rem;
-  padding: 32rem;
-  border: 1rem solid var(--color-border-default);
-  border-radius: 12rem;
-  background-color: var(--color-surface-white);
 }
 
-.infoNum,
-.infoTitle {
+.eyebrow {
+  @include text-eyebrow-section;
   margin: 0;
-  font-family: var(--font-family-base);
-  font-size: $font-size-card;
-  font-weight: var(--font-weight-bold);
-  line-height: normal;
+  color: var(--color-text-eyebrow-section);
 }
 
-.infoNum {
-  color: var(--color-text-accent);
-}
-
-.infoTitle {
+.heading {
+  @include text-section;
+  margin: 0;
   color: var(--color-text-black);
 }
 
-.infoDesc,
-.slotDesc,
-.teaserDesc {
-  @include text-small;
+.note {
+  @include text-body;
+  margin: 0;
+  color: var(--color-text-gray-1);
+}
+
+/* [예외 처리] 시안이 의도해서 나눈 줄바꿈 (fitBr)
+ * - 상황: 회사 소개 본문("출발해," 뒤)과 사업 카드 요약 2곳은 시안이 자연 줄바꿈과 다른 위치에서 일부러 줄을 나눴습니다.
+ *         (자연 줄바꿈이면 "국내외에"가 윗줄로 올라가고 "유지보수·"에서 끊김)
+ * - 조건: 문구가 놓인 칸이 시안 폭 이상일 때만 줄바꿈을 적용합니다. (본문 680 · 카드 요약 336, @container)
+ *         칸이 줄어들면 해제되어 자연스럽게 이어지고, 세로로 쌓여 칸이 넓어지면 다시 적용됩니다.
+ * - 수정 시: 문구나 칸 폭이 바뀌면 아래 기준 폭과 TSX의 `fitBr` 위치를 함께 확인하세요.
+ *            `container-type`을 지정한 칸(`.storyBody` · `.businessSummary`)은 폭이 내용에 좌우되지 않는 블록이어야 합니다. */
+.fitBr {
+  display: none;
+}
+
+.storyBody .fitBr {
+  @container (min-width: 680px) {
+    display: inline;
+  }
+}
+
+.businessSummary .fitBr {
+  @container (min-width: 336px) {
+    display: inline;
+  }
+}
+
+/* --------------------------------------------------------------------------
+ * 2. About (Figma PC 3503:3072 · 위 80 · 아래 40 / MO 3503:3397 · 위 56 · 아래 24)
+ * 소개 → 40 → 프로필 박스(파란 연한 배경 · padding 40 · radius 12)
+ * -------------------------------------------------------------------------- */
+.companyPage > .aboutSection.aboutSection {
+  padding-top: 80rem;
+  padding-bottom: 40rem;
+}
+
+.profile {
+  display: flex;
+  gap: 80rem;
+  width: 100%;
+  margin-top: 40rem;
+  padding: 40rem;
+  box-sizing: border-box;
+  border-radius: 12rem;
+  background-color: var(--color-surface-blue-soft);
+}
+
+.keyMessage {
+  display: flex;
+  flex: 0 0 400rem;
+  flex-direction: column;
+  gap: 16rem;
+  width: 400rem;
+}
+
+.statement {
+  @include text-section;
+  margin: 0;
+  color: var(--color-text-black);
+}
+
+.expertise {
+  @include text-body;
   margin: 0;
   color: var(--color-text-gray-2);
 }
 
-.actionRow {
+.story {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  gap: 16rem;
+  min-width: 0;
+}
+
+.storyName {
+  @include text-subheading;
+  margin: 0;
+  color: var(--color-text-black);
+}
+
+/* 설명: 두 문단 사이 한 줄(28) 비움 */
+.storyBody {
+  @include text-body;
+  color: var(--color-text-gray-2);
+  word-break: keep-all;
+  container-type: inline-size;
+
+  p {
+    margin: 0;
+
+    & + p {
+      margin-top: 28rem;
+    }
+  }
+}
+
+/* --------------------------------------------------------------------------
+ * 3. History & Awards (Figma PC 3503:3135 · 위 40 · 아래 80 / MO 3503:3490 · 위 32 · 아래 56)
+ * 소개 → 40 → 3열(각 400 · 사이 20) · 위 32에서 레일(1px) + 점 12
+ * -------------------------------------------------------------------------- */
+.companyPage > .historySection.historySection {
+  padding-top: 40rem;
+  padding-bottom: 80rem;
+}
+
+.milestones {
+  display: flex;
+  gap: 20rem;
+  width: 100%;
+  margin: 40rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.milestone {
+  position: relative;
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  gap: 12rem;
+  min-width: 0;
+  padding-top: 32rem;
+
+  /* 타임라인 레일 */
+  &::before {
+    content: "";
+    position: absolute;
+    top: 6rem;
+    right: 0;
+    left: 0;
+    height: 1rem;
+    background-color: var(--color-border-default);
+  }
+}
+
+.point {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 12rem;
+  height: 12rem;
+  border-radius: 50%;
+  background-color: var(--color-primary);
+}
+
+.year {
+  @include text-section;
+  margin: 0;
+  color: var(--color-primary);
+}
+
+.milestoneDetail {
+  display: flex;
+  flex-direction: column;
+  gap: 12rem;
+}
+
+.milestoneTitle {
+  @include text-subheading;
+  margin: 0;
+  color: var(--color-text-gray-1);
+}
+
+.milestoneBody {
+  @include text-body;
+  margin: 0;
+  color: var(--color-text-gray-2);
+}
+
+/* --------------------------------------------------------------------------
+ * 4. Business Portfolio (Figma PC 3541:3409 · 위아래 80 / MO 3541:3414 · 위아래 56)
+ * 소개 → 32 → 카드 3열(각 400 · 사이 20) · 카드 padding 32 · 사이 24
+ * -------------------------------------------------------------------------- */
+.companyPage > .businessSection.businessSection {
+  padding-top: 80rem;
+  padding-bottom: 80rem;
+}
+
+.businessList {
+  display: flex;
+  gap: 20rem;
+  width: 100%;
+  margin: 32rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.businessCard {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  gap: 24rem;
+  min-width: 0;
+  padding: 32rem;
+  box-sizing: border-box;
+  border-radius: 12rem;
+  background-color: var(--color-surface-white);
+  /* 시안 카드 높이(248)는 테두리를 안쪽에 포함 → 테두리를 안쪽 선으로 그려 크기를 유지 */
+  box-shadow: inset 0 0 0 1rem var(--color-border-default);
+}
+
+.businessHead {
   display: flex;
   align-items: center;
   gap: 16rem;
 }
 
-.actionButton.actionButton,
-.teaserButton.teaserButton {
-  --btn-height: 60rem;
-
-  flex-shrink: 0;
-  width: 200rem;
-  font-weight: var(--font-weight-semibold, 600);
-}
-
-.teaserButton.teaserButton {
-  border-width: 2rem;
-}
-
-.actionNote {
-  @include text-note;
-  flex: 1 0 0;
-  margin: 0;
-  color: var(--color-text-gray-2);
-  line-height: normal;
-  letter-spacing: 0.96rem;
-}
-
-/* ---------------------------------
- * 3. 회사 소개·연혁·사업영역 (Figma PC 1034:607)
- * 점선 자리 · radius 12 · padding 24 · 제목 16 Bold → 8 → 설명 Small
- * --------------------------------- */
-.profileSlot {
+.businessCopy {
   display: flex;
-  flex-direction: column;
-  gap: 8rem;
-  padding: 24rem;
-  border: 1rem dashed $slot-border;
-  border-radius: 12rem;
-  background-color: var(--color-surface-white);
-}
-
-.slotTitle {
-  @include text-body;
-  margin: 0;
-  color: var(--color-text-black);
-  font-weight: var(--font-weight-bold);
-  line-height: normal;
-}
-
-/* ---------------------------------
- * 4. 인증 및 특허 티저 (Figma PC 1034:615)
- * 흰 박스 · 테두리 · padding 40 · 글 → 40 → Outline 버튼 200 × 60
- * --------------------------------- */
-.teaserBox {
-  display: flex;
-  align-items: center;
-  gap: 40rem;
-  padding: 40rem;
-  border: 1rem solid var(--color-border-default);
-  border-radius: 12rem;
-  background-color: var(--color-surface-white);
-}
-
-.teaserText {
-  display: flex;
-  flex: 1 0 0;
+  flex: 1 1 0;
   flex-direction: column;
   gap: 8rem;
   min-width: 0;
 }
 
-.teaserTitle {
+.businessEyebrow {
+  @include text-body;
+  margin: 0;
+  color: var(--color-text-gray-2);
+}
+
+.businessTitle {
   @include text-subheading;
   margin: 0;
   color: var(--color-text-black);
-  line-height: normal;
 }
 
-/* ---------------------------------
- * Responsive (모바일 시안 보류 · 세로 배치만 처리)
- * --------------------------------- */
+.businessContent {
+  display: flex;
+  flex-direction: column;
+  gap: 12rem;
+}
+
+.businessSummary {
+  @include text-body;
+  word-break: keep-all;
+  container-type: inline-size;
+  min-height: 56rem;
+  margin: 0;
+  color: var(--color-text-gray-1);
+}
+
+.businessAreas {
+  @include text-body;
+  margin: 0;
+  color: var(--color-text-gray-2);
+}
+
+/* --------------------------------------------------------------------------
+ * 5. Explore World Vertex (Figma PC 3537:3525 / MO 3537:3538)
+ * 연한 파란 배경 · PC 위아래 80 · 문구 668 → 40 → 버튼 2개(각 260 · 사이 12) / MO 세로
+ * -------------------------------------------------------------------------- */
+.companyPage > .exploreSection.exploreSection {
+  padding-top: 80rem;
+  padding-bottom: 80rem;
+  background-color: var(--color-surface-blue-soft);
+}
+
+.explore {
+  display: flex;
+  align-items: center;
+  gap: 40rem;
+  width: 100%;
+}
+
+.exploreCopy {
+  display: flex;
+  flex: 0 1 668rem;
+  flex-direction: column;
+  gap: 16rem;
+  min-width: 0;
+}
+
+.exploreLinks {
+  display: flex;
+  flex-shrink: 0;
+  gap: 12rem;
+}
+
+.exploreButton.exploreButton {
+  width: 260rem;
+}
+
+/* --------------------------------------------------------------------------
+ * 모바일 (Figma MO 390 기준)
+ * -------------------------------------------------------------------------- */
 @media (max-width: 1024px) {
-  .infoCards {
-    grid-template-columns: 1fr;
+  .profile {
+    flex-direction: column;
+    gap: 32rem;
   }
 
-  .actionRow,
-  .teaserBox {
+  .keyMessage {
+    flex: none;
+    width: 100%;
+  }
+
+  .milestones,
+  .businessList {
+    flex-direction: column;
+  }
+
+  .explore {
     flex-direction: column;
     align-items: stretch;
+    gap: 32rem;
+  }
+
+  .exploreCopy {
+    flex: none;
+  }
+
+  .exploreLinks {
+    flex-direction: column;
+    flex-shrink: 1;
+  }
+
+  .exploreButton.exploreButton {
+    width: 100%;
   }
 }
 
 @media (max-width: 768px) {
-  .heroBadges {
-    gap: 6rem;
-    margin-bottom: 12rem;
+  .companyPage > .aboutSection.aboutSection {
+    padding-top: 56rem;
+    padding-bottom: 24rem;
   }
 
-  .badgeDraft {
-    @include text-note;
-    font-size: 11rem;
-    height: 22rem;
-    padding: 0 8rem;
+  .profile {
+    padding: 24rem;
+  }
+
+  .companyPage > .historySection.historySection {
+    padding-top: 32rem;
+    padding-bottom: 56rem;
+  }
+
+  /* 연혁: 연도(88) → 16 → [제목 / 설명] · 항목 사이 8 · 위 20 */
+  .milestones {
+    gap: 8rem;
+    margin-top: 32rem;
+  }
+
+  .milestone {
+    flex: none;
+    flex-direction: row;
+    gap: 16rem;
+    padding-top: 20rem;
+    padding-bottom: 20rem;
+  }
+
+  .year {
+    flex: 0 0 88rem;
+    width: 88rem;
+  }
+
+  .milestoneDetail {
+    flex: 1 1 0;
+    gap: 8rem;
+    min-width: 0;
+  }
+
+  .companyPage > .businessSection.businessSection {
+    padding-top: 56rem;
+    padding-bottom: 56rem;
+  }
+
+  .businessList {
+    gap: 24rem;
+    margin-top: 24rem;
+  }
+
+  .businessCard {
+    flex: none;
+    padding: 24rem;
+  }
+
+  .businessSummary {
+    min-height: 52rem;
+  }
+
+  .companyPage > .exploreSection.exploreSection {
+    padding-top: 56rem;
+    padding-bottom: 56rem;
   }
 }

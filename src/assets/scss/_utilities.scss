@@ -146,3 +146,39 @@
     display: inline !important;
   }
 }
+
+/* 히어로 타이틀 모바일 전용 줄바꿈
+ * Figma 모바일 시안(390폭 · 44rem 타이틀)의 줄바꿈을 재현하는 구간은 폰 폭(480px 이하)으로 한정합니다.
+ * - 사이트 모바일 분기점(768px)까지 넓히면 태블릿 폭에서 타이틀이 4줄로 좁게 쌓여 어색해지므로
+ *   481~768px 구간은 keep-all 자연 줄바꿈을 따릅니다.
+ * - 360~385px에서는 시안 줄 중 가장 긴 것(352~354rem)이 한 줄에 못 들어가는 일부 타이틀만 자연 줄바꿈이 추가됩니다.
+ */
+.heroMoBr {
+  display: none !important;
+
+  @media (max-width: 480px) {
+    display: inline !important;
+  }
+}
+
+/* 2단 구조(미디어 + 텍스트) 제목·설명의 시안 줄바꿈
+ * 시안 줄바꿈은 시안 폭(PC 1280 이상)에서만 적용하고, 열이 줄어드는 1280 미만부터는 해제해 keep-all 자연 줄바꿈에 맡깁니다.
+ * (고정 줄바꿈이 좁아진 열에서 어색하게 끊기는 것을 방지)
+ * - splitBr: 1280 이상 + 폰 폭(480 이하). 기존 일반 <br />(PC·모바일 공통)을 대체
+ * - splitPcBr: 1280 이상만. 기존 pcBr / 폰 폭에서 이어 쓰던 줄바꿈을 대체
+ * 해제 조건은 이 두 클래스에서 한 번에 조정합니다. */
+.splitBr {
+  display: none !important;
+
+  @media (min-width: 1280px), (max-width: 480px) {
+    display: inline !important;
+  }
+}
+
+.splitPcBr {
+  display: none !important;
+
+  @media (min-width: 1280px) {
+    display: inline !important;
+  }
+}

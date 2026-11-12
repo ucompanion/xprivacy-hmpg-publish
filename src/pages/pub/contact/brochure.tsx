@@ -1,146 +1,170 @@
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import FrontLayout from '../layouts/FrontLayout';
-import { BasicSection } from '../../../components/domain/Section';
+import { HeroSection, BasicSection, CtaSection } from '../../../components/domain/Section';
 import { Button } from '../../../components/core/Button/Button';
+import { Icon } from '../../../components/core/Icon/Icon';
 import styles from './brochure.module.scss';
 
-// 자료 메타 항목 (Figma PC 1031:226)
-const META_ITEMS = ['언어', '파일 형식', '파일 크기', '버전', '업데이트 날짜'];
+// 브로셔 슬라이더 13페이지 (Figma Brochure Slider / PC 3750:66165 · 슬라이드 16:9)
+const PAGE_COUNT = 13;
+const PAGES = Array.from({ length: PAGE_COUNT }, (_, i) => ({
+  src: `/images/contact/brochure/page_${String(i + 1).padStart(2, '0')}.jpg`,
+  alt: `xPrivacy 브로셔 ${i + 1}페이지`,
+}));
 
-// 제공 방식 안 (Figma PC 1031:254)
-const DELIVERY_OPTIONS = [
-  {
-    key: 'A',
-    title: '바로 다운로드',
-    desc: '자료 카드의 버튼에서 파일을 바로 제공하는 방식입니다. 별도 입력 화면은 필요하지 않습니다.',
-  },
-  {
-    key: 'B',
-    title: '신청 후 제공',
-    desc: '신청 정보를 받은 뒤 자료를 전달하는 방식입니다. 신청 폼, 개인정보 처리 안내, 완료 상태 화면이 추가로 필요합니다.',
-  },
-];
+const pad = (n: number) => String(n).padStart(2, '0');
 
 export default function PubContactBrochure() {
-  const navigate = useNavigate();
+  const [current, setCurrent] = useState(0);
+  const isFirst = current === 0;
+  const isLast = current === PAGE_COUNT - 1;
+
+  const goPrev = () => setCurrent((prev) => Math.max(prev - 1, 0));
+  const goNext = () => setCurrent((prev) => Math.min(prev + 1, PAGE_COUNT - 1));
 
   return (
     <FrontLayout>
       <div className={styles.brochurePage}>
-        {/* 1. Hero Section */}
-        <BasicSection
-          bg="gray"
-          theme="light"
-          layout="vertical"
-          align="left"
-          className={styles.heroCustomWrap}
-          eyebrow={
-            <>
-              <div className={styles.heroBadges}>
-                <span className={styles.badgeDraft}>DRAFT : 검토용 초안</span>
-                <span className={styles.badgeDraftAlt}>임시 제목</span>
-              </div>
-              <span className={styles.heroEyebrow}>BROCHURE</span>
-            </>
-          }
-          title="xPrivacy 자료"
-          description="(임시 문구) 공개 승인된 자료가 확정되면 이 페이지에서 배포합니다. 자료 수준과 제공 방식은 아직 결정 전입니다."
+        {/* 1. Hero (Figma PC 3680:4 / Mobile 3680:873 · contact 공통 히어로) */}
+        <HeroSection
+          category="contact"
+          heroVariant="compact"
+          align="center"
+          eyebrow="Contact"
+          title="xPrivacy 브로셔"
+          description="xPrivacy의 주요 기능과 도입 방식을 브로셔로 확인하세요."
         />
 
-        {/* 2. 자료 목록 (Figma PC 1031:209 · 초안) */}
+        {/* 2. PDF 다운로드 소개 (Figma PC 3680:11 / Mobile 3680:880) */}
         <BasicSection
           bg="white"
-          layout="vertical"
+          layout="horizontal"
           align="left"
-          eyebrow="MATERIALS"
-          title="자료 목록"
-          description="자료 개수(1개 / 여러 개)가 정해지면 카드 수가 달라집니다. 아래는 가변형 자료 카드 예시입니다."
+          className={styles.introSection}
+          headerClassName={styles.introHeader}
+          contentClassName={styles.introLayout}
+          eyebrowClassName={styles.introEyebrow}
+          titleClassName={styles.introTitle}
+          descriptionClassName={styles.introDescription}
+          eyebrow="Brochure"
+          title={
+            <>
+              xPrivacy 브로셔
+              <br className="splitBr" />
+              다운로드
+            </>
+          }
+          description={
+            <>
+              주요 기능, 적용 기술, 도입 방식과 가격 정책을
+              <br className="splitBr" />
+              브로셔 한 권으로 확인하세요.
+            </>
+          }
+          headerExtra={
+            <div className={styles.pdfAction}>
+              <Button variant="solid" color="primary" size="xl" className={styles.pdfButton}>
+                PDF 다운로드
+              </Button>
+            </div>
+          }
         >
-          <div className={styles.materialList}>
-            <article className={styles.materialCard}>
-              <div className={styles.coverSlot}>
-                <p className={styles.coverText}>
-                  표지 이미지
-                  <br />
-                  실제 PDF 확보 후
-                  <br />
-                  필요 여부·크기 결정
-                </p>
-              </div>
+          <picture className={styles.coverPicture}>
+            <source media="(max-width: 768px)" srcSet="/images/contact/brochure/cover_preview_mo.png" />
+            <img
+              src="/images/contact/brochure/cover_preview.png"
+              alt="xPrivacy 브로셔 표지와 주요 내용 미리보기"
+              className={styles.coverImage}
+            />
+          </picture>
+        </BasicSection>
 
-              <div className={styles.materialInfo}>
-                <h3 className={styles.materialTitle}>[공식 자료 제목 입력 대기]</h3>
-                <p className={styles.materialDesc}>
-                  자료 요약은 실제 PDF의 표지·목차를 대조한 뒤 작성합니다. 현재 내용은 비어 있는 자리 표시입니다.
-                </p>
+        {/* 모바일 열람 안내 (Figma Mobile 3680:1013 · 모바일 전용) */}
+        <div className={styles.mobileNotice}>
+          <p className={styles.mobileNoticeText}>
+            작은 글씨와 표는 PDF를 다운로드해
+            <br />
+            확대해서 확인할 수 있습니다.
+          </p>
+        </div>
 
-                <dl className={styles.metaList}>
-                  {META_ITEMS.map((label) => (
-                    <div key={label} className={styles.metaItem}>
-                      <dt className={styles.metaLabel}>{label}</dt>
-                      <dd className={styles.metaValue}>확인 필요</dd>
-                    </div>
+        {/* 3. 브로셔 슬라이더 · 13 pages (Figma PC 3680:1924 / Mobile 3680:2019) */}
+        <section className={styles.sliderSection} aria-roledescription="carousel" aria-label="xPrivacy 브로셔 미리보기">
+          <div className={styles.slider}>
+            <div className={styles.stage}>
+              <button
+                type="button"
+                className={`${styles.arrow} ${styles.arrowPrev}`}
+                onClick={goPrev}
+                disabled={isFirst}
+                aria-label="이전 페이지"
+              >
+                <Icon name="chevron-left" size={24} />
+              </button>
+
+              <div className={styles.viewport}>
+                <ul className={styles.track} style={{ transform: `translateX(-${current * 100}%)` }}>
+                  {PAGES.map((page, i) => (
+                    <li
+                      key={page.src}
+                      className={styles.slide}
+                      aria-hidden={i !== current}
+                      aria-roledescription="slide"
+                      aria-label={`${i + 1} / ${PAGE_COUNT}`}
+                    >
+                      <img src={page.src} alt={page.alt} className={styles.slideImage} loading={i === 0 ? 'eager' : 'lazy'} />
+                    </li>
                   ))}
-                </dl>
-
-                <div className={styles.materialAction}>
-                  <Button variant="outline" color="neutral" size="xl" className={styles.pendingButton} disabled>
-                    제공 방식 미정
-                  </Button>
-                  <p className={styles.actionNote}>
-                    다운로드·신청 경로 미연결 — 동작하는 링크 없음(프로토타입 미설정)
-                  </p>
-                </div>
+                </ul>
               </div>
-            </article>
 
-            <div className={styles.materialSlot}>
-              <p className={styles.slotTitle}>추가 자료 슬롯</p>
-              <p className={styles.slotDesc}>
-                자료가 여러 개로 확정되면 위 카드 구조를 반복합니다. 목록 필터 필요 여부와 Guide·Download 통합 여부는 자료 수·IA 결정 후 정합니다.
-              </p>
+              <button
+                type="button"
+                className={`${styles.arrow} ${styles.arrowNext}`}
+                onClick={goNext}
+                disabled={isLast}
+                aria-label="다음 페이지"
+              >
+                <Icon name="chevron-right" size={24} />
+              </button>
+            </div>
+
+            <div className={styles.controls}>
+              <div className={styles.dots} role="group" aria-label="페이지 선택">
+                {PAGES.map((page, i) => (
+                  <button
+                    key={page.src}
+                    type="button"
+                    className={`${styles.dot} ${i === current ? styles.dotActive : ''}`}
+                    onClick={() => setCurrent(i)}
+                    aria-label={`${i + 1}페이지로 이동`}
+                    aria-current={i === current ? 'true' : undefined}
+                  />
+                ))}
+              </div>
+              <span className={styles.counter} aria-live="polite">
+                {pad(current + 1)} / {PAGE_COUNT}
+              </span>
             </div>
           </div>
-        </BasicSection>
+        </section>
 
-        {/* 3. 제공 방식 (Figma PC 1031:249 · 초안) */}
-        <BasicSection
-          bg="gray"
-          layout="vertical"
-          align="left"
-          eyebrow="DELIVERY"
-          title="제공 방식 (결정 대기)"
-          description="제공 방식에 따라 자료 카드의 버튼과 추가로 필요한 화면이 달라집니다. 두 안 중 하나를 결정해야 합니다."
-        >
-          <ul className={styles.optionList}>
-            {DELIVERY_OPTIONS.map((opt) => (
-              <li key={opt.key} className={styles.optionCard}>
-                <span className={styles.optionKey}>{opt.key}</span>
-                <h3 className={styles.optionTitle}>{opt.title}</h3>
-                <p className={styles.optionDesc}>{opt.desc}</p>
-              </li>
-            ))}
-          </ul>
-        </BasicSection>
-
-        {/* 4. 다음 행동 (Figma PC 1031:265 · 초안) */}
-        <BasicSection bg="white" layout="vertical" align="left">
-          <div className={styles.nextBox}>
-            <div className={styles.nextText}>
-              <p className={styles.nextTitle}>필요한 자료를 찾지 못했나요?</p>
-              <p className={styles.nextDesc}>문의 페이지로 연결합니다. (링크 목적지 미연결)</p>
-            </div>
-            <Button
-              variant="solid"
-              color="primary"
-              size="xl"
-              className={styles.nextButton}
-              onClick={() => void navigate('/pub/contact/inquiry')}
-            >
-              문의하기
-            </Button>
-          </div>
-        </BasicSection>
+        {/* 4. CTA (Figma PC 3689:28054 / Mobile 3689:28075) */}
+        <CtaSection
+          eyebrow="GET STARTED"
+          title={
+            <>
+              업무 환경에 맞는 서비스를
+              <br />
+              직접 확인해보세요
+            </>
+          }
+          description="무료 체험으로 제품을 먼저 확인하거나 기관·기업 환경에 맞는 도입 방식을 상담할 수 있습니다."
+          primaryLabel="도입 문의하기"
+          primaryHref="/pub/contact/inquiry"
+          secondaryLabel="데모 체험하기"
+          secondaryHref="/pub/demo/image"
+        />
       </div>
     </FrontLayout>
   );

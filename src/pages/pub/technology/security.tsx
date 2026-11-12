@@ -64,18 +64,18 @@ export default function PubSubTechnologySecurity() {
         {/* 1. Hero (Figma PC 2165:6778 / Mobile 2165:6890) */}
         <HeroSection
           heroVariant="compact"
-          bgPreset="technology"
+          category="technology"
           className={styles.securityHero}
           eyebrow="SECURITY"
           title={
             <>
-              복원할 수 없는 <br className="mobileBr" />비가역적 변환과<br />
-              관공서 보안 환경 <br className="mobileBr" />최적화
+              복원할 수 없는 <br className="heroMoBr" />비가역적 변환과<br />
+              관공서 보안 환경 <br className="heroMoBr" />최적화
             </>
           }
           description={
             <>
-              원본 복원이 불가능한 보안 가공 알고리즘과 외부 유출<br className="mobileBr" /> 없는 폐쇄망(On-Premise) 지원으로 법적 리스크를<br className="mobileBr" /> 줄입니다.
+              원본 복원이 불가능한 보안 가공 알고리즘과 외부 유출<br className="heroMoBr" /> 없는 폐쇄망(On-Premise) 지원으로 법적 리스크를<br className="heroMoBr" /> 줄입니다.
             </>
           }
         />
@@ -88,7 +88,7 @@ export default function PubSubTechnologySecurity() {
           eyebrow="TECHNOLOGICAL DEFINITION"
           title={
             <>
-              가명정보 가이드라인 대응 및<br className="mobileBr" /> 복원 불가 비가역 보안
+              가명정보 가이드라인 대응 및<br className="heroMoBr" /> 복원 불가 비가역 보안
             </>
           }
           description="외부로 미디어가 유출되지 않는 망분리 온프레미스 환경을 지원하며, 변조 불가능한 Append-only 이력 기록으로 법적 책임추적성을 뒷받침합니다."
@@ -128,7 +128,7 @@ export default function PubSubTechnologySecurity() {
                 <div className={styles.transformBox}>
                   <span className={styles.transTag}>TRANSFORM</span>
                   <span className={styles.transDesc}>
-                    데이터 값<br className="mobileBr" /> 완전 대체
+                    데이터 값<br className="heroMoBr" /> 완전 대체
                   </span>
                 </div>
                 <span className={styles.noRestoreBadge}>복원 불가</span>

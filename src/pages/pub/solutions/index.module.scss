@@ -1,0 +1,301 @@
+@use "@/assets/scss/variables" as *;
+@use "@/assets/scss/mixins" as *;
+
+.solutionsPage {
+  width: 100%;
+}
+
+/* --------------------------------------------------------------------------
+ * 1. Hero (Figma PC 3839:4 · 높이 480 · 왼쪽 정렬 · 헤더 73 아래 세로 가운데)
+ * 배경: 원본 사진 + 왼쪽에서 흰색(.85 → .7 → 0)으로 옅어지는 오버레이 (PC)
+ * MO 시안은 아직 없어 기본 solutions MO 배경을 유지합니다.
+ * -------------------------------------------------------------------------- */
+.solutionsPage .hero.hero {
+  @media (min-width: 769px) {
+    min-height: 480rem;
+    padding: 73rem 0 0;
+    justify-content: center;
+    background-image:
+      linear-gradient(90deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.7) 35%, rgba(255, 255, 255, 0) 65%),
+      url('/images/solutions/hero_bg.jpg');
+  }
+
+  /* 문구: Eyebrow → 24 → 제목 → 24 → 설명 폭 760 (Eyebrow 색·굵기는 HeroSection 기본값을 따름 · 설명은 기본 검정/640 → gray-1/760) */
+  [class*='heroEyebrow'] {
+    margin-bottom: 24rem !important;
+  }
+
+  [class*='heroDescription'] {
+    width: 100%;
+    max-width: 760rem !important;
+    color: var(--color-text-gray-1) !important;
+    container-type: inline-size;
+  }
+
+  /* [예외 처리] 히어로 설명 줄바꿈(fitBr): 설명 칸이 시안 폭 760 이상일 때만 적용 (설명은 위에서 container-type 지정) */
+  .fitBr {
+    display: none;
+
+    @container (min-width: 760px) {
+      display: inline;
+    }
+  }
+}
+
+/* [예외 처리] 시안이 의도해서 나눈 줄바꿈 (fitBr)
+ * - 상황: 시안의 설명 문구는 한 줄 폭(섹션 설명 560 · 히어로 설명 760)에 여유가 있는데도 균형을 위해 일부러 줄을 나눴습니다.
+ * - 조건: 문구가 놓인 칸(`.description` · 히어로 설명)이 시안 폭 이상일 때만 줄바꿈을 적용합니다. (@container)
+ *         그보다 좁아지면(칸이 줄어드는 작은 노트북 · 태블릿 · 모바일) 해제되어 자연스럽게 이어집니다.
+ *         창 폭이 아니라 칸 폭 기준이라, 세로로 쌓여 칸이 넓어지는 구간에서는 다시 적용됩니다.
+ * - 수정 시: 문구 길이나 칸 폭(560 · 760)이 바뀌면 아래 기준 폭과 TSX의 `fitBr` 위치를 함께 맞추세요.
+ *            시안이 줄바꿈 없이 바뀌면 TSX에서 `fitBr`만 지우면 됩니다.
+ * - 히어로 설명은 별도 기준(760)을 쓰며 아래 `.hero` 블록 안에서 다시 지정합니다. */
+.fitBr {
+  display: none;
+}
+
+@container (min-width: 560px) {
+  .fitBr {
+    display: inline;
+  }
+}
+
+/* --------------------------------------------------------------------------
+ * 2. Overview · 상단 CTA (Figma PC 3846:233 · 위 80 · 아래 40 · 260)
+ * -------------------------------------------------------------------------- */
+.solutionsPage > .overviewSection.overviewSection {
+  padding-top: 80rem;
+  padding-bottom: 40rem;
+}
+
+.overview {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40rem;
+  width: 100%;
+}
+
+.overviewCopy {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  gap: 16rem;
+  min-width: 0;
+}
+
+.eyebrow {
+  @include text-eyebrow-section;
+  margin: 0;
+  color: var(--color-text-eyebrow-section);
+}
+
+.heading {
+  @include text-section;
+  margin: 0;
+  color: var(--color-text-black);
+}
+
+.note {
+  @include text-body;
+  margin: 0;
+  color: var(--color-text-gray-2);
+}
+
+.overviewButtons {
+  display: flex;
+  flex-shrink: 0;
+  gap: 12rem;
+}
+
+.overviewPrimary.overviewPrimary {
+  width: 200rem;
+}
+
+.overviewSecondary.overviewSecondary {
+  padding: 0 24rem;
+}
+
+/* --------------------------------------------------------------------------
+ * 3. 솔루션 섹션 8종 (Figma PC 3839:43 ~ 3839:210)
+ * 위아래 120 · 이미지 600×420 → 80 → 텍스트 560 (짝수 섹션은 이미지가 오른쪽) · 세로 가운데
+ * 텍스트 묶음 사이 24 / 머리(Head)는 eyebrow → 16 → 제목 → 16 → 설명
+ * -------------------------------------------------------------------------- */
+.solutionsPage > .solutionSection.solutionSection {
+  padding-top: 120rem;
+  padding-bottom: 120rem;
+  scroll-margin-top: var(--header-height, 73rem);
+}
+
+.solution {
+  display: flex;
+  align-items: center;
+  gap: 80rem;
+  width: 100%;
+}
+
+.reverse .solution {
+  flex-direction: row-reverse;
+}
+
+.solutionImage {
+  flex: 0 0 600rem;
+  width: 600rem;
+  height: 420rem;
+  overflow: hidden;
+  border-radius: 12rem;
+  @include split-col(600, 600rem);
+
+  @media (min-width: 1025px) {
+    height: auto;
+    aspect-ratio: 600 / 420;
+  }
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.solutionText {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24rem;
+  min-width: 0;
+  @include split-col(560);
+}
+
+.head {
+  display: flex;
+  flex-direction: column;
+  gap: 16rem;
+  width: 100%;
+}
+
+.description {
+  @include text-body;
+  /* container-type: 줄바꿈(fitBr) 적용 여부를 이 칸의 폭으로 판단하기 위한 지정 → 폭은 반드시 명시(width: 100%) */
+  width: 100%;
+  margin: 0;
+  word-break: keep-all;
+  container-type: inline-size;
+  color: var(--color-text-gray-2);
+}
+
+.useCases {
+  display: flex;
+  flex-direction: column;
+  gap: 8rem;
+  width: 100%;
+}
+
+.useLabel {
+  @include text-body;
+  margin: 0;
+  color: var(--color-text-black);
+  font-weight: var(--font-weight-bold);
+}
+
+.useList {
+  display: flex;
+  flex-direction: column;
+  gap: 8rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    @include text-body;
+    color: var(--color-text-gray-1);
+  }
+}
+
+/* 메타: 위아래 구분선 · padding 20 0 · 행 사이 8 · 키 96 → 16 → 값 */
+.meta {
+  display: flex;
+  flex-direction: column;
+  gap: 8rem;
+  width: 100%;
+  margin: 0;
+  padding: 20rem 0;
+  border-top: 1rem solid var(--color-border-default);
+  border-bottom: 1rem solid var(--color-border-default);
+}
+
+.metaRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 16rem;
+
+  dt {
+    @include text-body;
+    flex: 0 0 96rem;
+    width: 96rem;
+    color: var(--color-text-black);
+    font-weight: var(--font-weight-bold);
+  }
+
+  dd {
+    @include text-body;
+    flex: 1 1 0;
+    min-width: 0;
+    margin: 0;
+    color: var(--color-text-gray-2);
+  }
+}
+
+/* 버튼: 문구 길이에 맞춰 좌우 24 */
+.solutionButton.solutionButton {
+  padding: 0 24rem;
+}
+
+/* --------------------------------------------------------------------------
+ * 모바일 · 태블릿 (MO 시안은 아직 없음 → 이미지 위 · 텍스트 아래 세로 스택)
+ * -------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .solution,
+  .reverse .solution {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 40rem;
+  }
+
+  .solutionImage {
+    flex: none;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 600 / 420;
+  }
+
+  .overview {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 768px) {
+  .solutionsPage > .overviewSection.overviewSection {
+    padding-top: 56rem;
+    padding-bottom: 24rem;
+  }
+
+  .solutionsPage > .solutionSection.solutionSection {
+    padding-top: 56rem;
+    padding-bottom: 56rem;
+  }
+
+  .overviewButtons {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .overviewPrimary.overviewPrimary,
+  .overviewSecondary.overviewSecondary,
+  .solutionButton.solutionButton {
+    width: 100%;
+  }
+}

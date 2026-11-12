@@ -113,6 +113,7 @@ export default function PubFeaturesRestApi() {
       <div className={styles.pageWrap}>
         {/* 1. Hero (Figma PC 2304:4399 / Mobile 2286:5114 · 가운데 정렬 + 2개 영역) */}
         <HeroSection
+          category="features"
           heroVariant="compact"
           align="center"
           className={styles.apiHero}
@@ -147,7 +148,7 @@ export default function PubFeaturesRestApi() {
           layout="vertical"
           align="left"
           eyebrow="SECURITY"
-          title="개인정보를 처리하는 환경까지 안전하게 설계합니다"
+          title="개인정보를 처리하는 환경까지 안전하게 설계합니다."
           description="On-Premise·폐쇄망 운영, 권한 검증, 암호화 반출, 처리 이력 기록 등 개인정보 처리 과정 전체의 안전성을 고려합니다."
         >
           <div className={styles.securityBody}>
@@ -188,7 +189,7 @@ export default function PubFeaturesRestApi() {
           layout="vertical"
           align="left"
           eyebrow="INTEGRATION"
-          title="간단하게 사용하고 필요하면 기존 시스템과 연결합니다"
+          title="간단하게 사용하고 필요하면 기존 시스템과 연결합니다."
           description="기본 작업은 3단계로 진행하고, 반복적인 업무가 필요한 환경에서는 REST API를 통해 기존 시스템과 연결할 수 있습니다."
         >
           <div className={styles.integrationBody}>

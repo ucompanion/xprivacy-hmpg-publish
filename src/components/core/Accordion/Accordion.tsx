@@ -65,11 +65,14 @@ export const Accordion: React.FC<AccordionProps> = ({
                 <span className="icon">▼</span>
               )}
             </button>
-            {isOpen && (
-              <div id={`accordion-panel-${item.id}`} className="accordion-content">
-                {item.content}
+            {/* 항상 렌더링하고 높이만 접었다 펼친다 (grid 0fr → 1fr). 닫힌 패널은 보조기술·탭 이동에서 제외 */}
+            <div className={`accordion-panel ${isOpen ? 'open' : ''}`} aria-hidden={!isOpen} inert={!isOpen}>
+              <div className="accordion-panel-inner">
+                <div id={`accordion-panel-${item.id}`} className="accordion-content">
+                  {item.content}
+                </div>
               </div>
-            )}
+            </div>
           </div>
         );
       })}

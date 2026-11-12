@@ -91,13 +91,13 @@ export default function PubSubTechnologyProcessingEngine() {
         {/* 1. Hero (Figma PC 2165:7508 / Mobile 2165:7733) */}
         <HeroSection
           heroVariant="compact"
-          bgPreset="technology"
+          category="technology"
           className={styles.engineHero}
           eyebrow="PROCESSING ENGINE"
           title={
             <>
-              GPU 기반 처리<br className="mobileBr" /> 엔진으로<br className="pcBr" /> 대용량
-              <br className="mobileBr" /> 영상도 빠르고<br className="mobileBr" /> 안정적으로
+              GPU 기반 처리<br className="heroMoBr" /> 엔진으로<br className="pcBr" /> 대용량
+              <br className="heroMoBr" /> 영상도 빠르고<br className="heroMoBr" /> 안정적으로
             </>
           }
           description="얼굴 모자이크 · 마스킹 · 블러는 실시간보다 빠르게 처리하고, 가상 얼굴 · 전신 처리처럼 연산량이 많은 작업도 지연을 줄여 안정적으로 처리합니다."

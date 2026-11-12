@@ -150,7 +150,7 @@ export default function PubSubProductWhy() {
           title="정밀 AI 탐지 · 트랙 단위 추적"
           description={
             <>
-              얼굴 임베딩 Re-ID로 동일 인물을 하나의 트랙으로 묶어 일관되게<br className={styles.pcBr} />{' '}
+              얼굴 임베딩 Re-ID로 동일 인물을 하나의 트랙으로 묶어 일관되게<br className="splitPcBr" />{' '}
               비식별하고, 가림·자세 변화 시에도 순간 노출을 줄입니다.
             </>
           }
@@ -276,13 +276,13 @@ export default function PubSubProductWhy() {
           eyebrow="VIRTUAL FACE"
           title={
             <>
-              원본 얼굴을<br />
-              가상의 얼굴로 바꿉니다
+              원본 얼굴을<br className="splitBr" />
+              가상의 얼굴로 바꿉니다.
             </>
           }
           description={
             <>
-              영상 속 인물의 얼굴을 가상의 얼굴로 치환해 원본 신원 노출을 줄이고,<br className={styles.pcBr} />{' '}
+              영상 속 인물의 얼굴을 가상의 얼굴로 치환해 원본 신원 노출을 줄이고,<br className="splitPcBr" />{' '}
               장면의 자연스러운 인상을 유지하도록 돕습니다.
             </>
           }

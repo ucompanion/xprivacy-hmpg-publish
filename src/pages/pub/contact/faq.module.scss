@@ -5,16 +5,7 @@
   width: 100%;
 }
 
-/* --------------------------------------------------------------------------
- * 1. Hero (Figma PC 2408:1774 / Mobile 2408:2460)
- * 가운데 정렬 Compact · PC 높이 407 / MO 488 · 문구 묶음 세로 가운데 (헤더 포함 높이)
- * -------------------------------------------------------------------------- */
-.faqHero {
-  --hero-compact-padding-top-pc: 126rem;
-  --hero-compact-padding-bottom-pc: 125rem;
-  --hero-compact-padding-top-mo: 159rem;
-  --hero-compact-padding-bottom-mo: 159rem;
-}
+/* 1. Hero: contact 카테고리 공통(HeroSection) · 여기서 스타일 지정하지 않음 */
 
 /* --------------------------------------------------------------------------
  * 2. FAQ 목록 (Figma PC 2408:1434 / Mobile 2408:2195)

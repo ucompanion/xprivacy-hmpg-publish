@@ -182,13 +182,13 @@ export default function PubSubProductCoreValues() {
           eyebrow="IRREVERSIBLE PROCESSING"
           title={
             <>
-              복원 불가, 재식별 여지를<br />
+              복원 불가, 재식별 여지를<br className="splitBr" />
               남기지 않습니다.
             </>
           }
           description={
             <>
-              약한 블러·가역적 처리는 재식별 여지가 남습니다.<br />
+              약한 블러·가역적 처리는 재식별 여지가 남습니다.<br className="splitBr" />
               가명·익명처리 요건을 충족했는지 입증하기 어려울 수 있습니다.
             </>
           }
@@ -240,13 +240,13 @@ export default function PubSubProductCoreValues() {
           eyebrow="AUDIT TRAIL"
           title={
             <>
-              사후 점검·감사에서 책임<br />
+              사후 점검·감사에서 책임<br className="splitBr" />
               추적성을 뒷받침합니다.
             </>
           }
           description={
             <>
-              누가·언제·무엇을·어떤 방식으로 처리해 반출했는지 기록이 없으면,<br />
+              누가·언제·무엇을·어떤 방식으로 처리해 반출했는지 기록이 없으면,<br className="splitBr" />
               사후 점검·감사에서 책임 추적성을 증명할 수 없습니다.
             </>
           }

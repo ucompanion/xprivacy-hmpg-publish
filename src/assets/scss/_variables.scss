@@ -63,6 +63,8 @@
   --color-surface-blue-subtle: #eef1ff; /* 강조 카드 · 선택 영역 배경 */
   --color-surface-blue-soft: #f4f9fe;   /* Figma v2 surface/blue-soft: 파이프라인/프로세스 카드 배경 */
   --color-surface-header: rgba(11, 20, 38, 0.4); /* Figma v2 surface/header (#0b142666) */
+  --color-surface-header-opaque: #0b1426; /* Figma Header/v2 채움 · GNB 메뉴 노출 시 헤더 불투명 상태 */
+  --color-brand-soft: rgba(86, 114, 255, 0.18); /* Figma xp-brand-soft: 현재 페이지 메뉴 항목 배경 */
   --surface-button-secondary: rgba(255, 255, 255, 0.8); /* Figma v2 surface/button-secondary: 데모 체험하기/도입 문의하기 버튼 배경 */
 
   /* Button/v2 Tokens (Figma Node 2241:378 / 2481:57066) */
@@ -109,8 +111,9 @@
   --btn-height: 56rem;
   --btn-radius: 6rem;
   --size-button-header-height: 39rem;
-  --header-height: 72rem;
+  --header-height: 73rem;
   --header-height-mo: 60rem;
+  --header-backdrop-blur: 12rem; /* 헤더 공통 백드롭 블러 (Header · DemoHeader) */
   --hero-compact-min-height-pc: auto;
   --hero-compact-min-height-mo: auto;
   --hero-compact-padding-top-pc: 158rem;

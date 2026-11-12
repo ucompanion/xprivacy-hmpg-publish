@@ -98,7 +98,7 @@ export default function SectionGuidePage() {
             <div className={styles.preview_column}>
               <Section
                 eyebrow="PROCESS"
-                title="AI가 먼저 처리하고 필요한 부분만 직접 조정합니다"
+                title="AI가 먼저 처리하고 필요한 부분만 직접 조정합니다."
                 description="경량형 멤버들을 감지하고 특정 인물을 선택하거나 과다 영역을 직접 조정하고 보호할 수 있습니다."
                 align="left"
                 layout="vertical"
@@ -110,7 +110,7 @@ export default function SectionGuidePage() {
             </div>
             <CodeBlock code={`<Section
   eyebrow="PROCESS"
-  title="AI가 먼저 처리하고 필요한 부분만 직접 조정합니다"
+  title="AI가 먼저 처리하고 필요한 부분만 직접 조정합니다."
   description="경량형 멤버들을 감지하고 특정 인물을 선택하거나 과다 영역을 직접 조정하고 보호할 수 있습니다."
   align="left"
   layout="vertical"
@@ -302,10 +302,10 @@ export default function SectionGuidePage() {
                     <td>Compact 전용 강조 키워드 필 칩 배열</td>
                   </tr>
                   <tr>
-                    <td><code>bgPreset</code></td>
-                    <td><code>'technology'</code></td>
-                    <td>-</td>
-                    <td>배경 프리셋. technology: 흰 바탕 + Technology 이미지(70%) + 브랜드 틴트(color 블렌드), 기술 페이지 공통</td>
+                    <td><code>category</code></td>
+                    <td><code>'product' | 'technology' | 'features' | 'solutions' | 'blog' | 'contact'</code></td>
+                    <td><code>'product'</code></td>
+                    <td>카테고리별 배경 이미지. product(생략 시)는 heroVariant별 이미지(full/compact × PC/MO), 나머지는 타입 구분 없이 PC/MO 한 쌍 공용 (public/images/common/hero/)</td>
                   </tr>
                   <tr>
                     <td><code>buttons</code></td>

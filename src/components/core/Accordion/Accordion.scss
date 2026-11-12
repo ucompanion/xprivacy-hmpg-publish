@@ -23,6 +23,33 @@
     }
   }
 
+  /* 펼침/접힘: 내용 높이를 그대로 쓰는 grid 행 전환 (height 고정값 없이 부드럽게) */
+  .accordion-panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    visibility: hidden;
+    transition: grid-template-rows 0.25s ease, visibility 0s 0.25s;
+
+    &.open {
+      grid-template-rows: 1fr;
+      visibility: visible;
+      transition: grid-template-rows 0.25s ease, visibility 0s;
+    }
+
+    .accordion-panel-inner {
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+
+      &.open {
+        transition: none;
+      }
+    }
+  }
+
   /* ---------------------------------
    * BOXED VARIANT (기본 · 테두리 박스형)
    * --------------------------------- */

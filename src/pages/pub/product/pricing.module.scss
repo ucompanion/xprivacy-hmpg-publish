@@ -77,143 +77,6 @@ $shadow-card: 4rem 4rem 4rem rgba(0, 0, 0, 0.1);
 }
 
 /* --------------------------------------------------------------------------
- * 3. 도입 방식 (Figma PC 2156:30157 / Mobile 2156:31242)
- * 카드 3열 gap 24, padding 36 28, radius 12, 그림자 4px / 추천 카드 brand 2px 테두리
- * -------------------------------------------------------------------------- */
-.deployWrap {
-  display: flex;
-  flex-direction: column;
-  gap: 60rem;
-  width: 100%;
-}
-
-.planCards {
-  display: flex;
-  align-items: flex-start;
-  gap: 24rem;
-}
-
-.planCard {
-  flex: 1 0 0;
-  display: flex;
-  flex-direction: column;
-  gap: 28rem;
-  min-width: 0;
-  padding: 36rem 28rem;
-  box-sizing: border-box;
-  border: 1rem solid var(--color-border-default, #e8eaed);
-  border-radius: 12rem;
-  background-color: var(--color-surface-white, #ffffff);
-  box-shadow: $shadow-card;
-
-  &.featured {
-    border: 2rem solid var(--color-brand-primary, #3b5bff);
-  }
-}
-
-.planHead {
-  display: flex;
-  align-items: center;
-  gap: 12rem;
-}
-
-.planTitleGroup {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
-
-.planTitle {
-  @include text-subheading;
-  margin: 0;
-  color: var(--color-text-black, #000000);
-  white-space: nowrap;
-}
-
-.planTag {
-  @include text-body;
-  color: var(--color-text-gray-2, #5f6368);
-  white-space: nowrap;
-}
-
-.planPrice {
-  @include text-subheading;
-  margin: 0;
-  padding-bottom: 24rem;
-  border-bottom: 1rem solid var(--color-border-default, #e8eaed);
-  color: var(--color-text-black, #000000);
-}
-
-.checkList {
-  display: flex;
-  flex-direction: column;
-  gap: 12rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.checkItem {
-  @include text-body;
-  display: flex;
-  align-items: flex-start;
-  gap: 12rem;
-  color: var(--color-text-black, #000000);
-  word-break: keep-all;
-}
-
-.checkMark {
-  @include label-field;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  width: 22rem;
-  height: 22rem;
-  border-radius: 12rem;
-  background-color: var(--color-surface-blue-subtle, #eef1ff);
-  color: var(--color-text-accent, #3b5bff);
-}
-
-.fullButton {
-  width: 100%;
-}
-
-/* PoC 카드 (Figma 2156:30254): surface-blue-soft, padding 32 40, gap 48, 체크 원 흰색 */
-.pocCard {
-  display: flex;
-  align-items: center;
-  gap: 48rem;
-  padding: 32rem 40rem;
-  box-sizing: border-box;
-  border: 1rem solid rgba(59, 91, 255, 0.25);
-  border-radius: 12rem;
-  background-color: var(--color-surface-blue-soft, #f4f9fe);
-  box-shadow: $shadow-card;
-
-  .checkMark {
-    background-color: var(--color-surface-white, #ffffff);
-  }
-}
-
-.pocList {
-  flex: 1 0 0;
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: 12rem 28rem;
-  min-width: 0;
-
-  .checkItem {
-    white-space: nowrap;
-  }
-}
-
-.pocButton {
-  flex-shrink: 0;
-  width: 200rem;
-}
-
-/* --------------------------------------------------------------------------
  * 4. 도입 절차 (Figma PC 2156:30292 / Mobile 2156:31377)
  * PC: 4단계 타임라인, brand 2px 막대(시안 비율), gap 4 / MO: 행 리스트(번호·제목·기간)
  * -------------------------------------------------------------------------- */
@@ -435,15 +298,6 @@ $shadow-card: 4rem 4rem 4rem rgba(0, 0, 0, 0.1);
  * Responsive
  * -------------------------------------------------------------------------- */
 @media (max-width: 1024px) {
-  .planCards {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .pocCard {
-    flex-wrap: wrap;
-  }
-
   .estimateRow {
     flex-direction: column;
   }
@@ -483,44 +337,6 @@ $shadow-card: 4rem 4rem 4rem rgba(0, 0, 0, 0.1);
 
   .logoClone {
     display: block;
-  }
-
-  .deployWrap {
-    gap: 40rem;
-  }
-
-  .planCards {
-    gap: 12rem;
-  }
-
-  .planCard {
-    padding: 28rem 24rem;
-  }
-
-  .planTitleGroup {
-    gap: 8rem;
-  }
-
-  /* PoC: 세로 스택, padding 28 24, gap 20 */
-  .pocCard {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 20rem;
-    padding: 28rem 24rem;
-  }
-
-  .pocList {
-    flex-direction: column;
-    flex-wrap: nowrap;
-    gap: 12rem;
-
-    .checkItem {
-      white-space: normal;
-    }
-  }
-
-  .pocButton {
-    width: 100%;
   }
 
   /* 도입 절차: 행 리스트 (상단 border, padding 20 0, gap 12) */

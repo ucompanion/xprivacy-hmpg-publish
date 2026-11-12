@@ -40,6 +40,7 @@ export default function PubBlogList() {
       <div className={styles.blogPage}>
         {/* 1. Hero (Figma PC 2429:3969 / Mobile 2433:4026 · 가운데 정렬 Compact) */}
         <HeroSection
+          category="blog"
           heroVariant="compact"
           align="center"
           className={styles.blogHero}
@@ -47,7 +48,7 @@ export default function PubBlogList() {
           description={
             <>
               비식별 활용 사례와
-              <br className="mobileBr" /> 개인정보 보호 정보를 소개합니다.
+              <br className="heroMoBr" /> 개인정보 보호 정보를 소개합니다.
             </>
           }
         />

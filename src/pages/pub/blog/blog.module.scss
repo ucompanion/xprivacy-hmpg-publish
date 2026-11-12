@@ -79,6 +79,7 @@
   aspect-ratio: 560 / 336;
   border-radius: 12rem;
   object-fit: cover;
+  @include split-col(560, 560rem);
 }
 
 .latestContent {
@@ -87,6 +88,7 @@
   flex-direction: column;
   gap: 12rem;
   min-width: 0;
+  @include split-col(568);
 }
 
 .latestTitle {
@@ -180,6 +182,18 @@
   font-size: var(--font-size-body);
   font-weight: 500;
   line-height: normal;
+}
+
+@media (hover: hover) {
+  .pageButton:not(.pageCurrent):hover {
+    border-color: var(--color-primary);
+    background-color: var(--color-surface-blue-subtle);
+    color: var(--color-text-accent);
+  }
+
+  .pageArrow:not(:disabled):hover {
+    color: var(--color-primary);
+  }
 }
 
 .pageCurrent {

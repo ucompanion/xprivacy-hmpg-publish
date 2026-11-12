@@ -46,6 +46,7 @@
   color: #9fadb6;
   margin: 0;
   line-height: 1.75;
+  word-break: keep-all;
 }
 
 /* --- Navigation Grid --- */
@@ -94,28 +95,6 @@
   display: flex;
   flex-direction: column;
   gap: 24rem;
-}
-
-.legal_links {
-  display: flex;
-  gap: 8rem; /* 피그마 토큰: --spacing/8: 8 */
-  align-items: center;
-}
-
-.legal_link {
-  @include text-body;
-  color: #9fadb6;
-  text-decoration: none;
-  transition: color 0.2s;
-
-  &:hover {
-    color: #ffffff;
-  }
-}
-
-.separator {
-  color: #273740;
-  font-size: 14rem;
 }
 
 /* --- Divider --- */
@@ -198,11 +177,6 @@
 
   .bottom_section {
     gap: 20rem;
-  }
-
-  .legal_links {
-    flex-wrap: wrap;
-    gap: 8rem;
   }
 
   .company_info_wrap {

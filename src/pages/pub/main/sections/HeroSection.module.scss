@@ -263,15 +263,23 @@
   }
 }
 
-/* 04 · 도입방식 (PC 1785:603 · MO 1785:657) — 밝게 + 중앙 흰 스포트(가독성) */
+/* 04 · 도입방식 (PC 1785:603 · MO 1785:657) — 밝게 + 중앙 흰 스포트(가독성)
+   사진은 PC·MO가 같은 원본(2733×4096)을 쓰고, 시안 사진 박스(PC 2194×3211 · MO 1486×1489)에
+   object-cover로 채워 잘라냅니다. 좌표는 프레임 중앙 기준(PC x -982 · y -1803 / MO x -568 · y -962).
+   텍스트 가독성 스포트는 시안 레이어 불투명도 50%가 곱해진 값(0.82→0.41 · 0.55→0.275)입니다. */
 .slide_deploy {
   --photo: url('/images/main/hero_slide_04.jpg');
-  --x: -960;
-  --y: -2100;
-  --w: 2521;
-  --h: 3782;
+  --x: -982;
+  --y: -1803;
+  --w: 2194;
+  --h: 3211;
   --spot: 34% 32%;
   --wash: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0));
+
+  .photo {
+    background-size: cover;
+    background-position: 50% 50%;
+  }
 
   .media::after {
     content: '';
@@ -283,15 +291,15 @@
 
   .overlay {
     background:
-      radial-gradient(var(--spot) at 50% 50%, rgba(255, 255, 255, 0.82) 0%, rgba(255, 255, 255, 0.55) 60%, rgba(255, 255, 255, 0) 100%),
+      radial-gradient(var(--spot) at 50% 50%, rgba(255, 255, 255, 0.41) 0%, rgba(255, 255, 255, 0.275) 60%, rgba(255, 255, 255, 0) 100%),
       var(--wash);
   }
 
   @media (max-width: 768px) {
     --x: -568;
-    --y: -1331;
+    --y: -962;
     --w: 1486;
-    --h: 2229;
+    --h: 1489;
     --spot: 62% 42%;
     --wash: linear-gradient(to bottom, rgba(255, 255, 255, 0.64) 0%, rgba(255, 255, 255, 0.52) 55%, rgba(255, 255, 255, 0) 85%);
   }
@@ -473,6 +481,13 @@
   &:focus-visible {
     outline: 2rem solid var(--color-primary, #3b5bff);
     outline-offset: 2rem;
+  }
+}
+
+@media (hover: hover) {
+  .dot:not(.dotActive):hover {
+    border-color: var(--color-text-gray-2, #5f6368);
+    background-color: var(--color-text-gray-2, #5f6368);
   }
 }
 

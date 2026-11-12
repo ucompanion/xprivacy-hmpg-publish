@@ -122,6 +122,7 @@ $arrow-color: #80878c; /* 가상 얼굴 화살표 (대응 토큰 없음) */
   flex-direction: column;
   gap: 24rem;
   min-width: 0;
+  @include split-col(580);
 }
 
 .intro {
@@ -203,6 +204,7 @@ $arrow-color: #80878c; /* 가상 얼굴 화살표 (대응 토큰 없음) */
   flex-shrink: 0;
   width: 560rem;
   aspect-ratio: 560 / 490;
+  @include split-col(560, 560rem);
   overflow: hidden;
   border-radius: 12rem;
   container-type: inline-size;

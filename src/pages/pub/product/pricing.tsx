@@ -2,11 +2,9 @@ import { useNavigate } from 'react-router-dom';
 import FrontLayout from '../layouts/FrontLayout';
 import { HeroSection, BasicSection } from '../../../components/domain/Section';
 import { Button } from '../../../components/core/Button/Button';
-import { IconSurface } from '../../../components/core/Icon/IconSurface';
 import { FaqAccordion } from '../../../components/domain/Faq';
+import { DeploymentPlans } from '../../../components/domain/Deployment';
 import styles from './pricing.module.scss';
-
-const IMG = '/images/product/pricing';
 
 // Trust / Logo Strip (Figma 2156:30142 · 제품소개 로고와 동일 에셋)
 const partnerLogos = [
@@ -18,55 +16,6 @@ const partnerLogos = [
   { name: '포소드', img: '/images/product/intro/partner_logo_06.png' },
   { name: '한국인터넷진흥원', img: '/images/product/intro/partner_logo_07.png' },
   { name: '영신디앤씨', img: '/images/product/intro/partner_logo_08.png' },
-];
-
-const plans = [
-  {
-    title: '온프레미스 구축형',
-    tag: '관제센터 권장, 망분리 환경',
-    glyph: 'glyph_onpremise.svg',
-    features: [
-      '기관 서버 직접 설치 · 완전 폐쇄망 운용',
-      '영상 · 이력 전량 기관 내부 잔류',
-      '외부 통신 없는 오프라인 라이선스',
-      '연간 라이선스 + 유지보수 또는 영구 라이선스',
-    ],
-    cta: '도입 상담',
-    featured: true,
-  },
-  {
-    title: '클라우드 Enterprise',
-    tag: '인터넷 환경',
-    glyph: 'glyph_cloud.svg',
-    features: [
-      '기관 전용 공간 · 구축비 없이 개통',
-      '처리량 기반 과금 · 실행 전 승인 절차',
-      'Block Public Access · presigned URL(15분)',
-      '월 단위 계약 · 온프레미스 전환 가능',
-    ],
-    cta: '도입 상담',
-    featured: false,
-  },
-  {
-    title: 'API 시스템 연동',
-    tag: '기존 시스템 연동',
-    glyph: 'glyph_api.svg',
-    features: [
-      '표준 REST API 제공',
-      '기존 업무 시스템에 비식별 기능 연동',
-      '정기적인 처리 작업 자동화',
-      '연동 범위는 시스템 환경 확인 후 안내',
-    ],
-    cta: '기술 · API 문의',
-    featured: false,
-  },
-];
-
-const pocFeatures = [
-  '기관 실제 영상으로 탐지율 · 품질 검증',
-  '2~3주 · 비용 없음',
-  '검증 결과 리포트 제공 (탐지율 · 처리 시간)',
-  '종료 후 PoC 환경 완전 파기',
 ];
 
 // 도입 절차: 막대 길이는 시안 비율(175 · 439 · 263 · 351)
@@ -111,15 +60,6 @@ const faqItems = [
   },
 ];
 
-function CheckItem({ text }: { text: string }) {
-  return (
-    <li className={styles.checkItem}>
-      <span className={styles.checkMark} aria-hidden="true">✓</span>
-      <span>{text}</span>
-    </li>
-  );
-}
-
 export default function PubProductPricing() {
   const navigate = useNavigate();
   return (
@@ -134,14 +74,14 @@ export default function PubProductPricing() {
           title="운영 환경에 맞는 도입 방식을 선택하세요."
           description={
             <>
-              망분리 여부와 처리 규모에 따라 선택하며,<br className="mobileBr" /> 금액은 요건 확정 후 별도 견적서로<br className="mobileBr" /> 제공합니다.
+              망분리 여부와 처리 규모에 따라 선택하며,<br className="heroMoBr" /> 금액은 요건 확정 후 별도 견적서로<br className="heroMoBr" /> 제공합니다.
             </>
           }
           keywords={['망분리 온프레미스', '복원 불가 비가역 처리', '2026.03 가이드라인 대응']}
         />
 
         {/* 2. Trust / Logo Strip (Figma PC 2156:30142 / Mobile 2156:31227 · 모바일 자동 가로 흐름) */}
-        <section className={styles.logoStrip} aria-label="주요 고객사 및 협력 기관">
+        <section className={styles.logoStrip} data-aos-skip aria-label="주요 고객사 및 협력 기관">
           <div className={styles.logoTrack}>
             {/* 무한 흐름용으로 로고 묶음을 두 번 반복 (두 번째는 보조기술에서 숨김) */}
             {(['original', 'clone'] as const).flatMap((copy) =>
@@ -168,50 +108,7 @@ export default function PubProductPricing() {
           title="관제센터 환경에 맞춘 도입 방식"
           description="보안 요건과 업무 환경에 따라 구축형, 클라우드, 시스템 연동 방식으로 도입할 수 있으며, 도입 전 실제 영상으로 무상 검증을 진행합니다."
         >
-          <div className={styles.deployWrap}>
-            <div className={styles.planCards}>
-              {plans.map((plan) => (
-                <div key={plan.title} className={`${styles.planCard} ${plan.featured ? styles.featured : ''}`}>
-                  <div className={styles.planHead}>
-                    <IconSurface src={`${IMG}/${plan.glyph}`} size={48} sizeMo={40} tone="soft" glyphFit="fill" />
-                    <div className={styles.planTitleGroup}>
-                      <h3 className={styles.planTitle}>{plan.title}</h3>
-                      <span className={styles.planTag}>{plan.tag}</span>
-                    </div>
-                  </div>
-                  <p className={styles.planPrice}>별도 견적</p>
-                  <ul className={styles.checkList}>
-                    {plan.features.map((feature) => <CheckItem key={feature} text={feature} />)}
-                  </ul>
-                  <Button
-                    variant={plan.featured ? 'solid' : 'subtle'}
-                    bordered={!plan.featured}
-                    size="xl"
-                    className={styles.fullButton}
-                  >
-                    {plan.cta}
-                  </Button>
-                </div>
-              ))}
-            </div>
-
-            {/* PoC · 도입 전 사전 검증 (Figma 2156:30254) */}
-            <div className={styles.pocCard}>
-              <div className={styles.planHead}>
-                <IconSurface src={`${IMG}/glyph_poc.svg`} size={48} sizeMo={40} tone="soft" glyphFit="fill" />
-                <div className={styles.planTitleGroup}>
-                  <h3 className={styles.planTitle}>PoC 무상 검증</h3>
-                  <span className={styles.planTag}>도입 전 사전 검증 · 무상</span>
-                </div>
-              </div>
-              <ul className={`${styles.checkList} ${styles.pocList}`}>
-                {pocFeatures.map((feature) => <CheckItem key={feature} text={feature} />)}
-              </ul>
-              <Button variant="subtle" bordered size="xl" className={styles.pocButton}>
-                PoC 신청
-              </Button>
-            </div>
-          </div>
+          <DeploymentPlans />
         </BasicSection>
 
         {/* 4. 도입 절차 (Figma PC 2156:30286 / Mobile 2156:31371) */}

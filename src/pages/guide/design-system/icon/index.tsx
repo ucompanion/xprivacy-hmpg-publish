@@ -154,13 +154,13 @@ export default function IconGuidePage() {
                 </tr>
                 <tr>
                   <td><code>size</code></td>
-                  <td><code>32 | 40 | 44 | 48 | 52</code></td>
+                  <td><code>32 | 40 | 44 | 48 | 52 | 64</code></td>
                   <td><code>48</code></td>
                   <td>아이콘 크기(px). 반경·두께·반사광·글리프·그림자는 48 기준값(반경 12 · 두께 3 · 글리프 24)에 비례</td>
                 </tr>
                 <tr>
                   <td><code>sizeMo</code></td>
-                  <td><code>32 | 40 | 44 | 48 | 52</code></td>
+                  <td><code>32 | 40 | 44 | 48 | 52 | 64</code></td>
                   <td>-</td>
                   <td>모바일(≤768) 크기. 도입 효과 카드 48 → 44, 요금제 도입 방식 48 → 40</td>
                 </tr>

@@ -4,8 +4,11 @@ import styles from './HeroSection.module.scss';
 
 export interface HeroSectionProps extends Omit<SectionProps, 'theme'> {
   bgImage?: string;
-  /** 배경 프리셋: 'technology' = 흰 바탕 + Technology 이미지(70%) + 브랜드 틴트(기술 페이지 공통) */
-  bgPreset?: 'technology';
+  /**
+   * 카테고리별 배경 이미지. 생략 시 product 배경(heroVariant별 이미지)을 사용합니다.
+   * technology · features · solutions · blog · contact 는 heroVariant와 무관하게 PC/MO 이미지 한 쌍을 공용합니다.
+   */
+  category?: 'product' | 'technology' | 'features' | 'solutions' | 'blog' | 'contact';
   heroVariant?: 'full' | 'compact';
   keywords?: string[];
   buttons?: React.ReactNode;
@@ -16,7 +19,7 @@ export interface HeroSectionProps extends Omit<SectionProps, 'theme'> {
 export const HeroSection: React.FC<HeroSectionProps> = ({
   className = '',
   bgImage,
-  bgPreset,
+  category,
   heroVariant = 'full',
   theme = 'light',
   align,
@@ -56,7 +59,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
   return (
     <div 
-      className={`${styles.heroSectionWrap} ${styles[heroVariant]} ${styles[`align_${resolvedAlign}`]} ${styles[`theme_${theme}`]} ${bgPreset ? styles[`bg_${bgPreset}`] : ''} ${className}`.replace(/\s+/g, ' ').trim()} 
+      className={`${styles.heroSectionWrap} ${styles[heroVariant]} ${styles[`align_${resolvedAlign}`]} ${styles[`theme_${theme}`]} ${category && category !== 'product' ? styles[`cat_${category}`] : ''} ${className}`.replace(/\s+/g, ' ').trim()} 
       style={customStyle}
     >
       {/* 피그마 v2 라이트 시안: 소프트 스카이/시안 3D 글래스 림 글로우 오버레이 (배경 이미지 미지정 시 폴백) */}

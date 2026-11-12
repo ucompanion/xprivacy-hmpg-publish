@@ -20,7 +20,7 @@
   --hero-compact-padding-bottom-mo: 70rem;
 }
 
-/* MO: 타이틀-설명 간격 16 (컴포넌트 기본 24) · 배경은 HeroSection bgPreset="technology" */
+/* MO: 타이틀-설명 간격 16 (컴포넌트 기본 24) · 배경은 HeroSection category="technology" */
 @media (max-width: 768px) {
   .pageWrap > .techHero.techHero h2 + p {
     margin-top: 16rem !important;
@@ -28,13 +28,82 @@
 }
 
 /* --------------------------------------------------------------------------
- * 2. 4종 비식별 옵션 (Figma PC 2165:8468 / Mobile 2165:8603)
+ * 공통 문구 블록 (Figma Intro): Eyebrow(공통 Eyebrow-Section) → 12 → Heading(Section 40 / MO 32)
+ * 4종 비식별 옵션 · Our Vision 두 섹션이 같은 구성을 씁니다.
+ * -------------------------------------------------------------------------- */
+.intro {
+  display: flex;
+  flex-direction: column;
+  gap: 24rem;
+  width: 100%;
+}
+
+.introHead {
+  display: flex;
+  flex-direction: column;
+  gap: 12rem;
+}
+
+.introEyebrow {
+  /* 섹션 Eyebrow는 공통 스타일(Bold · eyebrow-section 색)을 따름 — 시안의 Regular·gray-2는 예외 처리하지 않음 */
+  @include text-eyebrow-section;
+  margin: 0;
+  color: var(--color-text-eyebrow-section);
+}
+
+.introTitle {
+  @include text-section;
+  margin: 0;
+  color: var(--color-text-black);
+}
+
+/* 리드: PC gray-1 / MO gray-2 (시안) */
+.introLead {
+  @include text-body;
+  margin: 0;
+  color: var(--color-text-gray-1);
+}
+
+/* [예외 처리] 시안이 의도해서 나눈 줄바꿈 (fitBrOption · fitBrDesc)
+ * - 상황: 4종 옵션 설명(232 칸)과 Our Vision 설명(596 칸)은 시안이 문장 단위·의미 단위로 줄을 나눴습니다.
+ * - 조건: PC(769px 이상)에서 문구가 놓인 칸이 시안 폭 이상일 때만 적용합니다. (@container)
+ *         모바일은 시안 줄바꿈이 다르므로(자연 줄바꿈 / heroMoBr) 여기서 강제하지 않습니다.
+ * - 수정 시: 문구나 칸 폭(232 · 596)이 바뀌면 기준 폭과 TSX의 br 위치를 함께 확인하세요.
+ *            container-type을 지정한 칸(.optionDesc · .visionDescText)은 폭이 내용에 좌우되지 않아야 합니다. */
+.fitBrOption,
+.fitBrDesc {
+  display: none;
+}
+
+@media (min-width: 769px) {
+  @container (min-width: 232px) {
+    .fitBrOption {
+      display: inline;
+    }
+  }
+
+  @container (min-width: 596px) {
+    .fitBrDesc {
+      display: inline;
+    }
+  }
+}
+
+/* --------------------------------------------------------------------------
+ * 2. 4종 비식별 옵션 (Figma PC 3869:28443 / Mobile 3869:28665)
+ * 섹션 위아래 120(MO 80) · 소개 → 64(MO 40) → 옵션
  * PC: 5열 gap 20 / 샘플 232×278 radius 12 → 16 → 제목(subheading) → 6 → 설명(body gray-1)
  * -------------------------------------------------------------------------- */
+.pageWrap > .optionsSection.optionsSection {
+  padding-top: 120rem;
+  padding-bottom: 120rem;
+}
+
 .optionList {
   display: flex;
   gap: 20rem;
-  margin: 0;
+  width: 100%;
+  margin: 64rem 0 0;
   padding: 0;
   list-style: none;
 }
@@ -62,44 +131,43 @@
   }
 }
 
-/* 가림 영역: 얼굴 위치 (232×278 기준 left 67.2 · top 27.8) */
+/* 가림 영역: 이마(머리카락선 아래)부터 턱까지 · 눈썹 포함 얼굴 (Figma 4093:71871 · 232×278 기준)
+ * Masking · Blur: left 79 · top 59 · 80×96 (radius 40) / Mosaic: left 76.5 · top 68 · 85×85 (셀 17 · 5열 × 5행) */
 .maskShape,
-.blurShape,
+.blurShape {
+  position: absolute;
+  left: 34.05%;
+  top: 21.22%;
+  width: 34.48%;
+  height: 34.53%;
+  border-radius: 9999rem;
+}
+
 .mosaicGrid {
   position: absolute;
-  left: 28.97%;
-  top: 10%;
-}
-
-/* Masking: 100.8×144 · radius 50.4 */
-.maskShape {
-  width: 43.45%;
-  height: 51.8%;
-  border-radius: 9999rem;
-  background-color: var(--color-text-gray-2);
-}
-
-/* Gaussian Blur: 100.8×144 · backdrop-blur 7.5 */
-.blurShape {
-  width: 43.45%;
-  height: 51.8%;
-  border-radius: 9999rem;
-  background-color: rgba(255, 255, 255, 0.04);
-  backdrop-filter: blur(7.5rem);
-}
-
-/* Mosaic: 102×153 · 셀 17 (6열 × 9행) · backdrop-blur 10.2 */
-.mosaicGrid {
+  left: 32.97%;
+  top: 24.46%;
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  grid-template-rows: repeat(9, 1fr);
-  width: 43.97%;
-  height: 55.04%;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  width: 36.64%;
+  height: 30.58%;
 
   > span {
     background-color: rgba(255, 255, 255, 0.02);
     backdrop-filter: blur(10.2rem);
   }
+}
+
+/* Masking: gray-2 채움 */
+.maskShape {
+  background-color: var(--color-text-gray-2);
+}
+
+/* Gaussian Blur: backdrop-blur 7.5 */
+.blurShape {
+  background-color: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(7.5rem);
 }
 
 .optionText {
@@ -116,189 +184,87 @@
 
 .optionDesc {
   @include text-body;
+  width: 100%;
   margin: 0;
   color: var(--color-text-gray-1);
   word-break: keep-all;
+  container-type: inline-size;
 }
 
 /* --------------------------------------------------------------------------
- * 3. Our Vision (Figma PC 2165:8499 / Mobile 2165:8634)
- * 카드 2열 gap 24: white, border default, radius 12, padding 40 36, gap 28
- * 비주얼: surface-gray, radius 12, padding 24, 행 gap 14
+ * 3. Our Vision (Figma PC 4036:136 / Mobile 4037:2)
+ * 섹션 위아래 120(MO 80) · 소개 → 64(MO 40) → 예시 통이미지 → 40(MO 24) → 설명 2열(gap 48 / MO 세로 gap 24)
+ * 예시 화면(사진 · 대상×방식 선택값 · 강도 슬라이더 UI)은 코드로 만들지 않고 시안 통이미지를 사용합니다.
  * -------------------------------------------------------------------------- */
-.visionCards {
-  display: flex;
-  align-items: stretch;
-  gap: 24rem;
+.pageWrap > .visionSection.visionSection {
+  padding-top: 120rem;
+  padding-bottom: 120rem;
 }
 
-.visionCard {
-  flex: 1 0 0;
-  display: flex;
-  flex-direction: column;
-  gap: 28rem;
-  min-width: 0;
-  padding: 40rem 36rem;
-  border: 1rem solid var(--color-border-default);
+.visionDemo {
+  width: 100%;
+  margin-top: 64rem;
+}
+
+.visionDemoPc {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1240 / 680;
   border-radius: 12rem;
-  background-color: var(--color-surface-white);
+  object-fit: cover;
 }
 
-.visionHead {
+.visionDemoMo {
+  display: none;
+}
+
+.visionDescs {
   display: flex;
+  gap: 48rem;
+  width: 100%;
+  margin-top: 40rem;
+}
+
+.visionDesc {
+  display: flex;
+  flex: 1 1 0;
   flex-direction: column;
   gap: 10rem;
+  min-width: 0;
 }
 
-.visionTitle {
+.visionDescTitle {
   @include text-subheading;
   margin: 0;
   color: var(--color-text-black);
 }
 
-.visionDesc {
+.visionDescText {
   @include text-body;
+  width: 100%;
   margin: 0;
   color: var(--color-text-gray-1);
   word-break: keep-all;
+  container-type: inline-size;
 }
 
-.visionVisual {
-  display: flex;
-  flex-direction: column;
-  gap: 14rem;
-  padding: 24rem;
-  border-radius: 12rem;
-  background-color: var(--color-surface-gray);
-}
-
-/* 매트릭스 행: 라벨(body gray-2) → 8 → 칩 */
-.matrixRow {
-  display: flex;
-  align-items: center;
-  gap: 8rem;
-}
-
-.rowLabel {
-  @include text-body;
-  flex-shrink: 0;
-  color: var(--color-text-gray-2);
-}
-
-.chipGroup {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8rem;
-}
-
-/* 칩: white, border default, radius 6, padding 6 12, Note 12 gray-2 */
-.chip {
-  @include text-note;
-  padding: 6rem 12rem;
-  border: 1rem solid var(--color-border-default);
-  border-radius: 6rem;
-  background-color: var(--color-surface-white);
-  color: var(--color-text-gray-2);
-  white-space: nowrap;
-}
-
-/* 슬라이더: 라벨 → 10 → 트랙(높이 16 · 레일 4 · 썸 16 white + 2 primary) */
-.sliderField {
-  display: flex;
-  flex-direction: column;
-  gap: 10rem;
-}
-
-.sliderLabel {
-  @include text-body;
-  color: var(--color-text-gray-2);
-}
-
-.rangeInput {
-  --fill: 50%;
-  width: 100%;
-  height: 16rem;
-  margin: 0;
-  background: transparent;
-  cursor: pointer;
-  appearance: none;
-  -webkit-appearance: none;
-
-  &::-webkit-slider-runnable-track {
-    height: 4rem;
-    border-radius: 2rem;
-    background: linear-gradient(
-      to right,
-      var(--color-primary) 0,
-      var(--color-primary) var(--fill),
-      var(--color-border-default) var(--fill),
-      var(--color-border-default) 100%
-    );
-  }
-
-  &::-moz-range-track {
-    height: 4rem;
-    border-radius: 2rem;
-    background-color: var(--color-border-default);
-  }
-
-  &::-moz-range-progress {
-    height: 4rem;
-    border-radius: 2rem;
-    background-color: var(--color-primary);
-  }
-
-  &::-webkit-slider-thumb {
-    width: 16rem;
-    height: 16rem;
-    margin-top: -6rem;
-    border: 2rem solid var(--color-primary);
-    border-radius: 50%;
-    background-color: var(--color-surface-white);
-    box-sizing: border-box;
-    appearance: none;
-    -webkit-appearance: none;
-  }
-
-  &::-moz-range-thumb {
-    width: 16rem;
-    height: 16rem;
-    border: 2rem solid var(--color-primary);
-    border-radius: 50%;
-    background-color: var(--color-surface-white);
-    box-sizing: border-box;
-  }
-
-  &:focus-visible {
-    outline: 2rem solid var(--color-primary);
-    outline-offset: 4rem;
-  }
+/* 첫 설명은 한 줄에 긴 문장이 들어가 시안이 자간 -0.5를 적용 */
+.visionDescTight {
+  letter-spacing: -0.5rem;
 }
 
 /* --------------------------------------------------------------------------
  * Responsive
  * -------------------------------------------------------------------------- */
 @media (max-width: 1024px) {
+  /* 4종 옵션: 5열(PC) → 세로 목록(MO)으로 가는 중간 구간(반응형 시작 ~ 768px)
+   * - 항목 구조는 반응형이 시작되면 모바일처럼 "사진 옆 내용"(썸네일 96×115 · radius 8)으로 바꿉니다.
+   * - 배치는 하나씩 떨어지지 않고 "원본 1 · 2 · 2"로 전환 (원본은 첫 줄 한 칸, 이어서 Masking·Mosaic / Gaussian Blur·Virtual Face) */
   .optionList {
-    flex-wrap: wrap;
-  }
-
-  .option {
-    flex: 1 1 180rem;
-  }
-
-  .visionCards {
-    flex-direction: column;
-  }
-}
-
-/* 모바일 (Figma Mobile 2165:8595 · 390 기준) */
-@media (max-width: 768px) {
-  /* 옵션: 세로 목록 · 행 상단 border · padding 16 0 · 샘플 96×115 radius 8 · gap 16 */
-  .optionList {
-    flex-direction: column;
-    flex-wrap: nowrap;
-    gap: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 20rem;
   }
 
   .option {
@@ -307,7 +273,11 @@
     align-items: center;
     gap: 16rem;
     padding: 16rem 0;
-    border-top: 1rem solid var(--color-border-default);
+  }
+
+  .option:first-child {
+    grid-column: 1 / -1;
+    width: calc((100% - 20rem) / 2);
   }
 
   .sample {
@@ -329,33 +299,84 @@
     min-width: 0;
   }
 
-  /* 비전 카드: gap 12 / padding 28 20 · gap 20 / 비주얼 padding 16 */
-  .visionCards {
-    gap: 12rem;
+  .visionDescs {
+    flex-direction: column;
+    gap: 24rem;
+  }
+}
+
+/* 모바일 (Figma Mobile 3869:28665 · 4037:2 · 390 기준) */
+@media (max-width: 768px) {
+  .pageWrap > .optionsSection.optionsSection,
+  .pageWrap > .visionSection.visionSection {
+    padding-top: 80rem;
+    padding-bottom: 80rem;
   }
 
-  .visionCard {
-    gap: 20rem;
-    padding: 28rem 20rem;
+  .intro {
+    gap: 16rem;
   }
 
-  .visionVisual {
-    padding: 16rem;
+  .introTitle {
+    /* MO 시안 글꼴은 text-section 믹스인의 모바일 값(32)을 따름 */
+    word-break: keep-all;
   }
 
-  /* 매트릭스 행: 라벨 → 4 → 칩 줄바꿈(행 6 · 열 4) / 칩 padding 6 5 */
-  .matrixRow {
-    align-items: flex-start;
-    gap: 4rem;
+  .introLead {
+    color: var(--color-text-gray-2);
   }
 
-  .chipGroup {
-    flex: 1 0 0;
-    gap: 6rem 4rem;
-    min-width: 0;
+  /* 옵션: 세로 목록 · 첫 행 제외 상단 border · padding 16 0 · 샘플 96×115 radius 8 · gap 16 */
+  .optionList {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 0;
+    margin-top: 40rem;
   }
 
-  .chip {
-    padding: 6rem 5rem;
+  .option {
+    border-top: 1rem solid var(--color-border-default);
+
+    &:first-child {
+      width: auto;
+      border-top: 0;
+    }
+  }
+
+  /* Our Vision: 사진(확대 포함) → 24 → 설정 패널 → 24 → 설명 · 통이미지는 PC용을 숨기고 MO용 2장을 사용 */
+  .visionDemo {
+    margin-top: 40rem;
+  }
+
+  .visionDemoPc {
+    display: none;
+  }
+
+  .visionDemoMo {
+    display: flex;
+    flex-direction: column;
+    gap: 24rem;
+
+    img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    > img:first-child {
+      aspect-ratio: 350 / 366;
+      border-radius: 12rem;
+      object-fit: cover;
+    }
+  }
+
+  /* 패널 PNG는 그림자 여백(위 20 · 아래 44)을 포함 → 음수 여백으로 시안 간격(24)에 맞춤 */
+  .visionPanel {
+    margin: -20rem 0 -44rem;
+  }
+
+  .visionDescs {
+    margin-top: 24rem;
   }
 }

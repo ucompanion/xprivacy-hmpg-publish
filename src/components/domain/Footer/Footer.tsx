@@ -8,12 +8,12 @@ export const Footer: React.FC = () => {
       <div className={styles.container}>
         {/* Top Section: Logo & Description */}
         <div className={styles.top_section}>
-          <Link to="/" className={styles.logo}>
+          <Link to="/pub/main" className={styles.logo}>
             <img src="/images/common/logo.png" alt="OFF:ON xPRIVACY" className={styles.logo_img} />
           </Link>
           <p className={styles.description}>
             AI 기반 정밀탐지로 개인정보 비식별화 및 관리 솔루션.<br />
-            영상·이미지 속 개인정보를 탐지하고 비식별 처리부터<br />
+            영상·이미지 속 개인정보를 탐지하고 비식별 처리부터<br className="pcBr" />
             검수·관리까지 하나의 흐름으로 연결합니다.
           </p>
         </div>
@@ -52,8 +52,6 @@ export const Footer: React.FC = () => {
               <Link to="/pub/features/batch-processing" className={styles.nav_link}>Batch Processing</Link>
               <Link to="/pub/features/ai-auto-editing" className={styles.nav_link}>AI 자동편집</Link>
               <Link to="/pub/features/rest-api" className={styles.nav_link}>REST API</Link>
-              <Link to="/pub/features/on-premise" className={styles.nav_link}>On-Premise</Link>
-              <Link to="/pub/features/web-service" className={styles.nav_link}>Web Service</Link>
             </div>
           </div>
 
@@ -85,7 +83,6 @@ export const Footer: React.FC = () => {
             <h4 className={styles.nav_title}>CONTACT</h4>
             <div className={styles.nav_list}>
               <Link to="/pub/contact/brochure" className={styles.nav_link}>Brochure</Link>
-              <Link to="/pub/contact/pseudonymization-guide" className={styles.nav_link}>Pseudonymization Guide</Link>
               <Link to="/pub/contact/inquiry" className={styles.nav_link}>문의</Link>
               <Link to="/pub/contact/faq" className={styles.nav_link}>FAQ</Link>
               <Link to="/pub/contact/company" className={styles.nav_link}>Company</Link>
@@ -102,14 +99,6 @@ export const Footer: React.FC = () => {
 
         {/* Bottom Section */}
         <div className={styles.bottom_section}>
-          <div className={styles.legal_links}>
-            <Link to="/pub/company" className={styles.legal_link}>회사소개</Link>
-            <span className={styles.separator}>|</span>
-            <Link to="/pub/terms" className={styles.legal_link}>이용약관</Link>
-            <span className={styles.separator}>|</span>
-            <Link to="/pub/privacy" className={styles.legal_link}>개인정보보호</Link>
-          </div>
-          
           <hr className={styles.divider} />
 
           <div className={styles.company_info_wrap}>
@@ -117,7 +106,6 @@ export const Footer: React.FC = () => {
               <p>(주)월드버텍</p>
               <p>TEL : 02-576-3776 FAX: 02-576-3741</p>
               <p>06748 서울시 서초구 강남대로 148, 3층 (양재동, 상록빌딩)</p>
-              <p>통신판매업신고번호: 00000000000</p>
             </div>
             <div className={styles.copyright}>
               Copyrightⓒ 월드버텍(주), All Rights Reserved.

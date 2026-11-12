@@ -264,6 +264,7 @@ export default function PubFeaturesVideoDeid() {
       <div className={styles.pageWrap}>
         {/* 1. Hero (Figma PC 2280:2796 / Mobile 2286:64089 · 가운데 정렬 + 처리 예시 사진) */}
         <HeroSection
+          category="features"
           heroVariant="compact"
           align="center"
           className={styles.videoHero}
@@ -271,9 +272,9 @@ export default function PubFeaturesVideoDeid() {
           title={
             <>
               대용량 영상 비식별,
-              <br className="mobileBr" /> 자동 추적부터
+              <br className="heroMoBr" /> 자동 추적부터
               <br /> 검수까지 단 몇 번의
-              <br className="mobileBr" /> 클릭으로
+              <br className="heroMoBr" /> 클릭으로
             </>
           }
           description="고속 AI 엔진의 자동 추적과 인물별 썸네일 분류 기능으로 복잡한 영상 수동 가공 업무 공수를 획기적으로 절감해 드립니다."
@@ -328,7 +329,7 @@ export default function PubFeaturesVideoDeid() {
               heading={
                 <>
                   장시간 영상의 1프레임도 놓치지 않는
-                  <br />
+                  <br className="splitBr" />
                   AI 초고속 자동 추적
                 </>
               }
@@ -366,7 +367,7 @@ export default function PubFeaturesVideoDeid() {
               heading={
                 <>
                   복원 불가 비가역적 변환과
-                  <br />
+                  <br className="splitBr" />
                   다중 식별 객체 정밀 차단
                 </>
               }
@@ -481,7 +482,7 @@ export default function PubFeaturesVideoDeid() {
               heading={
                 <>
                   등장인물 자동 분류를 통한
-                  <br />
+                  <br className="splitBr" />
                   선택적 일괄 처리
                 </>
               }
@@ -525,7 +526,7 @@ export default function PubFeaturesVideoDeid() {
               heading={
                 <>
                   직관적 검수 및
-                  <br />
+                  <br className="splitBr" />
                   즉시 수정 인터페이스
                 </>
               }

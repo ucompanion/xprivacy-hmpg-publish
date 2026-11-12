@@ -48,6 +48,7 @@ $detect-color: #3db7ff;
   flex-direction: column;
   gap: 24rem;
   min-width: 0;
+  @include split-col(580);
 }
 
 /* Section Intro: eyebrow → 12 → 헤딩 → 24 → 설명 */
@@ -122,6 +123,7 @@ $detect-color: #3db7ff;
   flex-shrink: 0;
   width: 560rem;
   aspect-ratio: 560 / 490;
+  @include split-col(560, 560rem);
   overflow: hidden;
   border-radius: 12rem;
   container-type: inline-size;

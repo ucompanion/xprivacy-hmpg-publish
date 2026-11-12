@@ -36,13 +36,14 @@ export default function PubSubTechnologyAiDetection() {
 
         {/* 1. Hero Section (Compact Light Glass) */}
         <HeroSection
+          category="technology"
           heroVariant="compact"
           className={styles.techHero}
           eyebrow="AI DETECTION"
           title={
             <>
-              AI가 사소한 식별 요소까지<br />
-              알아서 찾고, 정밀하게 가립니다
+              AI가 사소한<br className="heroMoBr" /> 식별 요소까지<br />
+              알아서 찾고,<br className="heroMoBr" /> 정밀하게 가립니다.
             </>
           }
           description="AI가 얼굴과 신체, 번호판까지 정밀하게 탐지하여 안전하게 보호합니다."

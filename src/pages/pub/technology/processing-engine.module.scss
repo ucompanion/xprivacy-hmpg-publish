@@ -214,7 +214,8 @@
 /* 하단: 왼쪽(인트로 · 테스트 환경) / 오른쪽(표 640) */
 .perfBody {
   display: grid;
-  grid-template-columns: 1fr 640rem;
+  /* 1280 시안 폭(520 : 640) 비율로 두 열이 같이 줄어들도록 (고정 640이면 1025~1175에서 표가 넘침) */
+  grid-template-columns: minmax(0, 520fr) minmax(0, 640fr);
   grid-template-rows: auto 1fr;
   grid-template-areas:
     "intro bench"
@@ -349,16 +350,17 @@
 }
 
 .tablePc {
+  /* 열 폭은 표 640 기준 비율(150 · 190 · 150 · 나머지 150) */
   thead th:nth-child(1) {
-    width: 150rem;
+    width: calc(150% / 6.4);
   }
 
   thead th:nth-child(2) {
-    width: 190rem;
+    width: calc(190% / 6.4);
   }
 
   thead th:nth-child(3) {
-    width: 150rem;
+    width: calc(150% / 6.4);
   }
 
   .groupInfo {
@@ -384,6 +386,13 @@
 /* --------------------------------------------------------------------------
  * Responsive
  * -------------------------------------------------------------------------- */
+/* 왼쪽 열이 520 → 약 400까지 줄어드는 구간(1025~1215)에서는 테스트 환경 3칸이 값(FHD(30fps))을 담지 못해 세로로 쌓음 */
+@media (min-width: 1025px) and (max-width: 1215px) {
+  .testItems {
+    flex-direction: column;
+  }
+}
+
 @media (max-width: 1024px) {
   .engines {
     grid-template-columns: 1fr;

@@ -1,8 +1,10 @@
 import { Header } from '../../../components/domain/Header/Header';
 import { Footer } from '../../../components/domain/Footer/Footer';
 import styles from './FrontLayout.module.scss';
+import { useScrollAos } from './useScrollAos';
 
 const FrontLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  useScrollAos();
   return (
     <div className={styles.layout}>
       <Header />

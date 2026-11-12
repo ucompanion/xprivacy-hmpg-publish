@@ -1,5 +1,5 @@
 /* Core IconSurface — Figma Process Icon/v2 (ClearSurface · LightBlueSurface)
- * - 모든 치수는 48 기준값 × 배율(--k)로 계산: 52 → 1.0833 · 48 → 1 · 44 → .9167 · 40 → .8333 · 32 → .6667
+ * - 모든 치수는 48 기준값 × 배율(--k)로 계산: 64 → 1.3333 · 52 → 1.0833 · 48 → 1 · 44 → .9167 · 40 → .8333 · 32 → .6667
  *   (반경 12 · 두께 띠 3 · 림 .75 · 글리프 24 · 반사광 크레센트 52.5×38.25, 단 32의 글리프는 시안상 18)
  * - default 채움: 흰 그라데이션(.88 → .42 → .62) 아래로 그림자색이 비쳐 연한 회청색을 띱니다.
  *   (피그마는 반투명 채움 아래로 그림자가 보이지만 CSS box-shadow는 박스 안쪽에 그려지지 않으므로
@@ -85,6 +85,7 @@
 }
 
 /* 크기 배율 */
+.core-icon-surface.size-64 { --k: 1.33333; }
 .core-icon-surface.size-52 { --k: 1.08333; }
 .core-icon-surface.size-44 { --k: 0.9167; }
 .core-icon-surface.size-40 { --k: 0.83333; }
@@ -97,6 +98,7 @@
 }
 
 @media (max-width: 768px) {
+  .core-icon-surface.mo-size-64 { --k: 1.33333; }
   .core-icon-surface.mo-size-52 { --k: 1.08333; }
   .core-icon-surface.mo-size-48 { --k: 1; }
   .core-icon-surface.mo-size-44 { --k: 0.9167; }

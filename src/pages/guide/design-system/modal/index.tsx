@@ -13,7 +13,7 @@ import { EventModal } from '../../../../components/domain/Modal/EventModal';
 export default function ModalGuidePage() {
   const [isBasicOpen, setIsBasicOpen] = useState(false);
   const [isCustomOpen, setIsCustomOpen] = useState(false);
-  const [isAlertOpen, setIsAlertOpen] = useState(false);
+  const [alertCase, setAlertCase] = useState<'success' | 'warning' | 'error' | 'noDesc' | 'confirm' | null>(null);
   const [isDomainBasicOpen, setIsDomainBasicOpen] = useState(false);
   const [isEventOpen, setIsEventOpen] = useState(false);
 
@@ -74,6 +74,24 @@ export default function ModalGuidePage() {
                     <td>-</td>
                     <td>모달 하단 버튼 영역에 들어갈 내용</td>
                   </tr>
+                  <tr>
+                    <td><code>role</code></td>
+                    <td><code>'dialog' | 'alertdialog'</code></td>
+                    <td><code>'dialog'</code></td>
+                    <td>접근성 역할. 확인이 필요한 알림은 <code>alertdialog</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>aria-labelledby</code> · <code>aria-describedby</code></td>
+                    <td><code>string</code></td>
+                    <td>-</td>
+                    <td>제목·설명 요소 id 연결</td>
+                  </tr>
+                  <tr>
+                    <td><code>closeOnEsc</code></td>
+                    <td><code>boolean</code></td>
+                    <td><code>true</code></td>
+                    <td>Esc 키로 닫기</td>
+                  </tr>
                 </tbody>
               </table>
             </div>
@@ -81,7 +99,7 @@ export default function ModalGuidePage() {
 
           <GuideSection title="2. Basic Usage">
             <p className={styles.description}>
-              가장 일반적인 형태의 모달입니다.
+              가장 일반적인 형태의 모달입니다. 열릴 때와 닫힐 때 같은 길이(0.2초)로 페이드되며, 닫힘이 끝난 뒤 DOM에서 제거됩니다.
             </p>
             <div className={styles.preview}>
               <Button onClick={() => setIsBasicOpen(true)}>기본 모달 열기</Button>
@@ -148,7 +166,7 @@ export default function ModalGuidePage() {
           {/* 1. AlertModal */}
           <GuideSection title="1. AlertModal">
             <p className={styles.description}>
-              실제 서비스 운영 환경에서 사용되는 알럿 확인창으로, 헤더 없이 중앙 메시지와 확인/취소 버튼만 제공되는 가벼운 모달입니다.
+              완료 · 확인 필요 · 실패 같은 결과를 알리는 서비스 공통 알림창입니다. 유리 아이콘 + 큰 제목 + 설명 + 확인 버튼 구성(Figma 문의 / 접수 완료 PC 700:23470 · MO 700:23475)이며, 폼 검증과 제출 피드백에 사용합니다.
             </p>
 
             <div className={styles.sub_section}>
@@ -165,28 +183,46 @@ export default function ModalGuidePage() {
                   </thead>
                   <tbody>
                     <tr>
-                      <td><code>message</code></td>
-                      <td><code>string</code></td>
-                      <td>(필수)</td>
-                      <td>모달 본문에 노출될 안내 메시지</td>
+                      <td><code>variant</code></td>
+                      <td><code>'success' | 'warning' | 'error'</code></td>
+                      <td><code>'success'</code></td>
+                      <td>의미별 기본 아이콘: 성공(파랑 체크) · 경고(주황 느낌표) · 오류(빨강 X)</td>
                     </tr>
                     <tr>
-                      <td><code>onConfirm</code></td>
-                      <td><code>() =&gt; void</code></td>
+                      <td><code>icon</code></td>
+                      <td><code>string</code></td>
+                      <td>(variant 아이콘)</td>
+                      <td>글리프 SVG 경로로 아이콘 교체 (아이콘은 항상 노출)</td>
+                    </tr>
+                    <tr>
+                      <td><code>title</code></td>
+                      <td><code>ReactNode</code></td>
+                      <td>(필수)</td>
+                      <td>제목 (PC 40 / MO 32). 모바일 줄바꿈은 <code>&lt;br className="heroMoBr" /&gt;</code></td>
+                    </tr>
+                    <tr>
+                      <td><code>description</code></td>
+                      <td><code>ReactNode</code></td>
                       <td>-</td>
-                      <td>확인 버튼 클릭 시 실행될 핸들러</td>
+                      <td>제목 아래 안내 문구. 생략하면 설명 한 줄 높이만큼 여백을 유지</td>
                     </tr>
                     <tr>
                       <td><code>confirmText</code></td>
                       <td><code>string</code></td>
                       <td><code>'확인'</code></td>
-                      <td>확인 버튼 텍스트</td>
+                      <td>확인 버튼 문구</td>
                     </tr>
                     <tr>
                       <td><code>cancelText</code></td>
                       <td><code>string</code></td>
-                      <td><code>'취소'</code></td>
-                      <td>취소 버튼 텍스트 (onConfirm 제공 시 노출)</td>
+                      <td>-</td>
+                      <td>지정하면 취소 버튼이 함께 노출 (확인/취소 2버튼)</td>
+                    </tr>
+                    <tr>
+                      <td><code>onConfirm</code></td>
+                      <td><code>() =&gt; void</code></td>
+                      <td><code>onClose</code></td>
+                      <td>확인 버튼 동작</td>
                     </tr>
                   </tbody>
                 </table>
@@ -195,24 +231,76 @@ export default function ModalGuidePage() {
 
             <div className={styles.sub_section} style={{ marginTop: '24px' }}>
               <h3 className={styles.title_h3}>1.2. Usage</h3>
-              <div className={styles.preview}>
-                <Button onClick={() => setIsAlertOpen(true)}>AlertModal 열기</Button>
-                <AlertModal 
-                  isOpen={isAlertOpen} 
-                  onClose={() => setIsAlertOpen(false)}
-                  message="정말 삭제하시겠습니까?"
-                  onConfirm={() => {
-                    alert('삭제되었습니다.');
-                    setIsAlertOpen(false);
-                  }}
+              <div className={styles.preview} style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                <Button onClick={() => setAlertCase('success')}>성공</Button>
+                <Button onClick={() => setAlertCase('warning')}>경고</Button>
+                <Button onClick={() => setAlertCase('error')}>오류</Button>
+                <Button variant="subtle" bordered onClick={() => setAlertCase('noDesc')}>설명 없음</Button>
+                <Button variant="subtle" bordered onClick={() => setAlertCase('confirm')}>확인 / 취소</Button>
+
+                <AlertModal
+                  isOpen={alertCase === 'success'}
+                  onClose={() => setAlertCase(null)}
+                  title="문의가 접수되었습니다"
+                  description="입력하신 이메일로 답변드리겠습니다."
+                />
+                <AlertModal
+                  isOpen={alertCase === 'warning'}
+                  onClose={() => setAlertCase(null)}
+                  variant="warning"
+                  title="필수 항목을 입력해 주세요"
+                  description="기관·회사명 항목이 비어 있습니다."
+                />
+                <AlertModal
+                  isOpen={alertCase === 'error'}
+                  onClose={() => setAlertCase(null)}
+                  variant="error"
+                  title="문의 접수에 실패했습니다"
+                  description="잠시 후 다시 시도해 주세요."
+                />
+                <AlertModal
+                  isOpen={alertCase === 'noDesc'}
+                  onClose={() => setAlertCase(null)}
+                  title="변경 사항이 저장되었습니다"
+                />
+                <AlertModal
+                  isOpen={alertCase === 'confirm'}
+                  onClose={() => setAlertCase(null)}
+                  variant="warning"
+                  title="작성 중인 내용을 지울까요?"
+                  description="지운 내용은 복구할 수 없습니다."
+                  confirmText="지우기"
+                  cancelText="취소"
+                  onConfirm={() => setAlertCase(null)}
                 />
               </div>
-              <CodeBlock code={`<AlertModal 
-  isOpen={isOpen} 
+              <CodeBlock code={`{/* 성공 (기본) */}
+<AlertModal
+  isOpen={isOpen}
   onClose={() => setIsOpen(false)}
-  message="정말 삭제하시겠습니까?"
-  onConfirm={() => handleConfirm()}
+  title="문의가 접수되었습니다"
+  description="입력하신 이메일로 답변드리겠습니다."
+/>
+
+{/* 경고 · 오류 */}
+<AlertModal variant="warning" title="필수 항목을 입력해 주세요" ... />
+<AlertModal variant="error" title="문의 접수에 실패했습니다" ... />
+
+{/* 설명 없음 (설명 한 줄 높이만큼 여백 유지) */}
+<AlertModal title="변경 사항이 저장되었습니다" ... />
+
+{/* 확인 / 취소 2버튼 */}
+<AlertModal
+  variant="warning"
+  title="작성 중인 내용을 지울까요?"
+  confirmText="지우기"
+  cancelText="취소"
+  onConfirm={handleClear}
+  ...
 />`} />
+              <p className={styles.description} style={{ marginTop: '16px' }}>
+                실제 사용 예: 문의하기(<code>/pub/contact/inquiry</code>)의 접수 완료 · 필수 입력 · 이메일 형식 · 동의 필요 · 접수 실패 케이스. 퍼블리싱 대시보드에서 <code>?alert=done | required | email | agree | error</code>로 바로 열어 볼 수 있습니다.
+              </p>
             </div>
           </GuideSection>
 

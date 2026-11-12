@@ -151,6 +151,22 @@
   flex-direction: column;
 }
 
+/* 2단(미디어 + 텍스트) 열 폭 정책: 1025px 이상에서만 시안 폭 비율로 같이 줄어듭니다.
+ * - $weight: 1280 기준 시안 폭(px 숫자만) → 두 열의 flex-grow 비율이 되어 1280에서는 시안 폭 그대로
+ * - $max: 시안 폭 상한(예: 560rem). 지정하면 그 이상 커지지 않음
+ * - 1024px 이하(세로 전환)는 각 페이지의 기존 규칙을 그대로 사용 (flex-basis 0 이 세로 배치에서 높이를 0으로 만드는 것을 방지) */
+@mixin split-col($weight, $max: null) {
+  @media (min-width: 1025px) {
+    flex: $weight 1 0%;
+    width: auto;
+    min-width: 0;
+
+    @if $max {
+      max-width: $max;
+    }
+  }
+}
+
 @mixin visually-hidden {
   position: absolute;
   width: 1rem;

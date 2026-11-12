@@ -80,18 +80,18 @@ export default function PubTechnologySmartWorkflow() {
         {/* 1. Hero (Figma PC 2165:10030 / Mobile 2165:10273) */}
         <HeroSection
           heroVariant="compact"
-          bgPreset="technology"
+          category="technology"
           className={styles.workflowHero}
           eyebrow="SMART WORKFLOW"
           title={
             <>
-              반입 한 번으로,<br className="mobileBr" /> 탐지부터 안전<br className="mobileBr" /> 반출까지
-              <br className="pcBr" /> 자동화된<br className="mobileBr" /> 대용량 파이프라인
+              반입 한 번으로,<br className="heroMoBr" /> 탐지부터 안전<br className="heroMoBr" /> 반출까지
+              <br className="pcBr" /> 자동화된<br className="heroMoBr" /> 대용량 파이프라인
             </>
           }
           description={
             <>
-              여러 이미지와 영상을 드래그 앤 드롭으로 등록하면,<br className="mobileBr" /> 고속 처리 엔진으로 빠르게
+              여러 이미지와 영상을 드래그 앤 드롭으로 등록하면,<br className="heroMoBr" /> 고속 처리 엔진으로 빠르게
               일괄 가공합니다.
             </>
           }

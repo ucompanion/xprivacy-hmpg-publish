@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import GuideLayout from '../layouts/GuideLayout';
 
 
@@ -91,9 +91,6 @@ const HISTORY_DATA: Record<string, { date: string; tag: string; content: string 
   'Brochure': [
     { date: '2026.10.15', tag: '[진행중]', content: '페이지 최초 작업 (Draft 초안 반영)' },
   ],
-  'Pseudonymization Guide': [
-    { date: '2026.10.15', tag: '[진행중]', content: '페이지 최초 작업 (Draft 초안 반영)' },
-  ],
   '문의': [
     { date: '2026.10.15', tag: '[진행중]', content: '페이지 최초 작업 (Draft 초안 반영)' },
   ],
@@ -112,6 +109,23 @@ const HISTORY_DATA: Record<string, { date: string; tag: string; content: string 
 };
 
 export default function PubIndex() {
+  // 상단 현황(전체·대기·진행중·완료·진행률)은 아래 표의 상태 표시(.status todo/ing/done)를 세어 자동 계산합니다.
+  // 표에서 상태 배지만 바꾸면 숫자와 진행 막대가 함께 갱신됩니다. (직접 숫자를 적지 않습니다)
+  const tableRef = useRef<HTMLTableElement>(null);
+  const [counts, setCounts] = useState({ todo: 0, ing: 0, done: 0 });
+  useEffect(() => {
+    const badges = tableRef.current?.querySelectorAll('.status') ?? [];
+    const next = { todo: 0, ing: 0, done: 0 };
+    badges.forEach((el) => {
+      if (el.classList.contains('done')) next.done += 1;
+      else if (el.classList.contains('ing')) next.ing += 1;
+      else if (el.classList.contains('todo')) next.todo += 1;
+    });
+    setCounts(next);
+  }, []);
+  const total = counts.todo + counts.ing + counts.done;
+  const progress = total > 0 ? Math.round((counts.done / total) * 100) : 0;
+
   const [popupOpen, setPopupOpen] = useState(false);
   const [popupTitle, setPopupTitle] = useState('');
 
@@ -381,20 +395,20 @@ export default function PubIndex() {
 
             <div className="status-summary">
               <div className="progress-bar">
-                <div className="progress-fill" style={{ width: '81%' }}></div>
+                <div className="progress-fill" style={{ width: `${progress}%` }}></div>
               </div>
               <div className="status-counts">
-                <span>전체 <strong>36</strong></span>
-                <span>대기 <strong>3</strong></span>
-                <span>진행중 <strong className="text-ing">4</strong></span>
-                <span>완료 <strong className="text-done">29</strong></span>
-                <span>진행률 <strong className="text-primary">81%</strong></span>
+                <span>전체 <strong>{total}</strong></span>
+                <span>대기 <strong>{counts.todo}</strong></span>
+                <span>진행중 <strong className="text-ing">{counts.ing}</strong></span>
+                <span>완료 <strong className="text-done">{counts.done}</strong></span>
+                <span>진행률 <strong className="text-primary">{progress}%</strong></span>
               </div>
             </div>
           </header>
 
           <div className="table-wrap">
-            <table>
+            <table ref={tableRef}>
               <colgroup>
                 <col width="60px" />
                 <col width="35%" />
@@ -617,29 +631,11 @@ export default function PubIndex() {
                     <button type="button" className="btn-history" onClick={() => openHistoryPopup('REST API')}>수정내역</button>
                   </td>
                 </tr>
-                <tr>
-                  <td>18</td>
-                  <td>On-Premise</td>
-                  <td><a href="/pub/features/on-premise" target="_blank" rel="noreferrer">/pub/features/on-premise</a></td>
-                  <td>조찬기</td>
-                  <td><span className="status todo">대기</span></td>
-                  <td>-</td>
-                  <td>-</td>
-                </tr>
-                <tr>
-                  <td>19</td>
-                  <td>Web Service</td>
-                  <td><a href="/pub/features/web-service" target="_blank" rel="noreferrer">/pub/features/web-service</a></td>
-                  <td>조찬기</td>
-                  <td><span className="status todo">대기</span></td>
-                  <td>-</td>
-                  <td>-</td>
-                </tr>
                 <tr className="category">
                   <td colSpan={7}>▶ Solutions</td>
                 </tr>
                 <tr>
-                  <td>20</td>
+                  <td>18</td>
                   <td>
                     <div>Solutions (원페이지)</div>
                     <div style={{ fontSize: '12px', color: 'var(--pub-text-sub)', marginTop: '2px' }}>
@@ -648,15 +644,15 @@ export default function PubIndex() {
                   </td>
                   <td><a href="/pub/solutions" target="_blank" rel="noreferrer">/pub/solutions</a></td>
                   <td>조찬기</td>
-                  <td><span className="status todo">대기</span></td>
-                  <td>-</td>
+                  <td><span className="status ing">진행중</span></td>
+                  <td>2026.11.11</td>
                   <td>-</td>
                 </tr>
                 <tr className="category">
                   <td colSpan={7}>▶ Demo</td>
                 </tr>
                 <tr>
-                  <td>21</td>
+                  <td>19</td>
                   <td>Demo</td>
                   <td><a href="/pub/demo/demo" target="_blank" rel="noreferrer">/pub/demo/demo</a></td>
                   <td>조찬기</td>
@@ -668,7 +664,7 @@ export default function PubIndex() {
                 </tr>
                 {/* 나중에 필요 시 사용하기 위해 임시 숨김 처리
                 <tr>
-                  <td>22</td>
+                  <td>20</td>
                   <td>이미지 체험</td>
                   <td><a href="/pub/demo/image" target="_blank" rel="noreferrer">/pub/demo/image</a></td>
                   <td>조찬기</td>
@@ -677,7 +673,7 @@ export default function PubIndex() {
                   <td>-</td>
                 </tr>
                 <tr>
-                  <td>23</td>
+                  <td>21</td>
                   <td>영상 체험</td>
                   <td><a href="/pub/demo/video" target="_blank" rel="noreferrer">/pub/demo/video</a></td>
                   <td>조찬기</td>
@@ -686,7 +682,7 @@ export default function PubIndex() {
                   <td>-</td>
                 </tr>
                 <tr>
-                  <td>24</td>
+                  <td>22</td>
                   <td>튜토리얼</td>
                   <td><a href="/pub/demo/tutorial" target="_blank" rel="noreferrer">/pub/demo/tutorial</a></td>
                   <td>조찬기</td>
@@ -700,31 +696,31 @@ export default function PubIndex() {
                   <td colSpan={7}>▶ Contact</td>
                 </tr>
                 <tr>
-                  <td>22</td>
+                  <td>23</td>
                   <td>Brochure</td>
                   <td><a href="/pub/contact/brochure" target="_blank" rel="noreferrer">/pub/contact/brochure</a></td>
                   <td>조찬기</td>
-                  <td><span className="status ing">진행중</span></td>
-                  <td>2026.10.22</td>
+                  <td><span className="status done">완료</span></td>
+                  <td>2026.11.11</td>
                   <td>
                     <button type="button" className="btn-history" onClick={() => openHistoryPopup('Brochure')}>수정내역</button>
                   </td>
                 </tr>
                 <tr>
-                  <td>23</td>
-                  <td>Pseudonymization Guide</td>
-                  <td><a href="/pub/contact/pseudonymization-guide" target="_blank" rel="noreferrer">/pub/contact/pseudonymization-guide</a></td>
-                  <td>조찬기</td>
-                  <td><span className="status ing">진행중</span></td>
-                  <td>2026.10.22</td>
-                  <td>
-                    <button type="button" className="btn-history" onClick={() => openHistoryPopup('Pseudonymization Guide')}>수정내역</button>
-                  </td>
-                </tr>
-                <tr>
                   <td>24</td>
                   <td>문의</td>
-                  <td><a href="/pub/contact/inquiry" target="_blank" rel="noreferrer">/pub/contact/inquiry</a></td>
+                  <td>
+                    <div>
+                      <a href="/pub/contact/inquiry" target="_blank" rel="noreferrer">/pub/contact/inquiry</a>
+                    </div>
+                    <div style={{ marginTop: '4px', display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
+                      <a href="/pub/contact/inquiry?alert=done" target="_blank" rel="noreferrer" style={{ fontSize: '11px', padding: '2px 6px', background: 'var(--pub-surface)', border: '1px solid var(--pub-border)', borderRadius: '3px' }}>접수 완료</a>
+                      <a href="/pub/contact/inquiry?alert=required" target="_blank" rel="noreferrer" style={{ fontSize: '11px', padding: '2px 6px', background: 'var(--pub-surface)', border: '1px solid var(--pub-border)', borderRadius: '3px' }}>필수 입력</a>
+                      <a href="/pub/contact/inquiry?alert=email" target="_blank" rel="noreferrer" style={{ fontSize: '11px', padding: '2px 6px', background: 'var(--pub-surface)', border: '1px solid var(--pub-border)', borderRadius: '3px' }}>이메일 형식</a>
+                      <a href="/pub/contact/inquiry?alert=agree" target="_blank" rel="noreferrer" style={{ fontSize: '11px', padding: '2px 6px', background: 'var(--pub-surface)', border: '1px solid var(--pub-border)', borderRadius: '3px' }}>동의 필요</a>
+                      <a href="/pub/contact/inquiry?alert=error" target="_blank" rel="noreferrer" style={{ fontSize: '11px', padding: '2px 6px', background: 'var(--pub-surface)', border: '1px solid var(--pub-border)', borderRadius: '3px' }}>접수 실패</a>
+                    </div>
+                  </td>
                   <td>조찬기</td>
                   <td><span className="status done">완료</span></td>
                   <td>2026.10.22</td>
@@ -748,8 +744,8 @@ export default function PubIndex() {
                   <td>Company</td>
                   <td><a href="/pub/contact/company" target="_blank" rel="noreferrer">/pub/contact/company</a></td>
                   <td>조찬기</td>
-                  <td><span className="status ing">진행중</span></td>
-                  <td>2026.10.22</td>
+                  <td><span className="status done">완료</span></td>
+                  <td>2026.11.11</td>
                   <td>
                     <button type="button" className="btn-history" onClick={() => openHistoryPopup('Company')}>수정내역</button>
                   </td>
@@ -788,175 +784,6 @@ export default function PubIndex() {
                   <td>2026.10.23</td>
                   <td>
                     <button type="button" className="btn-history" onClick={() => openHistoryPopup('Blog 상세')}>수정내역</button>
-                  </td>
-                </tr>
-                <tr className="category">
-                  <td colSpan={7}>▶ Login</td>
-                </tr>
-                <tr>
-                  <td>29</td>
-                  <td>로그인</td>
-                  <td>
-                    <div>
-                      <a href="/pub/login" target="_blank" rel="noreferrer">/pub/login</a>
-                    </div>
-                    <div style={{ marginTop: '4px', display: 'flex', gap: '4px' }}>
-                      <a href="/pub/login" target="_blank" rel="noreferrer" style={{ fontSize: '11px', padding: '2px 6px', background: 'var(--pub-surface)', border: '1px solid var(--pub-border)', borderRadius: '3px' }}>기본</a>
-                      <a href="/pub/login?case=error" target="_blank" rel="noreferrer" style={{ fontSize: '11px', padding: '2px 6px', background: 'var(--pub-surface)', border: '1px solid var(--pub-border)', borderRadius: '3px' }}>오류</a>
-                      <a href="/pub/login?case=locked" target="_blank" rel="noreferrer" style={{ fontSize: '11px', padding: '2px 6px', background: 'var(--pub-surface)', border: '1px solid var(--pub-border)', borderRadius: '3px' }}>계정잠김</a>
-                    </div>
-                  </td>
-                  <td>조찬기</td>
-                  <td><span className="status done">완료</span></td>
-                  <td>2026.10.23</td>
-                  <td>
-                    <button 
-                      type="button" 
-                      className="btn-history"
-                      onClick={() => openHistoryPopup('로그인')}
-                    >
-                      수정내역
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>30</td>
-                  <td>회원가입</td>
-                  <td>
-                    <div>
-                      <a href="/pub/login/signup" target="_blank" rel="noreferrer">/pub/login/signup</a>
-                    </div>
-                    <div style={{ marginTop: '4px', display: 'flex', gap: '4px' }}>
-                      <a href="/pub/login/signup" target="_blank" rel="noreferrer" style={{ fontSize: '11px', padding: '2px 6px', background: 'var(--pub-surface)', border: '1px solid var(--pub-border)', borderRadius: '3px' }}>기본</a>
-                      <a href="/pub/login/signup?case=error" target="_blank" rel="noreferrer" style={{ fontSize: '11px', padding: '2px 6px', background: 'var(--pub-surface)', border: '1px solid var(--pub-border)', borderRadius: '3px' }}>오류</a>
-                    </div>
-                  </td>
-                  <td>조찬기</td>
-                  <td><span className="status done">완료</span></td>
-                  <td>2026.10.23</td>
-                  <td>
-                    <button 
-                      type="button" 
-                      className="btn-history"
-                      onClick={() => openHistoryPopup('회원가입')}
-                    >
-                      수정내역
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>31</td>
-                  <td>패스워드 찾기</td>
-                  <td>
-                    <div>
-                      <a href="/pub/login/find-password" target="_blank" rel="noreferrer">/pub/login/find-password</a>
-                    </div>
-                    <div style={{ marginTop: '4px', display: 'flex', gap: '4px' }}>
-                      <a href="/pub/login/find-password" target="_blank" rel="noreferrer" style={{ fontSize: '11px', padding: '2px 6px', background: 'var(--pub-surface)', border: '1px solid var(--pub-border)', borderRadius: '3px' }}>기본</a>
-                      <a href="/pub/login/find-password?case=sent" target="_blank" rel="noreferrer" style={{ fontSize: '11px', padding: '2px 6px', background: 'var(--pub-surface)', border: '1px solid var(--pub-border)', borderRadius: '3px' }}>발송완료</a>
-                    </div>
-                  </td>
-                  <td>조찬기</td>
-                  <td><span className="status done">완료</span></td>
-                  <td>2026.10.23</td>
-                  <td>
-                    <button 
-                      type="button" 
-                      className="btn-history"
-                      onClick={() => openHistoryPopup('패스워드 찾기')}
-                    >
-                      수정내역
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>32</td>
-                  <td>비밀번호 재설정</td>
-                  <td>
-                    <div>
-                      <a href="/pub/login/reset-password" target="_blank" rel="noreferrer">/pub/login/reset-password</a>
-                    </div>
-                    <div style={{ marginTop: '4px', display: 'flex', gap: '4px' }}>
-                      <a href="/pub/login/reset-password" target="_blank" rel="noreferrer" style={{ fontSize: '11px', padding: '2px 6px', background: 'var(--pub-surface)', border: '1px solid var(--pub-border)', borderRadius: '3px' }}>기본</a>
-                      <a href="/pub/login/reset-password?case=complete" target="_blank" rel="noreferrer" style={{ fontSize: '11px', padding: '2px 6px', background: 'var(--pub-surface)', border: '1px solid var(--pub-border)', borderRadius: '3px' }}>변경완료</a>
-                      <a href="/pub/login/reset-password?case=expired" target="_blank" rel="noreferrer" style={{ fontSize: '11px', padding: '2px 6px', background: 'var(--pub-surface)', border: '1px solid var(--pub-border)', borderRadius: '3px' }}>링크만료</a>
-                    </div>
-                  </td>
-                  <td>조찬기</td>
-                  <td><span className="status done">완료</span></td>
-                  <td>2026.10.23</td>
-                  <td>
-                    <button 
-                      type="button" 
-                      className="btn-history"
-                      onClick={() => openHistoryPopup('비밀번호 재설정')}
-                    >
-                      수정내역
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>33</td>
-                  <td>약관동의</td>
-                  <td><a href="/pub/login/terms" target="_blank" rel="noreferrer">/pub/login/terms</a></td>
-                  <td>조찬기</td>
-                  <td><span className="status done">완료</span></td>
-                  <td>2026.10.23</td>
-                  <td>
-                    <button 
-                      type="button" 
-                      className="btn-history"
-                      onClick={() => openHistoryPopup('약관동의')}
-                    >
-                      수정내역
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>34</td>
-                  <td>가입완료</td>
-                  <td><a href="/pub/login/signup-complete" target="_blank" rel="noreferrer">/pub/login/signup-complete</a></td>
-                  <td>조찬기</td>
-                  <td><span className="status done">완료</span></td>
-                  <td>2026.10.23</td>
-                  <td>
-                    <button 
-                      type="button" 
-                      className="btn-history"
-                      onClick={() => openHistoryPopup('가입완료')}
-                    >
-                      수정내역
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>35</td>
-                  <td>탈퇴하기</td>
-                  <td>
-                    <div>
-                      <a href="/pub/login/withdraw" target="_blank" rel="noreferrer">/pub/login/withdraw</a>
-                    </div>
-                    <div style={{ marginTop: '4px', display: 'flex', gap: '4px' }}>
-                      <a href="/pub/login/withdraw" target="_blank" rel="noreferrer" style={{ fontSize: '11px', padding: '2px 6px', background: 'var(--pub-surface)', border: '1px solid var(--pub-border)', borderRadius: '3px' }}>기본</a>
-                      <a href="/pub/login/withdraw?case=error" target="_blank" rel="noreferrer" style={{ fontSize: '11px', padding: '2px 6px', background: 'var(--pub-surface)', border: '1px solid var(--pub-border)', borderRadius: '3px' }}>비밀번호 오류</a>
-                    </div>
-                  </td>
-                  <td>조찬기</td>
-                  <td><span className="status done">완료</span></td>
-                  <td>2026.10.23</td>
-                  <td>
-                    <button type="button" className="btn-history" onClick={() => openHistoryPopup('탈퇴하기')}>수정내역</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>36</td>
-                  <td>탈퇴완료</td>
-                  <td><a href="/pub/login/withdraw-complete" target="_blank" rel="noreferrer">/pub/login/withdraw-complete</a></td>
-                  <td>조찬기</td>
-                  <td><span className="status done">완료</span></td>
-                  <td>2026.10.23</td>
-                  <td>
-                    <button type="button" className="btn-history" onClick={() => openHistoryPopup('탈퇴완료')}>수정내역</button>
                   </td>
                 </tr>
               </tbody>

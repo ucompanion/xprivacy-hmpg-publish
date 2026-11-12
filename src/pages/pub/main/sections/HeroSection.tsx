@@ -21,7 +21,7 @@ const SLIDES: HeroSlide[] = [
       <>
         <span className={styles.titleRegular}>영상 비식별 작업</span>
         <br />
-        탐지부터 검수까지<br className={styles.moBr} /> 이어집니다
+        탐지부터 검수까지<br className={styles.moBr} /> 이어집니다.
       </>
     ),
     description: (
@@ -39,7 +39,7 @@ const SLIDES: HeroSlide[] = [
           복잡한 영상 속<br className={styles.moBr} /> 개인정보
         </span>
         <br />
-        AI로 탐지하고<br className={styles.moBr} /> 보호합니다
+        AI로 탐지하고<br className={styles.moBr} /> 보호합니다.
       </>
     ),
     description: (
@@ -172,6 +172,7 @@ export const HeroSection = () => {
   return (
     <section
       className={styles.hero}
+      data-aos-skip
       aria-roledescription="carousel"
       aria-label="메인 비주얼"
       onMouseEnter={() => setPaused(true)}

@@ -99,6 +99,7 @@
   flex-direction: column;
   justify-content: center;
   border-bottom: 1rem solid rgba(255, 255, 255, 0.1);
+  transition: background-color 0.25s ease;
 
   /* 활성 막대 (좌측 2px) */
   &::before {
@@ -111,7 +112,7 @@
     background-color: var(--color-primary, #3b5bff);
     transform: scaleY(0);
     transform-origin: top;
-    transition: transform 0.4s ease;
+    transition: transform 0.4s ease, opacity 0.25s ease;
   }
 }
 
@@ -183,9 +184,24 @@
   }
 }
 
-.itemButton:hover .itemTitle {
-  color: var(--color-text-inverse, #ffffff);
-  opacity: 0.8;
+/* hover (비활성 항목): 배경이 밝아지고, 왼쪽 막대가 절반 투명도로 나타나며, 번호가 primary · 제목이 흰색으로 바뀜 (터치 기기 제외) */
+@media (hover: hover) {
+  .item:not(.itemActive):hover {
+    background-color: rgba(255, 255, 255, 0.06);
+
+    &::before {
+      transform: scaleY(1);
+      opacity: 0.5;
+    }
+
+    .itemNo {
+      color: var(--color-primary, #3b5bff);
+    }
+
+    .itemTitle {
+      color: var(--color-text-inverse, #ffffff);
+    }
+  }
 }
 
 /* 설명 펼침 (grid 0fr → 1fr) */
