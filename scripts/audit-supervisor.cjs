@@ -7,7 +7,7 @@
  * 3. Open-Rendering & Preview Container Check (No cards inside .preview)
  * 4. Tab Labels Cleanliness Check (No parentheses in Core/Domain tabs)
  * 5. Design Tokens & Font Architecture Check
- * 6. Documentation Synchronization Check
+ * 6. Documentation Synchronization Check (+ 문서에 적힌 파일 경로 존재 검사)
  * 7. TypeScript Compilation Check
  */
 
@@ -178,6 +178,39 @@ try {
   report('Docs', 'PROMPT_BASE_SYSTEM.md reflects Core vs Domain decision tree principle', systemDocUpdated);
 } catch (e) {
   report('Docs', 'Documentation sync inspection', false, e.message);
+}
+
+// 5-2. Documentation Path Check
+// 지침·스킬·doc 문서에 백틱으로 적힌 `src/…` `doc/…` `public/…` `scripts/…` 경로가 실제로 있는지 확인합니다.
+// (파일이 옮겨지거나 지워졌는데 문서가 옛 경로를 가리키는 것을 막기 위함)
+try {
+  const docFiles = ['AGENTS.md'];
+  const skillsDir = path.join(ROOT_DIR, '.claude/skills');
+  if (fs.existsSync(skillsDir)) {
+    getAllFiles(skillsDir).filter((f) => f.endsWith('.md')).forEach((f) => docFiles.push(path.relative(ROOT_DIR, f)));
+  }
+  const docDir = path.join(ROOT_DIR, 'doc');
+  if (fs.existsSync(docDir)) {
+    getAllFiles(docDir).filter((f) => f.endsWith('.md')).forEach((f) => docFiles.push(path.relative(ROOT_DIR, f)));
+  }
+
+  const missing = [];
+  docFiles.forEach((rel) => {
+    const content = fs.readFileSync(path.join(ROOT_DIR, rel), 'utf-8');
+    const found = new Set(content.match(/`(?:src|doc|public|scripts)\/[A-Za-z0-9_.\-/]+`/g) || []);
+    found.forEach((raw) => {
+      const target = raw.slice(1, -1).replace(/\/$/, '');
+      if (!fs.existsSync(path.join(ROOT_DIR, target))) missing.push(`${rel} → ${target}`);
+    });
+  });
+  report(
+    'Docs',
+    `Paths written in docs exist (${docFiles.length} documents checked)`,
+    missing.length === 0,
+    missing.join('\n   👉 '),
+  );
+} catch (e) {
+  report('Docs', 'Documentation path inspection', false, e.message);
 }
 
 // 6. TypeScript Compilation Check

@@ -1,7 +1,10 @@
-# xPrivacy Foundation Data (Single Source of Truth)
+# xPrivacy Foundation Data (최초 설계 기준)
 
-이 문서는 xPrivacy 디자인 시스템의 **실제 Foundation 데이터(Variables, Tokens, Scales)**를 정의하는 단일 진실 공급원(Single Source of Truth)입니다.
-앞으로 가이드 화면용 프롬프트(`PROMPT_GUIDE_FA_*.md`), 결과 페이지, 그리고 `_variables.scss`는 모두 이 문서에 정의된 값을 최우선 기준으로 동기화되어야 합니다.
+> **⚠️ 기준 전환 안내**: 이 문서는 디자인 시스템을 **처음 설계할 때 정한 초기 Foundation 값**(Variables, Tokens, Scales)입니다. 환경 설정과 구축이 끝난 뒤의 **실제 디자인 시스템 기준은 코드**입니다.
+> *   색상·간격·폰트 크기 등 토큰: `src/assets/scss/_variables.scss`
+> *   텍스트 스타일(믹스인): `src/assets/scss/_mixins.scss`
+>
+> 아래 값은 설계 당시 기록이며 현재 코드와 다를 수 있습니다. 값이 다르면 **항상 코드가 맞습니다.** 새 작업의 근거로 이 문서의 값을 쓰지 않습니다.
 
 ---
 

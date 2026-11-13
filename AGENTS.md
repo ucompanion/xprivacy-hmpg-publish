@@ -74,7 +74,7 @@ AI 어시스턴트는 이 워크스페이스에서 수행되는 **모든 작업(
     *   토큰·단위는 Gate 4를 따릅니다. 피그마 MCP URL 작업은 계정 공통 스킬 `figma-mcp-publish`(시안 재현 규칙)와 프로젝트 스킬 `.claude/skills/xprivacy-figma-publish`(이 프로젝트의 매핑·컴포넌트·CSS 규칙)를 함께 따릅니다.
 4.  **Step 4. PC vs Mobile 반응형 크로스 매핑 (Responsive Cross-Mapping)**:
     *   모바일 뷰포트에서 상하 스택(`column`)될 요소와 나란히 유지(`row`)되어야 하는 비교 UI(예: 비포/애프터 프레임, 트래킹 이미지 내 패널)를 사전에 분리하여 반응형 스타일을 작성합니다.
-    *   **모바일 시안 줄바꿈 적용 범위 (전반 규칙)**: 모바일 시안(390폭 기준)의 줄바꿈은 사이트 모바일 분기점(768px)이 아니라 **폰 폭(480px 이하)에서만 강제**하고, **481~768px(태블릿)은 `keep-all` 자연 줄바꿈**을 따릅니다. 넓은 모바일 구간까지 강제하면 제목이 좁게 쌓여 어색해지기 때문입니다. 전용 유틸리티 `<br className="heroMoBr" />`(`src/assets/scss/_utilities.scss`)를 사용하고, PC 전용 줄바꿈은 `pcBr`, PC·모바일 공통 줄바꿈은 일반 `<br />`로 구분합니다. 신규·수정 작업에서 768px 전체에 걸리는 `mobileBr`로 시안 줄바꿈을 재현하지 않습니다. 2단 구조(미디어 + 텍스트)의 제목·설명 줄바꿈은 PC 1280 미만에서 해제되도록 `splitBr`(일반 `<br />` 대체) · `splitPcBr`(`pcBr` 대체)를 사용합니다. (세부: `doc/guide/PROMPT_DESIGN_ANALYSIS_PROCESS.md` Step 4)
+    *   **시안 줄바꿈**: 모바일 시안(390폭)의 줄바꿈은 폰 폭(480px 이하)에서만 `<br className="heroMoBr" />`로 강제하고, 481~768px은 `keep-all` 자연 줄바꿈입니다. PC 전용은 `pcBr`, PC·모바일 공통은 일반 `<br />`이며, 768px 전체에 걸리는 `mobileBr`로 재현하지 않습니다. 2단 구조(미디어 + 텍스트)의 제목·설명 줄바꿈은 PC 1280 미만에서 해제되도록 `splitBr`(일반 `<br />` 대체) · `splitPcBr`(`pcBr` 대체)를 씁니다. (세부: `doc/guide/PROMPT_DESIGN_ANALYSIS_PROCESS.md` Step 4 · `PROMPT_BASE_SYSTEM.md` 6.4)
 5.  **Step 5. 시각적 렌더링 캡처 및 Self-Diff 검증 (Visual Capture & Diff)**:
     *   작업 후 시안 프레임 너비 기준(PC 1440px, 모바일은 시안 너비 360·375·390px 등)으로 실제 브라우저 캡처를 수행하고 원본 시안과 1:1 대조 체크리스트를 통과한 후 작업을 마칩니다.
 

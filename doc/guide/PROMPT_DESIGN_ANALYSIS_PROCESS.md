@@ -92,7 +92,7 @@ graph TD
     *   **일반 본문 섹션 (`<BasicSection bg="white" | "gray">`)**:
         *   코어 `Section`의 모든 옵션(`layout`, `align`, `theme` 등)을 그대로 계승하며, `bg="white"`와 `bg="gray"`로 페이지 간 시각적 리듬을 형성.
         *   상단 중앙 타이틀 + 2단 본문 구조는 반드시 `<BasicSection layout="vertical" align="center">`의 `children` 내부에 2열 그리드/플렉스를 배치.
-    *   **하단 CTA 배너 (`<CtaSection>`, `src/components/domain/Section`)**: 서비스 전체의 하단 CTA는 이 컴포넌트 하나로 통일합니다(과거 제품 폴더의 `ProductCta`는 폐기·통합).
+    *   **하단 CTA 배너 (`<CtaSection>`, `src/components/domain/Section`)**: 서비스 전체의 하단 CTA는 이 컴포넌트 하나로 통일합니다.
         *   **Main 타입** (`variant="main"`): Figma CTA/v2(2528:61316) 전폭 소프트 글로우 배너, 중앙 정렬. 버튼은 `primaryLabel`·`primaryHref`(Button/v2 Primary)와 `secondaryLabel`·`secondaryHref`(Button/v2 Secondary)로 지정하고, 특수한 버튼 구성이 필요할 때만 `buttons`로 직접 넣습니다.
         *   **Sub 타입** (`variant="sub"`): 컴팩트 카드형 다크 배너, 단일/복합 액션 버튼.
     *   **버튼**: 도메인 버튼을 두지 않고 화면에서 Core `Button`을 직접 씁니다. 일부만 도메인으로 감싸면 Core 호출과 섞여 일관성이 떨어지기 때문입니다. 모양 차이는 `variant`·`color`·`size`·`bordered` 옵션으로만 표현합니다.
@@ -130,7 +130,7 @@ PC 시안과 Mobile 시안을 나란히 두고 **뷰포트 축소 시 무엇이 
 | **디바이스/비교 UI** | 나란히 비교 (`row`) | **나란히 비교 유지 (`row`)** ⚠️ | 모바일에서도 가로 대조가 필수적인 UI(비포/애프터 등)는 강제 세로 변환 금지! |
 | **플로팅 컨트롤** | 우측 고정 플로팅 | 비주얼 내 최적 비율 유지 | 텍스트/라디오 크기 스케일다운(`11rem` 등) |
 
-*   **모바일 시안 줄바꿈 (전반 규칙, 히어로 타이틀 포함)**: 시안의 모바일 줄바꿈(390폭)은 사이트 모바일 분기점(768px)이 아니라 **폰 폭(480px 이하)** 에서만 강제합니다. 전용 유틸리티 `<br className="heroMoBr" />`(`src/assets/scss/_utilities.scss`)를 쓰고, PC 전용 줄바꿈은 `pcBr`, PC·모바일 공통 줄바꿈은 일반 `<br />`로 둡니다. 481~768px(태블릿)은 `keep-all` 자연 줄바꿈이 따르고, 360px대에서는 시안 줄 중 가장 긴 것(약 354rem)이 한 줄에 못 들어가는 일부 타이틀만 자연 줄바꿈이 추가됩니다.
+*   **모바일 시안 줄바꿈 (전반 규칙, 히어로 타이틀 포함)**: 시안의 모바일 줄바꿈(390폭)은 사이트 모바일 분기점(768px)이 아니라 **폰 폭(480px 이하)** 에서만 강제합니다. 전용 유틸리티 `<br className="heroMoBr" />`(`src/assets/scss/_utilities.scss`)를 쓰고, PC 전용 줄바꿈은 `pcBr`, PC·모바일 공통 줄바꿈은 일반 `<br />`로 둡니다. 2단 구조(미디어 + 텍스트)의 제목·설명 줄바꿈은 PC 1280 미만에서 해제되도록 `splitBr`·`splitPcBr`를 씁니다(`PROMPT_BASE_SYSTEM.md` 6.4). 481~768px(태블릿)은 `keep-all` 자연 줄바꿈이 따르고, 360px대에서는 시안 줄 중 가장 긴 것(약 354rem)이 한 줄에 못 들어가는 일부 타이틀만 자연 줄바꿈이 추가됩니다.
 
 ---
 
