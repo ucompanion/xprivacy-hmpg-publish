@@ -13,18 +13,16 @@ const EFFECT_TABS: { id: EffectId; label: string }[] = [
   { id: 'virtual', label: '가상얼굴' },
 ];
 
-const TARGET_COUNTS = [
-  { label: 'PERSON', count: 2 },
-  { label: 'FACE', count: 1 },
-  { label: 'LICENSE PLATE', count: 1 },
-];
+/* 탭별 시안 이미지 (Figma 4249:1336) — 탐지 박스·태그·비식별 효과가 이미지에 포함된 통이미지
+   원본: 효과 없는 원본 · 적용 후: 식별 프레임(탐지 박스 포함) */
+const IMG = '/images/main/compare';
 
-/* 탐지 박스 (사진 스테이지 기준 좌표 · Figma 1928:568/571/574) */
-const TARGET_BOXES = [
-  { id: 'person', label: 'PERSON', className: styles.boxPerson },
-  { id: 'face', label: 'FACE', className: styles.boxFace },
-  { id: 'plate', label: 'LICENSE PLATE', className: styles.boxPlate },
-];
+const Stage = ({ pc, mo }: { pc: string; mo: string }) => (
+  <picture className={styles.stage}>
+    <source media="(max-width: 768px)" srcSet={`${IMG}/${mo}.jpg`} />
+    <img src={`${IMG}/${pc}.jpg`} alt="" draggable={false} />
+  </picture>
+);
 
 /** 비교 기준선 초기 위치 (PC 305/1244 · MO 가운데) */
 const initialPosition = () =>
@@ -58,7 +56,7 @@ export const ComparisonSection = () => {
         <>
           <span className={styles.titleRegular}>탐지부터 비식별화까지</span>
           <br />
-          기능별 적용 결과를<br className={styles.moBr} /> 확인하세요
+          기능별 적용 결과를<br className="heroMoBr" /> 확인하세요
         </>
       }
       description={
@@ -92,41 +90,20 @@ export const ComparisonSection = () => {
           id="effect-panel"
           role="tabpanel"
           aria-labelledby={`effect-tab-${effect}`}
-          className={`${styles.panel} ${styles[`effect_${effect}`]}`}
+          className={styles.panel}
           style={{ '--split': `${position}%` } as React.CSSProperties}
         >
           {/* 적용 후 (전체) */}
           <div className={styles.layer}>
-            <div className={styles.stage}>
-              {TARGET_BOXES.map((box) => (
-                <span key={box.id} className={`${styles.box} ${box.className}`}>
-                  <span className={styles.boxTag}>{box.label}</span>
-                </span>
-              ))}
-            </div>
-            <span className={`${styles.stateTag} ${styles.stateAfter}`}>적용 후</span>
+            <Stage pc={`pc_${effect}`} mo={`mo_${effect}`} />
+            <span className={`${styles.stateTag} ${styles.stateAfter}`}>비식별 처리</span>
           </div>
 
           {/* 원본 (기준선 왼쪽만 노출) */}
           <div className={`${styles.layer} ${styles.layerOriginal}`} aria-hidden="true">
-            <div className={styles.stage} />
+            <Stage pc="pc_original" mo="mo_original" />
             <span className={styles.originalShade} />
             <span className={`${styles.stateTag} ${styles.stateOriginal}`}>원본</span>
-          </div>
-
-          <div className={styles.targets} aria-label="탐지 대상">
-            <p className={styles.targetsHead}>
-              <Icon name="targets" size={14} />
-              Targets
-            </p>
-            <dl className={styles.targetsList}>
-              {TARGET_COUNTS.map((item) => (
-                <div key={item.label} className={styles.targetsRow}>
-                  <dt>{item.label}</dt>
-                  <dd>{item.count}</dd>
-                </div>
-              ))}
-            </dl>
           </div>
 
           <input

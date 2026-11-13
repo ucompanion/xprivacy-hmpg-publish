@@ -1,3 +1,4 @@
+@use "@/assets/scss/mixins" as *;
 @use "./main" as *;
 
 /* 자주 묻는 질문 (Figma PC 1928:956 · MO 1928:1462) — 목록은 도메인 FaqAccordion */
@@ -5,7 +6,61 @@
   @include main-section;
 }
 
+/* hover: 질문 제목 색 변경 대신 항목 배경을 회색으로 (터치 기기 제외) */
+@media (hover: hover) {
+  .faq.faq {
+    :global(.accordion-item) {
+      transition: background-color 0.2s;
+
+      &:hover {
+        background-color: $surface-subtle;
+      }
+    }
+
+    :global(.accordion-header):hover :global(.title) {
+      color: inherit;
+    }
+  }
+}
+
+/* 질문 앞 그룹 라벨 */
+.groupLabel.groupLabel {
+  min-width: 100rem;
+  margin-right: 10rem;
+  padding: 5rem 12rem;
+  border-radius: 8rem;
+  font-size: 14rem;
+  font-weight: var(--font-weight-bold, 700);
+  letter-spacing: 0;
+  vertical-align: middle;
+  transform: translateY(-2rem);
+}
+
+/* 더 보기 (Figma 4256:66135 · MO 4256:66158) */
+.more {
+  display: flex;
+  justify-content: center;
+  padding-top: 24rem;
+}
+
+.moreButton.moreButton.moreButton {
+  gap: 8rem;
+  height: auto;
+  min-height: 0;
+  padding: 0;
+  color: var(--color-text-gray-2, #5f6368);
+  @include text-body;
+
+  &:hover {
+    background-color: transparent;
+  }
+}
+
 @media (max-width: 768px) {
+  .more {
+    padding-top: 20rem;
+  }
+
   .header.header {
     align-items: flex-start;
   }

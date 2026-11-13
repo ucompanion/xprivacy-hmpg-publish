@@ -58,11 +58,6 @@
   padding: 20rem;
   /* 시안 py32 항목이 416 높이에 맞춰 줄어든 실측값 (137 × 3) */
   border-bottom: 1rem solid var(--color-border-default, #e8eaed);
-  transition: background-color 0.2s;
-
-  &:hover {
-    background-color: $surface-subtle;
-  }
 }
 
 .itemTitle {

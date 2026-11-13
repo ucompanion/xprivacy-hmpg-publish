@@ -6,6 +6,7 @@ import { FeatureSection } from './sections/FeatureSection';
 import { UseCaseSection } from './sections/UseCaseSection';
 import { PricingSection } from './sections/PricingSection';
 import { FaqSection } from './sections/FaqSection';
+import { PartnerLogoStrip } from '../../../components/domain/Partner/PartnerLogoStrip';
 import { CtaSection } from '../../../components/domain/Section';
 
 /**
@@ -15,6 +16,7 @@ export default function PubFrontMain() {
   return (
     <FrontLayout>
       <HeroSection />
+      <PartnerLogoStrip />
       <ComparisonSection />
       <ProcessSection />
       <FeatureSection />

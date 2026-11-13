@@ -62,7 +62,7 @@ const BENEFITS = [
 
 // 시안 통이미지 대체 텍스트: 이미지 안의 설정 UI 내용을 함께 전달
 const VISION_ALT =
-  '버스 정류장 도로 사진에 대상별 비식별 방식과 강도가 적용된 예시 화면. 1 얼굴 Gaussian Blur, 2 신체 Masking, 3 번호판 Mosaic, 4 텍스트(상호, 로고) Gaussian Blur이 선택되어 있고 모자이크 픽셀 크기와 블러 강도 슬라이더가 표시됩니다.';
+  '버스 정류장 도로 사진에 대상별 비식별 방식과 강도가 적용된 예시 화면. 1 얼굴 Gaussian Blur, 2 신체 Masking, 3 번호판 Gaussian Blur,4 텍스트(상호, 로고) Gaussian Blur이 선택되어 있고 모자이크 픽셀 크기와 블러 강도 슬라이더가 표시됩니다.';
 
 export default function PubSubTechnologyPrivacyEngine() {
   return (

@@ -21,15 +21,6 @@ const IRREVERSIBLE_ITEMS = [
   { title: '비가역적 보안 변환', desc: '처리된 개인정보를 원본으로 복원할 수 없는 방식으로 보호합니다.' },
 ];
 
-// 회의실 사진 얼굴 위치 (비가역 블러)
-const MEETING_FACES = [
-  [31, 194.5],
-  [124, 176.5],
-  [268.33, 178.67],
-  [420.7, 174.83],
-  [496.42, 207.19],
-];
-
 // 정밀 타겟팅 탐지 (Figma PC 2257:2288 / Mobile 2286:3523)
 const DETECTION_ITEMS = [
   {
@@ -109,10 +100,18 @@ export default function PubFeaturesImageDeid() {
             </div>
 
             <div className={styles.visual}>
-              <img src={`${IMG}/meeting.jpg`} alt="회의실 인물 얼굴을 비가역 블러로 처리한 예시" className={styles.meetingImg} />
-              {MEETING_FACES.map(([x, y]) => (
-                <span key={`${x}-${y}`} className={styles.faceBlur} style={place(x, y, 45.923, 57.403)} aria-hidden="true" />
-              ))}
+              {/* 비가역 블러(이목구비 타원)가 포함된 통이미지: PC 560×490 / MO 350×306 (Figma 3931:19615 · 3931:19666) */}
+              <picture>
+                <source media="(max-width: 768px)" srcSet={`${IMG}/meeting_blur_mo.jpg`} />
+                <img
+                  src={`${IMG}/meeting_blur_pc.jpg`}
+                  alt="회의실 인물 얼굴을 비가역 블러로 처리한 예시"
+                  className={styles.meetingImg}
+                  width={560}
+                  height={490}
+                  loading="lazy"
+                />
+              </picture>
             </div>
           </div>
         </BasicSection>

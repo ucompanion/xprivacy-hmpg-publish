@@ -1,0 +1,98 @@
+/* 파트너 로고 띠 (Figma Trust / Logo Strip 4213:65961)
+ * PC: 로고 132×40(쏘카 110×24) · 간격 30 · 위아래 48 · 하단 보더. 폭이 모자라면 로고가 함께 줄어든다.
+ * 1024px 이하: 로고 크기 고정 + 한 줄 가로 슬라이드. */
+.strip {
+  width: 100%;
+  background-color: var(--color-surface-white);
+  border-bottom: 1px solid var(--color-border-default);
+  box-sizing: border-box;
+}
+
+.list {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+  gap: 30rem;
+  padding: 48rem var(--layout-gutter, 20rem);
+  box-sizing: border-box;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 1 132rem;
+  min-width: 0;
+  height: 40rem;
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  &:focus-visible {
+    outline: 2rem solid var(--color-primary);
+    outline-offset: 4rem;
+    border-radius: 4rem;
+  }
+}
+
+.wide {
+  flex-basis: 110rem;
+  height: 24rem;
+}
+
+.logo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+@media (max-width: 1024px) {
+  .list {
+    justify-content: flex-start;
+    overflow-x: auto;
+    overflow-y: hidden;
+    cursor: grab;
+    user-select: none;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    &:active {
+      cursor: grabbing;
+    }
+  }
+
+  .link {
+    flex: 0 0 132rem;
+  }
+
+  .wide {
+    flex-basis: 110rem;
+  }
+
+  .logo {
+    pointer-events: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .list {
+    gap: 32rem;
+    padding: 32.5rem 20rem;
+  }
+
+  .link {
+    flex-basis: 110rem;
+    height: 32rem;
+  }
+
+  .wide {
+    flex-basis: 92rem;
+    height: 20rem;
+  }
+}

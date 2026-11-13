@@ -141,11 +141,17 @@ $detect-color: #3db7ff;
   position: absolute;
 }
 
+/* 회의실: 비식별 포함 통이미지 (picture 로 PC·MO 교체) */
+.visual > picture {
+  position: absolute;
+  inset: 0;
+}
+
 .meetingImg {
-  top: 0;
-  left: -29.61%;
-  width: 156.72%;
+  display: block;
+  width: 100%;
   height: 100%;
+  object-fit: cover;
 }
 
 .apartmentImg {
@@ -153,14 +159,6 @@ $detect-color: #3db7ff;
   left: 0;
   width: 100%;
   height: 114.29%;
-}
-
-/* 회의실 얼굴: 비가역 블러 (따뜻한 반투명 + blur 8) */
-.faceBlur {
-  position: absolute;
-  border-radius: frame(22.961);
-  background-color: rgba(224, 209, 194, 0.35);
-  backdrop-filter: blur(frame(8));
 }
 
 /* 탐지: 얼굴 블러 · 번호판 마스킹 */

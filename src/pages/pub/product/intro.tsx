@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useState, useRef, useEffect } from 'react';
 import FrontLayout from '../layouts/FrontLayout';
 import { HeroSection, BasicSection, CtaSection } from '../../../components/domain/Section';
+import { PartnerLogoStrip } from '../../../components/domain/Partner/PartnerLogoStrip';
 import styles from './intro.module.scss';
 import { Button } from '../../../components/core/Button/Button';
 import { Icon } from '../../../components/core/Icon/Icon';
@@ -75,88 +76,6 @@ export default function PubProductIntro() {
       setSliderPosition(100);
     }
   };
-
-  // 파트너 로고 모바일 가로 슬라이드 드래그 지원
-  const partnerLogosRef = useRef<HTMLDivElement>(null);
-  const isPartnerDraggingRef = useRef(false);
-  const partnerStartXRef = useRef(0);
-  const partnerScrollLeftRef = useRef(0);
-  const partnerHasMovedRef = useRef(false);
-
-  const handlePartnerMouseDown = (e: React.MouseEvent) => {
-    const el = partnerLogosRef.current;
-    if (!el) return;
-    isPartnerDraggingRef.current = true;
-    partnerHasMovedRef.current = false;
-    partnerStartXRef.current = e.pageX - el.offsetLeft;
-    partnerScrollLeftRef.current = el.scrollLeft;
-  };
-
-  const handlePartnerMouseMove = (e: React.MouseEvent) => {
-    if (!isPartnerDraggingRef.current) return;
-    const el = partnerLogosRef.current;
-    if (!el) return;
-    const x = e.pageX - el.offsetLeft;
-    const walk = x - partnerStartXRef.current;
-    if (Math.abs(walk) > 4) {
-      partnerHasMovedRef.current = true;
-    }
-    el.scrollLeft = partnerScrollLeftRef.current - walk;
-  };
-
-  const handlePartnerMouseUpOrLeave = () => {
-    isPartnerDraggingRef.current = false;
-  };
-
-  const handlePartnerLinkClick = (e: React.MouseEvent) => {
-    if (partnerHasMovedRef.current) {
-      e.preventDefault();
-      partnerHasMovedRef.current = false;
-    }
-  };
-
-  const partnerList = [
-    {
-      name: '강원 가명정보 활용지원센터',
-      img: '/images/product/intro/partner_logo_01.png',
-      url: 'https://www.data.gangwon.kr',
-    },
-    {
-      name: '강원대학교',
-      img: '/images/product/intro/partner_logo_02.png',
-      url: 'https://www.kangwon.ac.kr',
-    },
-    {
-      name: '한라대학교',
-      img: '/images/product/intro/partner_logo_03.png',
-      url: 'https://www.halla.ac.kr',
-    },
-    {
-      name: '개인정보보호위원회',
-      img: '/images/product/intro/partner_logo_04.png',
-      url: 'https://www.pipc.go.kr',
-    },
-    {
-      name: '티사이언티픽 (T SCIENTIFIC)',
-      img: '/images/product/intro/partner_logo_05.png',
-      url: 'http://www.tscientific.co.kr',
-    },
-    {
-      name: '포소드 (POSOD)',
-      img: '/images/product/intro/partner_logo_06.png',
-      url: 'http://www.posod.co.kr',
-    },
-    {
-      name: '한국인터넷진흥원 (KISA)',
-      img: '/images/product/intro/partner_logo_07.png',
-      url: 'https://www.kisa.or.kr',
-    },
-    {
-      name: '영신디앤씨 (YoungShine D&C)',
-      img: '/images/product/intro/partner_logo_08.png',
-      url: 'https://www.youngshine.co.kr',
-    },
-  ];
 
   const tabList = [
     {
@@ -279,40 +198,8 @@ export default function PubProductIntro() {
           </div>
         </HeroSection>
 
-        {/* 1.1 Standalone Client Logos Bar (Figma v2 Trust / Logo Strip - Desktop 2156:29986 / Mobile 2156:30912) */}
-        <section className={styles.partnerBar} aria-label="주요 파트너 및 고객사">
-          <div className={styles.partnerInner}>
-            <div
-              ref={partnerLogosRef}
-              className={styles.partnerLogos}
-              onMouseDown={handlePartnerMouseDown}
-              onMouseMove={handlePartnerMouseMove}
-              onMouseUp={handlePartnerMouseUpOrLeave}
-              onMouseLeave={handlePartnerMouseUpOrLeave}
-            >
-              {partnerList.map((partner) => (
-                <a
-                  key={partner.name}
-                  href={partner.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={styles.partnerLink}
-                  title={`${partner.name} 공식 홈페이지 (새 창에서 열림)`}
-                  aria-label={`${partner.name} (새 창에서 열림)`}
-                  onClick={handlePartnerLinkClick}
-                >
-                  <img
-                    src={partner.img}
-                    alt={partner.name}
-                    className={styles.partnerLogoImg}
-                    loading="lazy"
-                    draggable={false}
-                  />
-                </a>
-              ))}
-            </div>
-          </div>
-        </section>
+        {/* 1.1 파트너 로고 (Figma Trust / Logo Strip 4213:65961) */}
+        <PartnerLogoStrip />
 
         {/* 2. Process Section (Figma v2 Section / Pipeline - Node 2730:31255) */}
         <BasicSection

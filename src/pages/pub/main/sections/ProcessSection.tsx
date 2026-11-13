@@ -54,7 +54,7 @@ export const ProcessSection = () => {
       descriptionClassName={styles.description}
       title={
         <>
-          <span className={styles.titleRegular}>AI가 먼저 탐지하고</span>
+          <span className={styles.titleRegular}>AI가 먼저 탐지하고</span>{' '}
           <br className="splitBr" />
           사용자가 최종 검수합니다.
         </>
@@ -94,7 +94,6 @@ export const ProcessSection = () => {
               className={styles.stepButton}
               aria-current={index === active ? 'step' : undefined}
               onClick={() => setActive(index)}
-              onMouseEnter={() => setActive(index)}
               onFocus={() => setActive(index)}
             >
               <span className={styles.stepIcon}>

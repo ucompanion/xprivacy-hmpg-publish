@@ -22,14 +22,6 @@
   }
 }
 
-.moBr {
-  display: none;
-
-  @media (max-width: 768px) {
-    display: inline;
-  }
-}
-
 /* MO: 타이틀 · 설명 왼쪽 정렬 (Figma 1928:1042) */
 @media (max-width: 768px) {
   .header.header {
@@ -47,11 +39,8 @@
   display: flex;
   flex-direction: column;
   gap: 24rem;
-  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.1), 0 1rem 2rem -1rem rgba(0, 0, 0, 0.1);
-
   @media (max-width: 768px) {
     gap: 12rem;
-    box-shadow: none;
   }
 }
 
@@ -114,8 +103,6 @@
    PC: 시안 컨테이너 569 고정에 잘려 패널 495만 노출 · MO 522
 -------------------------------------------------------------------------- */
 .panel {
-  --stage-x: 0rem;
-
   position: relative;
   height: 495rem;
   overflow: hidden;
@@ -123,8 +110,8 @@
   user-select: none;
 
   @media (max-width: 768px) {
-    --stage-x: -210rem;
-    height: 522rem;
+    height: auto;
+    aspect-ratio: 350 / 219;
   }
 }
 
@@ -140,11 +127,25 @@
 
 .stage {
   position: absolute;
-  left: var(--stage-x);
+  left: 0;
   top: -85.87rem;
   width: 1242.76rem;
   height: 777.31rem;
-  background: url('/images/main/result_parking.jpg') center / cover no-repeat;
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+  }
+
+  @media (max-width: 768px) {
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+  }
 }
 
 /* 원본 쪽 기준선 그림자 (Figma 1928:605 · 305 폭 multiply 20%) */
@@ -172,131 +173,37 @@
   white-space: nowrap;
 }
 
+/* 비식별 처리 (Figma 4197:80016 · MO 4197:80565): Primary 배경 · 좌우 12 (MO 8 · 위아래 4 · 14) */
 .stateAfter {
   right: 20rem;
-  width: 64rem;
-  background-color: rgba(0, 0, 0, 0.4);
+  padding: 0 12rem;
+  background-color: var(--color-primary, #3b5bff);
 }
 
+/* 원본 (Figma 4197:80045 · MO 4197:80594) */
 .stateOriginal {
   left: 20rem;
   width: 60rem;
   background-color: rgba(0, 0, 0, 0.2);
 }
 
-/* 탐지 박스 */
-.box {
-  position: absolute;
-  border: 2.54rem solid var(--color-secondary, #3db7ff);
-  transition: background-color 0.3s, backdrop-filter 0.3s;
-}
-
-.boxPerson {
-  left: 409.57rem;
-  top: 218.47rem;
-  width: 107rem;
-  height: 240.83rem;
-}
-
-.boxFace {
-  left: 287rem;
-  top: 191.87rem;
-  width: 59rem;
-  height: 59rem;
-}
-
-.boxPlate {
-  left: 829.18rem;
-  top: 468.14rem;
-  width: 143.62rem;
-  height: 46.16rem;
-}
-
-.boxTag {
-  @include mono-tag;
-  position: absolute;
-  left: -2.54rem;
-  bottom: 100%;
-  margin-bottom: 2.54rem;
-  padding: 4rem 6rem;
-  background-color: var(--color-secondary, #3db7ff);
-  color: var(--color-text-inverse, #ffffff);
-}
-
-/* 처리 방식별 박스 표현 (시안은 블러만 제공 → 나머지는 같은 박스에 효과만 바꿔 표현) */
-.effect_detect .box {
-  background-color: rgba(61, 183, 255, 0.1);
-}
-
-.effect_blur .box {
-  background-color: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(5rem);
-}
-
-.effect_mosaic .box {
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.12) 1rem, transparent 1rem),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.12) 1rem, transparent 1rem);
-  background-size: 10rem 10rem;
-  backdrop-filter: blur(4rem) contrast(1.1);
-}
-
-.effect_masking .box {
-  background-color: $surface-dark;
-}
-
-.effect_virtual .box {
-  background-color: rgba(214, 228, 255, 0.35);
-  backdrop-filter: blur(3rem) saturate(1.3) hue-rotate(-12deg);
-}
-
-/* Targets 패널 (Figma 1928:544) */
-.targets {
-  position: absolute;
-  z-index: 1;
-  left: 16rem;
-  top: 16rem;
-  width: 160.6rem;
-  padding: 12rem;
-  display: flex;
-  flex-direction: column;
-  gap: 8rem;
-  background-color: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(8rem);
-  pointer-events: none;
-}
-
-.targetsHead {
-  @include mono-caption;
-  display: flex;
-  align-items: center;
-  gap: 6rem;
-  margin: 0;
-  color: $text-label;
-}
-
-.targetsList {
-  display: flex;
-  flex-direction: column;
-  gap: 4rem;
-  margin: 0;
-}
-
-.targetsRow {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  dt {
-    @include mono-caption;
-    color: $text-label;
+@media (max-width: 768px) {
+  /* MO 시안: 위 10 · 높이 25 · 글자 14 (프로젝트 토큰에 14 없음 → 시안 값) */
+  .stateTag {
+    top: 10rem;
+    height: 25rem;
+    font-size: 14rem;
+    line-height: normal;
   }
 
-  dd {
-    @include panel-value;
-    margin: 0;
-    color: var(--color-text-inverse, #ffffff);
-    font-weight: var(--font-weight-semibold, 600);
+  .stateAfter {
+    right: 15rem;
+    padding: 4rem 8rem;
+  }
+
+  .stateOriginal {
+    left: 10rem;
+    width: 41rem;
   }
 }
 
