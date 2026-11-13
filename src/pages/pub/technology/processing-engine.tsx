@@ -91,6 +91,7 @@ export default function PubSubTechnologyProcessingEngine() {
         {/* 1. Hero (Figma PC 2165:7508 / Mobile 2165:7733) */}
         <HeroSection
           heroVariant="compact"
+          align="center"
           category="technology"
           className={styles.engineHero}
           eyebrow="PROCESSING ENGINE"

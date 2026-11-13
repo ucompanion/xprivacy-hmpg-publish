@@ -123,6 +123,7 @@ export default function PubSubProductCertification() {
         {/* 1. Hero / 인증 및 특허 (Figma PC 2159:14329 / Mobile 2159:14444) */}
         <HeroSection
           heroVariant="compact"
+          align="center"
           eyebrow="CERTIFICATION"
           title="인증 및 특허"
           description="개인정보 비식별 기술을 중심으로 월드버텍이 등록한 특허를 소개합니다."

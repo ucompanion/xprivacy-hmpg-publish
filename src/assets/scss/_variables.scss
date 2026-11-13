@@ -145,6 +145,13 @@
   --zindex-toast: 9999;
 }
 
+/* 390 미만 폰: 히어로 타이틀(MO 44)이 한 줄에 못 들어가 어색하게 꺾이므로 40으로 줄임 (히어로 · text-hero 믹스인이 같은 토큰을 사용) */
+@media (max-width: 389px) {
+  :root {
+    --font-size-hero-mo: 40rem;
+  }
+}
+
 @media (max-width: 768px) {
   :root {
     --layout-gutter: var(--layout-gutter-mobile, 16rem);

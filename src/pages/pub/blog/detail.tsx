@@ -112,7 +112,7 @@ export default function PubBlogDetail() {
         <HeroSection
           category="blog"
           heroVariant="compact"
-          align="left"
+          align="center"
           className={styles.articleHero}
           eyebrow={post.category}
           title={post.title}

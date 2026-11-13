@@ -15,74 +15,10 @@ const boxStyle = ([left, top, width, height]: Box): CSSProperties => ({
   height: `${height}%`,
 });
 
-// 탐지 박스: 1px 테두리 + 네 모서리 강조(시안 Detection Box · Selected=파랑 / Detected=흰색)
-function DetectionBox({ box, tone = 'detect', label }: { box: Box; tone?: 'detect' | 'white'; label?: string }) {
-  return (
-    <span className={`${styles.detectBox} ${tone === 'white' ? styles.toneWhite : ''}`} style={boxStyle(box)}>
-      {(['tl', 'tr', 'bl', 'br'] as const).map((corner) => (
-        <img
-          key={corner}
-          src={`${IMG}/corner_${tone === 'white' ? 'white' : 'detect'}_${corner}.svg`}
-          alt=""
-          className={`${styles.corner} ${styles[corner]}`}
-        />
-      ))}
-      {label && <span className={styles.detectLabel}>{label}</span>}
-    </span>
-  );
-}
-
-// 정밀 AI 탐지 PC (Figma 2159:13899 · 760×520 기준)
-const detectFacesPc: Box[] = [
-  [21.18, 31.54, 4.21, 7.31],
-  [32.63, 30.38, 4.21, 6.92],
-  [45.66, 34.81, 4.08, 6.92],
-  [58.42, 33.46, 3.03, 5.19],
-  [66.05, 36.15, 2.63, 4.42],
-  [73.42, 33.08, 3.68, 5.77],
-];
-const detectPlatePc: Box = [81.05, 55.58, 5.53, 2.88];
-const detectPlateMaskPc: Box = [81.45, 56.15, 4.74, 1.73];
-
-// 정밀 AI 탐지 Mobile (Figma 2159:14119 · 350×239 기준)
-const detectPersonsMo: Box[] = [
-  [27.05, 33.27, 12.21, 52.69],
-  [54.63, 30.96, 11.56, 49.81],
-];
-const detectFacesMo: Box[] = [
-  [30.47, 34.04, 5.12, 8.27],
-  [58.31, 30.96, 4.33, 8.08],
-];
-const detectPlateMo: Box = [66.32, 55.58, 4.99, 2.51];
-const detectPlateMaskMo: Box = [66.32, 55.58, 4.99, 2.31];
-
 const privacyOptions = [
   { group: 'Face', options: ['Mosaic', 'Masking', 'Blur', 'Virtual Face'], selected: 'Mosaic' },
   { group: 'Body', options: ['Mosaic', 'Masking', 'Blur'], selected: '' },
   { group: 'Plate', options: ['Mosaic', 'Masking', 'Blur'], selected: 'Masking' },
-];
-
-// 작은·원거리 얼굴 PC (Figma 2159:13953 · 1240×560 기준)
-const distantFacesPc: Box[] = [
-  [39.6, 63.21, 1.37, 3.39],
-  [41.94, 62.5, 1.21, 2.68],
-  [43.87, 62.86, 1.37, 3.04],
-  [56.37, 61.96, 1.53, 3.04],
-  [58.15, 60, 1.37, 3.39],
-  [61.61, 62.68, 1.21, 2.68],
-  [70.24, 60.89, 1.05, 2.32],
-  [90.48, 60.54, 1.94, 4.29],
-];
-// 확대 인셋 안 FACE 박스 (PC 480×168 / Mobile 350×123 기준)
-const zoomFacesPc: Box[] = [
-  [7.92, 46.43, 17.5, 45.24],
-  [26.25, 20.24, 15.83, 47.62],
-  [62.08, 55.95, 14.17, 40.48],
-];
-const zoomFacesMo: Box[] = [
-  [7.71, 45.53, 17.43, 44.72],
-  [26, 19.51, 15.71, 47.15],
-  [62, 55.28, 14.29, 40.65],
 ];
 
 const benchmarkData = [
@@ -100,11 +36,12 @@ export default function PubSubProductWhy() {
         {/* 1. Hero / 가치 3가지 (Figma PC 2159:13859 / Mobile 2159:14095) */}
         <HeroSection
           heroVariant="compact"
+          align="center"
+          className={styles.hero}
           eyebrow="WHY XPRIVACY"
           title={
             <>
-              개인정보는 보호하고<br />
-              활용할 데이터의 가치는 그대로
+              개인정보는 보호하고<br className="heroMoBr" /> 활용할 데이터의 가치는 그대로
             </>
           }
           description={
@@ -175,13 +112,8 @@ export default function PubSubProductWhy() {
           {/* PC: 처리 예시 이미지 + 캡션 (Figma 2830:12488) */}
           <figure className={styles.detectVisualPc}>
             <div className={styles.detectPhoto}>
-              <img src={`${IMG}/detection_scene.jpg`} alt="횡단보도 보행자 얼굴 블러와 번호판 마스킹 처리 예시" className={styles.detectImgPc} />
-              {detectFacesPc.map((box) => (
-                <span key={box.join()} className={styles.faceBlur} style={boxStyle(box)} />
-              ))}
-              <span className={styles.plateMask} style={boxStyle(detectPlateMaskPc)} />
-              {detectFacesPc.map((box) => <DetectionBox key={`b${box.join()}`} box={box} />)}
-              <DetectionBox box={detectPlatePc} />
+              {/* 원본 사진 + 얼굴 블러 · 번호판 마스킹 · 탐지 박스가 모두 포함된 통이미지 (Figma 3811:124978) */}
+              <img src={`${IMG}/detection_result_pc.webp`} alt="횡단보도 보행자 얼굴 블러와 번호판 마스킹 처리 예시" className={styles.detectImg} />
             </div>
             <figcaption className={styles.detectCaption}>비식별 처리 예시 · 얼굴 블러 · 번호판 마스킹</figcaption>
           </figure>
@@ -189,14 +121,8 @@ export default function PubSubProductWhy() {
           {/* Mobile: 탐지 결과 + Privacy Options 패널 (Figma 2159:14118) */}
           <div className={styles.detectVisualMo}>
             <div className={styles.detectPhoto}>
-              <img src={`${IMG}/detection_scene.jpg`} alt="횡단보도 보행자 얼굴 모자이크와 번호판 마스킹 처리 예시" className={styles.detectImgMo} />
-              {detectFacesMo.map((box) => (
-                <span key={box.join()} className={styles.faceMosaic} style={boxStyle(box)} />
-              ))}
-              <span className={styles.plateMask} style={boxStyle(detectPlateMaskMo)} />
-              {detectPersonsMo.map((box) => <DetectionBox key={box.join()} box={box} tone="white" />)}
-              {detectFacesMo.map((box) => <DetectionBox key={`b${box.join()}`} box={box} />)}
-              <DetectionBox box={detectPlateMo} tone="white" label="PLATE" />
+              {/* 통이미지 (Figma 4188:77066) */}
+              <img src={`${IMG}/detection_result_mo.webp`} alt="횡단보도 보행자 얼굴 블러와 번호판 마스킹 처리 예시" className={styles.detectImg} />
             </div>
             <div className={styles.privacyPanel}>
               <p className={styles.privacyTitle}>Privacy Options</p>
@@ -226,46 +152,39 @@ export default function PubSubProductWhy() {
           layout="vertical"
           align="left"
           eyebrow="SMALL & DISTANT FACES"
-          title="작은 · 원거리 얼굴 재현율 강화"
+          title={
+            <>
+              작은 · 원거리 얼굴<br className="heroMoBr" /> <span className="pc-only">탐지율</span>
+              <span className="mobile-only">재현율</span> 강화
+            </>
+          }
           description={
             <>
-              원본 해상도 검출과 입력 해상도 상향으로 관제 영상 특유의 소형·원거리 얼굴을 재검출합니다.<br className={styles.pcBr} />{' '}
-              다운스케일 없이 원본 해상도로 렌더링하므로 반출본의 화질 저하를 최소화합니다.
+              원본 해상도 검출과 입력 해상도 상향으로 관제<br className="heroMoBr" /> 영상 특유의 소형·원거리 얼굴을 재검출합니다.<br className={styles.pcBr} />
+              <br className="heroMoBr" /> 다운스케일 없이 원본 해상도로 렌더링하므로<br className="heroMoBr" /> 반출본의 화질 저하를 최소화합니다.
             </>
           }
         >
-          {/* PC: 원본 장면 위에 확대 인셋 (Figma 2159:13953) */}
-          <div className={styles.distantVisualPc}>
-            <img src={`${IMG}/distant_scene.jpg`} alt="번화가 원거리 보행자 얼굴 탐지 장면" className={styles.distantImg} />
-            {distantFacesPc.map((box) => <DetectionBox key={box.join()} box={box} />)}
-            <img src={`${IMG}/zoom_pc_l_under.svg`} alt="" className={styles.zoomLine} style={boxStyle([55.48, 34.29, 3.87, 23.93])} />
-            <img src={`${IMG}/zoom_pc_l.svg`} alt="" className={styles.zoomLine} style={boxStyle([55.48, 34.29, 3.87, 23.93])} />
-            <img src={`${IMG}/zoom_pc_r_under.svg`} alt="" className={styles.zoomLine} style={boxStyle([65.16, 34.29, 32.9, 23.93])} />
-            <img src={`${IMG}/zoom_pc_r.svg`} alt="" className={styles.zoomLine} style={boxStyle([65.16, 34.29, 32.9, 23.93])} />
-            <span className={styles.zoomArea} style={boxStyle([55.48, 58.21, 9.68, 7.5])} />
-            <div className={styles.zoomInset} style={boxStyle([59.35, 4.29, 38.71, 30])}>
-              <img src={`${IMG}/distant_zoom.jpg`} alt="원거리 얼굴 4배 확대 영역" className={styles.zoomImg} />
-              {zoomFacesPc.map((box) => <DetectionBox key={box.join()} box={box} label="FACE" />)}
-              <span className={styles.zoomLabel}>확대 영역 × 4</span>
+          {/* PC: 원본 장면 위에 확대 영역이 겹친 시안 레이아웃 (Figma PC 3811:124994) · 장면 / 확대 영역은 각각의 통이미지 (식별 박스 · FACE 라벨 · 배지 · 점선 영역 포함) */}
+          <div className={styles.distantWrapPc}>
+            <div className={styles.distantVisualPc}>
+              <img src={`${IMG}/distant_scene_pc.webp`} alt="번화가 원거리 보행자 얼굴 탐지 장면" className={styles.distantSceneImg} />
+              <img src={`${IMG}/zoom_pc_l_under.svg`} alt="" className={styles.zoomLine} style={boxStyle([55.48, 18.95, 5.16, 30])} />
+              <img src={`${IMG}/zoom_pc_l.svg`} alt="" className={styles.zoomLine} style={boxStyle([55.48, 18.95, 5.16, 30])} />
+              <img src={`${IMG}/zoom_pc_r_under.svg`} alt="" className={styles.zoomLine} style={boxStyle([65.16, 18.95, 32.26, 30])} />
+              <img src={`${IMG}/zoom_pc_r.svg`} alt="" className={styles.zoomLine} style={boxStyle([65.16, 18.95, 32.26, 30])} />
+              <img src={`${IMG}/distant_zoom_pc.webp`} alt="원거리 얼굴 4배 확대 영역" className={styles.distantZoomPc} />
             </div>
           </div>
 
-          {/* Mobile: 원본 장면 + 하단 확대 인셋 (Figma 2159:14187) */}
+          {/* Mobile: 원본 장면 + 하단 확대 영역 (Figma Mobile 3811:125222) */}
           <div className={styles.distantVisualMo}>
-            <div className={styles.distantPhotoMo}>
-              <img src={`${IMG}/distant_scene_mo.jpg`} alt="번화가 원거리 보행자 장면" className={styles.distantImg} />
-              <span className={styles.zoomArea} style={boxStyle([34, 58.21, 17.14, 7.5])} />
-              <span className={styles.sceneChip}>원본 영상 (원거리)</span>
-            </div>
-            <div className={styles.zoomInsetMo}>
-              <img src={`${IMG}/distant_zoom.jpg`} alt="원거리 얼굴 4배 확대 영역" className={styles.zoomImg} />
-              {zoomFacesMo.map((box) => <DetectionBox key={box.join()} box={box} label="FACE" />)}
-              <span className={styles.zoomLabel}>확대 영역 × 4</span>
-            </div>
-            <img src={`${IMG}/zoom_mo_l_under.svg`} alt="" className={styles.zoomLine} style={boxStyle([0, 44.34, 34, 26.02])} />
-            <img src={`${IMG}/zoom_mo_l.svg`} alt="" className={styles.zoomLine} style={boxStyle([0, 44.34, 34, 26.02])} />
-            <img src={`${IMG}/zoom_mo_r_under.svg`} alt="" className={styles.zoomLine} style={boxStyle([51.14, 44.34, 48.86, 26.02])} />
-            <img src={`${IMG}/zoom_mo_r.svg`} alt="" className={styles.zoomLine} style={boxStyle([51.14, 44.34, 48.86, 26.02])} />
+            <img src={`${IMG}/distant_scene_mo.webp`} alt="번화가 원거리 보행자 장면" className={styles.distantSceneMo} />
+            <img src={`${IMG}/distant_zoom_mo.webp`} alt="원거리 얼굴 4배 확대 영역" className={styles.distantZoomMo} />
+            <img src={`${IMG}/zoom_mo_l_under.svg`} alt="" className={styles.zoomLine} style={boxStyle([0, 37.57, 34, 29.19])} />
+            <img src={`${IMG}/zoom_mo_l.svg`} alt="" className={styles.zoomLine} style={boxStyle([0, 37.57, 34, 29.19])} />
+            <img src={`${IMG}/zoom_mo_r_under.svg`} alt="" className={styles.zoomLine} style={boxStyle([51.14, 37.57, 48.86, 29.19])} />
+            <img src={`${IMG}/zoom_mo_r.svg`} alt="" className={styles.zoomLine} style={boxStyle([51.14, 37.57, 48.86, 29.19])} />
           </div>
         </BasicSection>
 

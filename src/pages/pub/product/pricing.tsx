@@ -69,6 +69,7 @@ export default function PubProductPricing() {
         {/* 1. Hero / 요금제 (Figma PC 2156:30127 / Mobile 2156:31213) */}
         <HeroSection
           heroVariant="compact"
+          align="center"
           className={styles.pricingHero}
           eyebrow="DEPLOYMENT & PRICING"
           title="운영 환경에 맞는 도입 방식을 선택하세요."

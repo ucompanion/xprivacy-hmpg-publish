@@ -229,6 +229,11 @@
       .heroExtraWrap {
         align-items: center;
       }
+
+      /* 키워드 칩이 여러 줄로 나뉠 때(모바일)도 각 줄을 가운데 정렬 */
+      .keywordsWrap {
+        justify-content: center;
+      }
     }
   }
 }

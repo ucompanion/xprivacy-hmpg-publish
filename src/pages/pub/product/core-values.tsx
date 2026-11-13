@@ -82,15 +82,19 @@ export default function PubSubProductCoreValues() {
         {/* 1. Hero / 관제 모니터 (Figma PC 2159:13363 / Mobile 2159:13643) */}
         <HeroSection
           heroVariant="full"
-          align="left"
+          align="center"
+          className={styles.hero}
           eyebrow="CORE VALUES"
           title={
             <>
-              관제센터의 영상 반출<br />
-              지금 방식으로 감당할 수 있을까요?
+              영상 반출,<br className="heroMoBr" /> 지금 방식으로<br className="heroMoBr" /> 감당할 수 있을까요?
             </>
           }
-          description="정보공개청구·수사협조·민원 대응으로 반출 수요는 늘지만, 처리 방식은 여전히 사람 손에 의존합니다."
+          description={
+            <>
+              정보공개청구·수사협조·민원 대응으로 반출 수요는<br className="heroMoBr" /> 늘지만, 처리 방식은 여전히 사람 손에 의존합니다.
+            </>
+          }
         >
           <div className={styles.heroVisual}>
             <div
@@ -200,11 +204,10 @@ export default function PubSubProductCoreValues() {
         >
           <div className={styles.compareCards}>
             <div className={`${styles.compareCard} ${styles.weak}`}>
-              <div className={styles.comparePhoto}>
-                <img src={`${IMG}/value02_compare_photo.jpg`} alt="약한 블러 처리된 인물 사진" />
-              </div>
-              <span className={`${styles.face} ${styles.faceLeft}`} aria-hidden="true" />
-              <span className={`${styles.face} ${styles.faceRight}`} aria-hidden="true" />
+              <picture>
+                <source media="(max-width: 768px)" srcSet={`${IMG}/value02_compare_weak_mo.webp`} />
+                <img src={`${IMG}/value02_compare_weak_pc.webp`} alt="약한 블러 처리 후에도 얼굴 식별 단서가 남은 인물 사진" className={styles.compareImg} />
+              </picture>
               <div className={styles.compareChip}>
                 <span className={styles.chipIcon}>!</span>
                 <span className={styles.chipLabel}>
@@ -216,11 +219,10 @@ export default function PubSubProductCoreValues() {
             </div>
 
             <div className={`${styles.compareCard} ${styles.solid}`}>
-              <div className={styles.comparePhoto}>
-                <img src={`${IMG}/value02_compare_photo.jpg`} alt="xPrivacy로 복원 불가 처리된 인물 사진" />
-              </div>
-              <span className={`${styles.face} ${styles.faceLeft}`} aria-hidden="true" />
-              <span className={`${styles.face} ${styles.faceRight}`} aria-hidden="true" />
+              <picture>
+                <source media="(max-width: 768px)" srcSet={`${IMG}/value02_compare_solid_mo.webp`} />
+                <img src={`${IMG}/value02_compare_solid_pc.webp`} alt="xPrivacy로 복원 불가 처리된 인물 사진" className={styles.compareImg} />
+              </picture>
               <div className={styles.compareChip}>
                 <span className={styles.chipIcon}>✓</span>
                 <span className={styles.chipLabel}>

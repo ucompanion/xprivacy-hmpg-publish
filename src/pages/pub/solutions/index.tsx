@@ -278,6 +278,7 @@ export default function PubSolutions() {
         <HeroSection
           category="solutions"
           heroVariant="compact"
+          align="center"
           className={styles.hero}
           eyebrow="SOLUTIONS"
           title={

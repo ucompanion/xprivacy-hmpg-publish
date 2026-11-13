@@ -28,6 +28,11 @@ $feedback-error: #d93025;
   width: 100%;
 }
 
+/* Hero 문구: 시안(Figma PC 3811:124267)은 제목 한 줄 · 설명 한 줄이라 full 타입 헤더 폭 제한(658)을 풂 */
+.pageWrap > .hero.hero [class*="fullHeader"] {
+  max-width: none;
+}
+
 /* --------------------------------------------------------------------------
  * 1. Hero 카메라 월 (Figma PC 2159:13370 / Mobile 2453:11266)
  * PC: CAM01 776 + 우측 2단 448, gap 16, radius 8 / MO: 350×220 가로 롤링, gap 12, radius 12
@@ -295,55 +300,12 @@ $feedback-error: #d93025;
   overflow: hidden;
   border-radius: 12rem;
 
-  /* 시안의 사진 크롭(위로 20 이동, 가로 282.55% 확대 후 -71.87% 이동) 그대로 재현 */
-  .comparePhoto {
-    position: absolute;
-    inset: -4% 0 0 0;
-    overflow: hidden;
-
-    img {
-      position: absolute;
-      top: 0;
-      left: -71.87%;
-      width: 282.55%;
-      height: 100%;
-      max-width: none;
-      object-fit: cover;
-    }
-  }
-
-  .face {
-    position: absolute;
-  }
-
-  .faceLeft {
-    left: 17.27%;
-    top: 31.6%;
-    width: 26.06%;
-    height: 20.8%;
-  }
-
-  .faceRight {
-    left: 58.18%;
-    top: 30.4%;
-    width: 25.45%;
-    height: 21.2%;
-  }
-
-  &.weak .face {
-    background-color: rgba(255, 255, 255, 0.02);
-    backdrop-filter: blur(2px);
-    -webkit-backdrop-filter: blur(2px);
-  }
-
-  &.weak .faceLeft { border-radius: 44rem; }
-  &.weak .faceRight { border-radius: 52rem; }
-
-  &.solid .face {
-    border-radius: 40rem;
-    background-color: rgba(217, 204, 191, 0.35);
-    backdrop-filter: blur(11px);
-    -webkit-backdrop-filter: blur(11px);
+  /* 비식별 처리(약한 블러 · 복원 불가 블러)가 포함된 한 장의 이미지 — PC 330 × 500 (2x) / 모바일은 <picture>로 교체 */
+  .compareImg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 }
 
@@ -596,38 +558,6 @@ $feedback-error: #d93025;
   .compareCard {
     aspect-ratio: 169 / 297.83;
     border-radius: 6rem;
-
-    .comparePhoto {
-      inset: -4.03% 0 4.03% 0;
-    }
-
-    .faceLeft {
-      left: 17.16%;
-      top: 29.55%;
-      width: 26.04%;
-      height: 19.47%;
-    }
-
-    .faceRight {
-      left: 56.8%;
-      top: 28.88%;
-      width: 27.22%;
-      height: 20.15%;
-    }
-
-    &.weak .faceLeft { border-radius: 22.5rem; }
-    &.weak .faceRight { border-radius: 26.6rem; }
-
-    &.weak .face {
-      backdrop-filter: blur(1px);
-      -webkit-backdrop-filter: blur(1px);
-    }
-
-    &.solid .face {
-      border-radius: 24rem;
-      backdrop-filter: blur(7px);
-      -webkit-backdrop-filter: blur(7px);
-    }
   }
 
   .compareChip {

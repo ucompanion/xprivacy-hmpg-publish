@@ -39,6 +39,15 @@ $text-inverse-subtle: #f1f3f4;
   width: 100%;
 }
 
+/* Hero 문구: 시안(Figma PC 3811:124937)은 제목 한 줄 · 설명 폭 680 (compact 기본 헤더 774 · 설명 640 제한을 이 페이지에서만 풂) */
+.pageWrap > .hero.hero [class*="compactHeader"] {
+  max-width: none;
+
+  [class*="heroDescription"] {
+    max-width: 680rem;
+  }
+}
+
 /* PC 전용 줄바꿈 (모바일은 자연 줄바꿈) */
 .pcBr {
   @media (max-width: 768px) {
@@ -89,46 +98,6 @@ $text-inverse-subtle: #f1f3f4;
     margin: 0;
     color: var(--color-text-gray-1, #3c4043);
     word-break: keep-all;
-  }
-}
-
-/* --------------------------------------------------------------------------
- * 탐지 박스 공통 (Figma Detection Box 1320:386)
- * 1px 테두리 + 네 모서리 강조 svg(14px, -1px 위치) / 라벨: 상단 -25, padding 3 6
- * -------------------------------------------------------------------------- */
-.detectBox {
-  position: absolute;
-  box-sizing: border-box;
-  border: 1px solid $accent-detection;
-
-  .corner {
-    position: absolute;
-    width: 17rem;
-    height: 17rem;
-  }
-
-  .tl { top: -2.5rem; left: -2.5rem; }
-  .tr { top: -2.5rem; right: -2.5rem; }
-  .bl { bottom: -2.5rem; left: -2.5rem; }
-  .br { bottom: -2.5rem; right: -2.5rem; }
-
-  .detectLabel {
-    @include label-eyebrow;
-    position: absolute;
-    top: -25rem;
-    left: -1rem;
-    padding: 3rem 6rem;
-    background-color: $accent-detection;
-    color: var(--color-text-black, #000000);
-    white-space: nowrap;
-  }
-
-  &.toneWhite {
-    border-color: var(--color-border-inverse, #ffffff);
-
-    .detectLabel {
-      background-color: var(--color-surface-white, #ffffff);
-    }
   }
 }
 
@@ -208,52 +177,17 @@ $text-inverse-subtle: #f1f3f4;
 }
 
 .detectPhoto {
-  position: relative;
   overflow: hidden;
   border-radius: 12rem;
   aspect-ratio: 760 / 520;
 }
 
-.detectImgPc,
-.detectImgMo {
-  position: absolute;
-  top: 0;
+/* 원본 + 식별 처리가 합쳐진 통이미지: 틀에 꽉 채움 */
+.detectImg {
+  display: block;
+  width: 100%;
   height: 100%;
-  width: 122.64%;
-  max-width: none;
   object-fit: cover;
-}
-
-.detectImgPc {
-  left: -7.81%;
-}
-
-.detectImgMo {
-  left: -22.28%;
-}
-
-.faceBlur,
-.faceMosaic,
-.plateMask {
-  position: absolute;
-}
-
-.faceBlur {
-  border-radius: 4rem;
-  background-color: rgba(255, 255, 255, 0.04);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-}
-
-.faceMosaic {
-  background-color: rgba(255, 255, 255, 0.04);
-  backdrop-filter: blur(2.5px);
-  -webkit-backdrop-filter: blur(2.5px);
-}
-
-.plateMask {
-  border-radius: 2rem;
-  background-color: var(--color-text-gray-2, #5f6368);
 }
 
 .detectCaption {
@@ -327,61 +261,45 @@ $text-inverse-subtle: #f1f3f4;
 }
 
 /* --------------------------------------------------------------------------
- * 3. 작은·원거리 얼굴 (Figma PC 2159:13953 / Mobile 2159:14187)
- * 장면 1240×560 radius 12 / 확대 영역: 2.5px 점선 brand / 인셋: 2px brand 테두리, radius 8
- * -------------------------------------------------------------------------- */
-.distantVisualPc {
-  position: relative;
-  overflow: hidden;
-  border-radius: 12rem;
-  aspect-ratio: 1240 / 560;
+ * 3. 작은·원거리 얼굴 (Figma PC 3811:124994 / Mobile 3811:125222)
+ * 원본 장면과 확대 영역은 각각의 통이미지(탐지 박스 · FACE 라벨 · 확대 영역 배지 · 점선 영역 포함).
+ * 두 이미지를 잇는 점선 연결선만 svg 오버레이로 둡니다.
+/* 좁은 PC 폭(≤1050)에서는 설명 글(폭 ≈ 580)과 확대 영역이 가까워져, 장면을 아래로 내려 확대 영역과 글 사이 최소 12 를 확보
+   (확대 영역이 위로 튀어나온 높이 = 폭의 7.742% / 섹션 제목-본문 간격 60 → 48 초과분만 추가) */
+.distantWrapPc {
+  @media (max-width: 1050px) {
+    padding-top: max(0px, calc(7.742% - 48rem));
+  }
 }
 
-.distantImg {
-  position: absolute;
-  inset: 0;
+/* PC: 장면 1240×380 위에 확대 영역 480×168 이 겹침 (왼쪽 740 · 장면 위로 96 튀어나옴) / 모든 크기는 폭 대비 비율로 같이 줄어듭니다. */
+.distantVisualPc {
+  position: relative;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+}
+
+.distantSceneImg,
+.distantSceneMo {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 12rem;
+}
+
+/* 확대 영역: 테두리 2px · radius 12 가 이미지에 포함 / 그림자만 CSS (시안 0 8 24 rgba(15,23,51,.16)) */
+.distantZoomPc {
+  position: absolute;
+  left: 59.68%; /* 740 / 1240 */
+  top: -25.26%; /* -96 / 380 (장면 높이 기준) */
+  display: block;
+  width: 38.71%; /* 480 / 1240 */
+  height: auto;
+  filter: drop-shadow(0 8px 24px rgba(15, 23, 51, 0.16));
 }
 
 .zoomLine {
   position: absolute;
   pointer-events: none;
-}
-
-.zoomArea {
-  position: absolute;
-  box-sizing: border-box;
-  border: 2.5px dashed var(--color-brand-primary, #3b5bff);
-}
-
-.zoomInset {
-  position: absolute;
-  overflow: hidden;
-  box-sizing: border-box;
-  border: 2px solid var(--color-brand-primary, #3b5bff);
-  border-radius: 8rem;
-  background-color: var(--color-surface-white, #ffffff);
-}
-
-.zoomImg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.zoomLabel {
-  @include body-caption;
-  position: absolute;
-  left: 6rem;
-  bottom: 10rem;
-  padding: 4rem 8rem;
-  border-radius: 4rem;
-  background-color: rgba(0, 0, 0, 0.65);
-  color: var(--color-text-inverse, #ffffff);
 }
 
 .distantVisualMo {
@@ -565,13 +483,13 @@ $text-inverse-subtle: #f1f3f4;
     border-radius: 12rem;
 
     .detectPhoto {
-      aspect-ratio: 350 / 239;
+      aspect-ratio: 350 / 239.5;
       border-radius: 0;
     }
   }
 
-  /* 작은·원거리 얼굴: 장면 350×280 + gap 12 + 인셋 350×123, 연결선이 둘을 잇는 구조 */
-  .distantVisualPc {
+  /* 작은·원거리 얼굴: 장면 350×235 + gap 12 + 확대 영역 350×123, 연결선이 둘을 잇는 구조 */
+  .distantWrapPc {
     display: none;
   }
 
@@ -582,39 +500,10 @@ $text-inverse-subtle: #f1f3f4;
     gap: 12rem;
   }
 
-  .distantPhotoMo {
-    position: relative;
-    overflow: hidden;
-    border-radius: 12rem;
-    aspect-ratio: 350 / 280;
-
-    .distantImg {
-      object-position: bottom;
-    }
-  }
-
-  .sceneChip {
-    position: absolute;
-    top: 8rem;
-    left: 8rem;
-    padding: 5rem 10rem;
-    border-radius: 6rem;
-    background-color: rgba(0, 0, 0, 0.6);
-    font-family: var(--font-family-base);
-    font-size: 12rem;
-    font-weight: 600;
-    line-height: normal;
-    color: var(--color-text-inverse, #ffffff);
-  }
-
-  .zoomInsetMo {
-    position: relative;
-    overflow: hidden;
-    aspect-ratio: 350 / 123;
-    box-sizing: border-box;
-    border: 2px solid var(--color-brand-primary, #3b5bff);
-    border-radius: 8rem;
-    background-color: var(--color-surface-white, #ffffff);
+  .distantZoomMo {
+    display: block;
+    width: 100%;
+    height: auto;
   }
 
   /* 가상 얼굴 비교: gap 8 */

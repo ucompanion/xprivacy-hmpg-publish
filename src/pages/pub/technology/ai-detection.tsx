@@ -38,6 +38,7 @@ export default function PubSubTechnologyAiDetection() {
         <HeroSection
           category="technology"
           heroVariant="compact"
+          align="center"
           className={styles.techHero}
           eyebrow="AI DETECTION"
           title={

@@ -80,6 +80,7 @@ export default function PubTechnologySmartWorkflow() {
         {/* 1. Hero (Figma PC 2165:10030 / Mobile 2165:10273) */}
         <HeroSection
           heroVariant="compact"
+          align="center"
           category="technology"
           className={styles.workflowHero}
           eyebrow="SMART WORKFLOW"

@@ -75,6 +75,7 @@ export default function PubSubTechnologyVirtualFaceAi() {
         {/* 1. Hero (Figma PC 2165:9246 / Mobile 2165:9383) */}
         <HeroSection
           heroVariant="compact"
+          align="center"
           category="technology"
           className={styles.vfaHero}
           eyebrow="VIRTUAL FACE AI"

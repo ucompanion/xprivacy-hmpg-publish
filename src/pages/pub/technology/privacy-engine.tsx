@@ -5,50 +5,41 @@ import styles from './privacy-engine.module.scss';
 
 const IMG = '/images/technology/privacy-engine';
 
-// 4종 비식별 옵션 (Figma PC 3869:28443 / Mobile 3869:28665)
-// 샘플 가림 효과는 원본 사진 위에 CSS로 표현 (Masking · Mosaic · Gaussian Blur)
-type SampleEffect = 'none' | 'masking' | 'mosaic' | 'blur';
+// 4종 비식별 옵션 (Figma PC 3869:28443 / Mobile 3869:28665 · 사진 4093:71871)
+// 샘플은 비식별 처리(Masking · Mosaic · Gaussian Blur)가 포함된 통이미지로 사용합니다.
 
 const DEID_OPTIONS: {
   id: string;
   title: string;
   desc?: [string, string];
   image: string;
-  effect: SampleEffect;
 }[] = [
-  { id: 'original', title: '원본', image: 'sample_raw.jpg', effect: 'none' },
+  { id: 'original', title: '원본', image: 'sample_raw.webp' },
   {
     id: 'masking',
     title: 'Masking',
     desc: ['정황 데이터는 유지하면서', '식별 정보만 차단'],
-    image: 'sample_raw.jpg',
-    effect: 'masking',
+    image: 'sample_masking.webp',
   },
   {
     id: 'mosaic',
     title: 'Mosaic',
     desc: ['규격화된 격자 블록 형태로', '직관적 가림 처리 제공'],
-    image: 'sample_raw.jpg',
-    effect: 'mosaic',
+    image: 'sample_mosaic.webp',
   },
   {
     id: 'blur',
     title: 'Gaussian Blur',
     desc: ['경계면을 부드럽게 흐려', '시각적 몰입도와 미관 보존'],
-    image: 'sample_raw.jpg',
-    effect: 'blur',
+    image: 'sample_blur.webp',
   },
   {
     id: 'virtual',
     title: 'Virtual Face',
     desc: ['원본 신원을 보호하는 자연스러운', '가상 얼굴로 치환'],
-    image: 'sample_virtual.jpg',
-    effect: 'none',
+    image: 'sample_virtual.webp',
   },
 ];
-
-// 모자이크 격자: 5열 × 5행 (얼굴 영역 · 눈썹 포함)
-const MOSAIC_CELLS = Array.from({ length: 25 }, (_, i) => `cell-${i}`);
 
 // 도입 효과 (Figma PC 2165:8553 / Mobile 2165:8691)
 const BENEFITS = [
@@ -73,21 +64,6 @@ const BENEFITS = [
 const VISION_ALT =
   '버스 정류장 도로 사진에 대상별 비식별 방식과 강도가 적용된 예시 화면. 1 얼굴 Gaussian Blur, 2 신체 Masking, 3 번호판 Mosaic, 4 텍스트(상호, 로고) Gaussian Blur이 선택되어 있고 모자이크 픽셀 크기와 블러 강도 슬라이더가 표시됩니다.';
 
-function SampleOverlay({ effect }: { effect: SampleEffect }) {
-  if (effect === 'masking') return <span className={styles.maskShape} aria-hidden="true" />;
-  if (effect === 'blur') return <span className={styles.blurShape} aria-hidden="true" />;
-  if (effect === 'mosaic') {
-    return (
-      <span className={styles.mosaicGrid} aria-hidden="true">
-        {MOSAIC_CELLS.map((cell) => (
-          <span key={cell} />
-        ))}
-      </span>
-    );
-  }
-  return null;
-}
-
 export default function PubSubTechnologyPrivacyEngine() {
   return (
     <FrontLayout>
@@ -95,6 +71,7 @@ export default function PubSubTechnologyPrivacyEngine() {
         {/* 1. Hero (Figma PC 2165:8461 / Mobile 2165:8596) */}
         <HeroSection
           heroVariant="compact"
+          align="center"
           category="technology"
           className={styles.techHero}
           eyebrow="PRIVACY ENGINE"
@@ -130,7 +107,6 @@ export default function PubSubTechnologyPrivacyEngine() {
               <li key={opt.id} className={styles.option}>
                 <div className={styles.sample}>
                   <img src={`${IMG}/${opt.image}`} alt={`${opt.title} 처리 예시`} />
-                  <SampleOverlay effect={opt.effect} />
                 </div>
                 <div className={styles.optionText}>
                   <h3 className={styles.optionTitle}>{opt.title}</h3>

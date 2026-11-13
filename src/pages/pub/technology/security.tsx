@@ -64,6 +64,7 @@ export default function PubSubTechnologySecurity() {
         {/* 1. Hero (Figma PC 2165:6778 / Mobile 2165:6890) */}
         <HeroSection
           heroVariant="compact"
+          align="center"
           category="technology"
           className={styles.securityHero}
           eyebrow="SECURITY"

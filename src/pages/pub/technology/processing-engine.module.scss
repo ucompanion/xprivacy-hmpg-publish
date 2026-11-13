@@ -173,19 +173,24 @@
   text-align: center;
 }
 
-/* 콜아웃: primary, padding 24 28 24 32, gap 20, radius 12 · 사진 세로 가운데 */
+/* 콜아웃: primary, padding 24 28 24 32, gap 20, radius 12 · 사진 세로 가운데
+ * 가운데 맞춤은 transform 이 아니라 좌표(left/right · top/bottom + margin auto)로만 처리합니다.
+ * (AOS 가 등장 시 transform 을 translateZ(0) 으로 덮어써 위치가 밀리는 것을 원천 차단)
+ * bottom 42 = 사진 아래 라벨 영역(간격 14 + 라벨 28) → 사진 높이 기준 세로 가운데 */
 .callout {
   position: absolute;
-  top: calc(50% - 21rem);
-  left: 50%;
+  inset: 0 0 42rem 0;
+  z-index: 1; /* 뒤에 오는 오른쪽 사진(position: relative)에 가려지지 않도록: 두 사진 위에 겹쳐 표시 */
   display: flex;
   align-items: center;
   gap: 20rem;
+  width: max-content;
+  height: fit-content;
+  margin: auto;
   padding: 24rem 28rem 24rem 32rem;
   border-radius: 12rem;
   background-color: var(--color-primary);
   box-shadow: 0 12rem 32rem rgba(13, 26, 102, 0.28);
-  transform: translate(-50%, -50%);
   white-space: nowrap;
 }
 
@@ -462,10 +467,13 @@
 
   .callout {
     position: static;
+    inset: auto;
+    width: auto;
+    height: auto;
+    margin: 0;
     gap: 12rem;
     padding: 16rem 16rem 16rem 20rem;
     box-shadow: none;
-    transform: none;
     white-space: normal;
   }
 
