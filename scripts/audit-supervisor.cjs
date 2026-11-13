@@ -180,6 +180,25 @@ try {
   report('Docs', 'Documentation sync inspection', false, e.message);
 }
 
+// 5-1. Manual -webkit-backdrop-filter Check
+// 표준 backdrop-filter 와 -webkit-backdrop-filter 를 함께 쓰면 프로덕션 빌드(Lightning CSS)가 표준 속성을 지워
+// Chrome 에서 블러가 사라집니다. 표준 속성만 쓰면 접두사는 빌드가 자동으로 붙입니다.
+try {
+  const srcDir = path.join(ROOT_DIR, 'src');
+  const offenders = getAllFiles(srcDir)
+    .filter((f) => f.endsWith('.scss') || f.endsWith('.css'))
+    .filter((f) => /^\s*-webkit-backdrop-filter\s*:/m.test(fs.readFileSync(f, 'utf-8')))
+    .map((f) => path.relative(ROOT_DIR, f));
+  report(
+    'Build',
+    'No manual -webkit-backdrop-filter in styles (production build drops the standard property)',
+    offenders.length === 0,
+    offenders.join('\n   👉 '),
+  );
+} catch (e) {
+  report('Build', 'backdrop-filter prefix inspection', false, e.message);
+}
+
 // 5-2. Documentation Path Check
 // 지침·스킬·doc 문서에 백틱으로 적힌 `src/…` `doc/…` `public/…` `scripts/…` 경로가 실제로 있는지 확인합니다.
 // (파일이 옮겨지거나 지워졌는데 문서가 옛 경로를 가리키는 것을 막기 위함)

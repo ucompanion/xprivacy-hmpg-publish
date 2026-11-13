@@ -9,7 +9,6 @@
   height: var(--header-height, 73rem);
   background: var(--color-surface-header, rgba(11, 20, 38, 0.4));
   backdrop-filter: blur(var(--header-backdrop-blur, 12rem));
-  -webkit-backdrop-filter: blur(var(--header-backdrop-blur, 12rem));
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
   align-items: flex-start; /* container 가 높이를 상속(73)하므로 위에서부터 배치 */

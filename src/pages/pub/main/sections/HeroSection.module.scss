@@ -171,7 +171,6 @@
   border-radius: calc(10 * var(--d) * var(--k));
   background-color: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(calc(6 * var(--d) * var(--k)));
-  -webkit-backdrop-filter: blur(calc(6 * var(--d) * var(--k)));
 }
 
 .glassFace {
@@ -226,7 +225,6 @@
   top: 50.44%;
   background-color: rgba(255, 255, 255, 0.25);
   backdrop-filter: blur(calc(9.3 * var(--d) * var(--k)));
-  -webkit-backdrop-filter: blur(calc(9.3 * var(--d) * var(--k)));
 }
 
 /* 03 · 가상얼굴 (PC 1785:522 · MO 1785:576) — 브랜드 블루 톤 + 중앙 어둡게(가독성) */

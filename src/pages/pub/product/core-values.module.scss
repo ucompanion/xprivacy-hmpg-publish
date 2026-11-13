@@ -170,7 +170,6 @@ $feedback-error: #d93025;
   border-radius: 6rem;
   background-color: rgba(153, 156, 161, 0.8);
   backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
 }
 
 .m1 { left: 4.11%; top: 43.15%; width: 12.33%; height: 32.88%; }
@@ -527,7 +526,6 @@ $feedback-error: #d93025;
   .mask {
     border-radius: 5rem;
     backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
   }
 
   .frameLabel .missedBadge {

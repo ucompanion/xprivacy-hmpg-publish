@@ -55,6 +55,7 @@ AI 어시스턴트는 이 워크스페이스에서 수행되는 **모든 작업(
     *   `--color-gray-*` 등 `src/assets/scss/_deprecated.scss`의 토큰은 하위 호환용이므로 신규 코드에서 사용하지 않습니다. (예: `--color-gray-100` → `--color-surface-gray`)
     *   타이포그래피(font-size / line-height / font-weight) 숫자 하드코딩 금지 → 피그마 텍스트 스타일에 대응하는 믹스인(`@include text-body`, `text-subheading`, `text-section`, `text-eyebrow`, `text-note` 등, `src/assets/scss/_mixins.scss`) 또는 `var(--font-size-*)`, `var(--line-height-*)`, `var(--font-weight-*)` 사용.
     *   모든 여백, 크기 단위는 `px` 대신 **`rem` 단위를 사용**합니다 (`html { font-size: 1px }` 설정에 따라 `1rem = 1px` 매칭).
+    *   `backdrop-filter`는 **표준 속성만** 씁니다. `-webkit-backdrop-filter`를 직접 병기하면 프로덕션 빌드(Vite 8 · Lightning CSS)가 표준 속성을 지워 Chrome에서 블러가 사라집니다. 접두사는 빌드가 자동으로 붙입니다.
     *   뷰포트 단위가 필요할 경우 모바일 UI 대응을 위해 `vh` 대신 반드시 **`svh`**를 사용합니다.
 
 ### Gate 5. 시안 실무 분석 및 퍼블리싱 파이프라인 (Design-to-Code Pipeline)
