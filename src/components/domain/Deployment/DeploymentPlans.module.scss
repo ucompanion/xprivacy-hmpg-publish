@@ -4,6 +4,8 @@
 /* 미매핑 피그마 토큰: 그림자 4px 4 4 4 rgba(0,0,0,.1) / Label/Field 14 SemiBold (체크 표시)
  * 도입 방식 아이콘 유리 효과는 Core IconSurface(tone soft · glyphFit fill)에서 관리 */
 $shadow-card: 4rem 4rem 4rem rgba(0, 0, 0, 0.1);
+/* Primary 버튼 hover 색 — Core Button(#2844d9)과 동일, v2 토큰 없음 */
+$btn-primary-hover: #2844d9;
 
 @mixin label-field {
   font-family: var(--font-family-base);
@@ -43,9 +45,21 @@ $shadow-card: 4rem 4rem 4rem rgba(0, 0, 0, 0.1);
   border-radius: 12rem;
   background-color: var(--color-surface-white, #ffffff);
   box-shadow: $shadow-card;
+  transition: border-color 0.2s, box-shadow 0.2s;
 
   &.featured {
     border: 2rem solid var(--color-brand-primary, #3b5bff);
+  }
+
+  /* hover: 그림자를 키우고 테두리를 브랜드 색으로 (터치 기기 제외 · 추천 카드는 테두리가 이미 브랜드 색) */
+  @media (hover: hover) {
+    &:hover {
+      box-shadow: var(--elevator-3);
+
+      &:not(.featured) {
+        border-color: var(--color-brand-primary, #3b5bff);
+      }
+    }
   }
 }
 
@@ -117,6 +131,17 @@ $shadow-card: 4rem 4rem 4rem rgba(0, 0, 0, 0.1);
   width: 100%;
 }
 
+/* 버튼 hover: 테두리형 Secondary 버튼도 추천 카드(온프레미스)의 Primary 버튼 hover와 같은 어두운 파랑 배경 + 흰 글자로 통일
+   (Core Secondary 기본 hover는 흰색이라 흰 카드 위에서 변화가 보이지 않음) */
+@media (hover: hover) {
+  .fullButton.fullButton:global(.is-bordered):hover,
+  .pocButton.pocButton:global(.is-bordered):hover {
+    border-color: $btn-primary-hover;
+    background-color: $btn-primary-hover;
+    color: #ffffff;
+  }
+}
+
 /* PoC 카드 (Figma 2156:30254): surface-blue-soft, padding 32 40, gap 48, 체크 원 흰색 */
 .pocCard {
   display: flex;
@@ -128,6 +153,14 @@ $shadow-card: 4rem 4rem 4rem rgba(0, 0, 0, 0.1);
   border-radius: 12rem;
   background-color: var(--color-surface-blue-soft, #f4f9fe);
   box-shadow: $shadow-card;
+  transition: border-color 0.2s, box-shadow 0.2s;
+
+  @media (hover: hover) {
+    &:hover {
+      border-color: var(--color-brand-primary, #3b5bff);
+      box-shadow: var(--elevator-3);
+    }
+  }
 
   .checkMark {
     background-color: var(--color-surface-white, #ffffff);

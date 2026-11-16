@@ -61,7 +61,7 @@
 
 /* --------------------------------------------------------------------------
    GNB Navigation (PC)
-   대메뉴 호버(또는 키보드 포커스) 시 전폭 메가 메뉴 노출 · 현재 메뉴는 Bold + 하단 흰 인디케이터(76×3)
+   대메뉴 호버(또는 키보드 포커스) 시 전폭 메가 메뉴 노출 · 현재 메뉴는 Bold + 하단 흰 인디케이터(76×3), 호버 중에는 인디케이터만 호버 메뉴로 이동
 -------------------------------------------------------------------------- */
 .nav {
   display: flex;
@@ -86,18 +86,20 @@
   text-decoration: none;
   white-space: nowrap;
 
+  /* 현재 페이지: Bold (호버 중에도 유지) */
   &.is_active {
     font-weight: var(--font-weight-bold, 700);
+  }
 
-    &::after {
-      content: '';
-      position: absolute;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      height: 3rem;
-      background-color: var(--color-text-inverse, #ffffff);
-    }
+  /* 하단 흰 막대: 평소에는 현재 페이지, 메뉴에 호버·포커스하면 그 메뉴로 이동 */
+  &.is_bar::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 3rem;
+    background-color: var(--color-text-inverse, #ffffff);
   }
 }
 

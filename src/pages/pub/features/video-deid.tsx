@@ -222,21 +222,6 @@ const CLASSIFICATION_ITEMS: Item[] = [
     desc: "수십 명이 등장하는 공공장소 CCTV 영상에서도 인물별 등장 타임라인을 빠르게 파악하고 제어할 수 있습니다.",
   },
 ];
-const CAFE_PEOPLE: { rect: Rect; tone: Tone; label?: string }[] = [
-  { rect: [84, 222, 46, 57], tone: "detected", label: "PERSON 01" },
-  { rect: [148, 140, 38, 50], tone: "detected", label: "PERSON 02" },
-  { rect: [223, 189, 46, 61], tone: "selected", label: "PERSON 03" },
-  { rect: [328, 203, 44, 56], tone: "detected", label: "PERSON 04" },
-  { rect: [398, 126, 46, 54], tone: "detected", label: "PERSON 05" },
-];
-// 인물 썸네일 크롭 (원본 사진 확대 배율 · 위치 %)
-const CAFE_THUMBS = [
-  { size: 1037.78, left: -142.5, top: -480.56 },
-  { size: 1111.11, left: -279, top: -343.92 },
-  { size: 1111.11, left: -440.45, top: -461.25, active: true },
-  { size: 1111.11, left: -644.44, top: -485.83 },
-  { size: 1111.11, left: -788.85, top: -329.2 },
-];
 
 // 5. 검수·수정 (Figma PC 2258:2546 / Mobile 2286:3800)
 const REVIEW_ITEMS: Item[] = [
@@ -380,56 +365,19 @@ export default function PubFeaturesVideoDeid() {
         {/* 4. 가상 얼굴 */}
         <BasicSection bg="white" layout="vertical" align="left">
           <div className={styles.split}>
-            <div className={`${styles.visual} ${styles.facePanel}`}>
-              <span
-                className={styles.facePhoto}
-                style={place([32, 80, 232, 290])}
-              >
+            {/* 원본 → 가상 얼굴 비교(사진·라벨·화살표 포함)는 시안 통이미지 — PC 3931:19906 / MO 3931:20143 */}
+            <div className={styles.visual}>
+              <picture>
+                <source media="(max-width: 768px)" srcSet={`${IMG}/virtual_face_mo.jpg`} />
                 <img
-                  src={`${IMG}/face_original.jpg`}
-                  alt="원본 인물 얼굴"
-                  style={{
-                    left: "-3.83%",
-                    top: "-5.53%",
-                    width: "106.38%",
-                    height: "106.38%",
-                  }}
+                  src={`${IMG}/virtual_face_pc.jpg`}
+                  alt="원본 인물 사진(왼쪽)과 얼굴만 한국인 맞춤 가상 얼굴로 바꾼 사진(오른쪽)을 비교한 화면"
+                  className={styles.cover}
+                  width={560}
+                  height={490}
+                  loading="lazy"
                 />
-              </span>
-              <span
-                className={styles.facePhoto}
-                style={place([296, 80, 232, 290])}
-              >
-                <img
-                  src={`${IMG}/face_virtual.jpg`}
-                  alt="가상 얼굴로 치환한 인물"
-                  style={{
-                    left: "-4.95%",
-                    top: "-0.99%",
-                    width: "109.89%",
-                    height: "109.89%",
-                  }}
-                />
-              </span>
-              <span
-                className={styles.faceLabel}
-                style={{ ...place([32, 386, 232, 21]) }}
-              >
-                원본
-              </span>
-              <span
-                className={`${styles.faceLabel} ${styles.faceLabelAccent}`}
-                style={{ ...place([296, 386, 232, 21]) }}
-              >
-                가상 얼굴
-              </span>
-              <span
-                className={styles.faceArrow}
-                style={place([264, 212, 32, 24])}
-                aria-hidden="true"
-              >
-                →
-              </span>
+              </picture>
             </div>
             <FeatureCopy
               eyebrow="VIRTUAL FACE"
@@ -443,39 +391,19 @@ export default function PubFeaturesVideoDeid() {
         {/* 5. 등장인물 분류 */}
         <BasicSection bg="gray" layout="vertical" align="left">
           <div className={`${styles.split} ${styles.reverse}`}>
+            {/* 인물 분류 화면(탐지 박스·비식별·썸네일 목록 포함)은 시안 통이미지 — PC 3931:19926 / MO 3931:20157 */}
             <div className={styles.visual}>
-              <img
-                src={`${IMG}/cafe_terrace.jpg`}
-                alt="카페 테라스 등장인물 5명을 인물별로 분류한 화면"
-                className={styles.cover}
-              />
-              {CAFE_PEOPLE.map((person) => (
-                <DetectionBox
-                  key={person.rect.join("-")}
-                  rect={person.rect}
-                  tone={person.tone}
-                  label={person.label}
+              <picture>
+                <source media="(max-width: 768px)" srcSet={`${IMG}/classification_mo.jpg`} />
+                <img
+                  src={`${IMG}/classification_pc.jpg`}
+                  alt="카페 테라스 등장인물 5명을 인물별로 분류하고 얼굴을 비식별 처리한 화면. 하단에 인물별 썸네일 목록이 표시됩니다."
+                  className={styles.cover}
+                  width={560}
+                  height={490}
+                  loading="lazy"
                 />
-              ))}
-              <span className={styles.peopleRail} aria-hidden="true">
-                {CAFE_THUMBS.map((thumb) => (
-                  <span
-                    key={thumb.left}
-                    className={`${styles.thumb} ${thumb.active ? styles.thumbActive : ""}`.trim()}
-                  >
-                    <img
-                      src={`${IMG}/cafe_terrace.jpg`}
-                      alt=""
-                      style={{
-                        left: `${thumb.left}%`,
-                        top: `${thumb.top}%`,
-                        width: `${thumb.size}%`,
-                        height: `${thumb.size}%`,
-                      }}
-                    />
-                  </span>
-                ))}
-              </span>
+              </picture>
             </div>
             <FeatureCopy
               eyebrow="CLASSIFICATION · BETA"

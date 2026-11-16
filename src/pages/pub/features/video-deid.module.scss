@@ -8,7 +8,6 @@
  * - 탐지 라벨 Label/Eyebrow 12 ExtraBold · 자간 1.54 / 칩 16 SemiBold · 타임라인 13 SemiBold */
 $detect-color: #3db7ff;
 $timeline-color: #22c3d7;
-$arrow-color: #80878c; /* 가상 얼굴 화살표 (대응 토큰 없음) */
 
 /* 비주얼 내부 치수: 시안 px × --u (컨테이너 폭 ÷ 시안 프레임 폭) */
 @function u($px) {
@@ -210,6 +209,11 @@ $arrow-color: #80878c; /* 가상 얼굴 화살표 (대응 토큰 없음) */
   container-type: inline-size;
 }
 
+.visual > picture {
+  position: absolute;
+  inset: 0;
+}
+
 .cover {
   position: absolute;
   inset: 0;
@@ -296,78 +300,6 @@ $arrow-color: #80878c; /* 가상 얼굴 화살표 (대응 토큰 없음) */
   letter-spacing: u(1.54);
   text-transform: uppercase;
   white-space: nowrap;
-}
-
-/* 가상 얼굴: 회색 패널 · 사진 232×290 radius 12 · 라벨 Note 12 · 화살표 20 Bold */
-.facePanel {
-  background-color: var(--color-surface-gray);
-}
-
-.facePhoto {
-  position: absolute;
-  overflow: hidden;
-  border-radius: u(12);
-
-  img {
-    position: absolute;
-    max-width: none;
-  }
-}
-
-.faceLabel {
-  position: absolute;
-  color: var(--color-text-gray-2);
-  font-family: var(--font-family-base);
-  font-size: u(12);
-  line-height: 1.75;
-  text-align: center;
-}
-
-.faceLabelAccent {
-  color: var(--color-primary);
-}
-
-.faceArrow {
-  position: absolute;
-  color: $arrow-color;
-  font-family: var(--font-family-base);
-  font-size: u(20);
-  font-weight: var(--font-weight-bold);
-  line-height: normal;
-  text-align: center;
-}
-
-/* 등장인물 썸네일 레일: 304,418 · padding 8 · gap 6 · radius 8 / 썸네일 40 radius 6 (선택 2px primary) */
-.peopleRail {
-  position: absolute;
-  top: u(418);
-  left: u(304);
-  display: flex;
-  gap: u(6);
-  padding: u(8);
-  border-radius: u(8);
-  background-color: rgba(255, 255, 255, 0.92);
-}
-
-.thumb {
-  position: relative;
-  width: u(40);
-  height: u(40);
-  overflow: hidden;
-  border-radius: u(6);
-
-  img {
-    position: absolute;
-    max-width: none;
-  }
-}
-
-.thumbActive::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border: u(2) solid var(--color-primary);
-  border-radius: inherit;
 }
 
 /* 타임라인 검수: 16,425 · 검정 60% · padding 10 14 · gap 8 · 막대 500×8 */

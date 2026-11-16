@@ -46,13 +46,13 @@ const HISTORY_DATA: Record<string, { date: string; tag: string; content: string 
   '영상 비식별': [
     { date: '2026.10.07', tag: '[진행중]', content: '페이지 최초 작업' },
   ],
-  'Batch Processing': [
+  '대량·병렬 처리': [
     { date: '2026.10.07', tag: '[진행중]', content: '페이지 최초 작업' },
   ],
   'AI 자동편집': [
     { date: '2026.10.07', tag: '[진행중]', content: '페이지 최초 작업' },
   ],
-  'REST API': [
+  '부가기능': [
     { date: '2026.10.07', tag: '[진행중]', content: '페이지 최초 작업' },
   ],
   '로그인': [
@@ -600,13 +600,13 @@ export default function PubIndex() {
                 </tr>
                 <tr>
                   <td>15</td>
-                  <td>Batch Processing</td>
+                  <td>대량·병렬 처리</td>
                   <td><a href="/pub/features/batch-processing" target="_blank" rel="noreferrer">/pub/features/batch-processing</a></td>
                   <td>조찬기</td>
                   <td><span className="status done">완료</span></td>
                   <td>2026.10.22</td>
                   <td>
-                    <button type="button" className="btn-history" onClick={() => openHistoryPopup('Batch Processing')}>수정내역</button>
+                    <button type="button" className="btn-history" onClick={() => openHistoryPopup('대량·병렬 처리')}>수정내역</button>
                   </td>
                 </tr>
                 <tr>
@@ -622,13 +622,13 @@ export default function PubIndex() {
                 </tr>
                 <tr>
                   <td>17</td>
-                  <td>REST API</td>
+                  <td>부가기능</td>
                   <td><a href="/pub/features/rest-api" target="_blank" rel="noreferrer">/pub/features/rest-api</a></td>
                   <td>조찬기</td>
                   <td><span className="status done">완료</span></td>
                   <td>2026.10.22</td>
                   <td>
-                    <button type="button" className="btn-history" onClick={() => openHistoryPopup('REST API')}>수정내역</button>
+                    <button type="button" className="btn-history" onClick={() => openHistoryPopup('부가기능')}>수정내역</button>
                   </td>
                 </tr>
                 <tr className="category">
@@ -676,15 +676,6 @@ export default function PubIndex() {
                   <td>21</td>
                   <td>영상 체험</td>
                   <td><a href="/pub/demo/video" target="_blank" rel="noreferrer">/pub/demo/video</a></td>
-                  <td>조찬기</td>
-                  <td><span className="status todo">대기</span></td>
-                  <td>-</td>
-                  <td>-</td>
-                </tr>
-                <tr>
-                  <td>22</td>
-                  <td>튜토리얼</td>
-                  <td><a href="/pub/demo/tutorial" target="_blank" rel="noreferrer">/pub/demo/tutorial</a></td>
                   <td>조찬기</td>
                   <td><span className="status todo">대기</span></td>
                   <td>-</td>

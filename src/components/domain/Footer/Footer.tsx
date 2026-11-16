@@ -49,9 +49,9 @@ export const Footer: React.FC = () => {
             <div className={styles.nav_list}>
               <Link to="/pub/features/image-deid" className={styles.nav_link}>이미지 비식별</Link>
               <Link to="/pub/features/video-deid" className={styles.nav_link}>영상 비식별</Link>
-              <Link to="/pub/features/batch-processing" className={styles.nav_link}>Batch Processing</Link>
+              <Link to="/pub/features/batch-processing" className={styles.nav_link}>대량·병렬 처리</Link>
               <Link to="/pub/features/ai-auto-editing" className={styles.nav_link}>AI 자동편집</Link>
-              <Link to="/pub/features/rest-api" className={styles.nav_link}>REST API</Link>
+              <Link to="/pub/features/rest-api" className={styles.nav_link}>부가기능</Link>
             </div>
           </div>
 
@@ -72,10 +72,8 @@ export const Footer: React.FC = () => {
           <div className={styles.nav_group}>
             <h4 className={styles.nav_title}>DEMO</h4>
             <div className={styles.nav_list}>
-              <Link to="/pub/demo/demo" className={styles.nav_link}>Demo</Link>
-              <Link to="/pub/demo/image" className={styles.nav_link}>이미지 체험</Link>
+              <Link to="/pub/demo/demo" className={styles.nav_link}>이미지 체험</Link>
               <Link to="/pub/demo/video" className={styles.nav_link}>영상 체험</Link>
-              <Link to="/pub/demo/tutorial" className={styles.nav_link}>튜토리얼</Link>
             </div>
           </div>
 

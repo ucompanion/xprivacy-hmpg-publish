@@ -58,9 +58,9 @@ const NAV_GROUPS: NavGroup[] = [
     items: [
       { label: '이미지 비식별', to: '/pub/features/image-deid' },
       { label: '영상 비식별', to: '/pub/features/video-deid' },
-      { label: 'Batch Processing', to: '/pub/features/batch-processing' },
+      { label: '대량·병렬 처리', to: '/pub/features/batch-processing' },
       { label: 'AI 자동편집', to: '/pub/features/ai-auto-editing' },
-      { label: 'REST API', to: '/pub/features/rest-api' },
+      { label: '부가기능', to: '/pub/features/rest-api' },
     ],
   },
   {
@@ -83,10 +83,8 @@ const NAV_GROUPS: NavGroup[] = [
     to: '/pub/demo/demo',
     base: '/pub/demo',
     items: [
-      { label: 'Demo', to: '/pub/demo/demo' },
-      { label: '이미지 체험', to: '/pub/demo/image' },
+      { label: '이미지 체험', to: '/pub/demo/demo' },
       { label: '영상 체험', to: '/pub/demo/video' },
-      { label: '튜토리얼', to: '/pub/demo/tutorial' },
     ],
   },
   {
@@ -118,6 +116,8 @@ export const Header: React.FC = () => {
 
   // PC: 대메뉴 호버(또는 키보드 포커스) 시 전폭 메가 메뉴 노출
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  // 호버·포커스 중인 대메뉴 (하위 메뉴가 없는 대메뉴 포함) — 이 값이 있으면 하단 막대를 현재 페이지 대신 이 메뉴에 표시
+  const [markIndex, setMarkIndex] = useState<number | null>(null);
 
   // 스크롤 다운 시 숨김 · 스크롤 업 시 노출
   const [hidden, setHidden] = useState(false);
@@ -126,7 +126,10 @@ export const Header: React.FC = () => {
   const openGroup = openIndex !== null ? NAV_GROUPS[openIndex] : null;
   const hasMega = !!openGroup?.items;
 
-  const closeMega = useCallback(() => setOpenIndex(null), []);
+  const closeMega = useCallback(() => {
+    setOpenIndex(null);
+    setMarkIndex(null);
+  }, []);
 
   // 모바일 메뉴를 열 때 현재 페이지가 속한 대메뉴를 펼쳐 둡니다 (Figma 메뉴 열림 상태)
   const toggleMobileMenu = () => {
@@ -138,6 +141,7 @@ export const Header: React.FC = () => {
   // 페이지 이동 시 열린 메뉴 닫기
   useEffect(() => {
     setOpenIndex(null);
+    setMarkIndex(null);
     setIsMobileMenuOpen(false);
     setMobileOpenIndex(null);
   }, [pathname, hash]);
@@ -219,12 +223,20 @@ export const Header: React.FC = () => {
             <div
               key={group.label}
               className={styles.nav_item}
-              onMouseEnter={() => setOpenIndex(group.items ? index : null)}
-              onFocus={() => setOpenIndex(group.items ? index : null)}
+              onMouseEnter={() => {
+                setOpenIndex(group.items ? index : null);
+                setMarkIndex(index);
+              }}
+              onFocus={() => {
+                setOpenIndex(group.items ? index : null);
+                setMarkIndex(index);
+              }}
             >
               <Link
                 to={group.to}
-                className={`${styles.nav_link} ${isActiveGroup(group) ? styles.is_active : ''}`}
+                className={`${styles.nav_link} ${isActiveGroup(group) ? styles.is_active : ''} ${
+                  (markIndex === null ? isActiveGroup(group) : markIndex === index) ? styles.is_bar : ''
+                }`}
                 aria-haspopup={group.items ? 'true' : undefined}
                 aria-expanded={group.items ? openIndex === index : undefined}
                 aria-current={isActiveGroup(group) ? 'page' : undefined}
