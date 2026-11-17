@@ -533,6 +533,7 @@ export default function PubSolutions() {
 
         {/* 4. CTA (Figma PC 4365:286 / Mobile 4391:1210) */}
         <CtaSection
+          className={styles.cta}
           eyebrow="GET STARTED"
           title={
             <>

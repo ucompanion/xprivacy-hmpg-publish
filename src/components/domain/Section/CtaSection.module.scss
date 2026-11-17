@@ -184,8 +184,13 @@
       padding: 80rem 0; /* 좌우 여백은 컨테이너 거터가 담당 → 본문 폭 350 (Figma MO 2528:61337) */
       background-image: url('/images/common/ctaSection_mo.jpg');
 
+      /* 모바일 CTA는 문구 왼쪽 정렬 · 버튼 전폭 (Figma MO 2528:61337 · 솔루션즈 4391:1210) */
       .ctaHeader {
-        max-width: 350rem;
+        width: 100%;
+        max-width: none;
+        margin: 0;
+        align-items: flex-start;
+        text-align: left;
       }
 
       .ctaEyebrow {
@@ -202,7 +207,7 @@
         font-size: 16rem;
         line-height: 1.6;
         letter-spacing: 0;
-        margin-top: 12rem;
+        margin: 12rem 0 0;
       }
     }
 
@@ -220,9 +225,9 @@
   .buttonsWrap {
     flex-direction: column;
     width: 100%;
-    max-width: 350rem;
-    margin: 0 auto;
+    margin: 0;
     gap: 12rem;
+    align-items: stretch;
 
     button,
     a {
