@@ -25,6 +25,14 @@ const ICON_NAMES: IconName[] = [
   'eye',
   'server',
   'layers',
+  'industry-cctv',
+  'industry-public',
+  'industry-broadcast',
+  'industry-ai-data',
+  'industry-smart-city',
+  'industry-finance',
+  'industry-manufacturing',
+  'industry-medical',
 ];
 
 export default function IconGuidePage() {

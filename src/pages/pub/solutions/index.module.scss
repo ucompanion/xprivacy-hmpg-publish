@@ -1,87 +1,258 @@
 @use "@/assets/scss/variables" as *;
 @use "@/assets/scss/mixins" as *;
 
+/* 시안 아이콘 회색(#80868b) — 아이콘 전용 토큰이 없어 페이지 변수로 둡니다 (미매핑) */
+$icon-muted: #80868b;
+
+/* 고정 탭 바 높이 (Figma PC 4370:59 64 / MO 4393:1208 48) */
+$tabs-height: 64rem;
+$tabs-height-mo: 48rem;
+
 .solutionsPage {
   width: 100%;
 }
 
 /* --------------------------------------------------------------------------
- * 1. Hero (Figma PC 3839:4 · 높이 480 · 왼쪽 정렬 · 헤더 73 아래 세로 가운데)
- * 배경: 원본 사진 + 왼쪽에서 흰색(.85 → .7 → 0)으로 옅어지는 오버레이 (PC)
- * MO 시안은 아직 없어 기본 solutions MO 배경을 유지합니다.
+ * 0. Hero (Figma PC 4365:4 · 높이 480 · 가운데 정렬 / MO 4391:947 · 높이 340 + GNB)
+ * 문구 묶음(Eyebrow → 24 → 제목 → 24 → 설명 = 164)을 GNB(73)를 뺀 영역 가운데에 두어 위 194 · 아래 122
+ * MO는 GNB(60) 아래 위아래 60, 문구 간격 16
+ * 설명 색은 PC gray-1 · MO gray-2 (Eyebrow는 공통 스타일을 따름)
  * -------------------------------------------------------------------------- */
 .solutionsPage .hero.hero {
-  @media (min-width: 769px) {
-    min-height: 480rem;
-    padding: 73rem 0 0;
-    justify-content: center;
-    background-image:
-      linear-gradient(90deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.7) 35%, rgba(255, 255, 255, 0) 65%),
-      url('/images/solutions/hero_bg.jpg');
+  --hero-compact-padding-top-pc: 194rem;
+  --hero-compact-padding-bottom-pc: 122rem;
+  --hero-compact-padding-top-mo: 120rem;
+  --hero-compact-padding-bottom-mo: 60rem;
+
+  /* MO 시안 제목은 32 · 행간 130% (공통 compact 제목은 44 · 120%) */
+  @media (max-width: 768px) {
+    --font-size-hero-mo: 32rem;
+    --line-height-hero: 1.3;
   }
 
-  /* 문구: Eyebrow → 24 → 제목 → 24 → 설명 폭 760 (Eyebrow 색·굵기는 HeroSection 기본값을 따름 · 설명은 기본 검정/640 → gray-1/760) */
+  /* 시안 제목(817)·설명(665)이 한 줄로 들어가도록 공통 compact 폭(774/640)을 넓힘 */
+  [class*='compactHeader'] {
+    max-width: 900rem;
+  }
+
   [class*='heroEyebrow'] {
     margin-bottom: 24rem !important;
+
+    @media (max-width: 768px) {
+      margin-bottom: 16rem !important;
+    }
   }
 
   [class*='heroDescription'] {
     width: 100%;
     max-width: 760rem !important;
     color: var(--color-text-gray-1) !important;
-    container-type: inline-size;
-  }
 
-  /* [예외 처리] 히어로 설명 줄바꿈(fitBr): 설명 칸이 시안 폭 760 이상일 때만 적용 (설명은 위에서 container-type 지정) */
-  .fitBr {
-    display: none;
-
-    @container (min-width: 760px) {
-      display: inline;
+    @media (max-width: 768px) {
+      margin-top: 16rem !important;
+      color: var(--color-text-gray-2) !important;
     }
   }
 }
 
-/* [예외 처리] 시안이 의도해서 나눈 줄바꿈 (fitBr)
- * - 상황: 시안의 설명 문구는 한 줄 폭(섹션 설명 560 · 히어로 설명 760)에 여유가 있는데도 균형을 위해 일부러 줄을 나눴습니다.
- * - 조건: 문구가 놓인 칸(`.description` · 히어로 설명)이 시안 폭 이상일 때만 줄바꿈을 적용합니다. (@container)
- *         그보다 좁아지면(칸이 줄어드는 작은 노트북 · 태블릿 · 모바일) 해제되어 자연스럽게 이어집니다.
- *         창 폭이 아니라 칸 폭 기준이라, 세로로 쌓여 칸이 넓어지는 구간에서는 다시 적용됩니다.
- * - 수정 시: 문구 길이나 칸 폭(560 · 760)이 바뀌면 아래 기준 폭과 TSX의 `fitBr` 위치를 함께 맞추세요.
- *            시안이 줄바꿈 없이 바뀌면 TSX에서 `fitBr`만 지우면 됩니다.
- * - 히어로 설명은 별도 기준(760)을 쓰며 아래 `.hero` 블록 안에서 다시 지정합니다. */
-.fitBr {
-  display: none;
-}
+/* --------------------------------------------------------------------------
+ * 1. 산업군 탭 (Figma PC 4365:10 · 스크롤 고정 4370:59 / MO 4393:1208)
+ * - 히어로 아래 흐름 상태: 위 여백 17 + 탭 64 = 시안 섹션 높이 81
+ * - 스크롤 시 GNB 아래에 고정. GNB가 스크롤 다운으로 숨겨지면(html[data-header-hidden]) GNB와 같은 transform 전환으로 화면 맨 위까지 올라갑니다.
+ * -------------------------------------------------------------------------- */
+.tabsGap {
+  height: 17rem;
+  background-color: var(--color-surface-white);
 
-@container (min-width: 560px) {
-  .fitBr {
-    display: inline;
+  @media (max-width: 768px) {
+    display: none;
   }
 }
 
-/* --------------------------------------------------------------------------
- * 2. Overview · 상단 CTA (Figma PC 3846:233 · 위 80 · 아래 40 · 260)
- * -------------------------------------------------------------------------- */
-.solutionsPage > .overviewSection.overviewSection {
-  padding-top: 80rem;
-  padding-bottom: 40rem;
+.tabs {
+  position: sticky;
+  top: var(--header-height, 73rem);
+  z-index: var(--zindex-group, 10);
+  box-sizing: border-box;
+  height: $tabs-height;
+  border-bottom: 1rem solid var(--color-border-default);
+  background-color: var(--color-surface-white);
+
+  /* GNB가 스크롤 다운으로 숨겨지면 GNB와 같은 transform 전환(0.3s ease)으로 함께 올라가 틈이 생기지 않게 함
+     (top 전환은 메인 스레드 · 1프레임 지연이라 사용하지 않음) */
+  transition: transform 0.3s ease;
+
+  &.is_stuck {
+    :global(html[data-header-hidden='true']) & {
+      transform: translateY(calc(-1 * var(--header-height, 73rem)));
+    }
+  }
+
+  @media (max-width: 768px) {
+    top: var(--header-height-mo, 60rem);
+    height: $tabs-height-mo;
+
+    &.is_stuck {
+      :global(html[data-header-hidden='true']) & {
+        transform: translateY(calc(-1 * var(--header-height-mo, 60rem)));
+      }
+    }
+  }
 }
 
-.overview {
+.tabList {
   display: flex;
+  width: 100%;
+  max-width: var(--layout-container-max-width, 1280rem);
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 var(--layout-gutter, 20rem);
+  box-sizing: border-box;
+  list-style: none;
+
+  /* 탭이 한 줄에 다 들어가지 않는 폭(≈1024 이하)부터 가로 스크롤 */
+  @media (max-width: 1024px) {
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* 마우스로도 끌어서 슬라이드 (넘칠 때 드래그 · 드래그 중에는 글자 선택·스냅 없음) */
+    @media (hover: hover) and (pointer: fine) {
+      cursor: grab;
+
+      &.is_dragging {
+        cursor: grabbing;
+        user-select: none;
+
+        .tab {
+          cursor: grabbing;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    max-width: none;
+    gap: 24rem;
+    padding: 0 var(--layout-gutter, 16rem);
+  }
+}
+
+.tabItem {
+  display: flex;
+  flex: 1 1 0; /* 시안 8등분(155) — 라벨이 넘치면 내용 폭 유지 */
+  min-width: max-content;
+
+  @media (max-width: 768px) {
+    flex: 0 0 auto;
+    min-width: 0;
+  }
+}
+
+.tab {
+  position: relative;
+  display: flex;
+  flex: 1 1 auto;
   align-items: center;
+  justify-content: center;
+  gap: 8rem;
+  height: 100%;
+  padding: 0 16rem;
+  color: var(--color-text-black);
+  text-decoration: none;
+  white-space: nowrap;
+
+  /* 선택(현재 구역): 파란 글자 + 2px 파란 밑줄 (바 하단 1px 구분선 위에 겹침) */
+  &::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: -1rem;
+    left: 0;
+    height: 2rem;
+    background-color: transparent;
+  }
+
+  &.is_active {
+    color: var(--color-primary);
+
+    &::after {
+      background-color: var(--color-primary);
+    }
+  }
+
+  /* 키보드 포커스: 2px 파란 테두리 · 반경 4 */
+  &:focus-visible {
+    outline: 2rem solid var(--color-primary);
+    outline-offset: -2rem;
+    border-radius: 4rem;
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      color: var(--color-primary);
+    }
+  }
+
+  @media (max-width: 768px) {
+    flex: 0 0 auto;
+    gap: 0;
+    padding: 0;
+  }
+}
+
+.tabIcon {
+  flex-shrink: 0;
+  color: var(--color-primary);
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+.tabLabel {
+  @include text-body;
+  font-weight: var(--font-weight-bold);
+}
+
+/* --------------------------------------------------------------------------
+ * 2. 산업군 섹션 (Figma PC 4365:62 / MO 4391:973)
+ * 위아래 80(MO 60) · 머리글 ↔ 카드 40(MO 24) · 고정 탭 바 높이만큼 앵커 여백
+ * -------------------------------------------------------------------------- */
+.industrySection.industrySection {
+  padding: 80rem 0;
+  scroll-margin-top: $tabs-height;
+
+  @media (max-width: 768px) {
+    padding: 60rem 0;
+    scroll-margin-top: $tabs-height-mo;
+  }
+}
+
+.head {
+  display: flex;
+  align-items: flex-end;
   justify-content: space-between;
   gap: 40rem;
-  width: 100%;
+  margin-bottom: 40rem;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8rem;
+    margin-bottom: 24rem;
+  }
 }
 
-.overviewCopy {
+.headTitle {
   display: flex;
-  flex: 1 1 0;
   flex-direction: column;
-  gap: 16rem;
-  min-width: 0;
+  flex-shrink: 0;
+  gap: 8rem;
 }
 
 .eyebrow {
@@ -90,212 +261,129 @@
   color: var(--color-text-eyebrow-section);
 }
 
-.heading {
+.name {
   @include text-section;
-  margin: 0;
-  color: var(--color-text-black);
-}
-
-.note {
-  @include text-body;
-  margin: 0;
-  color: var(--color-text-gray-2);
-}
-
-.overviewButtons {
   display: flex;
-  flex-shrink: 0;
-  gap: 12rem;
-}
-
-.overviewPrimary.overviewPrimary {
-  width: 200rem;
-}
-
-.overviewSecondary.overviewSecondary {
-  padding: 0 24rem;
-}
-
-/* --------------------------------------------------------------------------
- * 3. 솔루션 섹션 8종 (Figma PC 3839:43 ~ 3839:210)
- * 위아래 120 · 이미지 600×420 → 80 → 텍스트 560 (짝수 섹션은 이미지가 오른쪽) · 세로 가운데
- * 텍스트 묶음 사이 24 / 머리(Head)는 eyebrow → 16 → 제목 → 16 → 설명
- * -------------------------------------------------------------------------- */
-.solutionsPage > .solutionSection.solutionSection {
-  padding-top: 120rem;
-  padding-bottom: 120rem;
-  scroll-margin-top: var(--header-height, 73rem);
-}
-
-.solution {
-  display: flex;
+  min-height: 52rem; /* PC 시안 이름 행 52 · MO 48 */
   align-items: center;
-  gap: 80rem;
-  width: 100%;
-}
-
-.reverse .solution {
-  flex-direction: row-reverse;
-}
-
-.solutionImage {
-  flex: 0 0 600rem;
-  width: 600rem;
-  height: 420rem;
-  overflow: hidden;
-  border-radius: 12rem;
-  @include split-col(600, 600rem);
-
-  @media (min-width: 1025px) {
-    height: auto;
-    aspect-ratio: 600 / 420;
-  }
-
-  img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-}
-
-.solutionText {
-  display: flex;
-  flex: 1 1 0;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 24rem;
-  min-width: 0;
-  @include split-col(560);
-}
-
-.head {
-  display: flex;
-  flex-direction: column;
-  gap: 16rem;
-  width: 100%;
-}
-
-.description {
-  @include text-body;
-  /* container-type: 줄바꿈(fitBr) 적용 여부를 이 칸의 폭으로 판단하기 위한 지정 → 폭은 반드시 명시(width: 100%) */
-  width: 100%;
-  margin: 0;
-  word-break: keep-all;
-  container-type: inline-size;
-  color: var(--color-text-gray-2);
-}
-
-.useCases {
-  display: flex;
-  flex-direction: column;
-  gap: 8rem;
-  width: 100%;
-}
-
-.useLabel {
-  @include text-body;
+  gap: 12rem;
   margin: 0;
   color: var(--color-text-black);
-  font-weight: var(--font-weight-bold);
+
+  @media (max-width: 768px) {
+    min-height: 48rem;
+  }
 }
 
-.useList {
-  display: flex;
-  flex-direction: column;
-  gap: 8rem;
+.nameIcon {
+  flex-shrink: 0;
+  color: $icon-muted;
+
+  @media (max-width: 768px) {
+    width: 28rem;
+    height: 28rem;
+  }
+}
+
+.headDesc {
+  @include text-body;
+  max-width: 560rem;
+  margin: 0;
+  font-size: 18rem;
+  letter-spacing: -0.5px;
+  text-align: right;
+  color: var(--color-text-gray-2);
+  word-break: keep-all;
+
+  @media (max-width: 768px) {
+    max-width: none;
+    font-size: var(--font-size-body, 16rem);
+    letter-spacing: 0;
+    text-align: left;
+  }
+}
+
+/* 활용 목적 카드 3열 (MO는 썸네일 + 텍스트 행 목록) */
+.cases {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20rem;
   margin: 0;
   padding: 0;
   list-style: none;
 
-  li {
-    @include text-body;
-    color: var(--color-text-gray-1);
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    gap: 12rem;
   }
 }
 
-/* 메타: 위아래 구분선 · padding 20 0 · 행 사이 8 · 키 96 → 16 → 값 */
-.meta {
+.case {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  /* 시안 안쪽 테두리: 이미지는 테두리 위를 덮고 본문 영역에만 테두리가 보임 */
+  box-shadow: inset 0 0 0 1rem var(--color-border-default);
+  border-radius: 12rem;
+  background-color: var(--color-surface-white);
+
+  @media (max-width: 768px) {
+    flex-direction: row;
+    align-items: center;
+    gap: 16rem;
+    padding: 16rem 0;
+    overflow: visible;
+    box-shadow: none;
+    border: 0;
+    border-bottom: 1rem solid var(--color-border-default);
+    border-radius: 0;
+    background-color: transparent;
+
+    &:last-child {
+      border-bottom: 0;
+    }
+  }
+}
+
+.caseImage {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+
+  @media (max-width: 768px) {
+    flex: 0 0 112rem;
+    width: 112rem;
+    height: 84rem;
+    aspect-ratio: auto;
+    border-radius: 8rem;
+  }
+}
+
+.caseBody {
   display: flex;
   flex-direction: column;
   gap: 8rem;
-  width: 100%;
-  margin: 0;
-  padding: 20rem 0;
-  border-top: 1rem solid var(--color-border-default);
-  border-bottom: 1rem solid var(--color-border-default);
-}
+  padding: 24rem 28rem 28rem;
 
-.metaRow {
-  display: flex;
-  align-items: flex-start;
-  gap: 16rem;
-
-  dt {
-    @include text-body;
-    flex: 0 0 96rem;
-    width: 96rem;
-    color: var(--color-text-black);
-    font-weight: var(--font-weight-bold);
-  }
-
-  dd {
-    @include text-body;
+  @media (max-width: 768px) {
     flex: 1 1 0;
     min-width: 0;
-    margin: 0;
-    color: var(--color-text-gray-2);
+    padding: 0;
   }
 }
 
-/* 버튼: 문구 길이에 맞춰 좌우 24 */
-.solutionButton.solutionButton {
-  padding: 0 24rem;
+.caseTitle {
+  @include text-subheading;
+  margin: 0;
+  color: var(--color-text-black);
+  word-break: keep-all;
 }
 
-/* --------------------------------------------------------------------------
- * 모바일 · 태블릿 (MO 시안은 아직 없음 → 이미지 위 · 텍스트 아래 세로 스택)
- * -------------------------------------------------------------------------- */
-@media (max-width: 1024px) {
-  .solution,
-  .reverse .solution {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 40rem;
-  }
-
-  .solutionImage {
-    flex: none;
-    width: 100%;
-    height: auto;
-    aspect-ratio: 600 / 420;
-  }
-
-  .overview {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-}
-
-@media (max-width: 768px) {
-  .solutionsPage > .overviewSection.overviewSection {
-    padding-top: 56rem;
-    padding-bottom: 24rem;
-  }
-
-  .solutionsPage > .solutionSection.solutionSection {
-    padding-top: 56rem;
-    padding-bottom: 56rem;
-  }
-
-  .overviewButtons {
-    flex-direction: column;
-    width: 100%;
-  }
-
-  .overviewPrimary.overviewPrimary,
-  .overviewSecondary.overviewSecondary,
-  .solutionButton.solutionButton {
-    width: 100%;
-  }
+.caseDesc {
+  @include text-body;
+  margin: 0;
+  color: var(--color-text-gray-2);
+  word-break: keep-all;
 }

@@ -639,13 +639,13 @@ export default function PubIndex() {
                   <td>
                     <div>Solutions (원페이지)</div>
                     <div style={{ fontSize: '12px', color: 'var(--pub-text-sub)', marginTop: '2px' }}>
-                      방송 / CCTV / Smart City / 공공기관 / AI Data / 금융 / 제조 / 의료
+                      CCTV / 공공기관 / 방송 / 미디어 / AI Data / Smart City / 금융 / 제조 / 의료
                     </div>
                   </td>
                   <td><a href="/pub/solutions" target="_blank" rel="noreferrer">/pub/solutions</a></td>
                   <td>조찬기</td>
-                  <td><span className="status ing">진행중</span></td>
-                  <td>2026.11.11</td>
+                  <td><span className="status done">완료</span></td>
+                  <td>2026.11.17</td>
                   <td>-</td>
                 </tr>
                 <tr className="category">

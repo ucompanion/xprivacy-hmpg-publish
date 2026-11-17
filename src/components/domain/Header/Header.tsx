@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '../../core/Button/Button';
@@ -195,6 +195,15 @@ export const Header: React.FC = () => {
   // 메뉴가 열려 있는 동안에는 숨기지 않고, GNB 메뉴 노출 시 헤더 불투명 처리
   const isOpaque = hasMega || isMobileMenuOpen;
   const isHidden = hidden && !isOpaque;
+
+  // 헤더 노출 상태를 문서에 알려 줍니다 — GNB 아래에 고정되는 화면 요소(예: 솔루션즈 산업군 탭)가 헤더가 숨겨지면 맨 위로 붙도록
+  // (useLayoutEffect: 헤더의 숨김 전환과 같은 프레임에 반영해야 고정 요소와 틈이 생기지 않음)
+  useLayoutEffect(() => {
+    document.documentElement.dataset.headerHidden = String(isHidden);
+    return () => {
+      delete document.documentElement.dataset.headerHidden;
+    };
+  }, [isHidden]);
 
   const isActiveGroup = (g: NavGroup) => pathname.startsWith(g.base);
   const isActiveItem = (item: NavItem) => {

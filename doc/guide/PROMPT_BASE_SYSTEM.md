@@ -26,6 +26,7 @@
 *   **서비스 Header 동작 정책** (`src/components/domain/Header/Header.tsx` · PC·모바일 공통):
     - 배경 뒤에 `backdrop-filter` 블러를 적용합니다.
     - **스크롤 다운 시 숨김 · 스크롤 업 시 노출**(최상단 근처와 메뉴가 열려 있는 동안은 항상 노출).
+    - 헤더 노출 상태는 `document.documentElement.dataset.headerHidden`(`'true'`/`'false'`)으로 문서에 알립니다. GNB 아래에 고정되는 화면 요소(예: `/pub/solutions` 산업군 탭 바)는 `html[data-header-hidden='true']`일 때 헤더와 같은 `transform` 전환(0.3s ease)으로 함께 올라가도록 이 값을 따릅니다(`top` 전환은 헤더와 어긋나 틈이 생기므로 쓰지 않음).
     - **GNB 메뉴가 노출되면 헤더를 불투명 처리**합니다(`--color-surface-header-opaque`).
     - 하위 메뉴: PC는 대메뉴 **호버(키보드 포커스 포함) 시 전폭 메가 메뉴**(제목 · 항목 2열 · 문의 프로모 + 헤더 아래 Dim), 모바일은 대메뉴 **클릭 시 아코디언**으로 펼칩니다. 두 화면은 같은 메뉴 데이터(`NAV_GROUPS`)를 씁니다.
 *   **공식 진입점(Landing Path) 설계**:

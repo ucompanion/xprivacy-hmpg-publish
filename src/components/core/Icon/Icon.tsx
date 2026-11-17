@@ -18,7 +18,15 @@ export type IconName =
   | 'shield-check'
   | 'eye'
   | 'server'
-  | 'layers';
+  | 'layers'
+  | 'industry-cctv'
+  | 'industry-public'
+  | 'industry-broadcast'
+  | 'industry-ai-data'
+  | 'industry-smart-city'
+  | 'industry-finance'
+  | 'industry-manufacturing'
+  | 'industry-medical';
 
 const SPRITE_URL = '/icons/sprite.svg';
 
