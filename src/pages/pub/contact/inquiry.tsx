@@ -22,6 +22,14 @@ const CHECK_LINKS = [
   { label: '무료 체험 시작하기', to: '/pub/product/intro' },
 ];
 
+// 개인정보 수집·이용 동의서 원문 (Figma 4354:25127)
+const PRIVACY_ITEMS = [
+  { title: '1. 수집 항목', body: '성명, 이메일, 회사명, 직함, 연락처, 문의 내용' },
+  { title: '2. 수집·이용 목적', body: '문의 사항 확인 및 담당자 연락, 고객 응대 및 이력 관리' },
+  { title: '3. 보유 기간', body: '문의 접수 후 3년 또는 관계 법령에 따른 기간까지' },
+  { title: '4. 동의 거부', body: '필수 항목 미동의 시 문의 접수가 제한될 수 있습니다.' },
+];
+
 const INITIAL_FORM = {
   company: '',
   name: '',
@@ -82,7 +90,6 @@ export default function ContactInquiry() {
 
   // 개인정보 수집·이용 동의
   const [privacyAgreed, setPrivacyAgreed] = useState(false);
-  const [showPrivacyModal, setShowPrivacyModal] = useState(false);
 
   // 알림창 (접수 완료 Figma PC 700:23470 · MO 700:23475 / 검증·실패 케이스는 시안 없음 · 같은 AlertModal 로 구성)
   const queryCase = searchParams.get('alert') as AlertCase | null;
@@ -334,25 +341,37 @@ export default function ContactInquiry() {
                   )}
                 </div>
 
-                {/* 개인정보 동의 */}
-                <div className={styles.consent}>
-                  <label className={styles.consentTouch}>
-                    <input
-                      type="checkbox"
-                      className={styles.checkbox}
-                      checked={privacyAgreed}
-                      onChange={(e) => setPrivacyAgreed(e.target.checked)}
-                      aria-label="문의 처리를 위한 개인정보 수집·이용에 동의합니다. (필수)"
-                    />
-                  </label>
-                  <div className={styles.consentText}>
+                {/* 개인정보 수집·이용 동의 (Figma PC 4351:66133 · MO 4351:66360 · 원문 4354:25127)
+                    본문에 노출되는 스크롤 박스 + 동의 체크 */}
+                <div className={styles.privacy}>
+                  <div
+                    className={styles.privacyBox}
+                    role="region"
+                    aria-label="개인정보 수집 및 이용 동의서"
+                    tabIndex={0}
+                  >
+                    <p className={styles.privacyTitle}>개인정보 수집 및 이용 동의서</p>
+                    {PRIVACY_ITEMS.map((item) => (
+                      <div key={item.title} className={styles.privacyItem}>
+                        <p className={styles.privacyItemTitle}>{item.title}</p>
+                        <p className={styles.privacyItemBody}>{item.body}</p>
+                      </div>
+                    ))}
+                  </div>
+                  <div className={styles.consent}>
+                    <label className={styles.consentTouch}>
+                      <input
+                        type="checkbox"
+                        className={styles.checkbox}
+                        checked={privacyAgreed}
+                        onChange={(e) => setPrivacyAgreed(e.target.checked)}
+                        aria-label="문의 처리를 위한 개인정보 수집·이용에 동의합니다. (필수)"
+                      />
+                    </label>
                     <span className={styles.consentLabel}>
                       문의 처리를 위한 개인정보 수집·이용에 동의합니다.{' '}
                       <span className={styles.consentRequired}>(필수)</span>
                     </span>
-                    <button type="button" className={styles.consentView} onClick={() => setShowPrivacyModal(true)}>
-                      개인정보 수집·이용 내용 보기
-                    </button>
                   </div>
                 </div>
 
@@ -442,38 +461,6 @@ export default function ContactInquiry() {
             </>
           }
         />
-
-        {/* 5. 개인정보 수집·이용 안내 모달 (시안 없음 · 기존 유지) */}
-        {showPrivacyModal && (
-          <div className={styles.modalOverlay} onClick={() => setShowPrivacyModal(false)}>
-            <div className={styles.modalCard} onClick={(e) => e.stopPropagation()}>
-              <div className={styles.modalHeader}>
-                <h3 className={styles.modalTitle}>개인정보 수집 및 이용 안내</h3>
-                <button type="button" className={styles.modalCloseBtn} onClick={() => setShowPrivacyModal(false)}>
-                  &times;
-                </button>
-              </div>
-              <div className={styles.modalBody}>
-                <p><strong>1. 수집 항목:</strong> 기관·회사명, 담당자명, 이메일, 연락처, 부서/직급</p>
-                <p><strong>2. 수집 및 이용 목적:</strong> xPrivacy 서비스 도입 상담, 견적 안내 및 고객 문의 응대</p>
-                <p><strong>3. 보유 및 이용 기간:</strong> 문의 처리 및 상담 완료 후 1년간 보관(관련 법령에 의거)</p>
-                <p>귀하는 본 개인정보 수집 및 이용에 거부할 권리가 있으나, 거부 시 도입 문의 및 상담 서비스 이용이 제한될 수 있습니다.</p>
-              </div>
-              <div className={styles.modalFooter}>
-                <button
-                  type="button"
-                  className={styles.modalConfirmBtn}
-                  onClick={() => {
-                    setPrivacyAgreed(true);
-                    setShowPrivacyModal(false);
-                  }}
-                >
-                  동의하고 닫기
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
       </div>
     </FrontLayout>
   );

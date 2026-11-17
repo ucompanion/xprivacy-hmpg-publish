@@ -4,8 +4,6 @@
 /* 미매핑 피그마 토큰: 그림자 4px 4 4 4 rgba(0,0,0,.1) / Label/Field 14 SemiBold (체크 표시)
  * 도입 방식 아이콘 유리 효과는 Core IconSurface(tone soft · glyphFit fill)에서 관리 */
 $shadow-card: 4rem 4rem 4rem rgba(0, 0, 0, 0.1);
-/* Primary 버튼 hover 색 — Core Button(#2844d9)과 동일, v2 토큰 없음 */
-$btn-primary-hover: #2844d9;
 
 @mixin label-field {
   font-family: var(--font-family-base);
@@ -131,14 +129,14 @@ $btn-primary-hover: #2844d9;
   width: 100%;
 }
 
-/* 버튼 hover: 테두리형 Secondary 버튼도 추천 카드(온프레미스)의 Primary 버튼 hover와 같은 어두운 파랑 배경 + 흰 글자로 통일
-   (Core Secondary 기본 hover는 흰색이라 흰 카드 위에서 변화가 보이지 않음) */
+/* 버튼 hover: 기본 강조가 아닌 테두리형(Secondary) 버튼 — 연한 파랑 배경 + Primary 테두리·글자 */
 @media (hover: hover) {
   .fullButton.fullButton:global(.is-bordered):hover,
   .pocButton.pocButton:global(.is-bordered):hover {
-    border-color: $btn-primary-hover;
-    background-color: $btn-primary-hover;
-    color: #ffffff;
+    /* Figma 4349:28079 Button (Secondary · hover) */
+    border-color: var(--color-primary);
+    background-color: var(--color-surface-blue-subtle);
+    color: var(--color-primary);
   }
 }
 

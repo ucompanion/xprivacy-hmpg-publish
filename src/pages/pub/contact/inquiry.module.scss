@@ -206,10 +206,6 @@ $card-border: #e3e7ee;
   .extraToggle:hover .extraLabel {
     text-decoration: underline;
   }
-
-  .consentView:hover {
-    color: var(--color-text-black);
-  }
 }
 
 .contactIcon {
@@ -541,7 +537,63 @@ $card-border: #e3e7ee;
   cursor: pointer;
 }
 
-/* 개인정보 동의: 터치 영역 44 → 8 → 문구 · (필수) primary · 밑줄 링크 */
+/* 개인정보 수집·이용 동의: 스크롤 박스(200) → 12 → 동의 체크 */
+.privacy {
+  display: flex;
+  flex-direction: column;
+  gap: 12rem;
+  width: 100%;
+}
+
+.privacyBox {
+  display: flex;
+  flex-direction: column;
+  gap: 16rem;
+  height: 200rem;
+  padding: 24rem 32rem 24rem 24rem;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  overflow-y: auto;
+  border: 1rem solid var(--color-border-default);
+  border-radius: 8rem;
+  background-color: var(--color-surface-white);
+  scrollbar-width: thin;
+  scrollbar-color: #bdc1c6 transparent; /* 시안 Scrollbar thumb #BDC1C6 · 토큰 없음 */
+
+  &:focus-visible {
+    outline: 2rem solid var(--color-primary);
+    outline-offset: 2rem;
+  }
+}
+
+.privacyTitle {
+  @include text-body;
+  margin: 0;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-black);
+}
+
+.privacyItem {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.privacyItemTitle {
+  @include text-body;
+  margin: 0;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-black);
+}
+
+.privacyItemBody {
+  @include text-body;
+  margin: 0;
+  text-wrap: pretty; /* 폭이 좁을 때 마지막 줄에 한 단어만 남지 않게 */
+  color: var(--color-text-gray-2);
+}
+
+/* 동의 체크: 터치 영역 44 → 8 → 문구 · (필수) primary */
 .consent {
   display: flex;
   align-items: center;
@@ -560,32 +612,14 @@ $card-border: #e3e7ee;
   cursor: pointer;
 }
 
-.consentText {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8rem;
-  min-width: 0;
-}
-
 .consentLabel {
   @include text-body;
+  min-width: 0;
   color: var(--color-text-black);
 }
 
 .consentRequired {
   color: var(--color-text-accent);
-}
-
-.consentView {
-  @include text-body;
-  padding: 0;
-  border: 0;
-  background: none;
-  color: var(--color-text-gray-2);
-  text-decoration: underline;
-  text-underline-position: from-font;
-  cursor: pointer;
 }
 
 /* 제출: 폼 폭 전체 · 높이 56 (코어 Button xl 기본) */
@@ -639,107 +673,6 @@ $card-border: #e3e7ee;
 
 .pcOnly {
   display: inline;
-}
-
-/* --------------------------------------------------------------------------
- * 5. 개인정보 수집·이용 안내 모달 (시안 없음 · 기존 유지)
- * -------------------------------------------------------------------------- */
-.modalOverlay {
-  position: fixed;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  padding: 20rem;
-  backdrop-filter: blur(4px);
-}
-
-.modalCard {
-  width: 100%;
-  max-width: 520rem;
-  background-color: var(--color-surface-white);
-  border-radius: 16rem;
-  overflow: hidden;
-  box-shadow: 0 16rem 40rem rgba(0, 0, 0, 0.2);
-  animation: modalScale 0.2s ease-out;
-}
-
-.modalHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20rem 24rem;
-  border-bottom: 1px solid var(--color-border-default);
-}
-
-.modalTitle {
-  @include text-subheading;
-  font-weight: var(--font-weight-bold);
-  color: var(--color-text-black);
-  margin: 0;
-}
-
-.modalCloseBtn {
-  background: none;
-  border: none;
-  font-size: 26rem;
-  color: var(--color-text-gray-2);
-  cursor: pointer;
-  line-height: 1;
-
-  &:hover {
-    color: var(--color-text-gray-1);
-  }
-}
-
-.modalBody {
-  padding: 24rem;
-  @include text-note;
-  line-height: 1.7;
-  color: var(--color-text-gray-1);
-
-  p {
-    margin: 0 0 12rem;
-
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
-}
-
-.modalFooter {
-  padding: 16rem 24rem;
-  border-top: 1px solid var(--color-border-default);
-  display: flex;
-  justify-content: flex-end;
-}
-
-.modalConfirmBtn {
-  padding: 10rem 20rem;
-  background-color: var(--color-primary);
-  color: var(--color-surface-white);
-  border: none;
-  border-radius: 6rem;
-  @include text-note;
-  font-weight: 600;
-  cursor: pointer;
-
-  &:hover {
-    background-color: var(--color-primary);
-  }
-}
-
-@keyframes modalScale {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
 }
 
 /* --------------------------------------------------------------------------
@@ -864,7 +797,11 @@ $card-border: #e3e7ee;
     padding: 20rem;
   }
 
-  /* 동의: 체크박스 위 정렬 · 문구 아래 "내용 보기" */
+  /* 개인정보 스크롤 박스: 시안 MO padding 20 28 20 20 · 동의 문구가 2줄이면 체크박스 위 정렬 */
+  .privacyBox {
+    padding: 20rem 28rem 20rem 20rem;
+  }
+
   .consent {
     align-items: flex-start;
   }
@@ -873,13 +810,6 @@ $card-border: #e3e7ee;
     align-items: flex-start;
     padding-top: 2rem;
     box-sizing: border-box;
-  }
-
-  .consentText {
-    flex-direction: column;
-    flex-wrap: nowrap;
-    align-items: flex-start;
-    gap: 4rem;
   }
 
   .checkCard {
