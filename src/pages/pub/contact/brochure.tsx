@@ -3,9 +3,21 @@ import FrontLayout from '../layouts/FrontLayout';
 import { HeroSection, BasicSection, CtaSection } from '../../../components/domain/Section';
 import { Button } from '../../../components/core/Button/Button';
 import { Icon } from '../../../components/core/Icon/Icon';
+import brochurePdfUrl from '../../../assets/downloads/xPrivacy-2026 v1.0_desktop.pdf?url';
 import styles from './brochure.module.scss';
 
-// 브로셔 슬라이더 13페이지 (Figma Brochure Slider / PC 3750:66165 · 슬라이드 16:9)
+const PDF_FILE_NAME = 'xPrivacy-2026 v1.0_desktop.pdf';
+
+const downloadPdf = () => {
+  const link = document.createElement('a');
+  link.href = brochurePdfUrl;
+  link.download = PDF_FILE_NAME;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+};
+
+// 브로셔 슬라이더 13페이지 (Figma Brochure Slider / PC 3750:66165 · 슬라이드 1240x698, 이미지 2x 2480x1396)
 const PAGE_COUNT = 13;
 const PAGES = Array.from({ length: PAGE_COUNT }, (_, i) => ({
   src: `/images/contact/brochure/page_${String(i + 1).padStart(2, '0')}.jpg`,
@@ -63,7 +75,7 @@ export default function PubContactBrochure() {
           }
           headerExtra={
             <div className={styles.pdfAction}>
-              <Button variant="solid" color="primary" size="xl" className={styles.pdfButton}>
+              <Button variant="solid" color="primary" size="xl" className={styles.pdfButton} onClick={downloadPdf}>
                 PDF 다운로드
               </Button>
             </div>

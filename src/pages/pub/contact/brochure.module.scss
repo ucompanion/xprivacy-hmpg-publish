@@ -129,7 +129,7 @@ $color-dot-inactive: #bdc1c6;
 
 /* ---------------------------------
  * 3. 브로셔 슬라이더 · 13 pages (Figma PC 3680:1924 / Mobile 3680:2019)
- * PC: 위 40 · 슬라이더 757.5 · 아래 120 / MO: 위 16 · 슬라이더 258.9 · 아래 64
+ * PC: 위 40 · 슬라이더 758(뷰포트 698 + 컨트롤) · 아래 120 / MO: 위 16 · 슬라이더 258.9 · 아래 64
  * --------------------------------- */
 .sliderSection {
   padding: 40rem 20rem 120rem;
@@ -165,7 +165,7 @@ $color-dot-inactive: #bdc1c6;
 /* 슬라이드 뷰포트: 16:9 · 1장씩 넘김 */
 .viewport {
   width: 100%;
-  aspect-ratio: 1240 / 697.5;
+  aspect-ratio: 1240 / 698;
   overflow: hidden;
   border-radius: 12rem;
   background-color: var(--color-surface-white);
