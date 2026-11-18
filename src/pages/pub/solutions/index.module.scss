@@ -80,9 +80,12 @@ $tabs-height-mo: 48rem;
 
   /* GNB가 스크롤 다운으로 숨겨지면 GNB와 같은 transform 전환(0.3s ease)으로 함께 올라가 틈이 생기지 않게 함
      (top 전환은 메인 스레드 · 1프레임 지연이라 사용하지 않음) */
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.2s ease;
 
+  /* PC 고정 상태 그림자 (Figma 스크롤 고정 탭 4370:59: 0 4 12 rgba(0,0,0,.06)) — 일치하는 elevator 토큰이 없어 직접 지정 · 모바일(4393:1256)은 그림자 없음 */
   &.is_stuck {
+    box-shadow: 0 4rem 12rem rgba(0, 0, 0, 0.06);
+
     :global(html[data-header-hidden='true']) & {
       transform: translateY(calc(-1 * var(--header-height, 73rem)));
     }
@@ -93,6 +96,8 @@ $tabs-height-mo: 48rem;
     height: $tabs-height-mo;
 
     &.is_stuck {
+      box-shadow: none;
+
       :global(html[data-header-hidden='true']) & {
         transform: translateY(calc(-1 * var(--header-height-mo, 60rem)));
       }

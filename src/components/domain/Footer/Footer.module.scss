@@ -4,7 +4,7 @@
 .footer {
   background-color: #0b1426; /* Figma: surface/navy (#0b1426) */
   color: #9fadb6;
-  padding: 72rem 0;
+  padding: 72rem 0 36rem; /* Figma Footer/v2.4: 72 / 0 / 36 */
   display: flex;
   justify-content: center;
   box-sizing: border-box;
@@ -24,14 +24,15 @@
 .top_section {
   display: flex;
   flex-direction: column;
-  margin-bottom: 56rem;
+  margin-bottom: 48rem; /* Figma Container:brand 하단 48 */
 }
 
 .logo {
   display: inline-flex;
-  align-items: center;
+  align-items: flex-start;
+  height: 37rem; /* Figma 로고 컨테이너 37 (로고 30) → 설명과 간격 16 */
   text-decoration: none;
-  margin-bottom: 24rem;
+  margin-bottom: 16rem;
 
   .logo_img {
     width: 141.6rem;
@@ -60,7 +61,7 @@
 .nav_group {
   display: flex;
   flex-direction: column;
-  gap: 16rem;
+  gap: 10rem; /* 제목 → 링크 · 링크 간격 10 (Figma Footer/v2.4) */
 }
 
 .nav_title {
@@ -69,6 +70,7 @@
   font-weight: 700;
   color: #dce6eb;
   margin: 0;
+  padding-bottom: 6rem; /* Figma Heading 4 하단 6 */
   line-height: 1.4;
 }
 
@@ -109,7 +111,7 @@
 .company_info_wrap {
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: flex-start; /* Figma: 회사 정보와 저작권 문구 윗선 정렬 */
 }
 
 .company_details {
@@ -143,6 +145,11 @@
     padding: 48rem 0 40rem;
   }
 
+  .logo {
+    height: auto;
+    margin-bottom: 24rem;
+  }
+
   .container {
     padding-left: var(--layout-gutter-mobile, 16rem);
     padding-right: var(--layout-gutter-mobile, 16rem);
@@ -165,6 +172,10 @@
 
   .nav_group {
     gap: 0;
+  }
+
+  .nav_title {
+    padding-bottom: 0;
   }
 
   .nav_title {

@@ -13,8 +13,7 @@ export const Footer: React.FC = () => {
           </Link>
           <p className={styles.description}>
             AI 기반 정밀탐지로 개인정보 비식별화 및 관리 솔루션.<br />
-            영상·이미지 속 개인정보를 탐지하고 비식별 처리부터<br className="pcBr" />
-            검수·관리까지 하나의 흐름으로 연결합니다.
+            영상·이미지 속 개인정보를 탐지하고 비식별 처리부터 검수·관리까지 하나의 흐름으로 연결합니다.
           </p>
         </div>
 
@@ -45,7 +44,7 @@ export const Footer: React.FC = () => {
           </div>
 
           <div className={styles.nav_group}>
-            <h4 className={styles.nav_title}>FEATURES</h4>
+            <h4 className={styles.nav_title}>Features</h4>
             <div className={styles.nav_list}>
               <Link to="/pub/features/image-deid" className={styles.nav_link}>이미지 비식별</Link>
               <Link to="/pub/features/video-deid" className={styles.nav_link}>영상 비식별</Link>
@@ -56,13 +55,13 @@ export const Footer: React.FC = () => {
           </div>
 
           <div className={styles.nav_group}>
-            <h4 className={styles.nav_title}>SOLUTIONS</h4>
+            <h4 className={styles.nav_title}>Solutions</h4>
             <div className={styles.nav_list}>
-              <Link to="/pub/solutions#broadcasting" className={styles.nav_link}>방송</Link>
               <Link to="/pub/solutions#cctv" className={styles.nav_link}>CCTV</Link>
-              <Link to="/pub/solutions#smart-city" className={styles.nav_link}>Smart City</Link>
               <Link to="/pub/solutions#public-institutions" className={styles.nav_link}>공공기관</Link>
+              <Link to="/pub/solutions#broadcasting" className={styles.nav_link}>방송 / 미디어</Link>
               <Link to="/pub/solutions#ai-data" className={styles.nav_link}>AI Data</Link>
+              <Link to="/pub/solutions#smart-city" className={styles.nav_link}>Smart City</Link>
               <Link to="/pub/solutions#finance" className={styles.nav_link}>금융</Link>
               <Link to="/pub/solutions#manufacturing" className={styles.nav_link}>제조</Link>
               <Link to="/pub/solutions#medical" className={styles.nav_link}>의료</Link>
@@ -70,7 +69,7 @@ export const Footer: React.FC = () => {
           </div>
 
           <div className={styles.nav_group}>
-            <h4 className={styles.nav_title}>DEMO</h4>
+            <h4 className={styles.nav_title}>Demo</h4>
             <div className={styles.nav_list}>
               <Link to="/pub/demo/demo" className={styles.nav_link}>이미지 체험</Link>
               <Link to="/pub/demo/video" className={styles.nav_link}>영상 체험</Link>
@@ -78,7 +77,7 @@ export const Footer: React.FC = () => {
           </div>
 
           <div className={styles.nav_group}>
-            <h4 className={styles.nav_title}>CONTACT</h4>
+            <h4 className={styles.nav_title}>Contact</h4>
             <div className={styles.nav_list}>
               <Link to="/pub/contact/brochure" className={styles.nav_link}>Brochure</Link>
               <Link to="/pub/contact/inquiry" className={styles.nav_link}>문의</Link>
@@ -88,7 +87,7 @@ export const Footer: React.FC = () => {
           </div>
 
           <div className={styles.nav_group}>
-            <h4 className={styles.nav_title}>BLOG</h4>
+            <h4 className={styles.nav_title}>Blog</h4>
             <div className={styles.nav_list}>
               {/* Blog empty in the design */}
             </div>
@@ -101,9 +100,10 @@ export const Footer: React.FC = () => {
 
           <div className={styles.company_info_wrap}>
             <div className={styles.company_details}>
-              <p>(주)월드버텍</p>
-              <p>TEL : 02-576-3776 FAX: 02-576-3741</p>
+              <p>월드버텍(주)</p>
+              <p>TEL : 02-576-3776&nbsp;&nbsp;|&nbsp;&nbsp;FAX: 02-576-3741</p>
               <p>06748 서울시 서초구 강남대로 148, 3층 (양재동, 상록빌딩)</p>
+              <p>사업자등록번호 220-86-70216</p>
             </div>
             <div className={styles.copyright}>
               Copyrightⓒ 월드버텍(주), All Rights Reserved.

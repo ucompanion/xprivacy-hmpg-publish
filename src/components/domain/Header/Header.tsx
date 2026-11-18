@@ -68,11 +68,11 @@ const NAV_GROUPS: NavGroup[] = [
     to: '/pub/solutions',
     base: '/pub/solutions',
     items: [
-      { label: '방송', to: '/pub/solutions#broadcasting' },
       { label: 'CCTV', to: '/pub/solutions#cctv' },
-      { label: 'Smart City', to: '/pub/solutions#smart-city' },
       { label: '공공기관', to: '/pub/solutions#public-institutions' },
+      { label: '방송 / 미디어', to: '/pub/solutions#broadcasting' },
       { label: 'AI Data', to: '/pub/solutions#ai-data' },
+      { label: 'Smart City', to: '/pub/solutions#smart-city' },
       { label: '금융', to: '/pub/solutions#finance' },
       { label: '제조', to: '/pub/solutions#manufacturing' },
       { label: '의료', to: '/pub/solutions#medical' },
